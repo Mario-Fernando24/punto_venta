@@ -111,7 +111,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
                                     <div class="col-md-9">
-                                        <input type="email" v-model="descripcion" class="form-control" placeholder="Enter Email">
+                                        <input type="email" v-model="descripcion" class="form-control" placeholder="Descripción...">
                                     </div>
                                 </div>
                             </form>
@@ -188,15 +188,32 @@
           //Metodo registrar categoria
               registrarCategoria(){
 
-              },
-              cerrarModal(){
+                  let me=this;
 
+                  axios.post('/categoria/registrar', {
+                    'nombre':  this.nombre,
+                    'descripcion': this.descripcion
+                })
+                .then(function (response) {
+                    me.cerrarModal();
+                    me.listaCategoria();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+              },
+
+
+              cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
                 this.descripcion='';
 
               },
+
+
 //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
               abrirModal(modelo, accion, data=[]){
 

@@ -2091,7 +2091,19 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    registrarCategoria: function registrarCategoria() {},
+    //Metodo registrar categoria
+    registrarCategoria: function registrarCategoria() {
+      var me = this;
+      axios.post('/categoria/registrar', {
+        'nombre': this.nombre,
+        'descripcion': this.descripcion
+      }).then(function (response) {
+        me.cerrarModal();
+        me.listaCategoria();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     cerrarModal: function cerrarModal() {
       this.modal = 0;
       this.tituloModal = '';
@@ -38584,7 +38596,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "email", placeholder: "Enter Email" },
+                          attrs: {
+                            type: "email",
+                            placeholder: "Descripción..."
+                          },
                           domProps: { value: _vm.descripcion },
                           on: {
                             input: function($event) {
@@ -38621,7 +38636,12 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-primary",
-                        attrs: { type: "button" }
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.registrarCategoria()
+                          }
+                        }
                       },
                       [_vm._v("Guardar")]
                     )
