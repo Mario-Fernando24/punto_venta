@@ -2064,6 +2064,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -2076,10 +2083,12 @@ __webpack_require__.r(__webpack_exports__);
       modal: 0,
       //para saber que modal quiero mostrar, register o actualizar
       tituloModal: '',
-      tipoAccionButton: 0
+      tipoAccionButton: 0,
+      errorCategoria: 0,
+      errorMensajeCategoriaArray: []
     };
   },
-  //aqui estaran los metodos que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
+  //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
     listaCategoria: function listaCategoria() {
       var me = this;
@@ -2093,6 +2102,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Metodo registrar categoria
     registrarCategoria: function registrarCategoria() {
+      if (this.validarCategoria()) {
+        return;
+      }
+
       var me = this;
       axios.post('/categoria/registrar', {
         'nombre': this.nombre,
@@ -2104,11 +2117,21 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    //methods validate
+    validarCategoria: function validarCategoria() {
+      this.errorCategoria = 0;
+      this.errorMensajeCategoriaArray = [];
+      if (!this.nombre) this.errorMensajeCategoriaArray.push("El nombre de la categoria no puede estar vacio");
+      if (this.errorMensajeCategoriaArray.length) this.errorCategoria = 1;
+      return this.errorCategoria;
+    },
     cerrarModal: function cerrarModal() {
       this.modal = 0;
       this.tituloModal = '';
       this.nombre = '';
       this.descripcion = '';
+      this.errorMensajeCategoriaArray = [];
+      this.errorCategoria = 0;
     },
     //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
     abrirModal: function abrirModal(modelo, accion) {
@@ -6585,7 +6608,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -38567,11 +38590,7 @@ var render = function() {
                               _vm.nombre = $event.target.value
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "help-block" }, [
-                          _vm._v("(*) Ingrese el nombre de la categoría")
-                        ])
+                        })
                       ])
                     ]),
                     _vm._v(" "),
@@ -38611,7 +38630,37 @@ var render = function() {
                           }
                         })
                       ])
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errorCategoria == 1,
+                            expression: "errorCategoria==1"
+                          }
+                        ],
+                        staticClass: "form-group row div-error"
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "text-center text-error" },
+                          _vm._l(_vm.errorMensajeCategoriaArray, function(
+                            error
+                          ) {
+                            return _c("div", {
+                              key: error,
+                              domProps: { textContent: _vm._s(error) }
+                            })
+                          }),
+                          0
+                        )
+                      ]
+                    )
                   ]
                 )
               ]),

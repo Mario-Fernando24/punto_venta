@@ -105,13 +105,20 @@
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de categoría">
-                                        <span class="help-block">(*) Ingrese el nombre de la categoría</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
                                     <div class="col-md-9">
                                         <input type="email" v-model="descripcion" class="form-control" placeholder="Descripción...">
+                                    </div>
+                                </div>
+
+                                <div v-show="errorCategoria==1" class="form-group row div-error">
+                                    <div class="text-center text-error">
+                                        <div v-for="error in errorMensajeCategoriaArray" :key="error" v-text="error">
+                                           
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -167,10 +174,12 @@
             modal : 0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
-            tipoAccionButton : 0
+            tipoAccionButton : 0,
+            errorCategoria : 0,
+            errorMensajeCategoriaArray : []
           }
         },
-     //aqui estaran los metodos que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
+     //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
               listaCategoria(){
@@ -187,6 +196,10 @@
               },
           //Metodo registrar categoria
               registrarCategoria(){
+
+                  if(this.validarCategoria()){
+                      return ;
+                  }
 
                   let me=this;
 
@@ -205,11 +218,28 @@
               },
 
 
+              //methods validate
+              validarCategoria(){
+                this.errorCategoria=0;
+                 this.errorMensajeCategoriaArray=[];
+
+                 if(!this.nombre) this.errorMensajeCategoriaArray.push("El nombre de la categoria no puede estar vacio");
+
+                 if(this.errorMensajeCategoriaArray.length) this.errorCategoria=1;
+                 
+                 return this.errorCategoria;
+              },
+
+
               cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
                 this.descripcion='';
+                this.errorMensajeCategoriaArray = [];
+                this.errorCategoria = 0;
+
+
 
               },
 
@@ -267,5 +297,14 @@
       opacity: 1 !important;
       position: absolute!important;
       background-color: #3c29297a;
+  }
+
+  .div-error{
+     display: flex;
+     justify-content: center;
+  }
+  .text-error{
+    color: red !important;
+    font-weight: bold;
   }
 </style>
