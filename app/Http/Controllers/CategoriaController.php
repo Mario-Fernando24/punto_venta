@@ -11,8 +11,13 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
+       if(!$request->ajax()){
+        return redirect('/');
+       }
+
         $category= Categoria::all();
         return $category;
     }
@@ -26,6 +31,10 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
+       //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
+       if(!$request->ajax()){
+        return redirect('/');
+       }
         $categoria = Categoria::create([
         'nombre' => $request->get('nombre'),
         'descripcion' => $request->get('descripcion'),
@@ -43,6 +52,11 @@ class CategoriaController extends Controller
      */
     public function update(Request $request)
     {
+        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
+       if(!$request->ajax()){
+        return redirect('/');
+       }
+
         $categoria = Categoria::findOrFail($request->id);
         $categoria->nombre = $request->nombre;
         $categoria->descripcion = $request->descripcion;
@@ -53,6 +67,11 @@ class CategoriaController extends Controller
        //function para desactivar una categoria
     public function desactivar(Request $request)
     {
+        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
+       if(!$request->ajax()){
+        return redirect('/');
+       }
+
         $categoria = Categoria::findOrFail($request->id);
         $categoria->condicion='0';
         $categoria->update();
@@ -62,6 +81,11 @@ class CategoriaController extends Controller
     //function para activar una categoria
     public function activar(Request $request)
     {
+        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
+       if(!$request->ajax()){
+        return redirect('/');
+       }
+
         $categoria = Categoria::findOrFail($request->id);
         $categoria->condicion='1';
         $categoria->update();

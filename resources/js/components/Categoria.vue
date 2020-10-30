@@ -266,14 +266,13 @@
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
                     swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
+                    'Cancelado',
+                    '',
                     'error'
                     )
                 }
                 })
            },
-
 
 
             //Metodo para activar la categoria
@@ -318,8 +317,8 @@
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
                     swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
+                    'Cancelado',
+                    '',
                     'error'
                     )
                 }
@@ -392,11 +391,7 @@
 </script>
 
 
-
-
-
 <style>
-
 .modal-content{
     width: 100% !important;
     position: absolute!important;

@@ -2153,7 +2153,7 @@ __webpack_require__.r(__webpack_exports__);
         } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
         }
       });
     },
@@ -2189,7 +2189,7 @@ __webpack_require__.r(__webpack_exports__);
         } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
         }
       });
     },
