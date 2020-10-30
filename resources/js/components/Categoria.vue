@@ -2,7 +2,7 @@
 <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">casamario</li>
+                <li class="breadcrumb-item">mario</li>
                 <li class="breadcrumb-item"><a href="#">Admin</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
@@ -31,7 +31,7 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opcidddones</th>
+                                    <th>Opciones</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Estado</th>
@@ -126,7 +126,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
                             <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarCategoria()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarCategoria()">Actualizar</button>
 
                         </div>
                     </div>
@@ -167,6 +167,8 @@
         //dentro de la data colocamos las variables 
         data(){
           return {
+            //cual es la categoria que quiero edit 
+            categoria_id :0,
             nombre : '',
             descripcion : '',
             //la data que regresa nuestro metodo listarCategoria se almacene en esta array
@@ -189,7 +191,6 @@
                         me.arrayCategoria= response.data;
                     })
                     .catch(function (error) {
-                        // handle error
                         console.log(error);
                     });
 
@@ -200,9 +201,7 @@
                   if(this.validarCategoria()){
                       return ;
                   }
-
                   let me=this;
-
                   axios.post('/categoria/registrar', {
                     'nombre':  this.nombre,
                     'descripcion': this.descripcion
@@ -218,19 +217,42 @@
               },
 
 
-              //methods validate
+             //Metodo actualizar categoria
+                 actualizarCategoria(){
+
+                  if(this.validarCategoria()){
+                      return ;
+                  }
+                  let me=this;
+                  axios.put('/categoria/actualizar', {
+                    'nombre':  this.nombre,
+                    'descripcion': this.descripcion,
+                    'id' :this.categoria_id
+                    
+                })
+                .then(function (response) {
+                    me.cerrarModal();
+                    me.listaCategoria();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+              },
+
+
+              //methods validar las categoria
               validarCategoria(){
                 this.errorCategoria=0;
                  this.errorMensajeCategoriaArray=[];
 
                  if(!this.nombre) this.errorMensajeCategoriaArray.push("El nombre de la categoria no puede estar vacio");
-
                  if(this.errorMensajeCategoriaArray.length) this.errorCategoria=1;
-                 
                  return this.errorCategoria;
               },
 
 
+           //metodo para cerrar el modal
               cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
@@ -239,16 +261,12 @@
                 this.errorMensajeCategoriaArray = [];
                 this.errorCategoria = 0;
 
-
-
               },
 
 
-//recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
+              //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
               abrirModal(modelo, accion, data=[]){
-
                   switch(modelo){
-
                       case "categoria":
                      {
                          switch(accion){
@@ -260,13 +278,17 @@
                                 this.nombre='';
                                 this.descripcion='';
                                 this.tipoAccionButton=1;
-
-
                               break;
                              } 
-                             
                              case 'actualizar':
                             {
+                               // console.log(data);
+                               this.modal=1;
+                               this.tituloModal='Editar Categoria';
+                               this.tipoAccionButton=2;
+                               this.categoria_id=data['id'];
+                               this.nombre=data['nombre'];
+                               this.descripcion=data['descripcion'];
                              break;
                              }   
                                  
@@ -275,8 +297,6 @@
                   }
 
               }
-
-
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarCategoria
@@ -284,6 +304,9 @@
         }
     }
 </script>
+
+
+
 
 
 <style>

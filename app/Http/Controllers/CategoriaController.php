@@ -13,7 +13,6 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //listamos todas las categoria
         $category= Categoria::all();
         return $category;
     }
@@ -32,6 +31,7 @@ class CategoriaController extends Controller
         'descripcion' => $request->get('descripcion'),
         'condicion' => '1',
         ]);
+
     }
 
 
@@ -43,14 +43,13 @@ class CategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $categoria = Categoria::findOrFail($id);
-        $categoria->nombre=$request->get('nombre');
-        $categoria->descripcion=$request->get('descripcion');
-        $categoria->condicion='1';
-        $categoria->update();
-
+        $categoria = Categoria::findOrFail($request->id);
+        $categoria->nombre = $request->nombre;
+        $categoria->descripcion = $request->descripcion;
+        $categoria->condicion = '1';
+        $categoria->save();
     }
 
        //function para desactivar una categoria

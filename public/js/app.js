@@ -2076,6 +2076,8 @@ __webpack_require__.r(__webpack_exports__);
   //dentro de la data colocamos las variables 
   data: function data() {
     return {
+      //cual es la categoria que quiero edit 
+      categoria_id: 0,
       nombre: '',
       descripcion: '',
       //la data que regresa nuestro metodo listarCategoria se almacene en esta array
@@ -2096,7 +2098,6 @@ __webpack_require__.r(__webpack_exports__);
         //todo lo que retorne esta funcion se almacene en este array
         me.arrayCategoria = response.data;
       })["catch"](function (error) {
-        // handle error
         console.log(error);
       });
     },
@@ -2117,7 +2118,25 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    //methods validate
+    //Metodo actualizar categoria
+    actualizarCategoria: function actualizarCategoria() {
+      if (this.validarCategoria()) {
+        return;
+      }
+
+      var me = this;
+      axios.put('/categoria/actualizar', {
+        'nombre': this.nombre,
+        'descripcion': this.descripcion,
+        'id': this.categoria_id
+      }).then(function (response) {
+        me.cerrarModal();
+        me.listaCategoria();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    //methods validar las categoria
     validarCategoria: function validarCategoria() {
       this.errorCategoria = 0;
       this.errorMensajeCategoriaArray = [];
@@ -2125,6 +2144,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.errorMensajeCategoriaArray.length) this.errorCategoria = 1;
       return this.errorCategoria;
     },
+    //metodo para cerrar el modal
     cerrarModal: function cerrarModal() {
       this.modal = 0;
       this.tituloModal = '';
@@ -2153,6 +2173,13 @@ __webpack_require__.r(__webpack_exports__);
 
               case 'actualizar':
                 {
+                  // console.log(data);
+                  this.modal = 1;
+                  this.tituloModal = 'Editar Categoria';
+                  this.tipoAccionButton = 2;
+                  this.categoria_id = data['id'];
+                  this.nombre = data['nombre'];
+                  this.descripcion = data['descripcion'];
                   break;
                 }
             }
@@ -38701,7 +38728,12 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-primary",
-                        attrs: { type: "button" }
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.actualizarCategoria()
+                          }
+                        }
                       },
                       [_vm._v("Actualizar")]
                     )
@@ -38722,7 +38754,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("ol", { staticClass: "breadcrumb" }, [
-      _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("casamario")]),
+      _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("mario")]),
       _vm._v(" "),
       _c("li", { staticClass: "breadcrumb-item" }, [
         _c("a", { attrs: { href: "#" } }, [_vm._v("Admin")])
@@ -38778,7 +38810,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Opcidddones")]),
+        _c("th", [_vm._v("Opciones")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
