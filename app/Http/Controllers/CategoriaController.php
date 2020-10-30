@@ -34,8 +34,6 @@ class CategoriaController extends Controller
 
     }
 
-
-
     /**
      * Update the specified resource in storage.
      *
@@ -55,7 +53,7 @@ class CategoriaController extends Controller
        //function para desactivar una categoria
     public function desactivar(Request $request)
     {
-        $categoria = Categoria::findOrFail($id);
+        $categoria = Categoria::findOrFail($request->id);
         $categoria->condicion='0';
         $categoria->update();
     }
@@ -64,7 +62,7 @@ class CategoriaController extends Controller
     //function para activar una categoria
     public function activar(Request $request)
     {
-        $categoria = Categoria::findOrFail($id);
+        $categoria = Categoria::findOrFail($request->id);
         $categoria->condicion='1';
         $categoria->update();
     }
