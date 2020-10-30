@@ -273,6 +273,58 @@
                 }
                 })
            },
+
+
+
+            //Metodo para activar la categoria
+           activarCategoria(id){
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Estas seguro de activar esta categoria?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+
+                     let me=this;
+                  axios.put('/categoria/activar', {
+                    'id' : id
+                })
+                .then(function (response) {
+                    me.listaCategoria();
+
+                    swalWithBootstrapButtons.fire(
+                    'Activado',
+                    'La categoria ha sido Activada correctamente',
+                    'success'
+                    )
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                    )
+                }
+                })
+           },
            
 
               //methods validar las categoria
