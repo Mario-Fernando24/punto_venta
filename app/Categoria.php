@@ -8,7 +8,6 @@ class Categoria extends Model
 {
     protected $table = 'categorias';
     protected $primaryKey = 'id';
-  //  public $timestamps = false;
     
     protected $fillable = [
         'id',
@@ -16,6 +15,13 @@ class Categoria extends Model
         'descripcion',
         'condicion',
     ];
+
+     //relacion de 1 a n plural 
+    public function articulos()
+    {
+        return $this->hasMany('App\Articulo');
+    }
+
 
     protected $guarded = [
 
