@@ -17,10 +17,18 @@ class CategoriaController extends Controller
     public function index(Request $request)
     {   
         //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
-       //if(!$request->ajax()){
-        //return redirect('/');
-      // }
-        $categorias= Categoria::paginate(10);
+       if(!$request->ajax()){
+        return redirect('/');
+        }
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+         if($buscar==''){
+            $categorias = Categoria::orderBy('id', 'DESC')->paginate(10);
+         }else{
+            $categorias = Categoria::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+         }
         return [
             'pagination' => [
                 //numero total de registro

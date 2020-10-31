@@ -2084,7 +2084,9 @@ __webpack_require__.r(__webpack_exports__);
         //hasta pagina
         'to': 0
       },
-      offset: 3
+      offset: 3,
+      criterio: 'nombre',
+      buscar: ''
     };
   },
   //Propiedad computada declaramos unas funciones
@@ -2123,9 +2125,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
-    listaCategoria: function listaCategoria(page) {
+    listaCategoria: function listaCategoria(page, buscar, criterio) {
       var me = this;
-      var url = '/categoria/index?page=' + page;
+      var url = '/categoria/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
 
@@ -2136,12 +2138,12 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
-    cambiarPagina: function cambiarPagina(page) {
+    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
       var me = this; //actualiza a la pagina actual
 
       me.pagination.current_page = page; //envia la peticion de listar esa pagina
 
-      me.listaCategoria(page);
+      me.listaCategoria(page, buscar, criterio);
     },
     //Metodo registrar categoria
     registrarCategoria: function registrarCategoria() {
@@ -2154,8 +2156,9 @@ __webpack_require__.r(__webpack_exports__);
         'nombre': this.nombre,
         'descripcion': this.descripcion
       }).then(function (response) {
-        me.cerrarModal();
-        me.listaCategoria();
+        me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+
+        me.listaCategoria(1, '', 'nombre');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2172,8 +2175,9 @@ __webpack_require__.r(__webpack_exports__);
         'descripcion': this.descripcion,
         'id': this.categoria_id
       }).then(function (response) {
-        me.cerrarModal();
-        me.listaCategoria();
+        me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+
+        me.listaCategoria(1, '', 'nombre');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2202,7 +2206,8 @@ __webpack_require__.r(__webpack_exports__);
           axios.put('/categoria/desactivar', {
             'id': id
           }).then(function (response) {
-            me.listaCategoria();
+            //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+            me.listaCategoria(1, '', 'nombre');
             swalWithBootstrapButtons.fire('Desactivado', 'La categoria ha sido desactivado correctamente', 'success');
           })["catch"](function (error) {
             console.log(error);
@@ -2238,7 +2243,8 @@ __webpack_require__.r(__webpack_exports__);
           axios.put('/categoria/activar', {
             'id': id
           }).then(function (response) {
-            me.listaCategoria();
+            //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+            me.listaCategoria(1, '', 'nombre');
             swalWithBootstrapButtons.fire('Activado', 'La categoria ha sido Activada correctamente', 'success');
           })["catch"](function (error) {
             console.log(error);
@@ -2303,7 +2309,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     //hacemos referencia a nuestro metodo  listarCategoria
-    this.listaCategoria();
+    this.listaCategoria(1, this.buscar, this.criterio);
   }
 });
 
@@ -38571,13 +38577,101 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
-          _vm._m(1),
+          _c("div", { staticClass: "form-group row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "input-group" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.criterio,
+                        expression: "criterio"
+                      }
+                    ],
+                    staticClass: "form-control col-md-3",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.criterio = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "nombre" } }, [
+                      _vm._v("Nombre")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "descripcion" } }, [
+                      _vm._v("Descripción")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.buscar,
+                      expression: "buscar"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Categoria a buscar" },
+                  domProps: { value: _vm.buscar },
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.listaCategoria(1, _vm.buscar, _vm.criterio)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.buscar = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "submit" },
+                    on: {
+                      click: function($event) {
+                        return _vm.listaCategoria(1, _vm.buscar, _vm.criterio)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fa fa-search" }), _vm._v(" Buscar")]
+                )
+              ])
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "table",
             { staticClass: "table table-bordered table-striped table-sm" },
             [
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -38685,7 +38779,9 @@ var render = function() {
                             click: function($event) {
                               $event.preventDefault()
                               return _vm.cambiarPagina(
-                                _vm.pagination.current_page - 1
+                                _vm.pagination.current_page - 1,
+                                _vm.buscar,
+                                _vm.criterio
                               )
                             }
                           }
@@ -38711,7 +38807,11 @@ var render = function() {
                         on: {
                           click: function($event) {
                             $event.preventDefault()
-                            return _vm.cambiarPagina(page)
+                            return _vm.cambiarPagina(
+                              page,
+                              _vm.buscar,
+                              _vm.criterio
+                            )
                           }
                         }
                       })
@@ -38730,7 +38830,9 @@ var render = function() {
                             click: function($event) {
                               $event.preventDefault()
                               return _vm.cambiarPagina(
-                                _vm.pagination.current_page + 1
+                                _vm.pagination.current_page + 1,
+                                _vm.buscar,
+                                _vm.criterio
                               )
                             }
                           }
@@ -38982,47 +39084,6 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("li", { staticClass: "breadcrumb-item active" }, [_vm._v("Dashboard")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "input-group" }, [
-          _c(
-            "select",
-            {
-              staticClass: "form-control col-md-3",
-              attrs: { id: "opcion", name: "opcion" }
-            },
-            [
-              _c("option", { attrs: { value: "nombre" } }, [_vm._v("Nombre")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "descripcion" } }, [
-                _vm._v("Descripción")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "texto",
-              name: "texto",
-              placeholder: "Texto a buscar"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-            [_c("i", { staticClass: "fa fa-search" }), _vm._v(" Buscar")]
-          )
-        ])
-      ])
     ])
   },
   function() {
