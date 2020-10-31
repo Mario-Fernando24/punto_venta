@@ -72,26 +72,23 @@
                                 </tbody>
                         </table>
                         <nav>
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Ant</a>
+
+                                <ul class="pagination">
+                                                                    <!--si la pagina actual > que 1-->
+
+                                <li class="page-item" v-if="pagination.current_page > 1 ">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1)">Ant</a>
                                 </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1</a>
+                                                                <!--iteramos la propiedad computada-->
+
+                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page)" v-text="page"></a>
                                 </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">4</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Sig</a>
+                                <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1)">Sig</a>
                                 </li>
                             </ul>
+
                         </nav>
                     </div>
                 </div>
@@ -163,25 +160,91 @@
             tituloModal : '',
             tipoAccionButton : 0,
             errorCategoria : 0,
-            errorMensajeCategoriaArray : []
+            errorMensajeCategoriaArray : [],
+            pagination : {
+                //numero total de registro
+                'total' : 0,
+                //Obtenga el número de página actual.
+                'current_page' : 0,
+                //El número de elementos que se mostrarán por página.
+                'per_page' : 0,
+              //  Obtenga el número de página de la última página disponible. (No disponible cuando se usa simplePaginate).
+                'last_page' : 0,
+                //desde la pagina
+                'from'  : 0,
+                //hasta pagina
+                'to' : 0,
+            },
+
+            offset : 3
           }
         },
+
+
+
+        //Propiedad computada declaramos unas funciones
+        computed :{
+           
+                       //calcular la pagina actual
+            isActived : function(){
+              return   this.pagination.current_page
+            },
+            //calcular el numero de paginas
+            pagesNumber : function(){
+                if(!this.pagination.to){
+                    return [];
+                }
+                var from = this.pagination.current_page - this.offset; 
+                if(from < 1){
+                    from = 1;
+                }
+                var to = from + (this.offset * 2);
+                if(to >=  this.pagination.last_page){
+                    to = this.pagination.last_page;
+                }
+                var pagesArray = [];
+                while(from <= to){
+                    pagesArray.push(from);
+                    from++;
+                }
+                return pagesArray;  
+            }
+
+        },
+
+
+
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
-              listaCategoria(){
-                  let me=this;
-                  axios.get('/categoria/index').then(function (response) {
-                      //todo lo que retorne esta funcion se almacene en este array
-                        me.arrayCategoria= response.data;
+          listaCategoria(page){
+              
+                 let me=this;
+                  var url= '/categoria/index?page='+page ;
+                  axios.get(url).then(function (response) {
+                    var respuesta = response.data;
+                    //todo lo que retorne esta funcion se almacene en este array
+                    me.arrayCategoria = respuesta.categorias.data;
+                    me.pagination = respuesta.pagination;
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
 
               },
+          
+          //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
+                cambiarPagina(page){
+                let me = this;
+                //actualiza a la pagina actual
+                me.pagination.current_page = page;
+                //envia la peticion de listar esa pagina
+                me.listaCategoria(page);
+            },
+
+
           //Metodo registrar categoria
-              registrarCategoria(){
+          registrarCategoria(){
 
                   if(this.validarCategoria()){
                       return ;
@@ -203,7 +266,7 @@
 
 
              //Metodo actualizar categoria
-                 actualizarCategoria(){
+           actualizarCategoria(){
 
                   if(this.validarCategoria()){
                       return ;
@@ -276,7 +339,7 @@
 
 
             //Metodo para activar la categoria
-           activarCategoria(id){
+            activarCategoria(id){
                const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -327,7 +390,7 @@
            
 
               //methods validar las categoria
-              validarCategoria(){
+            validarCategoria(){
                 this.errorCategoria=0;
                  this.errorMensajeCategoriaArray=[];
 
@@ -338,7 +401,7 @@
 
 
            //metodo para cerrar el modal
-              cerrarModal(){
+            cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
@@ -350,7 +413,7 @@
 
 
               //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
-              abrirModal(modelo, accion, data=[]){
+            abrirModal(modelo, accion, data=[]){
                   switch(modelo){
                       case "categoria":
                      {

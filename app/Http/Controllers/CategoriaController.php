@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categoria;
+//Paginating Query Builder Results
+//use Illuminate\Support\Facades\DB;
+
 class CategoriaController extends Controller
 {
     /**
@@ -14,12 +17,27 @@ class CategoriaController extends Controller
     public function index(Request $request)
     {   
         //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
-       if(!$request->ajax()){
-        return redirect('/');
-       }
-
-        $category= Categoria::all();
-        return $category;
+       //if(!$request->ajax()){
+        //return redirect('/');
+      // }
+        $categorias= Categoria::paginate(10);
+        return [
+            'pagination' => [
+                //numero total de registro
+                'total'         => $categorias->total(),
+                //Obtenga el número de página actual.
+                'current_page'  => $categorias->currentPage(),
+                //El número de elementos que se mostrarán por página.
+                'per_page'      => $categorias->perPage(),
+              //  Obtenga el número de página de la última página disponible. (No disponible cuando se usa simplePaginate).
+                'last_page'     => $categorias->lastPage(),
+                //desde la pagina
+                'from'          => $categorias->firstItem(),
+                //hasta la pagina
+                'to'            => $categorias->lastItem(),
+            ],
+            'categorias' => $categorias
+        ];
     }
 
 
@@ -40,6 +58,7 @@ class CategoriaController extends Controller
         'descripcion' => $request->get('descripcion'),
         'condicion' => '1',
         ]);
+        
 
     }
 
