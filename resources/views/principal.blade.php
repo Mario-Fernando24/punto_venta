@@ -87,7 +87,7 @@
     <!--end vue-->
 
     <footer class="app-footer">
-        <span><a href="http://www.incanatoit.com/">Mario Muñoz</a> &copy; 2020</span>
+        <span><a href="http://www.incanatoit.com/">Todos los derechos reservado</a> &copy; 2020</span>
         <span class="ml-auto">Desarrollado por <a href="mariomunoz.com">Mario Muñoz</a></span>
     </footer>
 
