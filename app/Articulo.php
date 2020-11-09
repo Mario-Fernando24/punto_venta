@@ -23,7 +23,7 @@ class Articulo extends Model
     ];
     //1 articulor pertenece a una categoria
     public function categoria(){
-        return $this->belongsTo('App\Categoria');
+        return $this->belongsTo(Categoria::class,'idcategoria');
 
     }
 }

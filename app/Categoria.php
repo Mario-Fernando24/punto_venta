@@ -16,17 +16,11 @@ class Categoria extends Model
         'condicion',
     ];
 
-     //relacion de 1 a n plural 
+     //relacion de 1 a n plural  1 categoria tiene varios articulos
     public function articulos()
     {
-        return $this->hasMany('App\Articulo');
+        return $this->hasMany(Articulo::class,'idcategoria');
+        
     }
-
-
-    protected $guarded = [
-
-    ];
-
-
 
 }

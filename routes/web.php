@@ -28,3 +28,13 @@ Route::prefix('categoria')->group(function() {
     Route::put('activar', 'CategoriaController@activar');
 });
 
+
+//controlador categoria
+Route::prefix('articulo')->group(function() {
+    Route::get('index', 'ArticuloContoller@index');
+    Route::post('registrar', 'ArticuloContoller@store');
+    Route::put('actualizar', 'ArticuloContoller@update');
+    Route::put('desactivar', 'ArticuloContoller@desactivar');
+    Route::put('activar', 'ArticuloContoller@activar');
+});
+
