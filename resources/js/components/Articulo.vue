@@ -2,14 +2,15 @@
 <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Escritorio</a></li>
+                <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
+
             </ol>
             <div class="container-fluid">
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Categorías
-                        <button type="button"  @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
+                        <i class="fa fa-align-justify"></i> Articulos
+                        <button type="button"  @click="abrirModal('articulo','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -21,8 +22,8 @@
                                       <option value="nombre">Nombre</option>
                                       <option value="descripcion">Descripción</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listaCategoria(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
-                                    <button type="submit" @click="listaCategoria(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarArticulo(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
+                                    <button type="submit" @click="listarArticulo(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -31,34 +32,39 @@
                                 <tr>
                                     <th>Opciones</th>
                                     <th>Nombre</th>
+                                    <th>Categoria</th>
+
                                     <th>Descripción</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="categoria in arrayCategoria" :key="categoria.id">
+
+                                <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('categoria', 'actualizar',categoria)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('categoria', 'actualizar',articulo)" class="btn btn-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
-                                        <template v-if="categoria.condicion"> 
-                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarCategoria(categoria.id)">
+                                        <template v-if="articulo.condicion"> 
+                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarCategoria(articulo.id)">
                                           <i class="icon-trash"></i>
                                         </button>
                                         </template>
                                          <template v-else> 
-                                        <button type="button"  class="btn btn-success btn-sm" @click="activarCategoria(categoria.id)">
+                                        <button type="button"  class="btn btn-success btn-sm" @click="activarCategoria(articulo.id)">
                                           <i class="icon-check"></i>
                                         </button>
                                         </template>
 
                                         </td>
 
-                                        <td v-text="categoria.nombre"></td>
-                                        <td v-text="categoria.descripcion"></td>
+                                        <td v-text="articulo.nombre"></td>
+                                        <td v-text="articulo.categoria.nombre"></td>
+
+                                        <td v-text="articulo.descripcion"></td>
 
                                         <td>
-                                        <div v-if="categoria.condicion==1">
+                                        <div v-if="articulo.condicion==1">
                                         <span class="badge badge-success">Activo</span>
                                         </div>
 
@@ -67,6 +73,7 @@
                                         </div>
                                     </td>
                                 </tr>
+
                                 </tbody>
                         </table>
                         <nav>
@@ -117,9 +124,9 @@
                                     </div>
                                 </div>
 
-                                <div v-show="errorCategoria==1" class="form-group row div-error">
+                                <div v-show="errorArticulo==1" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMensajeCategoriaArray" :key="error" v-text="error">
+                                        <div v-for="error in errorMensajeArticuloArray" :key="error" v-text="error">
                                            
                                         </div>
                                     </div>
@@ -148,17 +155,22 @@
         data(){
           return {
             //cual es la categoria que quiero edit 
+            articulo_id :0,
             categoria_id :0,
+            nombre_categoria :'',
+            codigo : '',
             nombre : '',
+            precio_venta:0,
+            stock:0,
             descripcion : '',
             //la data que regresa nuestro metodo listarCategoria se almacene en esta array
-            arrayCategoria:[],
+            arrayArticulo:[],
             modal : 0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
             tipoAccionButton : 0,
-            errorCategoria : 0,
-            errorMensajeCategoriaArray : [],
+            errorArticulo : 0,
+            errorMensajeArticuloArray : [],
             pagination : {
                 //numero total de registro
                 'total' : 0,
@@ -217,14 +229,15 @@
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
-          listaCategoria(page, buscar, criterio){
+          listarArticulo(page, buscar, criterio){
               
                  let me=this;
-                  var url= '/categoria/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                  var url= '/articulo/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
+                    console.log(response.data);
                     //todo lo que retorne esta funcion se almacene en este array
-                    me.arrayCategoria = respuesta.categorias.data;
+                    me.arrayArticulo = respuesta.articulos.data;
                     me.pagination = respuesta.pagination;
                     })
                     .catch(function (error) {
@@ -239,7 +252,7 @@
                 //actualiza a la pagina actual
                 me.pagination.current_page = page;
                 //envia la peticion de listar esa pagina
-                me.listaCategoria(page, buscar, criterio);
+                me.listarArticulo(page, buscar, criterio);
             },
 
 
@@ -257,7 +270,7 @@
                 .then(function (response) {
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listaCategoria(1,'','nombre');
+                    me.listarArticulo(1,'','nombre');
                 }) 
                 .catch(function (error) {
                     console.log(error);
@@ -282,7 +295,7 @@
                 .then(function (response) {
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listaCategoria(1,'','nombre');
+                    me.listarArticulo(1,'','nombre');
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -316,7 +329,7 @@
                 .then(function (response) {
 
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listaCategoria(1,'','nombre');
+                    me.listarArticulo(1,'','nombre');
 
                     swalWithBootstrapButtons.fire(
                     'Desactivado',
@@ -368,7 +381,7 @@
                 })
                 .then(function (response) {
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listaCategoria(1,'','nombre');
+                    me.listarArticulo(1,'','nombre');
 
                     swalWithBootstrapButtons.fire(
                     'Activado',
@@ -396,12 +409,12 @@
 
               //methods validar las categoria
             validarCategoria(){
-                this.errorCategoria=0;
-                 this.errorMensajeCategoriaArray=[];
+                this.errorArticulo=0;
+                 this.errorMensajeArticuloArray=[];
 
-                 if(!this.nombre) this.errorMensajeCategoriaArray.push("El nombre de la categoria no puede estar vacio");
-                 if(this.errorMensajeCategoriaArray.length) this.errorCategoria=1;
-                 return this.errorCategoria;
+                 if(!this.nombre) this.errorMensajeArticuloArray.push("El nombre de la categoria no puede estar vacio");
+                 if(this.errorMensajeArticuloArray.length) this.errorArticulo=1;
+                 return this.errorArticulo;
               },
 
 
@@ -411,8 +424,8 @@
                 this.tituloModal='';
                 this.nombre='';
                 this.descripcion='';
-                this.errorMensajeCategoriaArray = [];
-                this.errorCategoria = 0;
+                this.errorMensajeArticuloArray = [];
+                this.errorArticulo = 0;
 
               },
 
@@ -453,7 +466,7 @@
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarCategoria
-      this.listaCategoria(1,this.buscar,this.criterio);     
+      this.listarArticulo(1,this.buscar,this.criterio);     
          }
     }
 </script>

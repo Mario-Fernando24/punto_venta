@@ -9,11 +9,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($articulos as $ped)
+                    @foreach($articulos as $art)
                         <tr>
-                          <td>{{ $ped->id }}</td>
-                        <td>{{ $ped->categoria->nombre }}</td>   
-                        <td>{{ $ped->nombre }}</td>   
+                          <td>{{ $art->id }}</td>
+                        <td>{{ $art->categoria->nombre }}</td>   
+                        <td>{{ $art->nombre }}</td>   
 
                     @endforeach
                     </tbody>

@@ -13,15 +13,18 @@ class ArticuloContoller extends Controller
     public function index(Request $request)
     {   
         
+
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
          if($buscar==''){
-            $articulos = Articulo::orderBy('id', 'desc')->paginate(15);
-         }else{
-            $articulos = Articulo::where('articulos.'.$criterio, 'like', '%'.$buscar.'%')
-            ->orderBy('id', 'desc')->paginate(15);
 
+          $articulos = Articulo::with('categoria')->orderBy('id', 'desc')->paginate(1);
+
+
+         }else{
+
+            $articulos = Categoria::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
          }
         return [
             'pagination' => [
