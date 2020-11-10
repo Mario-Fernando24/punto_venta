@@ -130,6 +130,9 @@
                                     <label class="col-md-3 form-control-label" for="text-input">Codigo</label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="codigo" class="form-control" placeholder="codigo de barra">
+                                    <barcode :value="codigo" :options="{ format: 'EAN-13' }">
+                                        Generando codigo de barra
+                                    </barcode>
                                     </div>
                                 </div>
 
@@ -190,6 +193,9 @@
 </template>
 
 <script>
+//importamos vueBarcod
+import VueBarcode from 'vue-barcode';
+
 //axios nos ayuda hacer peticiones http desde el navegador
     export default {
         //dentro de la data colocamos las variables 
@@ -236,7 +242,9 @@
           }
         },
 
-
+         components: {
+           'barcode': VueBarcode
+         },
 
         //Propiedad computada declaramos unas funciones
         computed :{
@@ -325,6 +333,7 @@
                   axios.post('/articulo/registrar', {
                     'idcategoria':  this.idcategoria,
                     'nombre':  this.nombre,
+                    'codigo': this.codigo,
                     'stock':  this.stock,
                     'precio_venta':  this.precio_venta,
                     'descripcion':  this.descripcion
@@ -352,6 +361,7 @@
                   axios.put('/articulo/actualizar', {
                    'idcategoria':  this.idcategoria,
                     'nombre':  this.nombre,
+                    'codigo' : this.codigo,
                     'stock':  this.stock,
                     'precio_venta':  this.precio_venta,
                     'descripcion':  this.descripcion,
