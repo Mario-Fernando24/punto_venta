@@ -44,16 +44,16 @@
 
                                 <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('categoria', 'actualizar',articulo)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         <template v-if="articulo.condicion"> 
-                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarCategoria(articulo.id)">
+                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarArticulo(articulo.id)">
                                           <i class="icon-trash"></i>
                                         </button>
                                         </template>
                                          <template v-else> 
-                                        <button type="button"  class="btn btn-success btn-sm" @click="activarCategoria(articulo.id)">
+                                        <button type="button"  class="btn btn-success btn-sm" @click="activarArticulo(articulo.id)">
                                           <i class="icon-check"></i>
                                         </button>
                                         </template>
@@ -349,10 +349,13 @@
                       return ;
                   }
                   let me=this;
-                  axios.put('/categoria/actualizar', {
+                  axios.put('/articulo/actualizar', {
+                   'idcategoria':  this.idcategoria,
                     'nombre':  this.nombre,
-                    'descripcion': this.descripcion,
-                    'id' :this.idcategoria
+                    'stock':  this.stock,
+                    'precio_venta':  this.precio_venta,
+                    'descripcion':  this.descripcion,
+                    'id' :this.articulo_id
                     
                 })
                 .then(function (response) {
@@ -366,7 +369,7 @@
 
               },
            //Metodo para desactivar la categoria
-           desactivarCategoria(id){
+           desactivarArticulo(id){
                const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -376,7 +379,7 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                title: 'Estas seguro de desactivar esta categoria?',
+                title: 'Estas seguro de desactivar este Articulo?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Aceptar',
@@ -386,7 +389,7 @@
                 if (result.isConfirmed) {
 
                      let me=this;
-                  axios.put('/categoria/desactivar', {
+                  axios.put('/articulo/desactivar', {
                     'id' : id
                 })
                 .then(function (response) {
@@ -396,7 +399,7 @@
 
                     swalWithBootstrapButtons.fire(
                     'Desactivado',
-                    'La categoria ha sido desactivado correctamente',
+                    'El articulo ha sido desactivado correctamente',
                     'success'
                     )
                 })
@@ -419,7 +422,7 @@
 
 
             //Metodo para activar la categoria
-            activarCategoria(id){
+            activarArticulo(id){
                const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -429,7 +432,7 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                title: 'Estas seguro de activar esta categoria?',
+                title: 'Estas seguro de activar este Articulo?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Aceptar',
@@ -439,7 +442,7 @@
                 if (result.isConfirmed) {
 
                      let me=this;
-                  axios.put('/categoria/activar', {
+                  axios.put('/articulo/activar', {
                     'id' : id
                 })
                 .then(function (response) {
@@ -448,7 +451,7 @@
 
                     swalWithBootstrapButtons.fire(
                     'Activado',
-                    'La categoria ha sido Activada correctamente',
+                    'El Articulo ha sido Activada correctamente',
                     'success'
                     )
                 })
