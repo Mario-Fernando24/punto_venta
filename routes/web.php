@@ -26,10 +26,12 @@ Route::prefix('categoria')->group(function() {
     Route::put('actualizar', 'CategoriaController@update');
     Route::put('desactivar', 'CategoriaController@desactivar');
     Route::put('activar', 'CategoriaController@activar');
+    Route::get('mostrarCategoriaActivas', 'CategoriaController@mostrarCategoriaActivas');
+
 });
 
 
-//controlador categoria
+//controlador articulos
 Route::prefix('articulo')->group(function() {
     Route::get('index', 'ArticuloContoller@index');
     Route::post('registrar', 'ArticuloContoller@store');

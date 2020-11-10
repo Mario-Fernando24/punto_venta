@@ -31,9 +31,11 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
+                                    <th>Codigo</th>
                                     <th>Nombre</th>
                                     <th>Categoria</th>
-
+                                    <th>Pre Venta</th>
+                                    <th>Stock</th>
                                     <th>Descripción</th>
                                     <th>Estado</th>
                                 </tr>
@@ -57,10 +59,11 @@
                                         </template>
 
                                         </td>
-
+                                        <td v-text="articulo.codigo"></td>
                                         <td v-text="articulo.nombre"></td>
                                         <td v-text="articulo.categoria.nombre"></td>
-
+                                        <td v-text="articulo.precio_venta"></td>
+                                        <td v-text="articulo.stock"></td>
                                         <td v-text="articulo.descripcion"></td>
 
                                         <td>
@@ -111,12 +114,50 @@
                         </div>
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                            <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Categoria</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" v-model="idcategoria" >
+                                            <option value="0">seleccione</option>
+                                            <option v-for="categoria in  arrayCategoria" :key="categoria.id" :value="categoria.id" v-text="categoria.nombre"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Codigo</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="codigo" class="form-control" placeholder="codigo de barra">
+                                    </div>
+                                </div>
+
+
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de categoría">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
                                     </div>
                                 </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Precio de venta</label>
+                                    <div class="col-md-9">
+                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="Precio...">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Stock</label>
+                                    <div class="col-md-9">
+                                        <input type="number" v-model="stock" class="form-control" placeholder="Stock...">
+                                    </div>
+                                </div>
+
+
+
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
                                     <div class="col-md-9">
@@ -135,8 +176,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarCategoria()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarCategoria()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarArticulo()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarArticulo()">Actualizar</button>
 
                         </div>
                     </div>
@@ -156,7 +197,7 @@
           return {
             //cual es la categoria que quiero edit 
             articulo_id :0,
-            categoria_id :0,
+            idcategoria :0,
             nombre_categoria :'',
             codigo : '',
             nombre : '',
@@ -165,12 +206,13 @@
             descripcion : '',
             //la data que regresa nuestro metodo listarCategoria se almacene en esta array
             arrayArticulo:[],
+
             modal : 0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
             tipoAccionButton : 0,
             errorArticulo : 0,
-            errorMensajeArticuloArray : [],
+            errorMensajeArticuloArray: [],
             pagination : {
                 //numero total de registro
                 'total' : 0,
@@ -188,7 +230,9 @@
 
             offset : 3,
             criterio : 'nombre',
+            arrayCategoria:[],
             buscar  : '',
+
           }
         },
 
@@ -230,21 +274,36 @@
         methods: {
               
           listarArticulo(page, buscar, criterio){
-              
                  let me=this;
                   var url= '/articulo/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
-                    console.log(response.data);
                     //todo lo que retorne esta funcion se almacene en este array
                     me.arrayArticulo = respuesta.articulos.data;
                     me.pagination = respuesta.pagination;
+
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
 
               },
+                    
+
+              //
+              selectCategoria(){
+
+                  let me=this;
+                  axios.get('/categoria/mostrarCategoriaActivas').then(function (response) {
+
+                    var respuestaaa=response.data;
+                    me.arrayCategoria= respuestaaa.categorias.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+              } ,
           
           //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
                 cambiarPagina(page, buscar, criterio){
@@ -257,15 +316,19 @@
 
 
           //Metodo registrar categoria
-          registrarCategoria(){
+          registrarArticulo(){
 
-                  if(this.validarCategoria()){
+                  if(this.validarArticulo()){
                       return ;
                   }
                   let me=this;
-                  axios.post('/categoria/registrar', {
+                  axios.post('/articulo/registrar', {
+                    'idcategoria':  this.idcategoria,
                     'nombre':  this.nombre,
-                    'descripcion': this.descripcion
+                    'stock':  this.stock,
+                    'precio_venta':  this.precio_venta,
+                    'descripcion':  this.descripcion
+
                 })
                 .then(function (response) {
                     me.cerrarModal();
@@ -280,16 +343,16 @@
 
 
              //Metodo actualizar categoria
-           actualizarCategoria(){
+           actualizarArticulo(){
 
-                  if(this.validarCategoria()){
+                  if(this.validarArticulo()){
                       return ;
                   }
                   let me=this;
                   axios.put('/categoria/actualizar', {
                     'nombre':  this.nombre,
                     'descripcion': this.descripcion,
-                    'id' :this.categoria_id
+                    'id' :this.idcategoria
                     
                 })
                 .then(function (response) {
@@ -408,11 +471,16 @@
            
 
               //methods validar las categoria
-            validarCategoria(){
+            validarArticulo(){
                 this.errorArticulo=0;
                  this.errorMensajeArticuloArray=[];
+                 if(this.idcategoria==0) this.errorMensajeArticuloArray.push("* Seleccione alguna categoria");
+                 
+                 if(!this.nombre) this.errorMensajeArticuloArray.push("* El nombre del articulo no puede estar vacio");
+                 if(!this.stock) this.errorMensajeArticuloArray.push("* El stock del producto debe ser un numero y no puede estar vacio");
+                 if(!this.precio_venta) this.errorMensajeArticuloArray.push("* El precio del producto debe ser un numero  y no puede  estar vacio");
+                 if(!this.descripcion) this.errorMensajeArticuloArray.push("* la descripcion del producto debe ser un numero  y no puede  estar vacio");
 
-                 if(!this.nombre) this.errorMensajeArticuloArray.push("El nombre de la categoria no puede estar vacio");
                  if(this.errorMensajeArticuloArray.length) this.errorArticulo=1;
                  return this.errorArticulo;
               },
@@ -422,9 +490,14 @@
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
+                this.idcategoria =0;
+                this.nombre_categoria ='';
+                this.codigo = '';
                 this.nombre='';
+                this.precio_venta=0;
+                this.stock=0;    
                 this.descripcion='';
-                this.errorMensajeArticuloArray = [];
+              //  this.errorMensajeArticuloArray = [];
                 this.errorArticulo = 0;
 
               },
@@ -432,16 +505,22 @@
 
               //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
             abrirModal(modelo, accion, data=[]){
+
                   switch(modelo){
-                      case "categoria":
+                      case "articulo":
                      {
                          switch(accion){
                             
                              case 'registrar':
-                            {
+                            {               
                                 this.modal=1;
-                                this.tituloModal='Registrar Categoria';
+                                this.tituloModal='Registrar Articulo';
+                                this.idcategoria =0;
+                                this.nombre_categoria ='';
+                                this.codigo = '';
                                 this.nombre='';
+                                this.precio_venta=0;
+                                this.stock=0;    
                                 this.descripcion='';
                                 this.tipoAccionButton=1;
                               break;
@@ -450,10 +529,14 @@
                             {
                                // console.log(data);
                                this.modal=1;
-                               this.tituloModal='Editar Categoria';
+                               this.tituloModal='Editar Articulo';
                                this.tipoAccionButton=2;
-                               this.categoria_id=data['id'];
+                               this.articulo_id=data['id'];
+                               this.idcategoria=data['idcategoria'];
+                               this.codigo=data['codigo'];
                                this.nombre=data['nombre'];
+                               this.stock=data['stock'];
+                               this.precio_venta=data['precio_venta'];
                                this.descripcion=data['descripcion'];
                              break;
                              }   
@@ -461,6 +544,7 @@
                          } 
                       }
                   }
+                this.selectCategoria();
 
               }
         },

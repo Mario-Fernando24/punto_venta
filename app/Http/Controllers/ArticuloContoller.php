@@ -13,18 +13,19 @@ class ArticuloContoller extends Controller
     public function index(Request $request)
     {   
         
-
+       // if(!$request->ajax()){
+        //    return redirect('/');
+        //   }
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
          if($buscar==''){
 
-          $articulos = Articulo::with('categoria')->orderBy('id', 'desc')->paginate(1);
-
+          $articulos = Articulo::with('categoria')->orderBy('id', 'desc')->paginate(10);
 
          }else{
 
-            $articulos = Categoria::where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+            $articulos = Articulo::with('categoria')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
          }
         return [
             'pagination' => [
@@ -44,6 +45,8 @@ class ArticuloContoller extends Controller
             'articulos' => $articulos
         ];
     }
+
+    
 
 
     public function store(Request $request)

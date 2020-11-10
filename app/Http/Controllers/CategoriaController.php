@@ -49,6 +49,14 @@ class CategoriaController extends Controller
     }
 
 
+    //function para mostrar las categoria que estan activas en un select
+    public function mostrarCategoriaActivas(Request $request){
+      
+        $categorias=Categoria::where('condicion',1)->select('id','nombre')->orderBy('nombre', 'asc')->paginate(900);
+        return ['categorias'=>$categorias];
+     }
+
+
     /**
      * Store a newly created resource in storage.
      *
