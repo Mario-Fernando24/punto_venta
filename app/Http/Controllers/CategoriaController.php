@@ -91,7 +91,6 @@ class CategoriaController extends Controller
        if(!$request->ajax()){
         return redirect('/');
        }
-
         $categoria = Categoria::findOrFail($request->id);
         $categoria->nombre = $request->nombre;
         $categoria->descripcion = $request->descripcion;
