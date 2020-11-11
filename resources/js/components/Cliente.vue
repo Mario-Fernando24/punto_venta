@@ -2,14 +2,14 @@
 <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
+                <li class="breadcrumb-item"><a href="#">Escritorio</a></li>
             </ol>
             <div class="container-fluid">
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Articulos
-                        <button type="button"  @click="abrirModal('articulo','registrar')" class="btn btn-secondary">
+                        <i class="fa fa-align-justify"></i> Cliente
+                        <button type="button"  @click="abrirModal('persona','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -19,10 +19,13 @@
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
                                       <option value="nombre">Nombre</option>
-                                      <option value="descripcion">Descripción</option>
+                                      <option value="num_documento">Num documento</option>
+                                      <option value="telefono">Telefono</option>
+                                      <option value="email">Email</option>
+
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarArticulo(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
-                                    <button type="submit" @click="listarArticulo(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
+                                    <button type="submit" @click="listarPersona(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -30,52 +33,34 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Codigo</th>
                                     <th>Nombre</th>
-                                    <th>Categoria</th>
-                                    <th>Pre Venta</th>
-                                    <th>Stock</th>
-                                    <th>Descripción</th>
-                                    <th>Estado</th>
+                                    <th>Tip doc</th>
+                                    <th>Numero</th>
+                                    <th>Dirección</th>
+                                    <th>Telefono</th>
+                                    <th>Email</th>
+
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <tr v-for="articulo in arrayArticulo" :key="articulo.id">
+                                <tr v-for="persona in arrayPersona" :key="persona.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('persona', 'actualizar',persona)" class="btn btn-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
-                                        <template v-if="articulo.condicion"> 
-                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarArticulo(articulo.id)">
-                                          <i class="icon-trash"></i>
-                                        </button>
-                                        </template>
-                                         <template v-else> 
-                                        <button type="button"  class="btn btn-success btn-sm" @click="activarArticulo(articulo.id)">
-                                          <i class="icon-check"></i>
-                                        </button>
-                                        </template>
-
                                         </td>
-                                        <td v-text="articulo.codigo"></td>
-                                        <td v-text="articulo.nombre"></td>
-                                        <td v-text="articulo.categoria.nombre"></td>
-                                        <td v-text="articulo.precio_venta"></td>
-                                        <td v-text="articulo.stock"></td>
-                                        <td v-text="articulo.descripcion"></td>
+
+                                        <td v-text="persona.nombre"></td>
+                                        <td v-text="persona.tipo_documento"></td>
+                                        <td v-text="persona.num_documento"></td>
+                                        <td v-text="persona.direccion"></td>
+                                        <td v-text="persona.telefono"></td>
+                                        <td v-text="persona.email"></td>
 
                                         <td>
-                                        <div v-if="articulo.condicion==1">
-                                        <span class="badge badge-success">Activo</span>
-                                        </div>
-
-                                        <div v-else>
-                                        <span class="badge badge-danger">Desactivado</span>
-                                        </div>
+                                       
                                     </td>
                                 </tr>
-
                                 </tbody>
                         </table>
                         <nav>
@@ -113,63 +98,16 @@
                         </div>
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-
-                            <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Categoria</label>
-                                    <div class="col-md-9">
-                                        <select class="form-control" v-model="idcategoria" >
-                                            <option value="0">seleccione</option>
-                                            <option v-for="categoria in  arrayCategoria" :key="categoria.id" :value="categoria.id" v-text="categoria.nombre"></option>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Codigo</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="codigo" class="form-control" placeholder="codigo de barra">
-                                    <barcode :value="codigo" :options="{ format: 'EAN-13' }">
-                                        Generando codigo de barra
-                                    </barcode>
-                                    </div>
-                                </div>
-                                <!--colocar max 15 caracter codigo de barra-->
-
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de categoría">
                                     </div>
                                 </div>
 
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Precio de venta</label>
-                                    <div class="col-md-9">
-                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="Precio...">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Stock</label>
-                                    <div class="col-md-9">
-                                        <input type="number" v-model="stock" class="form-control" placeholder="Stock...">
-                                    </div>
-                                </div>
-
-
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
-                                    <div class="col-md-9">
-                                        <input type="email" v-model="descripcion" class="form-control" placeholder="Descripción...">
-                                    </div>
-                                </div>
-
-                                <div v-show="errorArticulo==1" class="form-group row div-error">
+                                <div v-show="errorPersona==1" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMensajeArticuloArray" :key="error" v-text="error">
+                                        <div v-for="error in errorMensajePersonaArray" :key="error" v-text="error">
                                            
                                         </div>
                                     </div>
@@ -178,8 +116,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarArticulo()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarArticulo()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarCategoria()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarCategoria()">Actualizar</button>
 
                         </div>
                     </div>
@@ -192,32 +130,27 @@
 </template>
 
 <script>
-//importamos vueBarcod
-import VueBarcode from 'vue-barcode';
-
 //axios nos ayuda hacer peticiones http desde el navegador
     export default {
         //dentro de la data colocamos las variables 
         data(){
           return {
             //cual es la categoria que quiero edit 
-            articulo_id :0,
-            idcategoria :0,
-            nombre_categoria :'',
-            codigo : '',
+            persona_id :0,
             nombre : '',
-            precio_venta:0,
-            stock:0,
-            descripcion : '',
+            tipo_documento: 'CC',
+            num_documento: '',
+            direccion: '',
+            telefono:'',
+            email: '',
             //la data que regresa nuestro metodo listarCategoria se almacene en esta array
-            arrayArticulo:[],
-
+            arrayPersona:[],
             modal : 0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
             tipoAccionButton : 0,
-            errorArticulo : 0,
-            errorMensajeArticuloArray: [],
+            errorPersona : 0,
+            errorMensajePersonaArray : [],
             pagination : {
                 //numero total de registro
                 'total' : 0,
@@ -235,15 +168,11 @@ import VueBarcode from 'vue-barcode';
 
             offset : 3,
             criterio : 'nombre',
-            arrayCategoria:[],
             buscar  : '',
-
           }
         },
 
-         components: {
-           'barcode': VueBarcode
-         },
+
 
         //Propiedad computada declaramos unas funciones
         computed :{
@@ -280,37 +209,21 @@ import VueBarcode from 'vue-barcode';
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
-          listarArticulo(page, buscar, criterio){
+          listarPersona(page, buscar, criterio){
+              
                  let me=this;
-                  var url= '/articulo/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                  var url= '/cliente/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
                     //todo lo que retorne esta funcion se almacene en este array
-                    me.arrayArticulo = respuesta.articulos.data;
+                    me.arrayPersona = respuesta.persona.data;
                     me.pagination = respuesta.pagination;
-
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
 
               },
-                    
-
-              //
-              selectCategoria(){
-
-                  let me=this;
-                  axios.get('/categoria/mostrarCategoriaActivas').then(function (response) {
-
-                    var respuestaaa=response.data;
-                    me.arrayCategoria= respuestaaa.categorias.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-
-              } ,
           
           //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
                 cambiarPagina(page, buscar, criterio){
@@ -318,30 +231,25 @@ import VueBarcode from 'vue-barcode';
                 //actualiza a la pagina actual
                 me.pagination.current_page = page;
                 //envia la peticion de listar esa pagina
-                me.listarArticulo(page, buscar, criterio);
+                me.listarPersona(page, buscar, criterio);
             },
 
 
           //Metodo registrar categoria
-          registrarArticulo(){
+          registrarCategoria(){
 
-                  if(this.validarArticulo()){
+                  if(this.validarCategoria()){
                       return ;
                   }
                   let me=this;
-                  axios.post('/articulo/registrar', {
-                    'idcategoria':  this.idcategoria,
+                  axios.post('/categoria/registrar', {
                     'nombre':  this.nombre,
-                    'codigo': this.codigo,
-                    'stock':  this.stock,
-                    'precio_venta':  this.precio_venta,
-                    'descripcion':  this.descripcion
-
+                    'descripcion': this.descripcion
                 })
                 .then(function (response) {
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listarArticulo(1,'','nombre');
+                    me.listarPersona(1,'','nombre');
                 }) 
                 .catch(function (error) {
                     console.log(error);
@@ -351,26 +259,22 @@ import VueBarcode from 'vue-barcode';
 
 
              //Metodo actualizar categoria
-           actualizarArticulo(){
+           actualizarCategoria(){
 
-                  if(this.validarArticulo()){
+                  if(this.validarCategoria()){
                       return ;
                   }
                   let me=this;
-                  axios.put('/articulo/actualizar', {
-                   'idcategoria':  this.idcategoria,
+                  axios.put('/categoria/actualizar', {
                     'nombre':  this.nombre,
-                    'codigo' : this.codigo,
-                    'stock':  this.stock,
-                    'precio_venta':  this.precio_venta,
-                    'descripcion':  this.descripcion,
-                    'id' :this.articulo_id
+                    'descripcion': this.descripcion,
+                    'id' :this.persona_id
                     
                 })
                 .then(function (response) {
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listarArticulo(1,'','nombre');
+                    me.listarPersona(1,'','nombre');
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -378,7 +282,7 @@ import VueBarcode from 'vue-barcode';
 
               },
            //Metodo para desactivar la categoria
-           desactivarArticulo(id){
+           desactivarCategoria(id){
                const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -388,7 +292,7 @@ import VueBarcode from 'vue-barcode';
                 })
 
                 swalWithBootstrapButtons.fire({
-                title: 'Estas seguro de desactivar este Articulo?',
+                title: 'Estas seguro de desactivar esta categoria?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Aceptar',
@@ -398,17 +302,17 @@ import VueBarcode from 'vue-barcode';
                 if (result.isConfirmed) {
 
                      let me=this;
-                  axios.put('/articulo/desactivar', {
+                  axios.put('/categoria/desactivar', {
                     'id' : id
                 })
                 .then(function (response) {
 
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listarArticulo(1,'','nombre');
+                    me.listarPersona(1,'','nombre');
 
                     swalWithBootstrapButtons.fire(
                     'Desactivado',
-                    'El articulo ha sido desactivado correctamente',
+                    'La categoria ha sido desactivado correctamente',
                     'success'
                     )
                 })
@@ -431,7 +335,7 @@ import VueBarcode from 'vue-barcode';
 
 
             //Metodo para activar la categoria
-            activarArticulo(id){
+            activarCategoria(id){
                const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -441,7 +345,7 @@ import VueBarcode from 'vue-barcode';
                 })
 
                 swalWithBootstrapButtons.fire({
-                title: 'Estas seguro de activar este Articulo?',
+                title: 'Estas seguro de activar esta categoria?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Aceptar',
@@ -451,16 +355,16 @@ import VueBarcode from 'vue-barcode';
                 if (result.isConfirmed) {
 
                      let me=this;
-                  axios.put('/articulo/activar', {
+                  axios.put('/categoria/activar', {
                     'id' : id
                 })
                 .then(function (response) {
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listarArticulo(1,'','nombre');
+                    me.listarPersona(1,'','nombre');
 
                     swalWithBootstrapButtons.fire(
                     'Activado',
-                    'El Articulo ha sido Activada correctamente',
+                    'La categoria ha sido Activada correctamente',
                     'success'
                     )
                 })
@@ -483,51 +387,40 @@ import VueBarcode from 'vue-barcode';
            
 
               //methods validar las categoria
-            validarArticulo(){
-                 this.errorArticulo=0;
-                 this.errorMensajeArticuloArray=[];
-                 if(this.idcategoria==0) this.errorMensajeArticuloArray.push("* Seleccione alguna categoria");
-                 if(!this.nombre) this.errorMensajeArticuloArray.push("* El nombre del articulo no puede estar vacio");
-                 if(!this.stock) this.errorMensajeArticuloArray.push("* El stock del producto debe ser un numero y no puede estar vacio");
-                 if(!this.precio_venta) this.errorMensajeArticuloArray.push("* El precio del producto debe ser un numero  y no puede  estar vacio");
-                 if(!this.descripcion) this.errorMensajeArticuloArray.push("* la descripcion del producto debe ser un numero  y no puede  estar vacio");
-                 if(this.errorMensajeArticuloArray.length) this.errorArticulo=1;
-                 return this.errorArticulo;
+            validarCategoria(){
+                this.errorPersona=0;
+                 this.errorMensajePersonaArray=[];
+
+                 if(!this.nombre) this.errorMensajePersonaArray.push("El nombre de la categoria no puede estar vacio");
+                 if(this.errorMensajePersonaArray.length) this.errorPersona=1;
+                 return this.errorPersona;
               },
+
 
            //metodo para cerrar el modal
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
-                this.idcategoria =0;
-                this.nombre_categoria ='';
-                this.codigo = '';
                 this.nombre='';
-                this.precio_venta=0;
-                this.stock=0;    
                 this.descripcion='';
-              //  this.errorMensajeArticuloArray = [];
-                this.errorArticulo = 0;
+                this.errorMensajePersonaArray = [];
+                this.errorPersona = 0;
 
               },
 
-            //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
+
+              //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
             abrirModal(modelo, accion, data=[]){
                   switch(modelo){
-                      case "articulo":
+                      case "categoria":
                      {
                          switch(accion){
                             
                              case 'registrar':
-                            {               
+                            {
                                 this.modal=1;
-                                this.tituloModal='Registrar Articulo';
-                                this.idcategoria =0;
-                                this.nombre_categoria ='';
-                                this.codigo = '';
+                                this.tituloModal='Registrar Categoria';
                                 this.nombre='';
-                                this.precio_venta=0;
-                                this.stock=0;    
                                 this.descripcion='';
                                 this.tipoAccionButton=1;
                               break;
@@ -536,14 +429,10 @@ import VueBarcode from 'vue-barcode';
                             {
                                // console.log(data);
                                this.modal=1;
-                               this.tituloModal='Editar Articulo';
+                               this.tituloModal='Editar Categoria';
                                this.tipoAccionButton=2;
-                               this.articulo_id=data['id'];
-                               this.idcategoria=data['idcategoria'];
-                               this.codigo=data['codigo'];
+                               this.persona_id=data['id'];
                                this.nombre=data['nombre'];
-                               this.stock=data['stock'];
-                               this.precio_venta=data['precio_venta'];
                                this.descripcion=data['descripcion'];
                              break;
                              }   
@@ -551,13 +440,12 @@ import VueBarcode from 'vue-barcode';
                          } 
                       }
                   }
-                this.selectCategoria();
 
               }
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarCategoria
-      this.listarArticulo(1,this.buscar,this.criterio);     
+      this.listarPersona(1,this.buscar,this.criterio);     
          }
     }
 </script>

@@ -8,6 +8,7 @@ window.Vue = require('vue');
 
 Vue.component('Categoria', require('./components/Categoria.vue').default);
 Vue.component('Articulo', require('./components/Articulo.vue').default);
+Vue.component('Cliente', require('./components/Cliente.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
