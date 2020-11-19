@@ -2968,6 +2968,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -3065,15 +3108,19 @@ __webpack_require__.r(__webpack_exports__);
       me.listarPersona(page, buscar, criterio);
     },
     //Metodo registrar categoria
-    registrarCategoria: function registrarCategoria() {
-      if (this.validarCategoria()) {
+    registrarCliente: function registrarCliente() {
+      if (this.validarArticulo()) {
         return;
       }
 
       var me = this;
-      axios.post('/categoria/registrar', {
+      axios.post('/cliente/registrar', {
         'nombre': this.nombre,
-        'descripcion': this.descripcion
+        'tipo_documento': this.tipo_documento,
+        'num_documento': this.num_documento,
+        'direccion': this.direccion,
+        'telefono': this.telefono,
+        'email': this.email
       }).then(function (response) {
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
@@ -3083,15 +3130,19 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     //Metodo actualizar categoria
-    actualizarCategoria: function actualizarCategoria() {
-      if (this.validarCategoria()) {
+    actualizarArticulo: function actualizarArticulo() {
+      if (this.validarArticulo()) {
         return;
       }
 
       var me = this;
-      axios.put('/categoria/actualizar', {
+      axios.put('/cliente/actualizar', {
         'nombre': this.nombre,
-        'descripcion': this.descripcion,
+        'tipo_documento': this.tipo_documento,
+        'num_documento': this.num_documento,
+        'direccion': this.direccion,
+        'telefono': this.telefono,
+        'email': this.email,
         'id': this.persona_id
       }).then(function (response) {
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
@@ -3101,85 +3152,16 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    //Metodo para desactivar la categoria
-    desactivarCategoria: function desactivarCategoria(id) {
-      var _this = this;
-
-      var swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de desactivar esta categoria?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.isConfirmed) {
-          var me = _this;
-          axios.put('/categoria/desactivar', {
-            'id': id
-          }).then(function (response) {
-            //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-            me.listarPersona(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Desactivado', 'La categoria ha sido desactivado correctamente', 'success');
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
-        }
-      });
-    },
-    //Metodo para activar la categoria
-    activarCategoria: function activarCategoria(id) {
-      var _this2 = this;
-
-      var swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de activar esta categoria?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.isConfirmed) {
-          var me = _this2;
-          axios.put('/categoria/activar', {
-            'id': id
-          }).then(function (response) {
-            //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-            me.listarPersona(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Activado', 'La categoria ha sido Activada correctamente', 'success');
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
-        }
-      });
-    },
     //methods validar las categoria
-    validarCategoria: function validarCategoria() {
+    validarArticulo: function validarArticulo() {
       this.errorPersona = 0;
       this.errorMensajePersonaArray = [];
       if (!this.nombre) this.errorMensajePersonaArray.push("El nombre de la categoria no puede estar vacio");
+      if (!this.tipo_documento) this.errorMensajePersonaArray.push("El documento es obligatorio");
+      if (!this.num_documento) this.errorMensajePersonaArray.push("El numero de documento es obligatorio");
+      if (!this.direccion) this.errorMensajePersonaArray.push("La dirección  es obligatorio");
+      if (!this.telefono) this.errorMensajePersonaArray.push("El telefono  es obligatorio");
+      if (!this.email) this.errorMensajePersonaArray.push("El email  es obligatorio");
       if (this.errorMensajePersonaArray.length) this.errorPersona = 1;
       return this.errorPersona;
     },
@@ -3188,7 +3170,11 @@ __webpack_require__.r(__webpack_exports__);
       this.modal = 0;
       this.tituloModal = '';
       this.nombre = '';
-      this.descripcion = '';
+      this.tipo_documento = 'CC';
+      this.num_documento = '';
+      this.direccion = '';
+      this.telefono = '';
+      this.email = '';
       this.errorMensajePersonaArray = [];
       this.errorPersona = 0;
     },
@@ -3197,13 +3183,13 @@ __webpack_require__.r(__webpack_exports__);
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
       switch (modelo) {
-        case "categoria":
+        case "persona":
           {
             switch (accion) {
               case 'registrar':
                 {
                   this.modal = 1;
-                  this.tituloModal = 'Registrar Categoria';
+                  this.tituloModal = 'Registrar Cliente';
                   this.nombre = '';
                   this.descripcion = '';
                   this.tipoAccionButton = 1;
@@ -3214,11 +3200,15 @@ __webpack_require__.r(__webpack_exports__);
                 {
                   // console.log(data);
                   this.modal = 1;
-                  this.tituloModal = 'Editar Categoria';
+                  this.tituloModal = 'Editar Cliente';
                   this.tipoAccionButton = 2;
                   this.persona_id = data['id'];
                   this.nombre = data['nombre'];
-                  this.descripcion = data['descripcion'];
+                  this.tipo_documento = data['tipo_documento'];
+                  this.num_documento = data['num_documento'];
+                  this.direccion = data['direccion'];
+                  this.telefono = data['telefono'];
+                  this.email = data['email'];
                   break;
                 }
             }
@@ -45206,10 +45196,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            placeholder: "Nombre de categoría"
-                          },
+                          attrs: { type: "text", placeholder: "Nombre..." },
                           domProps: { value: _vm.nombre },
                           on: {
                             input: function($event) {
@@ -45217,6 +45204,205 @@ var render = function() {
                                 return
                               }
                               _vm.nombre = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Tipo documento")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.tipo_documento,
+                                expression: "tipo_documento"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.tipo_documento = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "CC" } }, [
+                              _vm._v("Cedula")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "TI" } }, [
+                              _vm._v("Tarjeta de identida")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "PA" } }, [
+                              _vm._v("Pasaporte")
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Num documento")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.num_documento,
+                              expression: "num_documento"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            placeholder: "Numero de documento"
+                          },
+                          domProps: { value: _vm.num_documento },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.num_documento = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Direccion")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.direccion,
+                              expression: "direccion"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "Dirección..." },
+                          domProps: { value: _vm.direccion },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.direccion = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Telefono")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.telefono,
+                              expression: "telefono"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "Telefono..." },
+                          domProps: { value: _vm.telefono },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.telefono = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Email")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.email,
+                              expression: "email"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "Email..." },
+                          domProps: { value: _vm.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.email = $event.target.value
                             }
                           }
                         })
@@ -45277,7 +45463,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.registrarCategoria()
+                            return _vm.registrarCliente()
                           }
                         }
                       },
@@ -45293,7 +45479,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.actualizarCategoria()
+                            return _vm.actualizarArticulo()
                           }
                         }
                       },

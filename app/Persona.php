@@ -18,4 +18,11 @@ class Persona extends Model
         'telefono',
         'email',
     ];
+
+    //una persona esta relacionada de forma directa con un solo proveedor
+    public function proveedor()
+    {
+        return $this->hasOne(Proveedor::class);
+        
+    }
 }

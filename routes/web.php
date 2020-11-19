@@ -47,3 +47,10 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::put('actualizar', 'ClienteController@update');
     });
 
+    //controlador proveedor
+    Route::prefix('proveedor')->group(function() {
+        Route::get('index', 'ProveedorController@index');
+        Route::post('registrar', 'ProveedorController@store');
+        Route::put('actualizar', 'ProveedorController@update');
+    });
+
