@@ -54,3 +54,5 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::put('actualizar', 'ProveedorController@update');
     });
 
+    
+

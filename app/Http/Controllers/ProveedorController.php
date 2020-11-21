@@ -20,26 +20,26 @@ class ProveedorController extends Controller
         $criterio = $request->criterio;
 
          if($buscar==''){
-            $persona = Proveedor::with('persona')->orderBy('id', 'DESC')->paginate(10);
+            $proveedor = Proveedor::with('persona')->orderBy('id', 'DESC')->paginate(10);
          }else{ 
-            $persona = Proveedor::with('persona')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+            $proveedor = Proveedor::with('persona')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
          }
         return [
             'pagination' => [
                 //numero total de registro
-                'total'         => $persona->total(),
+                'total'         => $proveedor->total(),
                 //Obtenga el número de página actual.
-                'current_page'  => $persona->currentPage(),
+                'current_page'  => $proveedor->currentPage(),
                 //El número de elementos que se mostrarán por página.
-                'per_page'      => $persona->perPage(),
+                'per_page'      => $proveedor->perPage(),
               //  Obtenga el número de página de la última página disponible. (No disponible cuando se usa simplePaginate).
-                'last_page'     => $persona->lastPage(),
+                'last_page'     => $proveedor->lastPage(),
                 //desde la pagina
-                'from'          => $persona->firstItem(),
+                'from'          => $proveedor->firstItem(),
                 //hasta la pagina
-                'to'            => $persona->lastItem(),
+                'to'            => $proveedor->lastItem(),
             ],
-            'persona' => $persona
+            'proveedor' => $proveedor
         ];
     }
 
@@ -50,10 +50,8 @@ class ProveedorController extends Controller
         return redirect('/');
        }
 
-       try{
-         DB::beginTransaction();
-
-            $persona = Persona::create([
+       try {
+        $persona = Persona::create([
             'nombre' => $request->get('nombre'),
             'tipo_documento' => $request->get('tipo_documento'),
             'num_documento' => $request->get('num_documento'),
@@ -68,12 +66,9 @@ class ProveedorController extends Controller
             'telefono_contacto' => $request->get('telefono_contacto'),
             ]);
 
-                DB::commit();
-
-        } catch (Exception $e) {
-            DB::rollBack();
-        }
-
+      } catch (ModelNotFoundException $e) {
+        DB::rollBack();
+      }
     }
 
 
@@ -86,37 +81,32 @@ class ProveedorController extends Controller
      */
     public function update(Request $request)
     {
-        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
        if(!$request->ajax()){
         return redirect('/');
        }
-
-
        try{
-        DB::beginTransaction();
 
         $proveedor = Proveedor::findOrFail($request->id);
         $persona = Persona::findOrFail($proveedor->id);
 
-        
+
         $persona->nombre = $request->nombre;
         $persona->tipo_documento = $request->tipo_documento;
         $persona->num_documento = $request->num_documento;
         $persona->direccion = $request->direccion;
         $persona->telefono = $request->telefono;
         $persona->email = $request->email;
-        $persona->save();
+        $persona->update();
         
 
         $proveedor->contacto = $request->contacto;
         $proveedor->telefono_contacto = $request->telefono_contacto;
-        $proveedor->save();
+        $proveedor->update();
     
-        DB::commit();
 
-       } catch (Exception $e) {
-           DB::rollBack();
-       }
+      }catch (ModelNotFoundException $e) {
+        DB::rollBack();
+      }
 
 
     }
