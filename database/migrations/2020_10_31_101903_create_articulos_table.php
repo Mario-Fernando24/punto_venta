@@ -17,7 +17,7 @@ class CreateArticulosTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('idcategoria');
             $table->string('codigo',100)->nullable();
-            $table->string('nombre',100)->unique();
+            $table->string('nombre',100 ;
             $table->decimal('precio_venta',11,2);
             $table->integer('stock');
             $table->string('descripcion',255)->nullable();

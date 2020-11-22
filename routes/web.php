@@ -27,7 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::put('desactivar', 'CategoriaController@desactivar');
         Route::put('activar', 'CategoriaController@activar');
         Route::get('mostrarCategoriaActivas', 'CategoriaController@mostrarCategoriaActivas');
-
+        Route::get('showroles', 'CategoriaController@showroles');
     });
 
 
