@@ -28,7 +28,7 @@
 
 <template v-if="menu==6">
 <Cliente></Cliente>
-</template>
+</template>hhh
 
 
 <template v-if="menu==7">
