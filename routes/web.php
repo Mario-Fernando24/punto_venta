@@ -52,7 +52,19 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('index', 'ProveedorController@index');
         Route::post('registrar', 'ProveedorController@store');
         Route::put('actualizar', 'ProveedorController@update');
+        
     });
+
+
+    //controlador proveedor
+    Route::prefix('user')->group(function() {
+        Route::get('index', 'UserController@index');
+        Route::post('registrar', 'UserController@store');
+        Route::put('actualizar', 'UserController@update');
+        Route::put('desactivar', 'UserController@desactivar');
+        Route::put('activar', 'UserController@activar');
+    });
+
 
     
 
