@@ -226,7 +226,7 @@
           listar_roles(page, buscar, criterio){
               
                  let me=this;
-                  var url= '/categoria/showroles?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                  var url= '/rol/showroles?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
                     //todo lo que retorne esta funcion se almacene en este array

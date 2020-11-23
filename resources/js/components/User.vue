@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Usuario
-                        <button type="button"  @click="abrirModal('proveedor','registrar')" class="btn btn-secondary">
+                        <button type="button"  @click="abrirModal('usuario','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                     </div>
@@ -148,7 +148,19 @@
 
 
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">usuario</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Rol(*)</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" v-model="idRol">
+                                            <option value="0">Seleccione un rol</option>
+                                            <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre"></option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">usuario(*)</label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="usuario" class="form-control" placeholder="usuario...">
                                     </div>
@@ -156,9 +168,9 @@
 
 
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Telefono de usuario</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Password</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="password" class="form-control" placeholder="Telefono de usuario...">
+                                        <input type="password" v-model="password" class="form-control" placeholder="Password de acceso...">
                                     </div>
                                 </div>
 
@@ -166,7 +178,7 @@
 
                                 <div v-show="errorProveedor==1" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMensajeProveedorArray" :key="error" v-text="error">
+                                        <div v-for="error in errorMensajeArrayUsuario" :key="error" v-text="error">
                                            
                                         </div>
                                     </div>
@@ -195,7 +207,7 @@
         data(){
           return {
             //cual es la usuario que quiero edit 
-            proveedor_id :0,
+            usuario_id :0,
             nombre : '',
             tipo_documento: 'CC',
             num_documento: '',
@@ -208,12 +220,13 @@
 
             //la data que regresa nuestro metodo listarusuario se almacene en esta array
             arrayUsuario:[],
+            arrayRol:[],
             modal : 0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
             tipoAccionButton : 0,
             errorProveedor : 0,
-            errorMensajeProveedorArray : [],
+            errorMensajeArrayUsuario : [],
             pagination : {
                 //numero total de registro
                 'total' : 0,
@@ -269,7 +282,7 @@
         methods: {
               
           listarUsuario(page, buscar, criterio){
-              
+              this.selectRol();
                  let me=this;
                   var url= '/user/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
@@ -278,6 +291,21 @@
                     //todo lo que retorne esta funcion se almacene en este array
                     me.arrayUsuario = respuesta.user.data;
                     me.pagination = respuesta.pagination;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+              },
+
+              selectRol(){
+
+                 let me=this;
+                  var url= '/rol/select_rol';
+                  axios.get(url).then(function (response) {
+                      console.log(response.data);
+                    var respuesta = response.data;
+                    //todo lo que retorne esta funcion se almacene en este array
+                    me.arrayRol = respuesta.roles;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -339,7 +367,7 @@
                     'email': this.email,       
                     'usuario':this.usuario,
                     'password': this.password,
-                    'id' :this.proveedor_id,     
+                    'id' :this.usuario_id,     
                 })
                 .then(function (response) {
                     me.cerrarModal();
@@ -355,17 +383,17 @@
             //methods validar las usuario
             validarArticulo(){
                 this.errorProveedor=0;
-                 this.errorMensajeProveedorArray=[];
-                 if(!this.nombre) this.errorMensajeProveedorArray.push("El nombre de la usuario no puede estar vacio");
-                 if(!this.tipo_documento) this.errorMensajeProveedorArray.push("El documento es obligatorio");
-                 if(!this.num_documento) this.errorMensajeProveedorArray.push("El numero de documento es obligatorio");
-                 if(!this.direccion) this.errorMensajeProveedorArray.push("La dirección  es obligatorio");
-                 if(!this.telefono) this.errorMensajeProveedorArray.push("El telefono  es obligatorio");
-                 if(!this.email) this.errorMensajeProveedorArray.push("El email  es obligatorio");
-                 if(!this.usuario) this.errorMensajeProveedorArray.push("El usuario  es obligatorio");
-                 if(!this.password) this.errorMensajeProveedorArray.push("El telefono de usuario es obligatorio");
+                 this.errorMensajeArrayUsuario=[];
+                 if(!this.nombre) this.errorMensajeArrayUsuario.push("El nombre de la usuario no puede estar vacio");
+                 if(!this.tipo_documento) this.errorMensajeArrayUsuario.push("El documento es obligatorio");
+                 if(!this.num_documento) this.errorMensajeArrayUsuario.push("El numero de documento es obligatorio");
+                 if(!this.direccion) this.errorMensajeArrayUsuario.push("La dirección  es obligatorio");
+                 if(!this.telefono) this.errorMensajeArrayUsuario.push("El telefono  es obligatorio");
+                 if(!this.email) this.errorMensajeArrayUsuario.push("El email  es obligatorio");
+                 if(!this.usuario) this.errorMensajeArrayUsuario.push("El usuario  es obligatorio");
+                 if(!this.password) this.errorMensajeArrayUsuario.push("El telefono de usuario es obligatorio");
 
-                 if(this.errorMensajeProveedorArray.length) this.errorProveedor=1;
+                 if(this.errorMensajeArrayUsuario.length) this.errorProveedor=1;
                  return this.errorProveedor;
               },
 
@@ -382,7 +410,8 @@
                 this.email='';
                 this.usuario='';
                 this.password='';
-                this.errorMensajeProveedorArray = [];
+                this.idRol=0;
+                this.errorMensajeArrayUsuario = [];
                 this.errorProveedor = 0;
 
               },
@@ -391,31 +420,36 @@
               //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
             abrirModal(modelo, accion, data=[]){
                   switch(modelo){
-                      case "proveedor":
+                      case "usuario":
                      {
                          switch(accion){
                             
                              case 'registrar':
                             {
                                 this.modal=1;
-                                this.tituloModal='Registrar Proveedor';
+                                this.tituloModal='Registrar Usuario ';
                                 this.nombre='';
+                                this.tipo_documento='CC';
                                 this.num_documento='';
                                 this.direccion='';
                                 this.telefono='';
                                 this.email='';
                                 this.usuario='';
                                 this.password='';
+                                this.idRol=0;
+                                this.password='';
+
                                 this.tipoAccionButton=1;
                               break;
                              } 
                              case 'actualizar':
                             {
+                                this.selectRol();
                                // console.log(data);
                                this.modal=1;
-                               this.tituloModal='Editar Proveedor';
+                               this.tituloModal='Editar Usuario';
                                this.tipoAccionButton=2;
-                               this.proveedor_id=data['id'];
+                               this.usuario_id=data['id'];
                                this.nombre=data['persona']['nombre'];
                                this.tipo_documento=data['persona']['tipo_documento'];
                                this.num_documento=data['persona']['num_documento'];
@@ -424,6 +458,7 @@
                                this.email=data['persona']['email'];
                                this.usuario=data['usuario'];
                                this.password=data['password'];
+                               this.idRol=data['idRol']; 
 
                              break;
                              }   

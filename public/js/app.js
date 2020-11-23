@@ -3885,7 +3885,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     listar_roles: function listar_roles(page, buscar, criterio) {
       var me = this;
-      var url = '/categoria/showroles?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = '/rol/showroles?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
 
@@ -4273,13 +4273,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
   data: function data() {
     return {
       //cual es la usuario que quiero edit 
-      proveedor_id: 0,
+      usuario_id: 0,
       nombre: '',
       tipo_documento: 'CC',
       num_documento: '',
@@ -4291,12 +4302,13 @@ __webpack_require__.r(__webpack_exports__);
       idRol: 0,
       //la data que regresa nuestro metodo listarusuario se almacene en esta array
       arrayUsuario: [],
+      arrayRol: [],
       modal: 0,
       //para saber que modal quiero mostrar, register o actualizar
       tituloModal: '',
       tipoAccionButton: 0,
       errorProveedor: 0,
-      errorMensajeProveedorArray: [],
+      errorMensajeArrayUsuario: [],
       pagination: {
         //numero total de registro
         'total': 0,
@@ -4353,6 +4365,7 @@ __webpack_require__.r(__webpack_exports__);
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
     listarUsuario: function listarUsuario(page, buscar, criterio) {
+      this.selectRol();
       var me = this;
       var url = '/user/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
@@ -4361,6 +4374,18 @@ __webpack_require__.r(__webpack_exports__);
 
         me.arrayUsuario = respuesta.user.data;
         me.pagination = respuesta.pagination;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    selectRol: function selectRol() {
+      var me = this;
+      var url = '/rol/select_rol';
+      axios.get(url).then(function (response) {
+        console.log(response.data);
+        var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
+
+        me.arrayRol = respuesta.roles;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4413,7 +4438,7 @@ __webpack_require__.r(__webpack_exports__);
         'email': this.email,
         'usuario': this.usuario,
         'password': this.password,
-        'id': this.proveedor_id
+        'id': this.usuario_id
       }).then(function (response) {
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
@@ -4425,16 +4450,16 @@ __webpack_require__.r(__webpack_exports__);
     //methods validar las usuario
     validarArticulo: function validarArticulo() {
       this.errorProveedor = 0;
-      this.errorMensajeProveedorArray = [];
-      if (!this.nombre) this.errorMensajeProveedorArray.push("El nombre de la usuario no puede estar vacio");
-      if (!this.tipo_documento) this.errorMensajeProveedorArray.push("El documento es obligatorio");
-      if (!this.num_documento) this.errorMensajeProveedorArray.push("El numero de documento es obligatorio");
-      if (!this.direccion) this.errorMensajeProveedorArray.push("La dirección  es obligatorio");
-      if (!this.telefono) this.errorMensajeProveedorArray.push("El telefono  es obligatorio");
-      if (!this.email) this.errorMensajeProveedorArray.push("El email  es obligatorio");
-      if (!this.usuario) this.errorMensajeProveedorArray.push("El usuario  es obligatorio");
-      if (!this.password) this.errorMensajeProveedorArray.push("El telefono de usuario es obligatorio");
-      if (this.errorMensajeProveedorArray.length) this.errorProveedor = 1;
+      this.errorMensajeArrayUsuario = [];
+      if (!this.nombre) this.errorMensajeArrayUsuario.push("El nombre de la usuario no puede estar vacio");
+      if (!this.tipo_documento) this.errorMensajeArrayUsuario.push("El documento es obligatorio");
+      if (!this.num_documento) this.errorMensajeArrayUsuario.push("El numero de documento es obligatorio");
+      if (!this.direccion) this.errorMensajeArrayUsuario.push("La dirección  es obligatorio");
+      if (!this.telefono) this.errorMensajeArrayUsuario.push("El telefono  es obligatorio");
+      if (!this.email) this.errorMensajeArrayUsuario.push("El email  es obligatorio");
+      if (!this.usuario) this.errorMensajeArrayUsuario.push("El usuario  es obligatorio");
+      if (!this.password) this.errorMensajeArrayUsuario.push("El telefono de usuario es obligatorio");
+      if (this.errorMensajeArrayUsuario.length) this.errorProveedor = 1;
       return this.errorProveedor;
     },
     //metodo para cerrar el modal
@@ -4449,7 +4474,8 @@ __webpack_require__.r(__webpack_exports__);
       this.email = '';
       this.usuario = '';
       this.password = '';
-      this.errorMensajeProveedorArray = [];
+      this.idRol = 0;
+      this.errorMensajeArrayUsuario = [];
       this.errorProveedor = 0;
     },
     //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
@@ -4457,19 +4483,22 @@ __webpack_require__.r(__webpack_exports__);
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
       switch (modelo) {
-        case "proveedor":
+        case "usuario":
           {
             switch (accion) {
               case 'registrar':
                 {
                   this.modal = 1;
-                  this.tituloModal = 'Registrar Proveedor';
+                  this.tituloModal = 'Registrar Usuario ';
                   this.nombre = '';
+                  this.tipo_documento = 'CC';
                   this.num_documento = '';
                   this.direccion = '';
                   this.telefono = '';
                   this.email = '';
                   this.usuario = '';
+                  this.password = '';
+                  this.idRol = 0;
                   this.password = '';
                   this.tipoAccionButton = 1;
                   break;
@@ -4477,11 +4506,12 @@ __webpack_require__.r(__webpack_exports__);
 
               case 'actualizar':
                 {
-                  // console.log(data);
+                  this.selectRol(); // console.log(data);
+
                   this.modal = 1;
-                  this.tituloModal = 'Editar Proveedor';
+                  this.tituloModal = 'Editar Usuario';
                   this.tipoAccionButton = 2;
-                  this.proveedor_id = data['id'];
+                  this.usuario_id = data['id'];
                   this.nombre = data['persona']['nombre'];
                   this.tipo_documento = data['persona']['tipo_documento'];
                   this.num_documento = data['persona']['num_documento'];
@@ -4490,6 +4520,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.email = data['persona']['email'];
                   this.usuario = data['usuario'];
                   this.password = data['password'];
+                  this.idRol = data['idRol'];
                   break;
                 }
             }
@@ -48300,7 +48331,7 @@ var render = function() {
               attrs: { type: "button" },
               on: {
                 click: function($event) {
-                  return _vm.abrirModal("proveedor", "registrar")
+                  return _vm.abrirModal("usuario", "registrar")
                 }
               }
             },
@@ -48346,10 +48377,6 @@ var render = function() {
                   [
                     _c("option", { attrs: { value: "usuario" } }, [
                       _vm._v("usuario")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "password" } }, [
-                      _vm._v("Telefono")
                     ])
                   ]
                 ),
@@ -48867,7 +48894,66 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "text-input" }
                         },
-                        [_vm._v("usuario")]
+                        [_vm._v("Rol(*)")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.idRol,
+                                expression: "idRol"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.idRol = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seleccione un rol")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.arrayRol, function(rol) {
+                              return _c("option", {
+                                key: rol.id,
+                                domProps: {
+                                  value: rol.id,
+                                  textContent: _vm._s(rol.nombre)
+                                }
+                              })
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("usuario(*)")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -48902,7 +48988,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "text-input" }
                         },
-                        [_vm._v("Telefono de usuario")]
+                        [_vm._v("Password")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -48917,8 +49003,8 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            type: "text",
-                            placeholder: "Telefono de usuario..."
+                            type: "password",
+                            placeholder: "Password de acceso..."
                           },
                           domProps: { value: _vm.password },
                           on: {
@@ -48950,9 +49036,7 @@ var render = function() {
                         _c(
                           "div",
                           { staticClass: "text-center text-error" },
-                          _vm._l(_vm.errorMensajeProveedorArray, function(
-                            error
-                          ) {
+                          _vm._l(_vm.errorMensajeArrayUsuario, function(error) {
                             return _c("div", {
                               key: error,
                               domProps: { textContent: _vm._s(error) }

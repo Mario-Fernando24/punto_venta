@@ -27,7 +27,6 @@
         Route::put('desactivar', 'CategoriaController@desactivar');
         Route::put('activar', 'CategoriaController@activar');
         Route::get('mostrarCategoriaActivas', 'CategoriaController@mostrarCategoriaActivas');
-        Route::get('showroles', 'CategoriaController@showroles');
     });
 
 
@@ -53,6 +52,13 @@
         Route::post('registrar', 'ProveedorController@store');
         Route::put('actualizar', 'ProveedorController@update');
         
+    });
+
+    //controller rol
+    Route::prefix('rol')->group(function() {
+        Route::get('showroles', 'ContollerRol@showroles');
+        Route::get('select_rol', 'ContollerRol@select_rol');
+
     });
 
 
