@@ -32,7 +32,7 @@
 
 
 <template v-if="menu==7">
-<h1>Contenido del menu 7</1>
+<User></User>
 </template>
 
 <template v-if="menu==8">

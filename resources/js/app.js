@@ -11,6 +11,8 @@ Vue.component('Articulo', require('./components/Articulo.vue').default);
 Vue.component('Cliente', require('./components/Cliente.vue').default);
 Vue.component('Proveedor', require('./components/Proveedor.vue').default);
 Vue.component('Roles', require('./components/Roles.vue').default);
+Vue.component('User', require('./components/User.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

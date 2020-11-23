@@ -11,15 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('contenido/contenido');
-});
+    Route::get('/', function () {
+        return view('contenido/contenido');
+    });
 
-Auth::routes();
+    Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
 
-    //controlador categoria
+    //controller categories
     Route::prefix('categoria')->group(function() {
         Route::get('index', 'CategoriaController@index');
         Route::post('registrar', 'CategoriaController@store');
@@ -31,7 +31,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     });
 
 
-    //controlador articulos
+    //contoller articles
     Route::prefix('articulo')->group(function() {
         Route::get('index', 'ArticuloContoller@index');
         Route::post('registrar', 'ArticuloContoller@store');
@@ -40,14 +40,14 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::put('activar', 'ArticuloContoller@activar');
     });
 
-    //controlador cliente
+    //controller client
     Route::prefix('cliente')->group(function() {
         Route::get('index', 'ClienteController@index');
         Route::post('registrar', 'ClienteController@store');
         Route::put('actualizar', 'ClienteController@update');
     });
 
-    //controlador proveedor
+    //controller proveedor
     Route::prefix('proveedor')->group(function() {
         Route::get('index', 'ProveedorController@index');
         Route::post('registrar', 'ProveedorController@store');
@@ -56,7 +56,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     });
 
 
-    //controlador proveedor
+    //controller users
     Route::prefix('user')->group(function() {
         Route::get('index', 'UserController@index');
         Route::post('registrar', 'UserController@store');

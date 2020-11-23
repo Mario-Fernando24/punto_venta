@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
+
     
     public function index(Request $request)
     {   
@@ -23,7 +25,6 @@ class UserController extends Controller
          if($buscar==''){
             $user = User::with('personas','rol')->orderBy('id', 'DESC')->paginate(10);
 
-            return $user;
          }else{ 
             $user = User::with('personas','rol')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
          }
@@ -39,6 +40,7 @@ class UserController extends Controller
             'user' => $user
         ];
     }
+
 
 
     public function store(Request $request)
@@ -71,7 +73,9 @@ class UserController extends Controller
       } catch (ModelNotFoundException $e) {
         DB::rollBack();
       }
+
     }
+
 
 
     /**
@@ -81,6 +85,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
     public function update(Request $request)
     {
        if(!$request->ajax()){
@@ -100,7 +106,6 @@ class UserController extends Controller
         $persona->email = $request->email;
         $persona->update();
         
-
 
         $users->usuario=$request->get('usuario');
         $users->usuario= Hash::make($request->get('password'));
@@ -128,6 +133,7 @@ class UserController extends Controller
           $user->condicion='0';
           $user->update();
       }
+
   
       
       //function para activar una user
