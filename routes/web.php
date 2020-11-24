@@ -58,7 +58,6 @@
     Route::prefix('rol')->group(function() {
         Route::get('showroles', 'ContollerRol@showroles');
         Route::get('select_rol', 'ContollerRol@select_rol');
-
     });
 
 

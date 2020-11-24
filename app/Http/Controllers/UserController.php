@@ -48,9 +48,8 @@ class UserController extends Controller
        if(!$request->ajax()){
         return redirect('/');
        }
+       try{
 
-       try {
-        $condicion=1;
 
             $persona = Persona::create([
             'nombre' => $request->get('nombre'),
@@ -61,18 +60,25 @@ class UserController extends Controller
             'email' => $request->get('email'),
             ]);
 
-            $user = User::create([
+            
+
+            User::create([
+            'id' => $persona->id,
+            'idrol' => $request->get('idRol'),
+            'email' => $request->get('email'),
             'usuario' => $request->get('usuario'),
             'password' => Hash::make($request->get('password')),
-            'condicion' => $condicion,
-            'idrol' => $request->get('idrol'),
-            'id' => $persona->id,
             ]);
+            return $persona;
 
 
-      } catch (ModelNotFoundException $e) {
+      }catch (ModelNotFoundException $e) {
         DB::rollBack();
       }
+
+
+
+     
 
     }
 
@@ -97,7 +103,6 @@ class UserController extends Controller
         $users = User::findOrFail($request->id);
         $persona = Persona::findOrFail($users->id);
 
-
         $persona->nombre = $request->nombre;
         $persona->tipo_documento = $request->tipo_documento;
         $persona->num_documento = $request->num_documento;
@@ -108,9 +113,9 @@ class UserController extends Controller
         
 
         $users->usuario=$request->get('usuario');
-        $users->usuario= Hash::make($request->get('password'));
+        $users->password= Hash::make($request->get('password'));
         $users->condicion='1';
-        $users->idrol=$request->get('idrol');
+        $users->idrol=$request->get('idRol');
         $users->update();
     
 

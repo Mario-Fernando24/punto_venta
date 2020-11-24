@@ -38,6 +38,8 @@
                                     <th>Email</th>
                                     <th>usuario</th>
                                     <th>Rol</th>
+                                    <th>Estado</th>
+
 
                                 </tr>
                             </thead>
@@ -47,6 +49,20 @@
                                         <button type="button" @click="abrirModal('usuario', 'actualizar',usuario)" class="btn btn-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
+
+
+                                        <template v-if="usuario.condicion"> 
+                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarUsuario(usuario.id)">
+                                          <i class="icon-trash"></i>
+                                        </button>
+                                        </template>
+                                         <template v-else> 
+                                        <button type="button"  class="btn btn-success btn-sm" @click="activarUsuario(usuario.id)">
+                                          <i class="icon-check"></i>
+                                        </button>
+                                        </template>
+
+
                                         </td>
                                         <td v-text="usuario.personas.nombre"></td>
                                         <td v-text="usuario.personas.tipo_documento"></td>
@@ -56,6 +72,16 @@
                                         <td v-text="usuario.personas.email"></td>
                                         <td v-text="usuario.usuario"></td>
                                         <td v-text="usuario.rol.nombre"></td>
+
+                                        <td>
+                                        <div v-if="usuario.condicion==1">
+                                        <span class="badge badge-success">Activo</span>
+                                        </div>
+
+                                        <div v-else>
+                                        <span class="badge badge-danger">Desactivado</span>
+                                        </div>
+                                    </td>
                                         <td>  
                                     </td>
                                 </tr>
@@ -99,6 +125,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
+                                        <span class="color" v-if="!nombre">Requerido(*)</span>
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
                                     </div>
                                 </div>
@@ -119,6 +146,7 @@
                                  <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Num documento</label>
                                     <div class="col-md-9">
+                                        <span class="color" v-if="!num_documento">Requerido(*)</span>
                                         <input type="number" v-model="num_documento" class="form-control" placeholder="Numero de documento">
                                     </div>
                                 </div>
@@ -126,6 +154,7 @@
                                  <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Direccion</label>
                                     <div class="col-md-9">
+                                        <span class="color" v-if="!direccion">Requerido(*)</span>
                                         <input type="text" v-model="direccion" class="form-control" placeholder="Dirección...">
                                     </div>
                                 </div>
@@ -134,6 +163,7 @@
                                  <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Telefono</label>
                                     <div class="col-md-9">
+                                         <span class="color" v-if="!telefono">Requerido(*)</span>
                                         <input type="text" v-model="telefono" class="form-control" placeholder="Telefono...">
                                     </div>
                                 </div>
@@ -142,6 +172,7 @@
                                  <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Email</label>
                                     <div class="col-md-9">
+                                        <span class="color" v-if="!email">Requerido(*)</span>
                                         <input type="text" v-model="email" class="form-control" placeholder="Email...">
                                     </div>
                                 </div>
@@ -150,6 +181,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Rol(*)</label>
                                     <div class="col-md-9">
+                                        <span class="color" v-if="!idRol">Requerido(*)</span>
                                         <select class="form-control" v-model="idRol">
                                             <option value="0">Seleccione un rol</option>
                                             <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre"></option>
@@ -162,6 +194,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">usuario(*)</label>
                                     <div class="col-md-9">
+                                        <span class="color" v-if="!usuario">Requerido(*)</span>
                                         <input type="text" v-model="usuario" class="form-control" placeholder="usuario...">
                                     </div>
                                 </div>
@@ -170,13 +203,16 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" v-model="password" class="form-control" placeholder="Password de acceso...">
+                                        <span class="color" v-if="!password">Requerido(*)</span>
+                                        <input :type="type" v-model="password" class="form-control" placeholder="Password de acceso...">
+                                         <a class="btn btn-success" @click="showPassword">{{ btnText }} <span :class="icono"></span></a>
+
+
                                     </div>
                                 </div>
 
 
-
-                                <div v-show="errorProveedor==1" class="form-group row div-error">
+                                <div v-show="errorUsuario==1" class="form-group row div-error">
                                     <div class="text-center text-error">
                                         <div v-for="error in errorMensajeArrayUsuario" :key="error" v-text="error">
                                            
@@ -187,8 +223,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarProveedor()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarProveedor()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarUsuario()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarUsuario()">Actualizar</button>
 
                         </div>
                     </div>
@@ -225,8 +261,12 @@
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
             tipoAccionButton : 0,
-            errorProveedor : 0,
+            errorUsuario : 0,
             errorMensajeArrayUsuario : [],
+            type: 'password',
+            btnText: 'Mostrar',
+            icono:'fa fa-eye',
+
             pagination : {
                 //numero total de registro
                 'total' : 0,
@@ -323,13 +363,13 @@
 
 
           //Metodo registrar usuario
-          registrarProveedor(){
+          registrarUsuario(){
 
-                  if(this.validarArticulo()){
+                  if(this.validarUsuario()){
                       return ;
                   }
                   let me=this;
-                  axios.post('/proveedor/registrar', {
+                  axios.post('/user/registrar', {
                     'nombre':  this.nombre,
                     'tipo_documento': this.tipo_documento,
                     'num_documento': this.num_documento,
@@ -338,6 +378,8 @@
                     'email':this.email,
                     'usuario':this.usuario,
                     'password':this.password, 
+                    'idRol':this.idRol,
+
                 })
                 .then(function (response) {
                     me.cerrarModal();
@@ -352,13 +394,13 @@
 
 
              //Metodo actualizar usuario
-           actualizarProveedor(){
+           actualizarUsuario(){
 
-                  if(this.validarArticulo()){
+                  if(this.validarUsuario()){
                       return ;
                   }
                   let me=this;
-                  axios.put('/proveedor/actualizar', {
+                  axios.put('/user/actualizar', {
                     'nombre':  this.nombre,
                     'tipo_documento': this.tipo_documento,
                     'num_documento': this.num_documento,
@@ -367,6 +409,7 @@
                     'email': this.email,       
                     'usuario':this.usuario,
                     'password': this.password,
+                    'idRol':this.idRol,
                     'id' :this.usuario_id,     
                 })
                 .then(function (response) {
@@ -381,20 +424,15 @@
               },
 
             //methods validar las usuario
-            validarArticulo(){
-                this.errorProveedor=0;
+            validarUsuario(){
+                this.errorUsuario=0;
                  this.errorMensajeArrayUsuario=[];
-                 if(!this.nombre) this.errorMensajeArrayUsuario.push("El nombre de la usuario no puede estar vacio");
-                 if(!this.tipo_documento) this.errorMensajeArrayUsuario.push("El documento es obligatorio");
-                 if(!this.num_documento) this.errorMensajeArrayUsuario.push("El numero de documento es obligatorio");
-                 if(!this.direccion) this.errorMensajeArrayUsuario.push("La dirección  es obligatorio");
-                 if(!this.telefono) this.errorMensajeArrayUsuario.push("El telefono  es obligatorio");
-                 if(!this.email) this.errorMensajeArrayUsuario.push("El email  es obligatorio");
-                 if(!this.usuario) this.errorMensajeArrayUsuario.push("El usuario  es obligatorio");
-                 if(!this.password) this.errorMensajeArrayUsuario.push("El telefono de usuario es obligatorio");
+                 if(!this.nombre) this.errorMensajeArrayUsuario.push("El nombre del usuario no puede estar vacio");
+                 if(!this.password) this.errorMensajeArrayUsuario.push("la contraseña es obligatorio");
+                 if(this.idRol==0) this.errorMensajeArrayUsuario.push("Seleccione un rol para el usuario");
 
-                 if(this.errorMensajeArrayUsuario.length) this.errorProveedor=1;
-                 return this.errorProveedor;
+                 if(this.errorMensajeArrayUsuario.length) this.errorUsuario=1;
+                 return this.errorUsuario;
               },
 
 
@@ -412,9 +450,132 @@
                 this.password='';
                 this.idRol=0;
                 this.errorMensajeArrayUsuario = [];
-                this.errorProveedor = 0;
+                this.errorUsuario = 0;
 
               },
+
+
+                   showPassword() {
+                    if(this.type === 'password') {
+                        this.type = 'text';
+                        this.btnText = 'Ocultar';
+                         this.icono='fa fa-eye-slash ';
+
+
+                    } else {
+                        this.type = 'password';
+                        this.btnText = 'Mostrar';
+                        this.icono='fa fa-eye';
+                    }
+                   },
+
+
+                       //Metodo para desactivar la categoria
+           desactivarUsuario(id){
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Estas seguro de desactivar esta Usuario?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+
+                     let me=this;
+                  axios.put('/user/desactivar', {
+                    'id' : id
+                })
+                .then(function (response) {
+
+                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                    me.listarUsuario(1,'','nombre');
+
+                    swalWithBootstrapButtons.fire(
+                    'Desactivado',
+                    'Usuario ha sido desactivado correctamente',
+                    'success'
+                    )
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    '',
+                    'error'
+                    )
+                }
+                })
+           },
+
+
+            //Metodo para activar la categoria
+            activarUsuario(id){
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Estas seguro de activar este Usuario?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+
+                     let me=this;
+                  axios.put('/user/activar', {
+                    'id' : id
+                })
+                .then(function (response) {
+                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                    me.listarUsuario(1,'','nombre');
+
+                    swalWithBootstrapButtons.fire(
+                    'Activado',
+                    'Usuario ha sido Activada correctamente',
+                    'success'
+                    )
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    '',
+                    'error'
+                    )
+                }
+                })
+           },
+           
+
+
 
 
               //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
@@ -450,15 +611,15 @@
                                this.tituloModal='Editar Usuario';
                                this.tipoAccionButton=2;
                                this.usuario_id=data['id'];
-                               this.nombre=data['persona']['nombre'];
-                               this.tipo_documento=data['persona']['tipo_documento'];
-                               this.num_documento=data['persona']['num_documento'];
-                               this.direccion=data['persona']['direccion'];
-                               this.telefono=data['persona']['telefono'];
-                               this.email=data['persona']['email'];
+                               this.nombre=data['personas']['nombre'];
+                               this.tipo_documento=data['personas']['tipo_documento'];
+                               this.num_documento=data['personas']['num_documento'];
+                               this.direccion=data['personas']['direccion'];
+                               this.telefono=data['personas']['telefono'];
+                               this.email=data['personas']['email'];
                                this.usuario=data['usuario'];
                                this.password=data['password'];
-                               this.idRol=data['idRol']; 
+                               this.idRol=data['idrol']; 
 
                              break;
                              }   
@@ -496,5 +657,9 @@
   .text-error{
     color: red !important;
     font-weight: bold;
+  }
+
+  .color{
+      color:red;
   }
 </style>
