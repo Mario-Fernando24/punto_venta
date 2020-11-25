@@ -41,6 +41,7 @@
                                         <button type="button" @click="abrirModal('categoria', 'actualizar',categoria)" class="btn btn-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
+                                        
                                         <template v-if="categoria.condicion"> 
                                         <button type="button"  class="btn btn-danger btn-sm" @click="desactivarCategoria(categoria.id)">
                                           <i class="icon-trash"></i>

@@ -81,7 +81,9 @@
                                         <div v-else>
                                         <span class="badge badge-danger">Desactivado</span>
                                         </div>
-                                    </td>
+                                        </td>
+
+                                        
                                         <td>  
                                     </td>
                                 </tr>
