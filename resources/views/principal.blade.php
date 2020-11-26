@@ -74,9 +74,21 @@
     </header>
 
         <div class="app-body">
+
+        @if(Auth::check())
+        
+            @if(Auth::user()->idrol==1)
             <!--menu lateral-->
-            @include('plantilla.menuLateral')
+            @include('plantilla.menuLateralAdmin')
             <!--end menu lateral-->
+            @elseif(Auth::user()->idrol==2)
+            @include('plantilla.menuLateralVendedor')
+            @elseif(Auth::user()->idrol==3)
+            @include('plantilla.menuLateralAlmacenero')
+           @else
+
+           @endif 
+        @endif
 
             <!-- Contenido Principal -->
             @yield('contenido')

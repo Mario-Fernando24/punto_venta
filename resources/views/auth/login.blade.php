@@ -6,26 +6,49 @@
       <div class="col-md-8">
         <div class="card-group mb-0">
           <div class="card p-4">
+          <form class="form-horizontal was-validated" method="POST" action="{{ url('login') }}">
+          @csrf
+ 
             <div class="card-body">
               <h1>TenderPos</h1>
               <p class="text-muted">Control de acceso a TenderPos</p>
-              <div class="input-group mb-3">
+              <div class="input-group mb-3 @error('usuario') is-invalid @enderror">
                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Usuario">
+                <input type="text" name="usuario" value="{{old('usuario')}}" id="usuario" class="form-control" placeholder="Usuario">
               </div>
-              <div class="input-group mb-4">
+              @if ($errors->has('usuario'))
+               <span class="help-block">
+                    <strong style="color:red">{{ $errors->first('usuario') }}</strong><br>
+               </span>
+             @endif 
+           
+             @if( session('error'))
+                <span class="help-block">
+                    <strong style="color:red">{{ session('error') }}</strong><br>
+               </span>
+             @endif
+
+              <div class="input-group mb-4 @error('password') is-invalid @enderror">
                 <span class="input-group-addon"><i class="icon-lock"></i></span>
-                <input type="password" name="clave" id="clave" class="form-control" placeholder="Password">
+                <input type="password" name="password" value="{{old('password')}}" id="password" class="form-control" placeholder="Password">
               </div>
+              @if ($errors->has('password'))
+                <span class="help-block">
+                        <strong style="color:red">{{ $errors->first('password') }}</strong><br>
+                </span>
+                @endif 
+
+
               <div class="row">
                 <div class="col-6">
-                  <button type="button" class="btn btn-primary px-4">Acceder</button>
+                  <input type="submit" value="Acceder" class="btn btn-primary px-4">
                 </div>
                 <div class="col-6 text-right">
                   <button type="button" class="btn btn-link px-0">Olvidaste tu password?</button>
                 </div>
               </div>
             </div>
+            </form>
           </div>
           <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
             <div class="card-body text-center">
