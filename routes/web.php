@@ -52,6 +52,14 @@
                 Route::put('actualizar', 'ProveedorController@update');    
                 });
 
+
+                //controller ingresos
+                Route::prefix('ingresos')->group(function() {
+                Route::get('index', 'IngresoController@index');
+                Route::post('registrar', 'IngresoController@store');
+                Route::put('desactivar', 'IngresoController@desactivar');
+                });
+
           });//and middleware almacenero
 
 
@@ -114,6 +122,15 @@
             Route::put('actualizar', 'UserController@update');
             Route::put('desactivar', 'UserController@desactivar');
             Route::put('activar', 'UserController@activar');
+        });
+
+
+
+        //controller ingresos
+        Route::prefix('ingresos')->group(function() {
+            Route::get('index', 'IngresoController@index');
+            Route::post('registrar', 'IngresoController@store');
+            Route::put('desactivar', 'IngresoController@desactivar');
         });
 
              
