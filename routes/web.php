@@ -14,12 +14,15 @@
 
 
     //en este middleware entran los usuario invitado
+    Route::group(['middleware' => ['guest']], function () {
         Route::get('/', 'Auth\LoginController@ShowLoginForm');
         Route::post('login', 'Auth\LoginController@login'); 
+    });
 
     //middleware para los usuario autenticados
    Route::group(['middleware' => ['auth']], function () {
 
+    Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 
 
         //middleware para los usuario rol almacenero
         Route::group(['middleware' => ['Almacenero']], function () {
@@ -72,7 +75,6 @@
         Route::get('/main', function () {
             return view('contenido/contenido');
         })->name('main');
-
 
         //contoller articles
         Route::prefix('articulo')->group(function() {

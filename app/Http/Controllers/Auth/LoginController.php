@@ -30,4 +30,13 @@ class LoginController extends Controller
 
             return back()->with('error','Estas credenciales no coinciden con nuestro registros'); 
     }
+
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        return redirect('/');
+
+
+    }
 }
