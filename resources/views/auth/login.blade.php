@@ -18,15 +18,10 @@
               </div>
               @if ($errors->has('usuario'))
                <span class="help-block">
-                    <strong style="color:red">{{ $errors->first('usuario') }}</strong><br>
+                    <strong style="color:red">{{ $errors->first('usuario') }}</strong>
                </span>
              @endif 
            
-             @if( session('error'))
-                <span class="help-block">
-                    <strong style="color:red">{{ session('error') }}</strong><br>
-               </span>
-             @endif
 
               <div class="input-group mb-4 @error('password') is-invalid @enderror">
                 <span class="input-group-addon"><i class="icon-lock"></i></span>
@@ -34,14 +29,20 @@
               </div>
               @if ($errors->has('password'))
                 <span class="help-block">
-                        <strong style="color:red">{{ $errors->first('password') }}</strong><br>
+                        <strong style="color:red">{{ $errors->first('password') }}</strong>
                 </span>
                 @endif 
 
+             @if( session('error'))
+                <span class="help-block">
+                    <strong style="color:red">{{ session('error') }}</strong>
+               </span>
+             @endif
+
 
               <div class="row">
-                <div class="col-6">
-                  <input type="submit" value="Acceder" class="btn btn-primary px-4">
+                <div class="col-12">
+                  <input type="submit" value="Acceder" class="btn  btn-outline-primary btn-block">
                 </div>
                 <div class="col-6 text-right">
                   <button type="button" class="btn btn-link px-0">Olvidaste tu password?</button>

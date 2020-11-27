@@ -7651,10 +7651,10 @@ base-chart.chart {
     padding: 0.5rem 1rem;
     margin-right: 0;
     background-color: #fff;
-    background-image: url("../img/logo.png");
+    background-image: url("../img/tenderpos.jpeg");
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 70px auto;
+    background-size: 180px auto;
     border-bottom: 1px solid #c2cfd6; }
   .app-header.navbar .navbar-toggler {
     min-width: 50px;

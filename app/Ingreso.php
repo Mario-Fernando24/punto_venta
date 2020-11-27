@@ -29,8 +29,19 @@ class Ingreso extends Model
     }
 
      //un ingreso pertenece a un usuario
+     public function proveedoress(){
+        return $this->belongsTo(Persona::class,'idproveedor');
+    }
+
+
+     //un ingreso pertenece a un usuario
      public function usuario(){
         return $this->belongsTo(User::class,'idusuario');
+    }
+
+    //un ingreso pertenece a un usuario
+    public function persona(){
+        return $this->belongsTo(Persona::class,'idusuario');
     }
 
 

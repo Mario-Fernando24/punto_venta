@@ -8,7 +8,7 @@
                         Mantenimiento {{Auth::user()->usuario}} 
                     </li>
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i> Almacén</a>
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i> Bodega</a>
                         <ul class="nav-dropdown-items">
                             <li @click="menu=1" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-bag"></i> Categorías</a>
@@ -30,10 +30,10 @@
                         </ul>
                     </li>
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-basket"></i> Ventas</a>
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-basket"></i> Facturar</a>
                         <ul class="nav-dropdown-items">
                             <li @click="menu=5" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-basket-loaded"></i> Ventas</a>
+                                <a class="nav-link" href="#"><i class="icon-basket-loaded"></i> Facturar</a>
                             </li>
                             <li @click="menu=6" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-notebook"></i> Clientes</a>

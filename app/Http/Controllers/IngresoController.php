@@ -25,14 +25,15 @@ class IngresoController extends Controller
 
 
 
-       return $mytime;
 
          if($buscar==''){
-            $ingreso = Ingreso::with('usuario','proveedor')->orderBy('id', 'DESC')->paginate(10);
+            $ingreso = Ingreso::with('usuario','proveedor','proveedoress','persona')->orderBy('id', 'DESC')->paginate(10);
 
          }else{ 
-            $ingreso = Ingreso::with('usuario','proveedor')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+            $ingreso = Ingreso::with('usuario','proveedor','proveedoress','persona')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
          }
+
+
         return [
             'pagination' => [
                 'total'         => $ingreso->total(),
