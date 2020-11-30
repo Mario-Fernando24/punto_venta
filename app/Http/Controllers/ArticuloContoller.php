@@ -46,12 +46,27 @@ class ArticuloContoller extends Controller
         ];
     }
 
+
+    //search article from code of barra
+    public function buscarArticulo(Request $request){
+       if(!$request->ajax()){
+           return redirect('/');
+      }
+           $filtro=$request->get('filtro');
+
+           $articulo=Articulo::where('codigo',$filtro)
+           ->select('id','nombre')->orderBy('nombre','asc')
+           ->take(1)->get();
+
+           return ['articulo' => $articulo];
+
+
+    }
     
 
 
     public function store(Request $request)
     {
-       //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
        if(!$request->ajax()){
         return redirect('/');
        }

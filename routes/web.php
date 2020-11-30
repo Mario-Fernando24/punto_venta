@@ -89,6 +89,7 @@
         //contoller articles
         Route::prefix('articulo')->group(function() {
             Route::get('index', 'ArticuloContoller@index');
+            Route::get('buscarArticulo', 'ArticuloContoller@buscarArticulo');
             Route::post('registrar', 'ArticuloContoller@store');
             Route::put('actualizar', 'ArticuloContoller@update');
             Route::put('desactivar', 'ArticuloContoller@desactivar');

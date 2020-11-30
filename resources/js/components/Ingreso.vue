@@ -125,12 +125,12 @@
                                     <label for="">Proveedor(*)</label>
                                     <v-select
                                         @search="selectProveedor"
-                                        label="nombre.num_documento"
+                                        label="nombre"
+                                        aria-label=""
                                         :options="arrayProveedor"
                                         placeholder="Buscar Proveedores..."
                                         @input="getDatosProveedor"                                        
                                     >
-
                                     </v-select>
                                     </div>
                                 </div>
@@ -175,8 +175,9 @@
                                  <div class="form-group">
                                      <label>Articulo</label>
                                      <div class="form-inline">
-                                         <input type=""  placeholder="Ingrese el articulo">
+                                         <input type="" v-model="codigo" @keyup.enter="buscarArticulo()"  placeholder="Ingrese el articulo">
                                          <button class="btn btn-primary">...</button>
+                                         <input type="text" readonly class="form-control" v-model="articulo">
                                      </div>
                                  </div>
                               </div>
@@ -184,14 +185,15 @@
                               <div class="col-md-2">
                                  <div class="form-group">
                                      <label>Precio</label><br>
-                                     <input type="number" value="0" step="any"  placeholder="000.0">
+                                     <input type="number" v-model="precio" value="0" step="any"  placeholder="000.0">
                                  </div>                   
                               </div>
+                               
 
                               <div class="col-md-2">
                                  <div class="form-group">
                                      <label>Cantidad</label><br>
-                                     <input type="number" value="0" step="any"  placeholder="00">
+                                     <input type="number" value="0" step="any" v-model="cantidad"  placeholder="00">
                                  </div>                   
                               </div>
 
@@ -385,6 +387,12 @@ import vSelect from "vue-select";
             offset : 3,
             criterio : 'num_comprobante',
             buscar  : '',
+            arrayArticulo:[],
+            idarticulo:0,
+            codigo:'',
+            articulo:'',
+            precio:0,
+            cantidad:0,
           }
         },
 
@@ -461,17 +469,40 @@ import vSelect from "vue-select";
                     me.arrayProveedor=respuesta.proveedores;
                     loading(false)                    
     
-})
+                })
                 .catch(function (error) {
                     console.log(error);
                 });           
-            },
+                 },
  
-                        getDatosProveedor(val1){
-                            let me = this;
-                             me.loading = true;
-                             me.idproveedor = val1.id;
-                        },
+                getDatosProveedor(val1){
+                    let me = this;
+                        me.loading = true;
+                        me.idproveedor = val1.id;
+                    },
+
+                buscarArticulo(){
+                let me=this;
+                var url= '/articulo/buscarArticulo?filtro='+me.codigo;
+                 axios.get(url).then(function (response) {
+                    console.log(response.data);
+                    let respuesta = response.data;
+                    me.arrayArticulo=respuesta.articulo;
+                    //si existe elemento en el array
+                    if(me.arrayArticulo.length>0){
+                        me.articulo=me.arrayArticulo[0]['nombre'];
+                        me.idarticulo=me.arrayArticulo[0]['id'];
+
+                    }else{
+                        me.articulo='No existe articulo';
+                        me.idarticulo=0;
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                }); 
+
+                 },
 
 
           //Metodo registrar usuario

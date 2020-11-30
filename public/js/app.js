@@ -3577,6 +3577,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //importo vselect
 
 
@@ -3622,7 +3624,13 @@ __webpack_require__.r(__webpack_exports__);
       },
       offset: 3,
       criterio: 'num_comprobante',
-      buscar: ''
+      buscar: '',
+      arrayArticulo: [],
+      idarticulo: 0,
+      codigo: '',
+      articulo: '',
+      precio: 0,
+      cantidad: 0
     };
   },
   components: {
@@ -3702,6 +3710,25 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       me.loading = true;
       me.idproveedor = val1.id;
+    },
+    buscarArticulo: function buscarArticulo() {
+      var me = this;
+      var url = '/articulo/buscarArticulo?filtro=' + me.codigo;
+      axios.get(url).then(function (response) {
+        console.log(response.data);
+        var respuesta = response.data;
+        me.arrayArticulo = respuesta.articulo; //si existe elemento en el array
+
+        if (me.arrayArticulo.length > 0) {
+          me.articulo = me.arrayArticulo[0]['nombre'];
+          me.idarticulo = me.arrayArticulo[0]['id'];
+        } else {
+          me.articulo = 'No existe articulo';
+          me.idarticulo = 0;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     //Metodo registrar usuario
     registrarIngreso: function registrarIngreso() {
@@ -48252,7 +48279,8 @@ var render = function() {
                           _vm._v(" "),
                           _c("v-select", {
                             attrs: {
-                              label: "nombre.num_documento",
+                              label: "nombre",
+                              "aria-label": "",
                               options: _vm.arrayProveedor,
                               placeholder: "Buscar Proveedores..."
                             },
@@ -48402,7 +48430,148 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(2),
+                  _c("div", { staticClass: "form-group row border" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Articulo")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-inline" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.codigo,
+                                expression: "codigo"
+                              }
+                            ],
+                            attrs: {
+                              type: "",
+                              placeholder: "Ingrese el articulo"
+                            },
+                            domProps: { value: _vm.codigo },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.buscarArticulo()
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.codigo = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("button", { staticClass: "btn btn-primary" }, [
+                            _vm._v("...")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.articulo,
+                                expression: "articulo"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", readonly: "" },
+                            domProps: { value: _vm.articulo },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.articulo = $event.target.value
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Precio")]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.precio,
+                              expression: "precio"
+                            }
+                          ],
+                          attrs: {
+                            type: "number",
+                            value: "0",
+                            step: "any",
+                            placeholder: "000.0"
+                          },
+                          domProps: { value: _vm.precio },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.precio = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Cantidad")]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cantidad,
+                              expression: "cantidad"
+                            }
+                          ],
+                          attrs: {
+                            type: "number",
+                            value: "0",
+                            step: "any",
+                            placeholder: "00"
+                          },
+                          domProps: { value: _vm.cantidad },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.cantidad = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row border" }, [
                     _vm._m(3),
@@ -48592,61 +48761,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row border" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Articulo")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-inline" }, [
-            _c("input", {
-              attrs: { type: "", placeholder: "Ingrese el articulo" }
-            }),
-            _vm._v(" "),
-            _c("button", { staticClass: "btn btn-primary" }, [_vm._v("...")])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-2" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Precio")]),
-          _c("br"),
-          _vm._v(" "),
-          _c("input", {
-            attrs: {
-              type: "number",
-              value: "0",
-              step: "any",
-              placeholder: "000.0"
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-2" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Cantidad")]),
-          _c("br"),
-          _vm._v(" "),
-          _c("input", {
-            attrs: {
-              type: "number",
-              value: "0",
-              step: "any",
-              placeholder: "00"
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-2" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c(
-            "button",
-            { staticClass: "btn btn-success form-control btnagregar" },
-            [_c("i", { staticClass: "icon-plus" })]
-          )
-        ])
+    return _c("div", { staticClass: "col-md-2" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-success form-control btnagregar" },
+          [_c("i", { staticClass: "icon-plus" })]
+        )
       ])
     ])
   },
