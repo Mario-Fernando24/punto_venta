@@ -1,18 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Ingreso;
 use App\DetalleIngreso;
 use DB;
-
 use Carbon\Carbon;
-
 
 class IngresoController extends Controller
 {
-    
     
     public function index(Request $request)
     {   

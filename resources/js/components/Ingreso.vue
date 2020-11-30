@@ -9,12 +9,14 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Ingreso
-                            <button type="button" @click="abrirModal('ingreso', 'registrar',ingreso)" class="btn btn-secondary btn-sm" data-toggle="modal">
+                            <button type="button" @click="mostrarDetalle()" class="btn btn-secondary btn-sm" data-toggle="modal">
                             <i class="icon-plus"></i>Nuevo
                              </button>
 
 
                     </div>
+                    <!--Listado-->
+                    <template v-if="listado==1">
                         <div class="card-body">
                             <div class="form-group row">
                                 <div class="col-md-6">
@@ -111,15 +113,25 @@
 
                             </nav>
                         </div>
+                    </template>
+                    <!-- fin Listado-->
 
+                    <!--compra-->
+                        <template v-else>
                         <div class="card-body">
                             <div class="form-group row border">
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                    <label>Proveedor(*)</label>
-                                    <select class="form-control">
+                                    <label for="">Proveedor(*)</label>
+                                    <v-select
+                                        @search="selectProveedor"
+                                        label="nombre.num_documento"
+                                        :options="arrayProveedor"
+                                        placeholder="Buscar Proveedores..."
+                                        @input="getDatosProveedor"                                        
+                                    >
 
-                                    </select>
+                                    </v-select>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -156,7 +168,6 @@
                                 </div>
 
                           </div>
-                        </div>
 
 
                         <div class="form-group row border">
@@ -164,7 +175,7 @@
                                  <div class="form-group">
                                      <label>Articulo</label>
                                      <div class="form-inline">
-                                         <input type="" v-model="idarticulo" placeholder="Ingrese el articulo">
+                                         <input type=""  placeholder="Ingrese el articulo">
                                          <button class="btn btn-primary">...</button>
                                      </div>
                                  </div>
@@ -172,15 +183,15 @@
 
                               <div class="col-md-2">
                                  <div class="form-group">
-                                     <label>Precio</label>
-                                     <input type="number" value="0" step="any" v-model="precio" placeholder="000.0">
+                                     <label>Precio</label><br>
+                                     <input type="number" value="0" step="any"  placeholder="000.0">
                                  </div>                   
                               </div>
 
                               <div class="col-md-2">
                                  <div class="form-group">
-                                     <label>Cantidad</label>
-                                     <input type="number" value="0" step="any" v-model="cantidad" placeholder="00">
+                                     <label>Cantidad</label><br>
+                                     <input type="number" value="0" step="any"  placeholder="00">
                                  </div>                   
                               </div>
 
@@ -191,8 +202,9 @@
                               </div>
 
                         </div>
+
                     <!--show article-->
-                        <div class="form-group row border"></div>
+                        <div class="form-group row border">
                            <div class="table-responsive col-md-12">
                                  <table class="table table-bordered table-striped table-sm">
                                     
@@ -245,15 +257,45 @@
                                             <th> $6.00</th>
                                          </tr>
 
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Total Parcial:</strong></td>
+                                             <td>$5</td>
+                                         </tr>
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Total Impuesto:</strong></td>
+                                             <td>$1</td>
+                                         </tr>
+
+                                         <tr class=" " >
+                                             <td colspan="4" align="right"><strong>Total Neto:</strong></td>
+                                             <td>$6</td>
+                                         </tr>
+
+                                         
+
                                      </tbody>
                                  
                                  </table>
                            </div>
-                        </div>
 
-                </div>
+
+                        <div class="form-group row">
+                           <div class="col-md-12">
+                               <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">Cerrar</button>
+                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">Registrar Compra</button>
+
+                           </div>
+                        </div>
+                           </div>
+                        </div>
+                        </template>
+
+                    <!--fin Ingreso compra-->
+
+                    </div>
+                   </div>
                 <!-- Fin ejemplo de tabla Listado -->
-           
             <!--Inicio del modal agregar/actualizar -->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-primary modal-lg" role="document">
@@ -271,7 +313,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarUsuario()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarIngreso()">Guardar</button>
                             <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarUsuario()">Actualizar</button>
 
                         </div>
@@ -286,11 +328,17 @@
 </template>
 
 <script>
-//axios nos ayuda hacer peticiones http desde el navegador
+//importo vselect
+
+import "vue-select/dist/vue-select.css";
+
+import vSelect from "vue-select";
     export default {
+
         //dentro de la data colocamos las variables 
         data(){
           return {
+
             //cual es la usuario que quiero edit 
             ingreso_id :0,
             idproveedor : 0,
@@ -302,9 +350,13 @@
             total: 0.0,
             fecha_hora:'',
 
+            //variable para ver el listado
+            listado: 1,
+
             //la data que regresa nuestro metodo listarIngreso se almacene en esta array
             arrayIngreso:[],
             arrayDetalleIngreso:[],
+            arrayProveedor:[],
 
 
             modal : 0,
@@ -334,6 +386,10 @@
             criterio : 'num_comprobante',
             buscar  : '',
           }
+        },
+
+         components: {
+            vSelect
         },
 
         //Propiedad computada declaramos unas funciones
@@ -393,9 +449,33 @@
                 me.listarIngreso(page, buscar, criterio);
             },
 
+            selectProveedor(search,loading){
+               //  console.log(loading);                    
+
+                let me=this;
+                loading(true);
+                var url= '/proveedor/selectProveedor?filtro='+search;
+                axios.get(url).then(function (response) {
+                    console.log(response.data);
+                  let respuesta = response.data;
+                    me.arrayProveedor=respuesta.proveedores;
+                    loading(false)                    
+    
+})
+                .catch(function (error) {
+                    console.log(error);
+                });           
+            },
+ 
+                        getDatosProveedor(val1){
+                            let me = this;
+                             me.loading = true;
+                             me.idproveedor = val1.id;
+                        },
+
 
           //Metodo registrar usuario
-          registrarUsuario(){
+          registrarIngreso(){
 
                   if(this.validarUsuario()){
                       return ;
@@ -475,6 +555,13 @@
                 this.errorMensajeArrayIngreso = [];
                 this.errorIngreso = 0;
 
+              },
+              
+              mostrarDetalle(){
+                this.listado=0;
+              },
+              ocultarDetalle(){
+                 this.listado=1;
               },
 
 
@@ -598,5 +685,9 @@
       .btnagregar{
           margin-top: 2rem;
       }
+  }
+
+ .totalresultado{
+      background-color:#CEECF5;
   }
 </style>

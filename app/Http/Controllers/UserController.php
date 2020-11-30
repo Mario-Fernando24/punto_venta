@@ -76,11 +76,6 @@ class UserController extends Controller
         DB::rollBack();
       }
       
-
-
-
-     
-
     }
 
 

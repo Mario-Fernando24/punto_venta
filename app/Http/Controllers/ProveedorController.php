@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Proveedor;
 use App\Persona;
+use DB;
+use Carbon\Carbon;
 
 
 class ProveedorController extends Controller
@@ -41,6 +43,29 @@ class ProveedorController extends Controller
             ],
             'proveedor' => $proveedor
         ];
+    }
+
+    //seleccionar proveedor desde la vista ingreso para hacer una compra
+    public function SelectProveedor(Request $request){
+
+   //   if(!$request->ajax()){
+     //   return redirect('/');
+      //  }
+      
+
+        $filtro=$request->get('filtro');
+        $proveedores=DB::table('proveedores as prov')
+        ->join('persona as persona','persona.id','=','prov.id') 
+        ->where('persona.nombre', 'like', '%'.$filtro.'%')
+        ->orwhere('persona.num_documento', 'like', '%'.$filtro.'%')
+        ->select('persona.id','persona.nombre','persona.num_documento')
+        ->orderBy('persona.nombre', 'asc')
+        ->get();
+  // return $proveedores;
+
+        
+  return ['proveedores' => $proveedores];
+
     }
 
     public function store(Request $request)

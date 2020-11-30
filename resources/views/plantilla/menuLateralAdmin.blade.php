@@ -5,8 +5,23 @@
                         <a class="nav-link active" href="#"><i class="icon-speedometer"></i> Escritorio</a>
                     </li>
                     <li class="nav-title">
-                        Mantenimiento {{Auth::user()->usuario}} 
+                        Menu {{Auth::user()->usuario}} 
                     </li>
+
+                    
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-basket"></i> Facturar</a>
+                        <ul class="nav-dropdown-items">
+                            <li @click="menu=5" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-basket-loaded"></i> Facturar</a>
+                            </li>
+                            <li @click="menu=6" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-notebook"></i> Clientes</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i> Bodega</a>
                         <ul class="nav-dropdown-items">
@@ -30,17 +45,6 @@
                         </ul>
                     </li>
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-basket"></i> Facturar</a>
-                        <ul class="nav-dropdown-items">
-                            <li @click="menu=5" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-basket-loaded"></i> Facturar</a>
-                            </li>
-                            <li @click="menu=6" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-notebook"></i> Clientes</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-people"></i> Acceso</a>
                         <ul class="nav-dropdown-items">
                             <li @click="menu=7" class="nav-item">
@@ -52,7 +56,7 @@
                         </ul>
                     </li>
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-pie-chart"></i> Reportes</a>
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-pie-chart"></i> Informes</a>
                         <ul class="nav-dropdown-items">
                             <li @click="menu=9" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-chart"></i> Reporte Ingresos</a>
@@ -60,14 +64,66 @@
                             <li @click="menu=10" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-chart"></i> Reporte Ventas</a>
                             </li>
+
+                            
+                            <li  class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Ventas Anuladas</a>
+                            </li>
+
+                            
+                            <li  class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i> Ingresos Anuladas</a>
+                            </li>
+                            
+                            <li  class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Historial por cliente</a>
+                            </li>
+                            
+                            <li  class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Historial de venta por producto</a>
+                            </li>
+                            <li  class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Historial de venta por categoria</a>
+                            </li>
                         </ul>
                     </li>
+
+
                     <li @click="menu=11" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-book-open"></i> Ayuda <span class="badge badge-danger">PDF</span></a>
+                        <a class="nav-link" href="#"><i class="icon-book-open"></i>Cuentas por cobrar</a>
                     </li>
                     <li @click="menu=12" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-info"></i> Acerca de...<span class="badge badge-info">IT</span></a>
+                        <a class="nav-link" href="#"><i class="icon-book-open"></i>Caja</a>
                     </li>
+
+
+
+                    
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i> Gastos Administrativo</a>
+                        <ul class="nav-dropdown-items">
+                            <li @click="menu=9" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Nomina</a>
+                            </li>
+                            <li @click="menu=10" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cortesia</a>
+                            </li>
+
+                            
+                            <li @click="menu=10" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>gasto administrativo</a>
+                            </li>
+
+                            
+                            <li @click="menu=10" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Abono</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+
+                    
                 </ul>
             </nav>
             <button class="sidebar-minimizer brand-minimizer" type="button"></button>
