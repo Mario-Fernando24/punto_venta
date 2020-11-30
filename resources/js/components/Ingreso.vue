@@ -135,7 +135,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label>Impuesto(*)</label>
+                                    <label>Impuesto %(*)</label>
                                     <input type="text" class="form-control"  v-model="impuesto">
                                 </div>
 
@@ -242,16 +242,20 @@
 
 
 
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Subtotal:</strong></td>
+                                             <td>$ {{ subtotal=(total-totalImpuesto ).toFixed(2) }}</td>
+                                         </tr>
 
 
                                          <tr class="totalresultado" >
                                              <td colspan="4" align="right"><strong>Total Impuesto:</strong></td>
-                                             <td>$1</td>
+                                             <td>$ {{ totalImpuesto=((total*impuesto )/100).toFixed(2) }}</td>
                                          </tr>
 
                                          <tr class=" " >
                                              <td colspan="4" align="right"><strong>Total Neto:</strong></td>
-                                             <td>$6</td>
+                                             <td>$ {{ total=calculadorTotal }}</td>
                                          </tr>
 
                                          
@@ -335,8 +339,10 @@ import vSelect from "vue-select";
             serie_comprobante : '',
             num_comprobante: '',
             telefono:'',
-            impuesto: 0.18,
+            impuesto: 18,
             total: 0.0,
+            totalImpuesto:0.0,
+            subtotal: 0.0,
             fecha_hora:'',
 
             //variable para ver el listado
@@ -389,6 +395,8 @@ import vSelect from "vue-select";
 
         //Propiedad computada declaramos unas funciones
         computed :{
+
+
             //calcular la pagina actual
             isActived : function(){
               return   this.pagination.current_page
@@ -412,7 +420,18 @@ import vSelect from "vue-select";
                     from++;
                 }
                 return pagesArray;  
+            },
+
+            calculadorTotal : function(){
+                var resultado=0.0;
+                for(var i=0; i<this.arrayDetalleIngreso.length; i++){
+                  resultado+=this.arrayDetalleIngreso[i].precio*this.arrayDetalleIngreso[i].cantidad;
+                }
+
+                return resultado;
             }
+
+
         },
 
 

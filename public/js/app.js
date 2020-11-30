@@ -3566,6 +3566,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 //importo vselect
 
 
@@ -3580,8 +3584,10 @@ __webpack_require__.r(__webpack_exports__);
       serie_comprobante: '',
       num_comprobante: '',
       telefono: '',
-      impuesto: 0.18,
+      impuesto: 18,
       total: 0.0,
+      totalImpuesto: 0.0,
+      subtotal: 0.0,
       fecha_hora: '',
       //variable para ver el listado
       listado: 1,
@@ -3655,6 +3661,15 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return pagesArray;
+    },
+    calculadorTotal: function calculadorTotal() {
+      var resultado = 0.0;
+
+      for (var i = 0; i < this.arrayDetalleIngreso.length; i++) {
+        resultado += this.arrayDetalleIngreso[i].precio * this.arrayDetalleIngreso[i].cantidad;
+      }
+
+      return resultado;
     }
   },
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
@@ -48321,7 +48336,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-3" }, [
-                      _c("label", [_vm._v("Impuesto(*)")]),
+                      _c("label", [_vm._v("Impuesto %(*)")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -48783,13 +48798,53 @@ var render = function() {
                                     ])
                                   }),
                                   _vm._v(" "),
-                                  _vm._m(3),
+                                  _c("tr", { staticClass: "totalresultado" }, [
+                                    _vm._m(3),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        "$ " +
+                                          _vm._s(
+                                            (_vm.subtotal = (
+                                              _vm.total - _vm.totalImpuesto
+                                            ).toFixed(2))
+                                          )
+                                      )
+                                    ])
+                                  ]),
                                   _vm._v(" "),
-                                  _vm._m(4)
+                                  _c("tr", { staticClass: "totalresultado" }, [
+                                    _vm._m(4),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        "$ " +
+                                          _vm._s(
+                                            (_vm.totalImpuesto = (
+                                              (_vm.total * _vm.impuesto) /
+                                              100
+                                            ).toFixed(2))
+                                          )
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", { staticClass: " " }, [
+                                    _vm._m(5),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _vm._v(
+                                        "$ " +
+                                          _vm._s(
+                                            (_vm.total = _vm.calculadorTotal)
+                                          )
+                                      )
+                                    ])
+                                  ])
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(5)])
+                            : _c("tbody", [_vm._m(6)])
                         ]
                       )
                     ]),
@@ -48997,24 +49052,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", { staticClass: "totalresultado" }, [
-      _c("td", { attrs: { colspan: "4", align: "right" } }, [
-        _c("strong", [_vm._v("Total Impuesto:")])
-      ]),
-      _vm._v(" "),
-      _c("td", [_vm._v("$1")])
+    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+      _c("strong", [_vm._v("Subtotal:")])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", { staticClass: " " }, [
-      _c("td", { attrs: { colspan: "4", align: "right" } }, [
-        _c("strong", [_vm._v("Total Neto:")])
-      ]),
-      _vm._v(" "),
-      _c("td", [_vm._v("$6")])
+    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+      _c("strong", [_vm._v("Total Impuesto:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+      _c("strong", [_vm._v("Total Neto:")])
     ])
   },
   function() {
