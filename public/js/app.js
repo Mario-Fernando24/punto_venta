@@ -3753,6 +3753,9 @@ __webpack_require__.r(__webpack_exports__);
 
       return this.aux;
     },
+    eliminarDetalle: function eliminarDetalle(index) {
+      this.arrayDetalleIngreso.splice(index, 1);
+    },
     //Metodo registrar usuario
     registrarIngreso: function registrarIngreso() {
       if (this.validarUsuario()) {
@@ -48679,10 +48682,32 @@ var render = function() {
                                 "tbody",
                                 [
                                   _vm._l(_vm.arrayDetalleIngreso, function(
-                                    detalle
+                                    detalle,
+                                    index
                                   ) {
                                     return _c("tr", { key: detalle.id }, [
-                                      _vm._m(3, true),
+                                      _c("th", [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-danger btn-sm",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.eliminarDetalle(
+                                                  index
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "icon-close"
+                                            })
+                                          ]
+                                        )
+                                      ]),
                                       _vm._v(" "),
                                       _c("th", {
                                         domProps: {
@@ -48758,13 +48783,13 @@ var render = function() {
                                     ])
                                   }),
                                   _vm._v(" "),
-                                  _vm._m(4),
+                                  _vm._m(3),
                                   _vm._v(" "),
-                                  _vm._m(5)
+                                  _vm._m(4)
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(6)])
+                            : _c("tbody", [_vm._m(5)])
                         ]
                       )
                     ]),
@@ -48966,18 +48991,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Subtotal")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c(
-        "button",
-        { staticClass: "btn btn-danger btn-sm", attrs: { type: "button" } },
-        [_c("i", { staticClass: "icon-close" })]
-      )
     ])
   },
   function() {

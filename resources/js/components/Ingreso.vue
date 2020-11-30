@@ -221,9 +221,9 @@
                                      </thead>
                                      <tbody v-if="arrayDetalleIngreso.length">
 
-                                         <tr v-for="detalle in arrayDetalleIngreso" :key="detalle.id">
+                                         <tr v-for="(detalle,index) in arrayDetalleIngreso" :key="detalle.id">
                                             <th>
-                                                <button type="button" class="btn btn-danger btn-sm">
+                                                <button @click="eliminarDetalle(index)" type="button" class="btn btn-danger btn-sm">
                                                     <i class="icon-close"></i>
                                                 </button>
                                             </th>
@@ -536,6 +536,10 @@ import vSelect from "vue-select";
                      }
                      
                      return this.aux; 
+                 },
+
+                 eliminarDetalle(index){
+                    this.arrayDetalleIngreso.splice(index,1);
                  },
 
 
