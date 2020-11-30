@@ -173,7 +173,7 @@
                         <div class="form-group row border">
                               <div class="col-md-6">
                                  <div class="form-group">
-                                     <label>Articulo</label>
+                                     <label>Articulo <span class="validaridArticulo" v-show="idarticulo==0">(*Seleccione)</span></label>
                                      <div class="form-inline">
                                          <input type="" v-model="codigo" @keyup.enter="buscarArticulo()"  placeholder="Ingrese el articulo">
                                          <button class="btn btn-primary">...</button>
@@ -184,7 +184,7 @@
 
                               <div class="col-md-2">
                                  <div class="form-group">
-                                     <label>Precio</label><br>
+                                     <label>Precio<span class="validaridArticulo" v-show="precio==0">(*requerido)</span></label><br>
                                      <input type="number" v-model="precio" value="0" step="any"  placeholder="000.0">
                                  </div>                   
                               </div>
@@ -192,7 +192,7 @@
 
                               <div class="col-md-2">
                                  <div class="form-group">
-                                     <label>Cantidad</label><br>
+                                     <label>Cantidad<span class="validaridArticulo" v-show="cantidad==0">(*requerido)</span></label><br>
                                      <input type="number" value="0" step="any" v-model="cantidad"  placeholder="00">
                                  </div>                   
                               </div>
@@ -229,7 +229,6 @@
                                             </th>
 
                                             <th v-text="detalle.articulo"></th>
-                                            
                                             <td>
                                                 <input v-model="detalle.cantidad" type="number" value="3" class="form-control">
                                             </td>
@@ -495,7 +494,20 @@ import vSelect from "vue-select";
 
                  //agregar articulos al detalle 
                  agregarDetalle(){
-                     let me;
+                     let m;
+                     if(this.idarticulo==0 || this.cantidad==0 || this.precio==0)
+                        {}else{
+                         //validar si el productos ya se encuentra en los detalles
+                         if(this.encuentra(this.idarticulo)){
+                             this.aux=0;
+                          Swal.fire(
+                            'Error!',
+                            'este articulo ya esta agregado!', 
+                            'error'
+                            )
+
+                         }else{
+
                      //push para agregar valores al array
                         this.arrayDetalleIngreso.push({
                         idarticulo:this.idarticulo,
@@ -503,7 +515,27 @@ import vSelect from "vue-select";
                         cantidad : this.cantidad,
                         precio: this.precio,
 
-                     });
+                       });
+
+                        this.codigo='';
+                        this.idarticulo=0;
+                        this.articulo='';
+                        this.cantidad=0;
+                        this.precio=0;
+                      }
+                      
+                     }
+                 },
+
+                 encuentra(id){
+                     let aux=0;
+                     for(var i=0; i<this.arrayDetalleIngreso.length; i++){
+                         if(this.arrayDetalleIngreso[i].idarticulo==id){
+                             this.aux=true;
+                         }
+                     }
+                     
+                     return this.aux; 
                  },
 
 
@@ -722,5 +754,9 @@ import vSelect from "vue-select";
 
  .totalresultado{
       background-color:#CEECF5;
+  }
+  .validaridArticulo{
+      color: red;
+      font-weight: 900;
   }
 </style>

@@ -3566,7 +3566,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 //importo vselect
 
 
@@ -3720,14 +3719,39 @@ __webpack_require__.r(__webpack_exports__);
     },
     //agregar articulos al detalle 
     agregarDetalle: function agregarDetalle() {
-      var me; //push para agregar valores al array
+      var m;
 
-      this.arrayDetalleIngreso.push({
-        idarticulo: this.idarticulo,
-        articulo: this.articulo,
-        cantidad: this.cantidad,
-        precio: this.precio
-      });
+      if (this.idarticulo == 0 || this.cantidad == 0 || this.precio == 0) {} else {
+        //validar si el productos ya se encuentra en los detalles
+        if (this.encuentra(this.idarticulo)) {
+          this.aux = 0;
+          Swal.fire('Error!', 'este articulo ya esta agregado!', 'error');
+        } else {
+          //push para agregar valores al array
+          this.arrayDetalleIngreso.push({
+            idarticulo: this.idarticulo,
+            articulo: this.articulo,
+            cantidad: this.cantidad,
+            precio: this.precio
+          });
+          this.codigo = '';
+          this.idarticulo = 0;
+          this.articulo = '';
+          this.cantidad = 0;
+          this.precio = 0;
+        }
+      }
+    },
+    encuentra: function encuentra(id) {
+      var aux = 0;
+
+      for (var i = 0; i < this.arrayDetalleIngreso.length; i++) {
+        if (this.arrayDetalleIngreso[i].idarticulo == id) {
+          this.aux = true;
+        }
+      }
+
+      return this.aux;
     },
     //Metodo registrar usuario
     registrarIngreso: function registrarIngreso() {
@@ -9841,7 +9865,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 900;\n}\n", ""]);
 
 // exports
 
@@ -48432,7 +48456,24 @@ var render = function() {
                   _c("div", { staticClass: "form-group row border" }, [
                     _c("div", { staticClass: "col-md-6" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Articulo")]),
+                        _c("label", [
+                          _vm._v("Articulo "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.idarticulo == 0,
+                                  expression: "idarticulo==0"
+                                }
+                              ],
+                              staticClass: "validaridArticulo"
+                            },
+                            [_vm._v("(*Seleccione)")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-inline" }, [
                           _c("input", {
@@ -48505,7 +48546,24 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Precio")]),
+                        _c("label", [
+                          _vm._v("Precio"),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.precio == 0,
+                                  expression: "precio==0"
+                                }
+                              ],
+                              staticClass: "validaridArticulo"
+                            },
+                            [_vm._v("(*requerido)")]
+                          )
+                        ]),
                         _c("br"),
                         _vm._v(" "),
                         _c("input", {
@@ -48538,7 +48596,24 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Cantidad")]),
+                        _c("label", [
+                          _vm._v("Cantidad"),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.cantidad == 0,
+                                  expression: "cantidad==0"
+                                }
+                              ],
+                              staticClass: "validaridArticulo"
+                            },
+                            [_vm._v("(*requerido)")]
+                          )
+                        ]),
                         _c("br"),
                         _vm._v(" "),
                         _c("input", {
