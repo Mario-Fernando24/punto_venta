@@ -3675,6 +3675,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -3927,7 +3937,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Metodo registrar usuario
     registrarIngreso: function registrarIngreso() {
-      if (this.validarUsuario()) {
+      if (this.validarIngreso()) {
         return;
       }
 
@@ -3951,12 +3961,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     //methods validar las usuario
-    validarUsuario: function validarUsuario() {
+    validarIngreso: function validarIngreso() {
       this.errorIngreso = 0;
       this.errorMensajeArrayIngreso = [];
-      if (!this.nombre) this.errorMensajeArrayIngreso.push("El nombre del usuario no puede estar vacio");
-      if (!this.password) this.errorMensajeArrayIngreso.push("la contraseña es obligatorio");
-      if (this.idRol == 0) this.errorMensajeArrayIngreso.push("Seleccione un rol para el usuario");
+      if (this.idproveedor == 0) this.errorMensajeArrayIngreso.push("Seleccione un proveedor ");
+      if (!this.num_comprobante) this.errorMensajeArrayIngreso.push("Seleccione numero de comprobante ");
+      if (!this.tipo_comprobante) this.errorMensajeArrayIngreso.push("Ingrese tipo de comprobante ");
+      if (!this.arrayDetalleIngreso <= 0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
       if (this.errorMensajeArrayIngreso.length) this.errorIngreso = 1;
       return this.errorIngreso;
     },
@@ -48547,6 +48558,38 @@ var render = function() {
                           }
                         })
                       ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.errorIngreso == 1,
+                              expression: "errorIngreso==1"
+                            }
+                          ],
+                          staticClass: "form-group row div-error"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "text-center text-error" },
+                            _vm._l(_vm.errorMensajeArrayIngreso, function(
+                              error
+                            ) {
+                              return _c("div", {
+                                key: error,
+                                domProps: { textContent: _vm._s(error) }
+                              })
+                            }),
+                            0
+                          )
+                        ]
+                      )
                     ])
                   ]),
                   _vm._v(" "),

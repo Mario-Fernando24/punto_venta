@@ -167,6 +167,16 @@
                                     </div>
                                 </div>
 
+                             <div class="col-md-12">
+                                <div v-show="errorIngreso==1" class="form-group row div-error">
+                                    <div class="text-center text-error">
+                                        <div v-for="error in errorMensajeArrayIngreso" :key="error" v-text="error">
+                                           
+                                        </div>
+                                    </div>
+                                 </div>
+                                </div>
+
                           </div>
 
 
@@ -696,7 +706,7 @@ import vSelect from "vue-select";
 
           //Metodo registrar usuario
           registrarIngreso(){
-                  if(this.validarUsuario()){
+                  if(this.validarIngreso()){
                       return ;
                   }
                   let me=this;
@@ -722,12 +732,14 @@ import vSelect from "vue-select";
               },
  
             //methods validar las usuario
-            validarUsuario(){
+            validarIngreso(){
                 this.errorIngreso=0;
                  this.errorMensajeArrayIngreso=[];
-                 if(!this.nombre) this.errorMensajeArrayIngreso.push("El nombre del usuario no puede estar vacio");
-                 if(!this.password) this.errorMensajeArrayIngreso.push("la contraseña es obligatorio");
-                 if(this.idRol==0) this.errorMensajeArrayIngreso.push("Seleccione un rol para el usuario");
+                 if(this.idproveedor==0) this.errorMensajeArrayIngreso.push("Seleccione un proveedor ");
+                 if(!this.num_comprobante) this.errorMensajeArrayIngreso.push("Seleccione numero de comprobante ");
+                 if(!this.tipo_comprobante) this.errorMensajeArrayIngreso.push("Ingrese tipo de comprobante ");
+                 if(!this.arrayDetalleIngreso<=0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
+
                  if(this.errorMensajeArrayIngreso.length) this.errorIngreso=1;
                  return this.errorIngreso;
               },
