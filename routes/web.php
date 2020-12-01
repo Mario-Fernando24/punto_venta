@@ -89,7 +89,7 @@
         //contoller articles
         Route::prefix('articulo')->group(function() {
             Route::get('index', 'ArticuloContoller@index');
-            Route::get('buscarArticulo', 'ArticuloContoller@buscarArticulo');
+            Route::get('buscarArticuloBarra', 'ArticuloContoller@buscarArticuloBarra');
             Route::post('registrar', 'ArticuloContoller@store');
             Route::put('actualizar', 'ArticuloContoller@update');
             Route::put('desactivar', 'ArticuloContoller@desactivar');
@@ -133,6 +133,7 @@
         //controller ingresos
         Route::prefix('ingresos')->group(function() {
             Route::get('index', 'IngresoController@index');
+            Route::get('ListarArticuloIngreso', 'IngresoController@ListarArticuloIngreso');
             Route::post('registrar', 'IngresoController@store');
             Route::put('desactivar', 'IngresoController@desactivar');
         });

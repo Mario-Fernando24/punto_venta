@@ -175,7 +175,7 @@
                                  <div class="form-group">
                                      <label>Articulo <span class="validaridArticulo" v-show="idarticulo==0">(*Seleccione)</span></label>
                                      <div class="form-inline">
-                                         <input type="" v-model="codigo" @keyup.enter="buscarArticulo()"  placeholder="Ingrese el articulo">
+                                         <input type="" v-model="codigo" @keyup.enter="buscarArticuloCodigoBarra()"  placeholder="Ingrese el articulo">
                                          <button class="btn btn-primary" @click="abrirModal()">...</button>
                                          <input type="text" readonly class="form-control" v-model="articulo">
                                      </div>
@@ -341,6 +341,73 @@
                             </button>
                         </div>
                         <div class="modal-body">
+
+
+
+
+
+
+
+
+                            <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <select class="form-control col-md-3" v-model="criterioArticulo">
+                                      <option value="nombre">Nombre</option>
+                                      <option value="codigo">Codigo</option>
+                                    </select>
+                                    <input type="text" v-model="buscarArt " @keyup.enter="listarArticulo(buscarArt,criterioArticulo)"  class="form-control" placeholder="Buscar...">
+                                    <button type="submit" @click="listarArticulo(buscarArt,criterioArticulo)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Opciones</th>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <th>Categoria</th>
+                                    <th>Pre Venta</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr v-for="articulomodal in ListararrayArticulo" :key="articulomodal.id">
+                                    <td>
+                                        <button type="button" @click="agregarDetallesModal(articulomodal)" class="btn btn-success btn-sm" data-toggle="modal">
+                                          <i class="icon-check"></i>
+                                        </button> &nbsp;
+                                        
+
+                                        </td>
+                                        <td v-text="articulomodal.codigo"></td>
+                                        <td v-text="articulomodal.nombre"></td>
+                                        <td v-text="articulomodal.categoria.nombre"></td>
+                                        <td v-text="articulomodal.precio_venta"></td>
+                                        <td v-text="articulomodal.stock"></td>
+
+                                        <td>
+                                        <div v-if="articulomodal.condicion==1">
+                                        <span class="badge badge-success">Activo</span>
+                                        </div>
+
+                                        <div v-else>
+                                        <span class="badge badge-danger">Desactivado</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                        </table>
+                    </div>
+                    
+
+
+                    
                             
                             
 
@@ -360,16 +427,12 @@
 
 <script>
 //importo vselect
-
 import "vue-select/dist/vue-select.css";
-
 import vSelect from "vue-select";
     export default {
-
         //dentro de la data colocamos las variables 
         data(){
           return {
-
             //cual es la usuario que quiero edit 
             ingreso_id :0,
             idproveedor : 0,
@@ -383,16 +446,12 @@ import vSelect from "vue-select";
             totalImpuesto:0.0,
             subtotal: 0.0,
             fecha_hora:'',
-
             //variable para ver el listado
             listado: 1,
-
             //la data que regresa nuestro metodo listarIngreso se almacene en esta array
             arrayIngreso:[],
             arrayDetalleIngreso:[],
             arrayProveedor:[],
-
-
             modal : 0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
@@ -400,7 +459,6 @@ import vSelect from "vue-select";
             errorIngreso : 0,
             errorMensajeArrayIngreso : [],
           
-
             pagination : {
                 //numero total de registro
                 'total' : 0,
@@ -415,11 +473,13 @@ import vSelect from "vue-select";
                 //hasta pagina
                 'to' : 0,
             },
-
             offset : 3,
             criterio : 'num_comprobante',
+            criterioArticulo:'nombre',
             buscar  : '',
+            buscarArt:'',
             arrayArticulo:[],
+            ListararrayArticulo:[],
             idarticulo:0,
             codigo:'',
             articulo:'',
@@ -428,15 +488,11 @@ import vSelect from "vue-select";
             cantidad:0,
           }
         },
-
          components: {
             vSelect
         },
-
         //Propiedad computada declaramos unas funciones
         computed :{
-
-
             //calcular la pagina actual
             isActived : function(){
               return   this.pagination.current_page
@@ -461,16 +517,13 @@ import vSelect from "vue-select";
                 }
                 return pagesArray;  
             },
-
             calculadorTotal : function(){
                 var resultado=0.0;
                 for(var i=0; i<this.arrayDetalleIngreso.length; i++){
                   resultado+=this.arrayDetalleIngreso[i].preciocompra*this.arrayDetalleIngreso[i].cantidad;
                 }
-
                 return resultado;
             },
-
             calcularTotalGanancia : function(){
                 var totalgan=0.0;
                 var aux=0.0;
@@ -480,14 +533,9 @@ import vSelect from "vue-select";
                   aux=0.0;
                 }
                 return totalgan;
-
             },
-
         },
-
 //{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
-
-
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
@@ -504,7 +552,6 @@ import vSelect from "vue-select";
                         console.log(error);
                     });
               },
-
           
           //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
                 cambiarPagina(page, buscar, criterio){
@@ -514,10 +561,8 @@ import vSelect from "vue-select";
                 //envia la peticion de listar esa pagina
                 me.listarIngreso(page, buscar, criterio);
             },
-
             selectProveedor(search,loading){
                //  console.log(loading);                    
-
                 let me=this;
                 loading(true);
                 var url= '/proveedor/selectProveedor?filtro='+search;
@@ -539,18 +584,34 @@ import vSelect from "vue-select";
                         me.idproveedor = val1.id;
                     },
 
-                buscarArticulo(){
+
+          listarArticulo(buscarArt, criterioArticulo){
+                 let me=this;
+                  var url= '/ingresos/ListarArticuloIngreso?buscar=' + buscarArt + '&criterio=' + criterioArticulo;
+                  axios.get(url).then(function (response) {
+                    var respuesta = response.data;
+                    console.log(respuesta);
+                    //todo lo que retorne esta funcion se almacene en este array
+                    me.ListararrayArticulo = respuesta.listarticulos.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+              },
+
+              
+                buscarArticuloCodigoBarra(){
                 let me=this;
-                var url= '/articulo/buscarArticulo?filtro='+me.codigo;
+                var url= '/articulo/buscarArticuloBarra?filtro='+me.codigo;
                  axios.get(url).then(function (response) {
                     console.log(response.data);
                     let respuesta = response.data;
-                    me.arrayArticulo=respuesta.articulo;
+                    me.arrayArticulo=respuesta.buscarBarra;
                     //si existe elemento en el array
                     if(me.arrayArticulo.length>0){
                         me.articulo=me.arrayArticulo[0]['nombre'];
                         me.idarticulo=me.arrayArticulo[0]['id'];
-
                     }else{
                         me.articulo='No existe articulo';
                         me.idarticulo=0;
@@ -559,10 +620,7 @@ import vSelect from "vue-select";
                 .catch(function (error) {
                     console.log(error);
                 }); 
-
                  },
-
-
                  //agregar articulos al detalle 
                  agregarDetalle(){
                      let m;
@@ -576,9 +634,7 @@ import vSelect from "vue-select";
                             'este articulo ya esta agregado!', 
                             'error'
                             )
-
                          }else{
-
                      //push para agregar valores al array
                         this.arrayDetalleIngreso.push({
                         idarticulo:this.idarticulo,
@@ -586,9 +642,7 @@ import vSelect from "vue-select";
                         cantidad : this.cantidad,
                         precio: this.precio,
                         preciocompra:this.preciocompra,
-
                        });
-
                         this.codigo='';
                         this.idarticulo=0;
                         this.articulo='';
@@ -600,6 +654,28 @@ import vSelect from "vue-select";
                      }
                  },
 
+
+                 agregarDetallesModal(data=[]){
+
+                       if(this.encuentra(data['id'])){
+                             this.aux=0;
+                          Swal.fire(
+                            'Error!',
+                            'este articulo ya esta agregado!', 
+                            'error'
+                            )
+                         }else{
+                     //push para agregar valores al array
+                        this.arrayDetalleIngreso.push({
+                        idarticulo:data['id'],
+                        articulo: data['nombre'],
+                        cantidad : 1,
+                        precio: 1,
+                        preciocompra:1,
+                       });
+                      }
+
+                 },
                  encuentra(id){
                      let aux=0;
                      for(var i=0; i<this.arrayDetalleIngreso.length; i++){
@@ -610,15 +686,16 @@ import vSelect from "vue-select";
                      
                      return this.aux; 
                  },
-
                  eliminarDetalle(index){
                     this.arrayDetalleIngreso.splice(index,1);
                  },
 
 
+
+
+
           //Metodo registrar usuario
           registrarIngreso(){
-
                   if(this.validarUsuario()){
                       return ;
                   }
@@ -633,7 +710,6 @@ import vSelect from "vue-select";
                     'usuario':this.usuario,
                     'password':this.password, 
                     'idRol':this.idRol,
-
                 })
                 .then(function (response) {
                     me.cerrarModal();
@@ -643,11 +719,8 @@ import vSelect from "vue-select";
                 .catch(function (error) {
                     console.log(error);
                 });
-
               },
-
  
-
             //methods validar las usuario
             validarUsuario(){
                 this.errorIngreso=0;
@@ -655,12 +728,9 @@ import vSelect from "vue-select";
                  if(!this.nombre) this.errorMensajeArrayIngreso.push("El nombre del usuario no puede estar vacio");
                  if(!this.password) this.errorMensajeArrayIngreso.push("la contraseña es obligatorio");
                  if(this.idRol==0) this.errorMensajeArrayIngreso.push("Seleccione un rol para el usuario");
-
                  if(this.errorMensajeArrayIngreso.length) this.errorIngreso=1;
                  return this.errorIngreso;
               },
-
-
            
               
               mostrarDetalle(){
@@ -669,8 +739,6 @@ import vSelect from "vue-select";
               ocultarDetalle(){
                  this.listado=1;
               },
-
-
             //Metodo para desactivar la categoria
            anularIngreso(id){
                const swalWithBootstrapButtons = Swal.mixin({
@@ -680,7 +748,6 @@ import vSelect from "vue-select";
                 },
                 buttonsStyling: false
                 })
-
                 swalWithBootstrapButtons.fire({
                 title: 'Estas seguro de desactivar esta Usuario?',
                 icon: 'warning',
@@ -690,16 +757,13 @@ import vSelect from "vue-select";
                 reverseButtons: true
                 }).then((result) => {
                 if (result.isConfirmed) {
-
                      let me=this;
                   axios.put('/user/desactivar', {
                     'id' : id
                 })
                 .then(function (response) {
-
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarIngreso(1,'','nombre');
-
                     swalWithBootstrapButtons.fire(
                     'Desactivado',
                     'Usuario ha sido desactivado correctamente',
@@ -709,7 +773,6 @@ import vSelect from "vue-select";
                 .catch(function (error) {
                     console.log(error);
                 });
-
                 } else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
@@ -722,15 +785,11 @@ import vSelect from "vue-select";
                 }
                 })
            },
-
            //metodo para cerrar el modal
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
-
               },
-
-
               //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
             abrirModal(){       
              this.modal=1;
@@ -756,7 +815,6 @@ import vSelect from "vue-select";
       position: absolute!important;
       background-color: #3c29297a;
   }
-
   .div-error{
      display: flex;
      justify-content: center;
@@ -765,7 +823,6 @@ import vSelect from "vue-select";
     color: red !important;
     font-weight: bold;
   }
-
   .color{
       color:red;
   }
@@ -774,7 +831,6 @@ import vSelect from "vue-select";
           margin-top: 2rem;
       }
   }
-
  .totalresultado{
       background-color:#CEECF5;
   }

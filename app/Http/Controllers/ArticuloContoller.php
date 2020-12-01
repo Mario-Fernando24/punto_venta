@@ -48,16 +48,16 @@ class ArticuloContoller extends Controller
 
 
     //search article from code of barra
-    public function buscarArticulo(Request $request){
+    public function buscarArticuloBarra(Request $request){
        if(!$request->ajax()){
            return redirect('/');
       }
            $filtro=$request->get('filtro');
-           $articulo=Articulo::where('codigo',$filtro)
+           $buscarBarra=Articulo::where('codigo',$filtro)
            ->select('id','nombre')->orderBy('nombre','asc')
            ->take(1)->get();
 
-           return ['articulo' => $articulo];
+           return ['buscarBarra' => $buscarBarra];
     }
     
 

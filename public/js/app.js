@@ -3608,6 +3608,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -3656,8 +3723,11 @@ __webpack_require__.r(__webpack_exports__);
       },
       offset: 3,
       criterio: 'num_comprobante',
+      criterioArticulo: 'nombre',
       buscar: '',
+      buscarArt: '',
       arrayArticulo: [],
+      ListararrayArticulo: [],
       idarticulo: 0,
       codigo: '',
       articulo: '',
@@ -3766,13 +3836,25 @@ __webpack_require__.r(__webpack_exports__);
       me.loading = true;
       me.idproveedor = val1.id;
     },
-    buscarArticulo: function buscarArticulo() {
+    listarArticulo: function listarArticulo(buscarArt, criterioArticulo) {
       var me = this;
-      var url = '/articulo/buscarArticulo?filtro=' + me.codigo;
+      var url = '/ingresos/ListarArticuloIngreso?buscar=' + buscarArt + '&criterio=' + criterioArticulo;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        console.log(respuesta); //todo lo que retorne esta funcion se almacene en este array
+
+        me.ListararrayArticulo = respuesta.listarticulos.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    buscarArticuloCodigoBarra: function buscarArticuloCodigoBarra() {
+      var me = this;
+      var url = '/articulo/buscarArticuloBarra?filtro=' + me.codigo;
       axios.get(url).then(function (response) {
         console.log(response.data);
         var respuesta = response.data;
-        me.arrayArticulo = respuesta.articulo; //si existe elemento en el array
+        me.arrayArticulo = respuesta.buscarBarra; //si existe elemento en el array
 
         if (me.arrayArticulo.length > 0) {
           me.articulo = me.arrayArticulo[0]['nombre'];
@@ -3810,6 +3892,23 @@ __webpack_require__.r(__webpack_exports__);
           this.precio = 0;
           this.preciocompra = 0;
         }
+      }
+    },
+    agregarDetallesModal: function agregarDetallesModal() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      if (this.encuentra(data['id'])) {
+        this.aux = 0;
+        Swal.fire('Error!', 'este articulo ya esta agregado!', 'error');
+      } else {
+        //push para agregar valores al array
+        this.arrayDetalleIngreso.push({
+          idarticulo: data['id'],
+          articulo: data['nombre'],
+          cantidad: 1,
+          precio: 1,
+          preciocompra: 1
+        });
       }
     },
     encuentra: function encuentra(id) {
@@ -48501,7 +48600,7 @@ var render = function() {
                                 ) {
                                   return null
                                 }
-                                return _vm.buscarArticulo()
+                                return _vm.buscarArticuloCodigoBarra()
                               },
                               input: function($event) {
                                 if ($event.target.composing) {
@@ -49086,7 +49185,208 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.criterioArticulo,
+                              expression: "criterioArticulo"
+                            }
+                          ],
+                          staticClass: "form-control col-md-3",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.criterioArticulo = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "nombre" } }, [
+                            _vm._v("Nombre")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "codigo" } }, [
+                            _vm._v("Codigo")
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.buscarArt,
+                            expression: "buscarArt "
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Buscar..." },
+                        domProps: { value: _vm.buscarArt },
+                        on: {
+                          keyup: function($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            return _vm.listarArticulo(
+                              _vm.buscarArt,
+                              _vm.criterioArticulo
+                            )
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.buscarArt = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" },
+                          on: {
+                            click: function($event) {
+                              return _vm.listarArticulo(
+                                _vm.buscarArt,
+                                _vm.criterioArticulo
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-search" }),
+                          _vm._v(" Buscar")
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "table-responsive" }, [
+                  _c(
+                    "table",
+                    {
+                      staticClass: "table table-bordered table-striped table-sm"
+                    },
+                    [
+                      _vm._m(8),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.ListararrayArticulo, function(
+                          articulomodal
+                        ) {
+                          return _c("tr", { key: articulomodal.id }, [
+                            _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success btn-sm",
+                                  attrs: {
+                                    type: "button",
+                                    "data-toggle": "modal"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.agregarDetallesModal(
+                                        articulomodal
+                                      )
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "icon-check" })]
+                              ),
+                              _vm._v(
+                                "  \n                                        \n\n                                        "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                textContent: _vm._s(articulomodal.codigo)
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                textContent: _vm._s(articulomodal.nombre)
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                textContent: _vm._s(
+                                  articulomodal.categoria.nombre
+                                )
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                textContent: _vm._s(articulomodal.precio_venta)
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                textContent: _vm._s(articulomodal.stock)
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", [
+                              articulomodal.condicion == 1
+                                ? _c("div", [
+                                    _c(
+                                      "span",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Activo")]
+                                    )
+                                  ])
+                                : _c("div", [
+                                    _c(
+                                      "span",
+                                      { staticClass: "badge badge-danger" },
+                                      [_vm._v("Desactivado")]
+                                    )
+                                  ])
+                            ])
+                          ])
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
                 _c(
@@ -49230,6 +49530,28 @@ var staticRenderFns = [
         _vm._v(
           "\n                                         No hay articulos agregados\n                                       "
         )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Opciones")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Codigo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Categoria")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Pre Venta")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Stock")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Estado")])
       ])
     ])
   }

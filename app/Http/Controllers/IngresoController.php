@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ingreso;
 use App\DetalleIngreso;
+use App\Articulo;
+use App\Categoria;
 use DB;
 use Carbon\Carbon;
 
@@ -41,6 +43,27 @@ class IngresoController extends Controller
             ],
             'ingreso' => $ingreso
         ];
+    }
+
+
+    public function ListarArticuloIngreso(Request $request)
+    {   
+        
+       // if(!$request->ajax()){
+       //    return redirect('/');
+       //    }
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+
+         if($buscar==''){
+
+          $listarticulos = Articulo::with('categoria')->orderBy('id', 'desc')->paginate(10);
+
+         }else{
+
+            $listarticulos = Articulo::with('categoria')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+         }
+        return ['listarticulos' => $listarticulos];
     }
 
 

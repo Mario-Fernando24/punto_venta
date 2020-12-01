@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Proveedor;
 use App\Persona;
+
 use DB;
 use Carbon\Carbon;
 
