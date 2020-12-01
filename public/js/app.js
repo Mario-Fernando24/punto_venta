@@ -4010,6 +4010,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
     abrirModal: function abrirModal() {
+      this.arrayArticulo = [];
       this.modal = 1;
       this.tituloModal = 'Seleccione uno o varios Articulos';
     }
