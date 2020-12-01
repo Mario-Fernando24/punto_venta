@@ -3942,23 +3942,27 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
-      axios.post('/user/registrar', {
-        'nombre': this.nombre,
-        'tipo_documento': this.tipo_documento,
-        'num_documento': this.num_documento,
-        'direccion': this.direccion,
-        'telefono': this.telefono,
-        'email': this.email,
-        'usuario': this.usuario,
-        'password': this.password,
-        'idRol': this.idRol
+      axios.post('/ingresos/registrar', {
+        'idproveedor': this.idproveedor,
+        'tipo_comprobante': this.tipo_comprobante,
+        'serie_comprobante': this.serie_comprobante,
+        'num_comprobante': this.num_comprobante,
+        'impuesto': this.impuesto,
+        'total': this.total,
+        'data': this.arrayDetalleIngreso
       }).then(function (response) {
+        this.listado = 1;
+        this.vaciarvariable();
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
-        me.listarIngreso(1, '', 'nombre');
+        me.listarIngreso(1, '', 'num_comprobante');
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    vaciarvariable: function vaciarvariable() {
+      this.idproveedor = 0;
+      this.tipo_comprobante = 'FACTURA', this.serie_comprobante = '', this.num_comprobante = '', this.impuesto = '', this.impuesto = 18, this.total = 0.0, this.idarticulo = 0, this.articulo = '', this.cantidad = '', this.precio = '', this.arrayDetalleIngreso = [];
     },
     //methods validar las usuario
     validarIngreso: function validarIngreso() {
@@ -3967,11 +3971,12 @@ __webpack_require__.r(__webpack_exports__);
       if (this.idproveedor == 0) this.errorMensajeArrayIngreso.push("Seleccione un proveedor ");
       if (!this.num_comprobante) this.errorMensajeArrayIngreso.push("Seleccione numero de comprobante ");
       if (!this.tipo_comprobante) this.errorMensajeArrayIngreso.push("Ingrese tipo de comprobante ");
-      if (!this.arrayDetalleIngreso <= 0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
+      if (this.arrayDetalleIngreso.length <= 0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
       if (this.errorMensajeArrayIngreso.length) this.errorIngreso = 1;
       return this.errorIngreso;
     },
     mostrarDetalle: function mostrarDetalle() {
+      this.vaciarvariable();
       this.listado = 0;
     },
     ocultarDetalle: function ocultarDetalle() {
