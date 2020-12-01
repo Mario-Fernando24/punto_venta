@@ -53,14 +53,11 @@ class ArticuloContoller extends Controller
            return redirect('/');
       }
            $filtro=$request->get('filtro');
-
            $articulo=Articulo::where('codigo',$filtro)
            ->select('id','nombre')->orderBy('nombre','asc')
            ->take(1)->get();
 
            return ['articulo' => $articulo];
-
-
     }
     
 

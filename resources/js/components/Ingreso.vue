@@ -54,9 +54,10 @@
                                         <tbody>
                                             <tr v-for="ingreso in arrayIngreso" :key="ingreso.id">
                                                 <td >
-                                                    <button type="button" @click="abrirModal('ingreso', 'actualizar',ingreso)" class="btn btn-success btn-sm" data-toggle="modal">
+                                                 <!--   <button type="button" @click="abrirModal('ingreso', 'actualizar',ingreso)" class="btn btn-success btn-sm" data-toggle="modal">
                                                     <i class="icon-eye"></i>
                                                     </button> &nbsp;
+                                                    -->
 
 
                                                     <template v-if="ingreso.estado=='registrado'"> 
@@ -87,8 +88,7 @@
                                                     </td>
 
                                                     
-                                                    <td>  
-                                                </td>
+                                                 
                                             </tr>
                                             </tbody>
                                     </table>
@@ -117,7 +117,7 @@
                     <!-- fin Listado-->
 
                     <!--compra-->
-                        <template v-else>
+                     <template v-else>
                         <div class="card-body">
                             <div class="form-group row border">
                                 <div class="col-md-9">
@@ -171,31 +171,41 @@
 
 
                         <div class="form-group row border">
-                              <div class="col-md-6">
+                              <div class="col-md-4">
                                  <div class="form-group">
                                      <label>Articulo <span class="validaridArticulo" v-show="idarticulo==0">(*Seleccione)</span></label>
                                      <div class="form-inline">
                                          <input type="" v-model="codigo" @keyup.enter="buscarArticulo()"  placeholder="Ingrese el articulo">
-                                         <button class="btn btn-primary">...</button>
+                                         <button class="btn btn-primary" @click="abrirModal()">...</button>
                                          <input type="text" readonly class="form-control" v-model="articulo">
                                      </div>
                                  </div>
                               </div>
+                            
 
                               <div class="col-md-2">
                                  <div class="form-group">
-                                     <label>Precio<span class="validaridArticulo" v-show="precio==0">(*requerido)</span></label><br>
-                                     <input type="number" v-model="precio" value="0" step="any"  placeholder="000.0">
+                                     <label>Cantidad<span  class="validaridArticulo"   v-show="cantidad==0">*</span></label><br>
+                                     <input type="number" min="0" value="0" step="any" v-model="cantidad"  placeholder="00">
                                  </div>                   
                               </div>
-                               
+                                
+                                <div class="col-md-2">
+                                 <div class="form-group">
+                                     <label>Precio compra<span class="validaridArticulo" v-show="preciocompra==0">*</span></label><br>
+                                     <input type="number" min="0" v-model="preciocompra" value="0" step="any"  placeholder="000.0">
+                                 </div>                   
+                              </div>
 
                               <div class="col-md-2">
                                  <div class="form-group">
-                                     <label>Cantidad<span class="validaridArticulo" v-show="cantidad==0">(*requerido)</span></label><br>
-                                     <input type="number" value="0" step="any" v-model="cantidad"  placeholder="00">
+                                     <label>Precio venta<span class="validaridArticulo" v-show="precio==0">*</span></label><br>
+                                     <input type="number" min="0" v-model="precio" value="0" step="any"  placeholder="000.0">
                                  </div>                   
                               </div>
+                                                       
+
+
 
                               <div class="col-md-2">
                                  <div class="form-group">
@@ -212,11 +222,16 @@
                                     
                                      <thead>
                                          <tr>
+
                                             <th>Opciones</th>
                                             <th>Articulo</th>
-                                            <th>Precio</th>
                                             <th>Cantidad</th>
+                                            <th>Precio compra</th>
+                                            <th>Precio venta</th>
                                             <th>Subtotal</th>
+                                            <th>Ganancia</th>
+                                            <th>%</th>
+
                                          </tr>
                                      </thead>
                                      <tbody v-if="arrayDetalleIngreso.length">
@@ -232,30 +247,56 @@
                                             <td>
                                                 <input v-model="detalle.cantidad" type="number" value="3" class="form-control">
                                             </td>
+
+                                            <td>
+                                                <input v-model="detalle.preciocompra" type="number" value="2" class="form-control">
+                                            </td>
+
+
                                             <td>
                                                 <input v-model="detalle.precio" type="number" value="2" class="form-control">
                                             </td>
                                             <td>
-                                                {{ detalle.precio*detalle.cantidad  }}
+                                                {{ Intl.NumberFormat().format(detalle.preciocompra*detalle.cantidad)  }}
+                                            </td>
+
+
+                                            <!--ganancia-->
+
+                                            <td>
+                                                {{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
+                                            </td>
+
+                                            <!--porcentaje-->
+                                            <td v-if="(100-((detalle.preciocompra*100)/detalle.precio))<0" style="color:red; font-weight: 900;">
+                                                {{ (100-((detalle.preciocompra*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
+                                            </td>
+                                            <td v-else>
+                                                {{ (100-((detalle.preciocompra*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
                                             </td>
                                          </tr>
 
 
 
                                          <tr class="totalresultado" >
-                                             <td colspan="4" align="right"><strong>Subtotal:</strong></td>
-                                             <td>$ {{ subtotal=(total-totalImpuesto ).toFixed(2) }}</td>
+                                             <td colspan="6" align="right"><strong>Subtotal:</strong></td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format(subtotal=(total-totalImpuesto )) }}</td>
                                          </tr>
 
 
                                          <tr class="totalresultado" >
-                                             <td colspan="4" align="right"><strong>Total Impuesto:</strong></td>
-                                             <td>$ {{ totalImpuesto=((total*impuesto )/100).toFixed(2) }}</td>
+                                             <td colspan="6" align="right"><strong>Impuesto:</strong></td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format(totalImpuesto=((total*impuesto )/100)) }}</td>
                                          </tr>
 
-                                         <tr class=" " >
-                                             <td colspan="4" align="right"><strong>Total Neto:</strong></td>
-                                             <td>$ {{ total=calculadorTotal }}</td>
+                                         <tr class="totalresultado" >
+                                             <td colspan="6" align="right"><strong>Total Neto:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total=calculadorTotal))}}</td>
+                                         </tr>
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="6" align="right"><strong>Total Ganancias:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calcularTotalGanancia))}}</td>
                                          </tr>
 
                                          
@@ -264,7 +305,7 @@
 
                                  <tbody v-else>
                                    <tr>
-                                       <th colspan="5">
+                                       <th colspan="8">
                                          No hay articulos agregados
                                        </th>
                                    </tr>
@@ -307,7 +348,6 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
                             <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarIngreso()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarUsuario()">Actualizar</button>
 
                         </div>
                     </div>
@@ -315,8 +355,6 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
-            
-     
         </main>
 </template>
 
@@ -340,6 +378,7 @@ import vSelect from "vue-select";
             num_comprobante: '',
             telefono:'',
             impuesto: 18,
+            totalgananciass: 0.0,
             total: 0.0,
             totalImpuesto:0.0,
             subtotal: 0.0,
@@ -385,6 +424,7 @@ import vSelect from "vue-select";
             codigo:'',
             articulo:'',
             precio:0,
+            preciocompra:0,
             cantidad:0,
           }
         },
@@ -425,15 +465,27 @@ import vSelect from "vue-select";
             calculadorTotal : function(){
                 var resultado=0.0;
                 for(var i=0; i<this.arrayDetalleIngreso.length; i++){
-                  resultado+=this.arrayDetalleIngreso[i].precio*this.arrayDetalleIngreso[i].cantidad;
+                  resultado+=this.arrayDetalleIngreso[i].preciocompra*this.arrayDetalleIngreso[i].cantidad;
                 }
 
                 return resultado;
-            }
+            },
 
+            calcularTotalGanancia : function(){
+                var totalgan=0.0;
+                var aux=0.0;
+                for(var i=0; i<this.arrayDetalleIngreso.length; i++){
+                  aux+=this.arrayDetalleIngreso[i].precio-this.arrayDetalleIngreso[i].preciocompra;
+                  totalgan+=aux*this.arrayDetalleIngreso[i].cantidad;
+                  aux=0.0;
+                }
+                return totalgan;
+
+            },
 
         },
 
+//{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
 
 
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
@@ -533,6 +585,7 @@ import vSelect from "vue-select";
                         articulo: this.articulo,
                         cantidad : this.cantidad,
                         precio: this.precio,
+                        preciocompra:this.preciocompra,
 
                        });
 
@@ -541,6 +594,7 @@ import vSelect from "vue-select";
                         this.articulo='';
                         this.cantidad=0;
                         this.precio=0;
+                        this.preciocompra=0;
                       }
                       
                      }
@@ -592,36 +646,7 @@ import vSelect from "vue-select";
 
               },
 
-
-             //Metodo actualizar usuario
-           actualizarUsuario(){
-
-                  if(this.validarUsuario()){
-                      return ;
-                  }
-                  let me=this;
-                  axios.put('/user/actualizar', {
-                    'nombre':  this.nombre,
-                    'tipo_documento': this.tipo_documento,
-                    'num_documento': this.num_documento,
-                    'direccion': this.direccion,
-                    'telefono': this.telefono,
-                    'email': this.email,       
-                    'usuario':this.usuario,
-                    'password': this.password,
-                    'idRol':this.idRol,
-                    'id' :this.ingreso_id,     
-                })
-                .then(function (response) {
-                    me.cerrarModal();
-                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listarIngreso(1,'','nombre');
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-              },
+ 
 
             //methods validar las usuario
             validarUsuario(){
@@ -636,14 +661,7 @@ import vSelect from "vue-select";
               },
 
 
-           //metodo para cerrar el modal
-            cerrarModal(){
-                this.modal=0;
-                this.tituloModal='';
-                this.errorMensajeArrayIngreso = [];
-                this.errorIngreso = 0;
-
-              },
+           
               
               mostrarDetalle(){
                 this.listado=0;
@@ -705,37 +723,19 @@ import vSelect from "vue-select";
                 })
            },
 
+           //metodo para cerrar el modal
+            cerrarModal(){
+                this.modal=0;
+                this.tituloModal='';
+
+              },
+
 
               //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
-            abrirModal(modelo, accion, data=[]){
-                  switch(modelo){
-                      case "ingreso":
-                     {
-                         switch(accion){
-                            
-                             case 'registrar':
-                            {
-                                this.modal=1;
-                                this.tituloModal='Registrar Compra';
-                                this.tipoAccionButton=1;
-                              break;
-                             } 
-                             case 'actualizar':
-                            {
-                                                                console.log('actualizar');
-
-                               this.modal=1;
-                               this.tituloModal='Editar Compra';
-                               this.tipoAccionButton=2;
-
-                             break;
-                             }   
-                                 
-                         } 
-                      }
-                  }
-
-              }
+            abrirModal(){       
+             this.modal=1;
+             this.tituloModal='Seleccione uno o varios Articulos';
+            }
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarIngreso
@@ -780,6 +780,6 @@ import vSelect from "vue-select";
   }
   .validaridArticulo{
       color: red;
-      font-weight: 900;
+      font-weight: 500;
   }
 </style>

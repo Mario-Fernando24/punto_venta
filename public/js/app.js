@@ -3570,6 +3570,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -3585,6 +3623,7 @@ __webpack_require__.r(__webpack_exports__);
       num_comprobante: '',
       telefono: '',
       impuesto: 18,
+      totalgananciass: 0.0,
       total: 0.0,
       totalImpuesto: 0.0,
       subtotal: 0.0,
@@ -3623,6 +3662,7 @@ __webpack_require__.r(__webpack_exports__);
       codigo: '',
       articulo: '',
       precio: 0,
+      preciocompra: 0,
       cantidad: 0
     };
   },
@@ -3666,12 +3706,25 @@ __webpack_require__.r(__webpack_exports__);
       var resultado = 0.0;
 
       for (var i = 0; i < this.arrayDetalleIngreso.length; i++) {
-        resultado += this.arrayDetalleIngreso[i].precio * this.arrayDetalleIngreso[i].cantidad;
+        resultado += this.arrayDetalleIngreso[i].preciocompra * this.arrayDetalleIngreso[i].cantidad;
       }
 
       return resultado;
+    },
+    calcularTotalGanancia: function calcularTotalGanancia() {
+      var totalgan = 0.0;
+      var aux = 0.0;
+
+      for (var i = 0; i < this.arrayDetalleIngreso.length; i++) {
+        aux += this.arrayDetalleIngreso[i].precio - this.arrayDetalleIngreso[i].preciocompra;
+        totalgan += aux * this.arrayDetalleIngreso[i].cantidad;
+        aux = 0.0;
+      }
+
+      return totalgan;
     }
   },
+  //{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
     listarIngreso: function listarIngreso(page, buscar, criterio) {
@@ -3747,13 +3800,15 @@ __webpack_require__.r(__webpack_exports__);
             idarticulo: this.idarticulo,
             articulo: this.articulo,
             cantidad: this.cantidad,
-            precio: this.precio
+            precio: this.precio,
+            preciocompra: this.preciocompra
           });
           this.codigo = '';
           this.idarticulo = 0;
           this.articulo = '';
           this.cantidad = 0;
           this.precio = 0;
+          this.preciocompra = 0;
         }
       }
     },
@@ -3796,32 +3851,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    //Metodo actualizar usuario
-    actualizarUsuario: function actualizarUsuario() {
-      if (this.validarUsuario()) {
-        return;
-      }
-
-      var me = this;
-      axios.put('/user/actualizar', {
-        'nombre': this.nombre,
-        'tipo_documento': this.tipo_documento,
-        'num_documento': this.num_documento,
-        'direccion': this.direccion,
-        'telefono': this.telefono,
-        'email': this.email,
-        'usuario': this.usuario,
-        'password': this.password,
-        'idRol': this.idRol,
-        'id': this.ingreso_id
-      }).then(function (response) {
-        me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-
-        me.listarIngreso(1, '', 'nombre');
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
     //methods validar las usuario
     validarUsuario: function validarUsuario() {
       this.errorIngreso = 0;
@@ -3831,13 +3860,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.idRol == 0) this.errorMensajeArrayIngreso.push("Seleccione un rol para el usuario");
       if (this.errorMensajeArrayIngreso.length) this.errorIngreso = 1;
       return this.errorIngreso;
-    },
-    //metodo para cerrar el modal
-    cerrarModal: function cerrarModal() {
-      this.modal = 0;
-      this.tituloModal = '';
-      this.errorMensajeArrayIngreso = [];
-      this.errorIngreso = 0;
     },
     mostrarDetalle: function mostrarDetalle() {
       this.listado = 0;
@@ -3882,33 +3904,15 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    //metodo para cerrar el modal
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+      this.tituloModal = '';
+    },
     //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
-    abrirModal: function abrirModal(modelo, accion) {
-      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-
-      switch (modelo) {
-        case "ingreso":
-          {
-            switch (accion) {
-              case 'registrar':
-                {
-                  this.modal = 1;
-                  this.tituloModal = 'Registrar Compra';
-                  this.tipoAccionButton = 1;
-                  break;
-                }
-
-              case 'actualizar':
-                {
-                  console.log('actualizar');
-                  this.modal = 1;
-                  this.tituloModal = 'Editar Compra';
-                  this.tipoAccionButton = 2;
-                  break;
-                }
-            }
-          }
-      }
+    abrirModal: function abrirModal() {
+      this.modal = 1;
+      this.tituloModal = 'Seleccione uno o varios Articulos';
     }
   },
   mounted: function mounted() {
@@ -9883,7 +9887,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 900;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 500;\n}\n", ""]);
 
 // exports
 
@@ -48095,29 +48099,6 @@ var render = function() {
                               _c(
                                 "td",
                                 [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-success btn-sm",
-                                      attrs: {
-                                        type: "button",
-                                        "data-toggle": "modal"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.abrirModal(
-                                            "ingreso",
-                                            "actualizar",
-                                            ingreso
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "icon-eye" })]
-                                  ),
-                                  _vm._v(
-                                    "  \n\n\n                                                    "
-                                  ),
                                   ingreso.estado == "registrado"
                                     ? [
                                         _c(
@@ -48211,9 +48192,7 @@ var render = function() {
                                         [_vm._v("Anulado")]
                                       )
                                     ])
-                              ]),
-                              _vm._v(" "),
-                              _c("td")
+                              ])
                             ])
                           }),
                           0
@@ -48472,7 +48451,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row border" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [
                           _vm._v("Articulo "),
@@ -48533,9 +48512,18 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          _c("button", { staticClass: "btn btn-primary" }, [
-                            _vm._v("...")
-                          ]),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              on: {
+                                click: function($event) {
+                                  return _vm.abrirModal()
+                                }
+                              }
+                            },
+                            [_vm._v("...")]
+                          ),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -48565,56 +48553,6 @@ var render = function() {
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [
-                          _vm._v("Precio"),
-                          _c(
-                            "span",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.precio == 0,
-                                  expression: "precio==0"
-                                }
-                              ],
-                              staticClass: "validaridArticulo"
-                            },
-                            [_vm._v("(*requerido)")]
-                          )
-                        ]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.precio,
-                              expression: "precio"
-                            }
-                          ],
-                          attrs: {
-                            type: "number",
-                            value: "0",
-                            step: "any",
-                            placeholder: "000.0"
-                          },
-                          domProps: { value: _vm.precio },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.precio = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-2" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", [
                           _vm._v("Cantidad"),
                           _c(
                             "span",
@@ -48629,7 +48567,7 @@ var render = function() {
                               ],
                               staticClass: "validaridArticulo"
                             },
-                            [_vm._v("(*requerido)")]
+                            [_vm._v("*")]
                           )
                         ]),
                         _c("br"),
@@ -48645,6 +48583,7 @@ var render = function() {
                           ],
                           attrs: {
                             type: "number",
+                            min: "0",
                             value: "0",
                             step: "any",
                             placeholder: "00"
@@ -48656,6 +48595,108 @@ var render = function() {
                                 return
                               }
                               _vm.cantidad = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [
+                          _vm._v("Precio compra"),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.preciocompra == 0,
+                                  expression: "preciocompra==0"
+                                }
+                              ],
+                              staticClass: "validaridArticulo"
+                            },
+                            [_vm._v("*")]
+                          )
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.preciocompra,
+                              expression: "preciocompra"
+                            }
+                          ],
+                          attrs: {
+                            type: "number",
+                            min: "0",
+                            value: "0",
+                            step: "any",
+                            placeholder: "000.0"
+                          },
+                          domProps: { value: _vm.preciocompra },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.preciocompra = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [
+                          _vm._v("Precio venta"),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.precio == 0,
+                                  expression: "precio==0"
+                                }
+                              ],
+                              staticClass: "validaridArticulo"
+                            },
+                            [_vm._v("*")]
+                          )
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.precio,
+                              expression: "precio"
+                            }
+                          ],
+                          attrs: {
+                            type: "number",
+                            min: "0",
+                            value: "0",
+                            step: "any",
+                            placeholder: "000.0"
+                          },
+                          domProps: { value: _vm.precio },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.precio = $event.target.value
                             }
                           }
                         })
@@ -48764,6 +48805,36 @@ var render = function() {
                                             {
                                               name: "model",
                                               rawName: "v-model",
+                                              value: detalle.preciocompra,
+                                              expression: "detalle.preciocompra"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { type: "number", value: "2" },
+                                          domProps: {
+                                            value: detalle.preciocompra
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                detalle,
+                                                "preciocompra",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
                                               value: detalle.precio,
                                               expression: "detalle.precio"
                                             }
@@ -48790,24 +48861,86 @@ var render = function() {
                                         _vm._v(
                                           "\n                                                " +
                                             _vm._s(
-                                              detalle.precio * detalle.cantidad
+                                              Intl.NumberFormat().format(
+                                                detalle.preciocompra *
+                                                  detalle.cantidad
+                                              )
                                             ) +
                                             "\n                                            "
                                         )
-                                      ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(
+                                          "\n                                                " +
+                                            _vm._s(
+                                              Intl.NumberFormat().format(
+                                                (detalle.precio -
+                                                  detalle.preciocompra) *
+                                                  detalle.cantidad
+                                              )
+                                            ) +
+                                            "\n                                            "
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      100 -
+                                        (detalle.preciocompra * 100) /
+                                          detalle.precio <
+                                      0
+                                        ? _c(
+                                            "td",
+                                            {
+                                              staticStyle: {
+                                                color: "red",
+                                                "font-weight": "900"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                " +
+                                                  _vm._s(
+                                                    (
+                                                      100 -
+                                                      (detalle.preciocompra *
+                                                        100) /
+                                                        detalle.precio
+                                                    ).toFixed(2)
+                                                  ) +
+                                                  " "
+                                              ),
+                                              _c("b", [_vm._v("%")])
+                                            ]
+                                          )
+                                        : _c("td", [
+                                            _vm._v(
+                                              "\n                                                " +
+                                                _vm._s(
+                                                  (
+                                                    100 -
+                                                    (detalle.preciocompra *
+                                                      100) /
+                                                      detalle.precio
+                                                  ).toFixed(2)
+                                                ) +
+                                                " "
+                                            ),
+                                            _c("b", [_vm._v("%")])
+                                          ])
                                     ])
                                   }),
                                   _vm._v(" "),
                                   _c("tr", { staticClass: "totalresultado" }, [
                                     _vm._m(3),
                                     _vm._v(" "),
-                                    _c("td", [
+                                    _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
                                         "$ " +
                                           _vm._s(
-                                            (_vm.subtotal = (
-                                              _vm.total - _vm.totalImpuesto
-                                            ).toFixed(2))
+                                            Intl.NumberFormat().format(
+                                              (_vm.subtotal =
+                                                _vm.total - _vm.totalImpuesto)
+                                            )
                                           )
                                       )
                                     ])
@@ -48816,27 +48949,45 @@ var render = function() {
                                   _c("tr", { staticClass: "totalresultado" }, [
                                     _vm._m(4),
                                     _vm._v(" "),
-                                    _c("td", [
+                                    _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
                                         "$ " +
                                           _vm._s(
-                                            (_vm.totalImpuesto = (
-                                              (_vm.total * _vm.impuesto) /
-                                              100
-                                            ).toFixed(2))
+                                            Intl.NumberFormat().format(
+                                              (_vm.totalImpuesto =
+                                                (_vm.total * _vm.impuesto) /
+                                                100)
+                                            )
                                           )
                                       )
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _c("tr", { staticClass: " " }, [
+                                  _c("tr", { staticClass: "totalresultado" }, [
                                     _vm._m(5),
                                     _vm._v(" "),
-                                    _c("td", [
+                                    _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
                                         "$ " +
                                           _vm._s(
-                                            (_vm.total = _vm.calculadorTotal)
+                                            Intl.NumberFormat().format(
+                                              (_vm.total = _vm.calculadorTotal)
+                                            )
+                                          )
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", { staticClass: "totalresultado" }, [
+                                    _vm._m(6),
+                                    _vm._v(" "),
+                                    _c("td", { attrs: { colspan: "2" } }, [
+                                      _vm._v(
+                                        "$ " +
+                                          _vm._s(
+                                            Intl.NumberFormat().format(
+                                              _vm.calcularTotalGanancia
+                                            )
                                           )
                                       )
                                     ])
@@ -48844,7 +48995,7 @@ var render = function() {
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(6)])
+                            : _c("tbody", [_vm._m(7)])
                         ]
                       )
                     ]),
@@ -48966,22 +49117,6 @@ var render = function() {
                       },
                       [_vm._v("Guardar")]
                     )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.tipoAccionButton == 2
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.actualizarUsuario()
-                          }
-                        }
-                      },
-                      [_vm._v("Actualizar")]
-                    )
                   : _vm._e()
               ])
             ])
@@ -49040,11 +49175,17 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Articulo")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Precio")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Cantidad")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Subtotal")])
+        _c("th", [_vm._v("Precio compra")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio venta")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Subtotal")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Ganancia")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("%")])
       ])
     ])
   },
@@ -49052,7 +49193,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
       _c("strong", [_vm._v("Subtotal:")])
     ])
   },
@@ -49060,15 +49201,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
-      _c("strong", [_vm._v("Total Impuesto:")])
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
+      _c("strong", [_vm._v("Impuesto:")])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
       _c("strong", [_vm._v("Total Neto:")])
     ])
   },
@@ -49076,8 +49217,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
+      _c("strong", [_vm._v("Total Ganancias:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { attrs: { colspan: "5" } }, [
+      _c("th", { attrs: { colspan: "8" } }, [
         _vm._v(
           "\n                                         No hay articulos agregados\n                                       "
         )

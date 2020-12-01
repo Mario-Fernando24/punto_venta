@@ -48,9 +48,9 @@ class ProveedorController extends Controller
     //seleccionar proveedor desde la vista ingreso para hacer una compra
     public function SelectProveedor(Request $request){
 
-   //   if(!$request->ajax()){
-     //   return redirect('/');
-      //  }
+     if(!$request->ajax()){
+        return redirect('/');
+        }
       
 
         $filtro=$request->get('filtro');

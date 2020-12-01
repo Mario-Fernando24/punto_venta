@@ -89,9 +89,10 @@
                     </li>
 
 
-                    <li @click="menu=11" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-book-open"></i>Cuentas por cobrar</a>
-                    </li>
+                    
+
+
+
                     <li @click="menu=12" class="nav-item">
                         <a class="nav-link" href="#"><i class="icon-book-open"></i>Caja</a>
                     </li>
@@ -100,8 +101,17 @@
 
                     
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i> Gastos Administrativo</a>
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i>Documento de caja</a>
                         <ul class="nav-dropdown-items">
+
+                           <li @click="menu=9" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por cobrar</a>
+                            </li>
+                            <li @click="menu=10" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por pagar</a>
+                            </li>
+
+
                             <li @click="menu=9" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-chart"></i>Nomina</a>
                             </li>
