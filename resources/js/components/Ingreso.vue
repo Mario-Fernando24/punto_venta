@@ -724,7 +724,7 @@ import vSelect from "vue-select";
                 .then(function (response) {
                     console.log('entro a esta funcion');
                     me.listado= 1;
-                   me.vaciarvariable();
+                    me.vaciarvariable();
                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                    me.listarIngreso(1,'','num_comprobante');
                 }) 
