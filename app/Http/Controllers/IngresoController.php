@@ -114,14 +114,14 @@ class IngresoController extends Controller
 
 
       //function para desactivar una user
-      public function desactivar(Request $request)
+      public function anularIngreso(Request $request)
       {
          if(!$request->ajax()){
           return redirect('/');
          }
   
-          $ingreso = Ingreso::findOrFail($request->id);
-          $ingreso->estado='Anulado';
+          $ingreso = Ingreso::findOrFail($request->get('id'));
+          $ingreso->estado='anulado';
           $ingreso->update();
       }
 

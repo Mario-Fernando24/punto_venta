@@ -135,7 +135,7 @@
             Route::get('index', 'IngresoController@index');
             Route::get('ListarArticuloIngreso', 'IngresoController@ListarArticuloIngreso');
             Route::post('registrar', 'IngresoController@store');
-            Route::put('desactivar', 'IngresoController@desactivar');
+            Route::put('anularIngreso', 'IngresoController@anularIngreso');
         });
 
              

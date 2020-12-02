@@ -3994,7 +3994,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsStyling: false
       });
       swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de desactivar esta Usuario?',
+        title: 'Estas seguro de Anular este Ingreso?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -4003,12 +4003,12 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.isConfirmed) {
           var me = _this;
-          axios.put('/user/desactivar', {
+          axios.put('/ingresos/anularIngreso', {
             'id': id
           }).then(function (response) {
             //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-            me.listarIngreso(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Desactivado', 'Usuario ha sido desactivado correctamente', 'success');
+            me.listarIngreso(1, '', 'num_comprobante');
+            swalWithBootstrapButtons.fire('Anulado', 'El Ingreso ha sido Anulado correctamente', 'success');
           })["catch"](function (error) {
             console.log(error);
           });

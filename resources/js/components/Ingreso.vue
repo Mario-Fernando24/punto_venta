@@ -780,7 +780,7 @@ import vSelect from "vue-select";
                 buttonsStyling: false
                 })
                 swalWithBootstrapButtons.fire({
-                title: 'Estas seguro de desactivar esta Usuario?',
+                title: 'Estas seguro de Anular este Ingreso?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Aceptar',
@@ -789,15 +789,15 @@ import vSelect from "vue-select";
                 }).then((result) => {
                 if (result.isConfirmed) {
                      let me=this;
-                  axios.put('/user/desactivar', {
+                  axios.put('/ingresos/anularIngreso', {
                     'id' : id
                 })
                 .then(function (response) {
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listarIngreso(1,'','nombre');
+                   me.listarIngreso(1,'','num_comprobante');
                     swalWithBootstrapButtons.fire(
-                    'Desactivado',
-                    'Usuario ha sido desactivado correctamente',
+                    'Anulado',
+                    'El Ingreso ha sido Anulado correctamente',
                     'success'
                     )
                 })
