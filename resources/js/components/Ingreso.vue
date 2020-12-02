@@ -549,7 +549,7 @@ import vSelect from "vue-select";
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
-          listarIngreso(page, buscar, criterio){
+               listarIngreso(page, buscar, criterio){
                  let me=this;
                   var url= '/ingresos/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
@@ -561,17 +561,17 @@ import vSelect from "vue-select";
                     .catch(function (error) {
                         console.log(error);
                     });
-              },
+               },
           
-          //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
+               //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
                 cambiarPagina(page, buscar, criterio){
                 let me = this;
                 //actualiza a la pagina actual
                 me.pagination.current_page = page;
                 //envia la peticion de listar esa pagina
                 me.listarIngreso(page, buscar, criterio);
-            },
-            selectProveedor(search,loading){
+               },
+                selectProveedor(search,loading){
                //  console.log(loading);                    
                 let me=this;
                 loading(true);
@@ -595,7 +595,7 @@ import vSelect from "vue-select";
                     },
 
 
-          listarArticulo(buscarArt, criterioArticulo){
+                listarArticulo(buscarArt, criterioArticulo){
                  let me=this;
                   var url= '/ingresos/ListarArticuloIngreso?buscar=' + buscarArt + '&criterio=' + criterioArticulo;
                   axios.get(url).then(function (response) {
@@ -608,8 +608,7 @@ import vSelect from "vue-select";
                         console.log(error);
                     });
 
-              },
-
+                },
               
                 buscarArticuloCodigoBarra(){
                 let me=this;
@@ -720,13 +719,14 @@ import vSelect from "vue-select";
                     'total':this.total,
                     'data':this.arrayDetalleIngreso,
                     
-                }).then(function (response) {
-                    this.listado=1;
-
-                    this.vaciarvariable();
-                    me.cerrarModal();
-                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listarIngreso(1,'','num_comprobante');
+                    
+                })
+                .then(function (response) {
+                    console.log('entro a esta funcion');
+                    me.listado= 1;
+                   me.vaciarvariable();
+                   //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                   me.listarIngreso(1,'','num_comprobante');
                 }) 
                 .catch(function (error) {
                     console.log(error);

@@ -3951,9 +3951,9 @@ __webpack_require__.r(__webpack_exports__);
         'total': this.total,
         'data': this.arrayDetalleIngreso
       }).then(function (response) {
-        this.listado = 1;
-        this.vaciarvariable();
-        me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+        console.log('entro a esta funcion');
+        me.listado = 1;
+        me.vaciarvariable(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listarIngreso(1, '', 'num_comprobante');
       })["catch"](function (error) {

@@ -86,7 +86,7 @@ class IngresoController extends Controller
             'fecha_hora' => $mytime->toDateString(),
             'impuesto' => $request->get('impuesto'),
             'total' => $request->get('total'),
-            'estado' => 'Registrado',
+            'estado' => 'registrado',
           ]);
 
             //array de deatalle
