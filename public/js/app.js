@@ -3685,6 +3685,144 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -3695,6 +3833,7 @@ __webpack_require__.r(__webpack_exports__);
       //cual es la usuario que quiero edit 
       ingreso_id: 0,
       idproveedor: 0,
+      proveedor: '',
       tipo_comprobante: 'FACTURA',
       serie_comprobante: '',
       num_comprobante: '',
@@ -3909,7 +4048,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.encuentra(data['id'])) {
         this.aux = 0;
-        Swal.fire('Error!', 'este articulo ya esta agregado!', 'error');
+        Swal.fire('Advertencia!', 'este articulo ya esta agregado!', 'info');
       } else {
         //push para agregar valores al array
         this.arrayDetalleIngreso.push({
@@ -3981,6 +4120,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     ocultarDetalle: function ocultarDetalle() {
       this.listado = 1;
+    },
+    VerDetalleIngreso: function VerDetalleIngreso() {
+      this.listado = 2;
     },
     //Metodo para desactivar la categoria
     anularIngreso: function anularIngreso(id) {
@@ -48212,36 +48354,9 @@ var render = function() {
                           "tbody",
                           _vm._l(_vm.arrayIngreso, function(ingreso) {
                             return _c("tr", { key: ingreso.id }, [
-                              _c(
-                                "td",
-                                [
-                                  ingreso.estado == "registrado"
-                                    ? [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm",
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.anularIngreso(
-                                                  ingreso.id
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "icon-trash"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    : _vm._e()
-                                ],
-                                2
-                              ),
+                              _c("td", {
+                                domProps: { textContent: _vm._s(ingreso.id) }
+                              }),
                               _vm._v(" "),
                               _c("td", {
                                 domProps: {
@@ -48308,7 +48423,56 @@ var render = function() {
                                         [_vm._v("Anulado")]
                                       )
                                     ])
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-success btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.VerDetalleIngreso(
+                                            ingreso.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "icon-eye" })]
+                                  ),
+                                  _vm._v(
+                                    "  \n\n\n                                                    "
+                                  ),
+                                  ingreso.estado == "registrado"
+                                    ? [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-danger btn-sm",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.anularIngreso(
+                                                  ingreso.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "icon-trash"
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    : _vm._e()
+                                ],
+                                2
+                              )
                             ])
                           }),
                           0
@@ -48401,7 +48565,8 @@ var render = function() {
                   ])
                 ])
               ]
-            : [
+            : _vm.listado == 0
+            ? [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "form-group row border" }, [
                     _c("div", { staticClass: "col-md-9" }, [
@@ -49182,6 +49347,270 @@ var render = function() {
                   ])
                 ])
               ]
+            : _vm.listado == 2
+            ? [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "form-group row border" }, [
+                    _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "" } }, [
+                          _vm._v("Proveedor")
+                        ]),
+                        _vm._v(" "),
+                        _c("p", {
+                          domProps: { textContent: _vm._s(_vm.proveedor) }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("label", [_vm._v("Impuesto %")]),
+                      _vm._v(" "),
+                      _c("p", {
+                        domProps: { textContent: _vm._s(_vm.impuesto) }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Tipo Comprobante(*)")]),
+                        _vm._v(" "),
+                        _c("p", {
+                          domProps: {
+                            textContent: _vm._s(_vm.tipo_comprobante)
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Serie Comprobante")]),
+                        _vm._v(" "),
+                        _c("p", {
+                          domProps: {
+                            textContent: _vm._s(_vm.serie_comprobante)
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Num Comprobante(*)")]),
+                        _vm._v(" "),
+                        _c("p", {
+                          domProps: { textContent: _vm._s(_vm.num_comprobante) }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row border" }, [
+                    _c("div", { staticClass: "table-responsive col-md-12" }, [
+                      _c(
+                        "table",
+                        {
+                          staticClass:
+                            "table table-bordered table-striped table-sm"
+                        },
+                        [
+                          _vm._m(8),
+                          _vm._v(" "),
+                          _vm.arrayDetalleIngreso.length
+                            ? _c(
+                                "tbody",
+                                [
+                                  _vm._l(_vm.arrayDetalleIngreso, function(
+                                    detalle
+                                  ) {
+                                    return _c("tr", { key: detalle.id }, [
+                                      _c("th", {
+                                        domProps: {
+                                          textContent: _vm._s(detalle.articulo)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(detalle.cantidad)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            detalle.preciocompra
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(detalle.precio)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(
+                                          _vm._s(
+                                            Intl.NumberFormat().format(
+                                              detalle.preciocompra *
+                                                detalle.cantidad
+                                            )
+                                          )
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(
+                                          _vm._s(
+                                            Intl.NumberFormat().format(
+                                              (detalle.precio -
+                                                detalle.preciocompra) *
+                                                detalle.cantidad
+                                            )
+                                          )
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      100 -
+                                        (detalle.preciocompra * 100) /
+                                          detalle.precio <
+                                      0
+                                        ? _c(
+                                            "td",
+                                            {
+                                              staticStyle: {
+                                                color: "red",
+                                                "font-weight": "900"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                " +
+                                                  _vm._s(
+                                                    (
+                                                      100 -
+                                                      (detalle.preciocompra *
+                                                        100) /
+                                                        detalle.precio
+                                                    ).toFixed(2)
+                                                  ) +
+                                                  " "
+                                              ),
+                                              _c("b", [_vm._v("%")])
+                                            ]
+                                          )
+                                        : _c("td", [
+                                            _vm._v(
+                                              "\n                                                " +
+                                                _vm._s(
+                                                  (
+                                                    100 -
+                                                    (detalle.preciocompra *
+                                                      100) /
+                                                      detalle.precio
+                                                  ).toFixed(2)
+                                                ) +
+                                                " "
+                                            ),
+                                            _c("b", [_vm._v("%")])
+                                          ])
+                                    ])
+                                  }),
+                                  _vm._v(" "),
+                                  _c("tr", { staticClass: "totalresultado" }, [
+                                    _vm._m(9),
+                                    _vm._v(" "),
+                                    _c("td", { attrs: { colspan: "2" } }, [
+                                      _vm._v(
+                                        "$ " +
+                                          _vm._s(
+                                            Intl.NumberFormat().format(
+                                              (_vm.subtotal =
+                                                _vm.total - _vm.totalImpuesto)
+                                            )
+                                          )
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", { staticClass: "totalresultado" }, [
+                                    _vm._m(10),
+                                    _vm._v(" "),
+                                    _c("td", { attrs: { colspan: "2" } }, [
+                                      _vm._v(
+                                        "$ " +
+                                          _vm._s(
+                                            Intl.NumberFormat().format(
+                                              (_vm.totalImpuesto =
+                                                (_vm.total * _vm.impuesto) /
+                                                100)
+                                            )
+                                          )
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", { staticClass: "totalresultado" }, [
+                                    _vm._m(11),
+                                    _vm._v(" "),
+                                    _c("td", { attrs: { colspan: "2" } }, [
+                                      _vm._v(
+                                        "$ " +
+                                          _vm._s(
+                                            Intl.NumberFormat().format(
+                                              (_vm.total = _vm.calculadorTotal)
+                                            )
+                                          )
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tr", { staticClass: "totalresultado" }, [
+                                    _vm._m(12),
+                                    _vm._v(" "),
+                                    _c("td", { attrs: { colspan: "2" } }, [
+                                      _vm._v(
+                                        "$ " +
+                                          _vm._s(
+                                            Intl.NumberFormat().format(
+                                              _vm.calcularTotalGanancia
+                                            )
+                                          )
+                                      )
+                                    ])
+                                  ])
+                                ],
+                                2
+                              )
+                            : _c("tbody", [_vm._m(13)])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-secondary",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.ocultarDetalle()
+                              }
+                            }
+                          },
+                          [_vm._v("Cerrar")]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ]
+            : _vm._e()
         ],
         2
       )
@@ -49347,7 +49776,7 @@ var render = function() {
                       staticClass: "table table-bordered table-striped table-sm"
                     },
                     [
-                      _vm._m(8),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -49492,7 +49921,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Opciones")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Usuario")]),
         _vm._v(" "),
@@ -49510,7 +49939,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Impuesto")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Estado")])
+        _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")])
       ])
     ])
   },
@@ -49522,6 +49953,72 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Opciones")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Articulo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Cantidad")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio compra")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio venta")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Subtotal")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Ganancia")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("%")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
+      _c("strong", [_vm._v("Subtotal:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
+      _c("strong", [_vm._v("Impuesto:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
+      _c("strong", [_vm._v("Total Neto:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
+      _c("strong", [_vm._v("Total Ganancias:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { attrs: { colspan: "8" } }, [
+        _vm._v(
+          "\n                                         No hay articulos agregados\n                                       "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
         _c("th", [_vm._v("Articulo")]),
         _vm._v(" "),
         _c("th", [_vm._v("Cantidad")]),

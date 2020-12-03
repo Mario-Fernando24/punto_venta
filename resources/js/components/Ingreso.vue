@@ -36,7 +36,7 @@
                                     <table class="table table-bordered table-striped table-sm">
                                         <thead>
                                             <tr>
-                                                <th>Opciones</th>
+                                                <th>#</th>
                                                 <th>Usuario</th>
                                                 <th>Proveedor</th>
                                                 <th>Tipo comprobante</th>
@@ -46,6 +46,8 @@
                                                 <th>Total</th>
                                                 <th>Impuesto</th>
                                                 <th>Estado</th>
+                                                <th>Opciones</th>
+
 
 
 
@@ -53,20 +55,8 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="ingreso in arrayIngreso" :key="ingreso.id">
-                                                <td >
-                                                 <!--   <button type="button" @click="abrirModal('ingreso', 'actualizar',ingreso)" class="btn btn-success btn-sm" data-toggle="modal">
-                                                    <i class="icon-eye"></i>
-                                                    </button> &nbsp;
-                                                    -->
-
-
-                                                    <template v-if="ingreso.estado=='registrado'"> 
-                                                    <button type="button"  class="btn btn-danger btn-sm" @click="anularIngreso(ingreso.id)">
-                                                    <i class="icon-trash"></i>
-                                                    </button>
-                                                    </template>
-                                                </td>
-
+                                                
+                                                    <td v-text="ingreso.id"></td>
                                                     <td v-text="ingreso.persona.nombre"></td>
                                                     <td v-text="ingreso.proveedoress.nombre"></td>
                                                     <td v-text="ingreso.tipo_comprobante"></td>
@@ -85,6 +75,21 @@
                                                     <div v-else>
                                                     <span class="badge badge-danger">Anulado</span>
                                                     </div>
+                                                    </td>
+
+
+                                                    <td>
+
+                                                    <button type="button" class="btn btn-success btn-sm" @click="VerDetalleIngreso(ingreso.id)">
+                                                    <i class="icon-eye"></i>
+                                                    </button> &nbsp;
+
+
+                                                    <template v-if="ingreso.estado=='registrado'"> 
+                                                    <button type="button"  class="btn btn-danger btn-sm" @click="anularIngreso(ingreso.id)">
+                                                    <i class="icon-trash"></i>
+                                                    </button>
+                                                    </template>
                                                     </td>
 
                                                     
@@ -116,8 +121,8 @@
                     </template>
                     <!-- fin Listado-->
 
-                    <!--compra-->
-                     <template v-else>
+                    <!--compra Ingreso-->
+                     <template v-else-if="listado==0">
                         <div class="card-body">
                             <div class="form-group row border">
                                 <div class="col-md-9">
@@ -337,6 +342,143 @@
 
                     <!--fin Ingreso compra-->
 
+
+
+                     <!-- mostrar los detalle de los ingreso-->
+                     <template v-else-if="listado==2">
+                        <div class="card-body">
+                            <div class="form-group row border">
+
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                    <label for="">Proveedor</label>
+                                    <p v-text="proveedor"></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Impuesto %</label>
+                                    <p v-text="impuesto"></p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group"> 
+                                        <label>Tipo Comprobante(*)</label>
+                                          <p v-text="tipo_comprobante"></p>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group"> 
+                                        <label>Serie Comprobante</label>
+                                        <p v-text="serie_comprobante"></p>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group"> 
+                                        <label>Num Comprobante(*)</label>
+                                        <p v-text="num_comprobante"></p>
+                                    </div>
+                                </div>
+
+                          </div>
+
+                    <!--show article-->
+                        <div class="form-group row border">
+                           <div class="table-responsive col-md-12">
+                                 <table class="table table-bordered table-striped table-sm">
+                                    
+                                     <thead>
+                                         <tr>
+
+                                            <th>Articulo</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio compra</th>
+                                            <th>Precio venta</th>
+                                            <th>Subtotal</th>
+                                            <th>Ganancia</th>
+                                            <th>%</th>
+
+                                         </tr>
+                                     </thead>
+                                     <tbody v-if="arrayDetalleIngreso.length">
+
+                                         <tr v-for="(detalle) in arrayDetalleIngreso" :key="detalle.id">
+                                          
+
+                                            <th v-text="detalle.articulo"></th>
+                                            <td v-text="detalle.cantidad"></td>
+                                            <td v-text="detalle.preciocompra"></td>
+                                            <td v-text="detalle.precio"></td>
+                                            <td>{{ Intl.NumberFormat().format(detalle.preciocompra*detalle.cantidad)  }}</td>
+                                            <!--ganancia-->
+
+                                            <td>{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}</td>
+
+                                            <!--porcentaje-->
+                                            <td v-if="(100-((detalle.preciocompra*100)/detalle.precio))<0" style="color:red; font-weight: 900;">
+                                                {{ (100-((detalle.preciocompra*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
+                                            </td>
+                                            <td v-else>
+                                                {{ (100-((detalle.preciocompra*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
+                                            </td>
+                                         </tr>
+
+
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="6" align="right"><strong>Subtotal:</strong></td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format(subtotal=(total-totalImpuesto )) }}</td>
+                                         </tr>
+
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="6" align="right"><strong>Impuesto:</strong></td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format(totalImpuesto=((total*impuesto )/100)) }}</td>
+                                         </tr>
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="6" align="right"><strong>Total Neto:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total=calculadorTotal))}}</td>
+                                         </tr>
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="6" align="right"><strong>Total Ganancias:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calcularTotalGanancia))}}</td>
+                                         </tr>
+
+                                         
+
+                                     </tbody>
+
+                                 <tbody v-else>
+                                   <tr>
+                                       <th colspan="8">
+                                         No hay articulos agregados
+                                       </th>
+                                   </tr>
+                                 </tbody>
+                                 </table>
+                           </div>
+
+
+                        <div class="form-group row">
+                           <div class="col-md-12">
+                               <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">Cerrar</button>
+                           </div>
+                        </div>
+
+
+                            </div>
+                        </div>
+                    </template>
+
+                     <!-- final de los detalle de los ingresos-->
+
+
                     </div>
                    </div>
                 <!-- Fin ejemplo de tabla Listado -->
@@ -417,10 +559,6 @@
                     
 
 
-                    
-                            
-                            
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
@@ -446,6 +584,8 @@ import vSelect from "vue-select";
             //cual es la usuario que quiero edit 
             ingreso_id :0,
             idproveedor : 0,
+            proveedor: '',
+            
             tipo_comprobante: 'FACTURA',
             serie_comprobante : '',
             num_comprobante: '',
@@ -669,9 +809,9 @@ import vSelect from "vue-select";
                        if(this.encuentra(data['id'])){
                              this.aux=0;
                           Swal.fire(
-                            'Error!',
+                            'Advertencia!',
                             'este articulo ya esta agregado!', 
-                            'error'
+                            'info'
                             )
                          }else{
                      //push para agregar valores al array
@@ -700,133 +840,134 @@ import vSelect from "vue-select";
                  },
 
 
+                //Metodo registrar usuario
+                registrarIngreso(){
+                        if(this.validarIngreso()){
+                            return ;
+                        }
 
+                        let me=this;
+                        axios.post('/ingresos/registrar', {
+                            'idproveedor':  this.idproveedor,
+                            'tipo_comprobante': this.tipo_comprobante,
+                            'serie_comprobante': this.serie_comprobante,
+                            'num_comprobante': this.num_comprobante,
+                            'impuesto': this.impuesto,
+                            'total':this.total,
+                            'data':this.arrayDetalleIngreso,
+                            
+                            
+                        })
+                        .then(function (response) {
+                            console.log('entro a esta funcion');
+                            me.listado= 1;
+                            me.vaciarvariable();
+                        //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                        me.listarIngreso(1,'','num_comprobante');
+                        }) 
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    },
 
+                vaciarvariable(){
 
-          //Metodo registrar usuario
-          registrarIngreso(){
-                  if(this.validarIngreso()){
-                      return ;
-                  }
+                        this.idproveedor=0;
+                        this.tipo_comprobante= 'FACTURA',
+                        this.serie_comprobante = '',
+                        this.num_comprobante= '',
+                        this.impuesto='',
+                        this.impuesto= 18,
+                        this.total= 0.0,
+                        this.idarticulo=0,
+                        this.articulo='',
+                        this.cantidad='',
+                        this.precio='',
+                        this.arrayDetalleIngreso=[];
+                },
+    
+                //methods validar las usuario
+                validarIngreso(){
+                    this.errorIngreso=0;
+                    this.errorMensajeArrayIngreso=[];
+                    if(this.idproveedor==0) this.errorMensajeArrayIngreso.push("Seleccione un proveedor ");
+                    if(!this.num_comprobante) this.errorMensajeArrayIngreso.push("Seleccione numero de comprobante ");
+                    if(!this.tipo_comprobante) this.errorMensajeArrayIngreso.push("Ingrese tipo de comprobante ");
+                    if(this.arrayDetalleIngreso.length<=0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
 
-                  let me=this;
-                  axios.post('/ingresos/registrar', {
-                    'idproveedor':  this.idproveedor,
-                    'tipo_comprobante': this.tipo_comprobante,
-                    'serie_comprobante': this.serie_comprobante,
-                    'num_comprobante': this.num_comprobante,
-                    'impuesto': this.impuesto,
-                    'total':this.total,
-                    'data':this.arrayDetalleIngreso,
-                    
-                    
-                })
-                .then(function (response) {
-                    console.log('entro a esta funcion');
-                    me.listado= 1;
-                    me.vaciarvariable();
-                   //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                   me.listarIngreso(1,'','num_comprobante');
-                }) 
-                .catch(function (error) {
-                    console.log(error);
-                });
-              },
-
-              vaciarvariable(){
-
-                    this.idproveedor=0;
-                    this.tipo_comprobante= 'FACTURA',
-                    this.serie_comprobante = '',
-                    this.num_comprobante= '',
-                    this.impuesto='',
-                    this.impuesto= 18,
-                    this.total= 0.0,
-                    this.idarticulo=0,
-                    this.articulo='',
-                    this.cantidad='',
-                    this.precio='',
-                    this.arrayDetalleIngreso=[];
-              },
- 
-            //methods validar las usuario
-            validarIngreso(){
-                this.errorIngreso=0;
-                 this.errorMensajeArrayIngreso=[];
-                 if(this.idproveedor==0) this.errorMensajeArrayIngreso.push("Seleccione un proveedor ");
-                 if(!this.num_comprobante) this.errorMensajeArrayIngreso.push("Seleccione numero de comprobante ");
-                 if(!this.tipo_comprobante) this.errorMensajeArrayIngreso.push("Ingrese tipo de comprobante ");
-                 if(this.arrayDetalleIngreso.length<=0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
-
-                 if(this.errorMensajeArrayIngreso.length) this.errorIngreso=1;
-                 return this.errorIngreso;
-              },
+                    if(this.errorMensajeArrayIngreso.length) this.errorIngreso=1;
+                    return this.errorIngreso;
+                },
            
               
-              mostrarDetalle(){
-                this.vaciarvariable();
-                this.listado=0;
-              },
-              ocultarDetalle(){
-                 this.listado=1;
-              },
-            //Metodo para desactivar la categoria
-           anularIngreso(id){
-               const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
+                mostrarDetalle(){
+                    this.vaciarvariable();
+                    this.listado=0;
                 },
-                buttonsStyling: false
-                })
-                swalWithBootstrapButtons.fire({
-                title: 'Estas seguro de Anular este Ingreso?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Aceptar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-                }).then((result) => {
-                if (result.isConfirmed) {
-                     let me=this;
-                  axios.put('/ingresos/anularIngreso', {
-                    'id' : id
-                })
-                .then(function (response) {
-                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                   me.listarIngreso(1,'','num_comprobante');
-                    swalWithBootstrapButtons.fire(
-                    'Anulado',
-                    'El Ingreso ha sido Anulado correctamente',
-                    'success'
-                    )
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                    'Cancelado',
-                    '',
-                    'error'
-                    )
+                ocultarDetalle(){
+                    this.listado=1;
+                },
+
+                VerDetalleIngreso(){
+                    this.listado=2;
+                },
+                //Metodo para desactivar la categoria
+                anularIngreso(id){
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false
+                        })
+                        swalWithBootstrapButtons.fire({
+                        title: 'Estas seguro de Anular este Ingreso?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            let me=this;
+                        axios.put('/ingresos/anularIngreso', {
+                            'id' : id
+                        })
+                        .then(function (response) {
+                            //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                        me.listarIngreso(1,'','num_comprobante');
+                            swalWithBootstrapButtons.fire(
+                            'Anulado',
+                            'El Ingreso ha sido Anulado correctamente',
+                            'success'
+                            )
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                        } else if (
+                            /* Read more about handling dismissals below */
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                            'Cancelado',
+                            '',
+                            'error'
+                            )
+                        }
+                        })
+                },
+                //metodo para cerrar el modal
+                cerrarModal(){
+                    this.modal=0;
+                    this.tituloModal='';
+                },
+                //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
+                abrirModal(){   
+                this.arrayArticulo=[];    
+                this.modal=1;
+                this.tituloModal='Seleccione uno o varios Articulos';
                 }
-                })
-           },
-           //metodo para cerrar el modal
-            cerrarModal(){
-                this.modal=0;
-                this.tituloModal='';
-              },
-              //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
-            abrirModal(){   
-            this.arrayArticulo=[];    
-             this.modal=1;
-             this.tituloModal='Seleccione uno o varios Articulos';
-            }
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarIngreso

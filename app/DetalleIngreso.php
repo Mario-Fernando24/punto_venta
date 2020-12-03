@@ -18,4 +18,13 @@ class DetalleIngreso extends Model
         'precio',
     ];
 
+    
+    public function articulodetalle()
+    {
+        return $this->belongsTo(Articulo::class,'idarticulo','id');
+        
+    }
+
+
+
 }

@@ -134,6 +134,8 @@
         Route::prefix('ingresos')->group(function() {
             Route::get('index', 'IngresoController@index');
             Route::get('ListarArticuloIngreso', 'IngresoController@ListarArticuloIngreso');
+            Route::get('getObjetoDetalleIngreso', 'IngresoController@getObjetoDetalleIngreso');
+            Route::get('getArrayDetalleIngreso', 'IngresoController@getArrayDetalleIngreso');
             Route::post('registrar', 'IngresoController@store');
             Route::put('anularIngreso', 'IngresoController@anularIngreso');
         });

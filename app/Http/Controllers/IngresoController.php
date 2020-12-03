@@ -45,6 +45,29 @@ class IngresoController extends Controller
         ];
     }
 
+    public function getObjetoDetalleIngreso(Request $request){
+      
+      if(!$request->ajax()){return redirect('/'); }
+
+        $id = $request->id;
+        $ObjetoDetalleIngreso = Ingreso::with('usuario','proveedor','proveedoress','persona')
+        ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
+
+        return ['ObjetoDetalleIngreso' => $ObjetoDetalleIngreso];
+  
+    }
+    public function getArrayDetalleIngreso(Request $request){
+
+      if(!$request->ajax()){return redirect('/'); }
+
+        $id = $request->id;
+        $ArrayDetalleIngreso = DetalleIngreso::with('articulodetalle')
+        ->where('idingreso',$id)->orderBy('id', 'ASC')->get();
+       // return $ArrayDetalleIngreso;
+        return ['ArrayDetalleIngreso' => $ArrayDetalleIngreso];  
+      
+      }
+
 
     public function ListarArticuloIngreso(Request $request)
     {   
