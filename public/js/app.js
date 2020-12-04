@@ -3823,6 +3823,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -3844,6 +3853,7 @@ __webpack_require__.r(__webpack_exports__);
       totalImpuesto: 0.0,
       subtotal: 0.0,
       fecha_hora: '',
+      idingreso: '',
       //variable para ver el listado
       listado: 1,
       //la data que regresa nuestro metodo listarIngreso se almacene en esta array
@@ -3877,6 +3887,7 @@ __webpack_require__.r(__webpack_exports__);
       buscarArt: '',
       arrayArticulo: [],
       ListararrayArticulo: [],
+      listarDetalleIngreso: [],
       idarticulo: 0,
       codigo: '',
       articulo: '',
@@ -4121,8 +4132,36 @@ __webpack_require__.r(__webpack_exports__);
     ocultarDetalle: function ocultarDetalle() {
       this.listado = 1;
     },
-    VerDetalleIngreso: function VerDetalleIngreso() {
-      this.listado = 2;
+    VerDetalleIngreso: function VerDetalleIngreso(id) {
+      this.listado = 2; // obtener los datos del objeto
+
+      var me = this;
+      var TemporalObj = [];
+      var url = '/ingresos/getObjetoDetalleIngreso?id=' + id;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
+
+        TemporalObj = respuesta.ObjetoDetalleIngreso;
+        me.proveedor = TemporalObj[0]['proveedoress']['nombre'];
+        me.impuesto = TemporalObj[0]['impuesto'];
+        me.tipo_comprobante = TemporalObj[0]['tipo_comprobante'];
+        me.serie_comprobante = TemporalObj[0]['serie_comprobante'];
+        me.num_comprobante = TemporalObj[0]['num_comprobante'];
+        me.total = TemporalObj[0]['total'];
+        me.fecha_hora = TemporalObj[0]['created_at'];
+        me.idingreso = TemporalObj[0]['id'];
+      })["catch"](function (error) {
+        console.log(error);
+      }); // obtener los datos del array
+
+      var urldetalle = '/ingresos/getArrayDetalleIngreso?id=' + id;
+      axios.get(urldetalle).then(function (response) {
+        console.log('mario ' + response.data);
+        var respuesta = response.data;
+        me.listarDetalleIngreso = respuesta.ArrayDetalleIng;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     //Metodo para desactivar la categoria
     anularIngreso: function anularIngreso(id) {
@@ -10145,7 +10184,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 500;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 500;\n}\n.negritatitle{\n      font-weight: 500;\n}\n", ""]);
 
 // exports
 
@@ -49351,9 +49390,29 @@ var render = function() {
             ? [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "form-group row border" }, [
-                    _c("div", { staticClass: "col-md-9" }, [
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("label", { staticClass: "negritatitle" }, [
+                        _vm._v("ID")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", {
+                        domProps: { textContent: _vm._s(_vm.idingreso) }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3" }, [
+                      _c("label", { staticClass: "negritatitle" }, [
+                        _vm._v("Fecha Ingreso")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", {
+                        domProps: { textContent: _vm._s(_vm.fecha_hora) }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "" } }, [
+                        _c("label", { staticClass: "negritatitle" }, [
                           _vm._v("Proveedor")
                         ]),
                         _vm._v(" "),
@@ -49364,7 +49423,9 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-3" }, [
-                      _c("label", [_vm._v("Impuesto %")]),
+                      _c("label", { staticClass: "negritatitle" }, [
+                        _vm._v("Impuesto %")
+                      ]),
                       _vm._v(" "),
                       _c("p", {
                         domProps: { textContent: _vm._s(_vm.impuesto) }
@@ -49373,7 +49434,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Tipo Comprobante(*)")]),
+                        _c("label", { staticClass: "negritatitle" }, [
+                          _vm._v("Tipo Comprobante")
+                        ]),
                         _vm._v(" "),
                         _c("p", {
                           domProps: {
@@ -49385,7 +49448,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Serie Comprobante")]),
+                        _c("label", { staticClass: "negritatitle" }, [
+                          _vm._v("Serie Comprobante")
+                        ]),
                         _vm._v(" "),
                         _c("p", {
                           domProps: {
@@ -49397,7 +49462,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Num Comprobante(*)")]),
+                        _c("label", { staticClass: "negritatitle" }, [
+                          _vm._v("Num Comprobante")
+                        ]),
                         _vm._v(" "),
                         _c("p", {
                           domProps: { textContent: _vm._s(_vm.num_comprobante) }
@@ -49417,175 +49484,144 @@ var render = function() {
                         [
                           _vm._m(8),
                           _vm._v(" "),
-                          _vm.arrayDetalleIngreso.length
-                            ? _c(
-                                "tbody",
-                                [
-                                  _vm._l(_vm.arrayDetalleIngreso, function(
-                                    detalle
-                                  ) {
-                                    return _c("tr", { key: detalle.id }, [
-                                      _c("th", {
-                                        domProps: {
-                                          textContent: _vm._s(detalle.articulo)
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("td", {
-                                        domProps: {
-                                          textContent: _vm._s(detalle.cantidad)
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("td", {
-                                        domProps: {
-                                          textContent: _vm._s(
-                                            detalle.preciocompra
-                                          )
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("td", {
-                                        domProps: {
-                                          textContent: _vm._s(detalle.precio)
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          _vm._s(
-                                            Intl.NumberFormat().format(
-                                              detalle.preciocompra *
-                                                detalle.cantidad
-                                            )
-                                          )
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          _vm._s(
-                                            Intl.NumberFormat().format(
-                                              (detalle.precio -
-                                                detalle.preciocompra) *
-                                                detalle.cantidad
-                                            )
-                                          )
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      100 -
-                                        (detalle.preciocompra * 100) /
-                                          detalle.precio <
-                                      0
-                                        ? _c(
-                                            "td",
-                                            {
-                                              staticStyle: {
-                                                color: "red",
-                                                "font-weight": "900"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                                " +
-                                                  _vm._s(
-                                                    (
-                                                      100 -
-                                                      (detalle.preciocompra *
-                                                        100) /
-                                                        detalle.precio
-                                                    ).toFixed(2)
-                                                  ) +
-                                                  " "
-                                              ),
-                                              _c("b", [_vm._v("%")])
-                                            ]
-                                          )
-                                        : _c("td", [
-                                            _vm._v(
-                                              "\n                                                " +
-                                                _vm._s(
-                                                  (
-                                                    100 -
-                                                    (detalle.preciocompra *
-                                                      100) /
-                                                      detalle.precio
-                                                  ).toFixed(2)
-                                                ) +
-                                                " "
-                                            ),
-                                            _c("b", [_vm._v("%")])
-                                          ])
-                                    ])
+                          _c(
+                            "tbody",
+                            [
+                              _vm._l(_vm.listarDetalleIngreso, function(
+                                detalles
+                              ) {
+                                return _c("tr", { key: detalles.id }, [
+                                  _c("th", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        detalles.articulodetalle.nombre
+                                      )
+                                    }
                                   }),
                                   _vm._v(" "),
-                                  _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(9),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "$ " +
-                                          _vm._s(
-                                            Intl.NumberFormat().format(
-                                              (_vm.subtotal =
-                                                _vm.total - _vm.totalImpuesto)
-                                            )
-                                          )
-                                      )
-                                    ])
-                                  ]),
+                                  _c("th", {
+                                    domProps: {
+                                      textContent: _vm._s(detalles.cantidad)
+                                    }
+                                  }),
                                   _vm._v(" "),
-                                  _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(10),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "$ " +
-                                          _vm._s(
-                                            Intl.NumberFormat().format(
-                                              (_vm.totalImpuesto =
-                                                (_vm.total * _vm.impuesto) /
-                                                100)
-                                            )
-                                          )
+                                  _c("th", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        Intl.NumberFormat().format(
+                                          detalles.preciocompra
+                                        )
                                       )
-                                    ])
-                                  ]),
+                                    }
+                                  }),
                                   _vm._v(" "),
-                                  _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(11),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "$ " +
-                                          _vm._s(
-                                            Intl.NumberFormat().format(
-                                              (_vm.total = _vm.calculadorTotal)
-                                            )
-                                          )
+                                  _c("th", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        Intl.NumberFormat().format(
+                                          detalles.precio
+                                        )
                                       )
-                                    ])
-                                  ]),
+                                    }
+                                  }),
                                   _vm._v(" "),
-                                  _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(12),
-                                    _vm._v(" "),
-                                    _c("td", { attrs: { colspan: "2" } }, [
-                                      _vm._v(
-                                        "$ " +
-                                          _vm._s(
-                                            Intl.NumberFormat().format(
-                                              _vm.calcularTotalGanancia
-                                            )
-                                          )
+                                  _c("th", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        Intl.NumberFormat().format(
+                                          detalles.cantidad *
+                                            detalles.preciocompra
+                                        )
                                       )
-                                    ])
-                                  ])
-                                ],
-                                2
-                              )
-                            : _c("tbody", [_vm._m(13)])
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("th", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        Intl.NumberFormat().format(
+                                          (detalles.precio -
+                                            detalles.preciocompra) *
+                                            detalles.cantidad
+                                        )
+                                      )
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("th", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        (
+                                          100 -
+                                          (detalles.preciocompra * 100) /
+                                            detalles.precio
+                                        ).toFixed(2)
+                                      )
+                                    }
+                                  })
+                                ])
+                              }),
+                              _vm._v(" "),
+                              _c("tr", { staticClass: "totalresultado" }, [
+                                _vm._m(9),
+                                _vm._v(" "),
+                                _c("td", { attrs: { colspan: "2" } }, [
+                                  _vm._v(
+                                    "$ " +
+                                      _vm._s(
+                                        Intl.NumberFormat().format(
+                                          _vm.total - _vm.totalImpuesto
+                                        )
+                                      )
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", { staticClass: "totalresultado" }, [
+                                _vm._m(10),
+                                _vm._v(" "),
+                                _c("td", { attrs: { colspan: "2" } }, [
+                                  _vm._v(
+                                    "$ " +
+                                      _vm._s(
+                                        Intl.NumberFormat().format(
+                                          (_vm.total * _vm.impuesto) / 100
+                                        )
+                                      )
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", { staticClass: "totalresultado" }, [
+                                _vm._m(11),
+                                _vm._v(" "),
+                                _c("td", { attrs: { colspan: "2" } }, [
+                                  _vm._v(
+                                    "$ " +
+                                      _vm._s(
+                                        Intl.NumberFormat().format(_vm.total)
+                                      )
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", { staticClass: "totalresultado" }, [
+                                _vm._m(12),
+                                _vm._v(" "),
+                                _c("td", { attrs: { colspan: "2" } }, [
+                                  _vm._v(
+                                    "$ " +
+                                      _vm._s(
+                                        Intl.NumberFormat().format(
+                                          _vm.calcularTotalGanancia
+                                        )
+                                      )
+                                  )
+                                ])
+                              ])
+                            ],
+                            2
+                          )
                         ]
                       )
                     ]),
@@ -49776,7 +49812,7 @@ var render = function() {
                       staticClass: "table table-bordered table-striped table-sm"
                     },
                     [
-                      _vm._m(14),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -50065,18 +50101,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("td", { attrs: { colspan: "6", align: "right" } }, [
       _c("strong", [_vm._v("Total Ganancias:")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", { attrs: { colspan: "8" } }, [
-        _vm._v(
-          "\n                                         No hay articulos agregados\n                                       "
-        )
-      ])
     ])
   },
   function() {

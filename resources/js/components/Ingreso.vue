@@ -349,21 +349,33 @@
                         <div class="card-body">
                             <div class="form-group row border">
 
-                                <div class="col-md-9">
+                                <div class="col-md-2">
+                                    <label class="negritatitle">ID</label>
+                                    <p v-text="idingreso"></p>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="negritatitle">Fecha Ingreso</label>
+                                    <p v-text="fecha_hora"></p>
+                                </div>
+
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                    <label for="">Proveedor</label>
+                                    <label class="negritatitle">Proveedor</label>
                                     <p v-text="proveedor"></p>
                                     </div>
                                 </div>
 
+                                
+
                                 <div class="col-md-3">
-                                    <label>Impuesto %</label>
+                                    <label class="negritatitle">Impuesto %</label>
                                     <p v-text="impuesto"></p>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group"> 
-                                        <label>Tipo Comprobante(*)</label>
+                                        <label class="negritatitle">Tipo Comprobante</label>
                                           <p v-text="tipo_comprobante"></p>
                                     </div>
                                 </div>
@@ -371,7 +383,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group"> 
-                                        <label>Serie Comprobante</label>
+                                        <label class="negritatitle">Serie Comprobante</label>
                                         <p v-text="serie_comprobante"></p>
                                     </div>
                                 </div>
@@ -379,7 +391,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group"> 
-                                        <label>Num Comprobante(*)</label>
+                                        <label class="negritatitle">Num Comprobante</label>
                                         <p v-text="num_comprobante"></p>
                                     </div>
                                 </div>
@@ -404,45 +416,37 @@
 
                                          </tr>
                                      </thead>
-                                     <tbody v-if="arrayDetalleIngreso.length">
+                                    <tbody>
 
-                                         <tr v-for="(detalle) in arrayDetalleIngreso" :key="detalle.id">
+                                         <tr v-for="(detalles) in listarDetalleIngreso" :key="detalles.id">
                                           
-
-                                            <th v-text="detalle.articulo"></th>
-                                            <td v-text="detalle.cantidad"></td>
-                                            <td v-text="detalle.preciocompra"></td>
-                                            <td v-text="detalle.precio"></td>
-                                            <td>{{ Intl.NumberFormat().format(detalle.preciocompra*detalle.cantidad)  }}</td>
-                                            <!--ganancia-->
-
-                                            <td>{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}</td>
-
-                                            <!--porcentaje-->
-                                            <td v-if="(100-((detalle.preciocompra*100)/detalle.precio))<0" style="color:red; font-weight: 900;">
-                                                {{ (100-((detalle.preciocompra*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
-                                            </td>
-                                            <td v-else>
-                                                {{ (100-((detalle.preciocompra*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
-                                            </td>
+                                            <th v-text="detalles.articulodetalle.nombre"></th>
+                                            <th v-text="detalles.cantidad"></th>
+                                            <th v-text="Intl.NumberFormat().format(detalles.preciocompra)"></th>
+                                            <th v-text="Intl.NumberFormat().format(detalles.precio)"></th>
+                                            <th v-text="Intl.NumberFormat().format((detalles.cantidad*detalles.preciocompra))"></th>
+                                            <th v-text="Intl.NumberFormat().format(((detalles.precio-detalles.preciocompra)*detalles.cantidad))"></th>
+                                            <th v-text="(100-((detalles.preciocompra*100)/detalles.precio)).toFixed(2)"></th>
+                                            
                                          </tr>
 
 
 
+                                         
                                          <tr class="totalresultado" >
                                              <td colspan="6" align="right"><strong>Subtotal:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format(subtotal=(total-totalImpuesto )) }}</td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format((total-totalImpuesto )) }}</td>
                                          </tr>
 
 
                                          <tr class="totalresultado" >
                                              <td colspan="6" align="right"><strong>Impuesto:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format(totalImpuesto=((total*impuesto )/100)) }}</td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format(((total*impuesto )/100)) }}</td>
                                          </tr>
 
                                          <tr class="totalresultado" >
                                              <td colspan="6" align="right"><strong>Total Neto:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total=calculadorTotal))}}</td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total))}}</td>
                                          </tr>
 
                                          <tr class="totalresultado" >
@@ -450,10 +454,14 @@
                                              <td colspan="2" >$ {{ Intl.NumberFormat().format((calcularTotalGanancia))}}</td>
                                          </tr>
 
+
+
+
                                          
 
                                      </tbody>
 
+<!-- 
                                  <tbody v-else>
                                    <tr>
                                        <th colspan="8">
@@ -461,6 +469,7 @@
                                        </th>
                                    </tr>
                                  </tbody>
+                                 !-->
                                  </table>
                            </div>
 
@@ -596,6 +605,7 @@ import vSelect from "vue-select";
             totalImpuesto:0.0,
             subtotal: 0.0,
             fecha_hora:'',
+            idingreso:'',
             //variable para ver el listado
             listado: 1,
             //la data que regresa nuestro metodo listarIngreso se almacene en esta array
@@ -630,6 +640,7 @@ import vSelect from "vue-select";
             buscarArt:'',
             arrayArticulo:[],
             ListararrayArticulo:[],
+            listarDetalleIngreso:[],
             idarticulo:0,
             codigo:'',
             articulo:'',
@@ -908,8 +919,50 @@ import vSelect from "vue-select";
                     this.listado=1;
                 },
 
-                VerDetalleIngreso(){
+                VerDetalleIngreso(id){
                     this.listado=2;
+                   // obtener los datos del objeto
+
+                  let me=this;
+                  var TemporalObj=[];
+                  var url= '/ingresos/getObjetoDetalleIngreso?id=' +id;
+                  axios.get(url).then(function (response) {
+                    var respuesta = response.data;
+                    //todo lo que retorne esta funcion se almacene en este array
+                    TemporalObj = respuesta.ObjetoDetalleIngreso;
+
+                    me.proveedor=TemporalObj[0]['proveedoress']['nombre'];
+                    me.impuesto=TemporalObj[0]['impuesto'];
+                    me.tipo_comprobante=TemporalObj[0]['tipo_comprobante'];
+                    me.serie_comprobante=TemporalObj[0]['serie_comprobante'];
+                    me.num_comprobante=TemporalObj[0]['num_comprobante'];
+                    me.total=TemporalObj[0]['total'];
+                    me.fecha_hora=TemporalObj[0]['created_at'];
+                    me.idingreso=TemporalObj[0]['id'];
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                   // obtener los datos del array
+
+
+                  var urldetalle= '/ingresos/getArrayDetalleIngreso?id=' +id;
+                  axios.get(urldetalle).then(function (response) {
+
+                    console.log('mario '+response.data);
+                    let respuesta = response.data;
+                    me.listarDetalleIngreso=respuesta.ArrayDetalleIng;
+
+
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+
                 },
                 //Metodo para desactivar la categoria
                 anularIngreso(id){
@@ -1009,6 +1062,9 @@ import vSelect from "vue-select";
   }
   .validaridArticulo{
       color: red;
+      font-weight: 500;
+  }
+  .negritatitle{
       font-weight: 500;
   }
 </style>

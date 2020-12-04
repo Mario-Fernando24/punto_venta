@@ -19,16 +19,13 @@ class CreateDetalleIngresosTable extends Migration
             $table->unsignedBigInteger('idarticulo');
             $table->integer('cantidad');
             $table->decimal('precio',11,2);
-
+            $table->decimal('preciocompra',11,2);
 
             $table->foreign('idingreso')->references('id')->on('ingresos')
             ->onDelete('cascade');
 
-
             $table->foreign('idarticulo')->references('id')->on('articulos')
             ->onDelete('cascade');
-
-
 
             $table->timestamps();
         });

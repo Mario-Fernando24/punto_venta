@@ -58,13 +58,12 @@ class IngresoController extends Controller
     }
     public function getArrayDetalleIngreso(Request $request){
 
-      if(!$request->ajax()){return redirect('/'); }
+     // if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
-        $ArrayDetalleIngreso = DetalleIngreso::with('articulodetalle')
+        $ArrayDetalleIng = DetalleIngreso::with('articulodetalle')
         ->where('idingreso',$id)->orderBy('id', 'ASC')->get();
-       // return $ArrayDetalleIngreso;
-        return ['ArrayDetalleIngreso' => $ArrayDetalleIngreso];  
+        return ['ArrayDetalleIng' => $ArrayDetalleIng];  
       
       }
 
@@ -123,6 +122,7 @@ class IngresoController extends Controller
                     'idarticulo' => $det['idarticulo'],
                     'cantidad' => $det['cantidad'],
                     'precio' => $det['precio'],
+                    'preciocompra' => $det['preciocompra'],
                 ]);
             }
 

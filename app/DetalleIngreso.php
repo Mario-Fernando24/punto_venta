@@ -16,6 +16,8 @@ class DetalleIngreso extends Model
         'idarticulo',
         'cantidad',
         'precio',
+        'preciocompra',
+
     ];
 
     
