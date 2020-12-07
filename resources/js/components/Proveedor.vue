@@ -59,8 +59,7 @@
                                         <td v-text="proveedor.persona.email"></td>
                                         <td v-text="proveedor.contacto"></td>
                                         <td v-text="proveedor.telefono_contacto"></td>
-                                        <td>  
-                                    </td>
+                                       
                                 </tr>
                                 </tbody>
                         </table>

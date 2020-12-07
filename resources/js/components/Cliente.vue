@@ -59,8 +59,7 @@
                                         <td v-text="persona.telefono"></td>
                                         <td v-text="persona.email"></td>
 
-                                        <td>
-                                    </td>
+                                        
                                 </tr>
                             </tbody>
                         </table>

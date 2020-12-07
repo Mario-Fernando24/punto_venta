@@ -5,13 +5,17 @@
                 <li class="breadcrumb-item"><a href="#">Escritorio</a></li>
             </ol>
             <div class="container-fluid">
-                <!-- Ejemplo de tabla Listado -->
+                <!-- Ejemplo de tabla Listado  @click="abrirModal('categoria','registrar')" -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Roles
-                        <button type="button"  @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
+                        <i class="fa fa-align-justify"></i>Roles
+
+                        <!-- 
+                        <button type="button"  class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
+                        -->
+
                     </div>
                     <div class="card-body">
                         <div class="form-group row">

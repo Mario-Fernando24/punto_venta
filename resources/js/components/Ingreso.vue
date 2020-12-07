@@ -8,7 +8,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Ingreso
+                        <i class="fa fa-align-justify"></i>Ingreso
                             <button type="button" @click="mostrarDetalle()" class="btn btn-secondary btn-sm" data-toggle="modal">
                             <i class="icon-plus"></i>Nuevo
                              </button>
@@ -22,7 +22,7 @@
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <select class="form-control col-md-3" v-model="criterio">
-                                        <option value="num_comprobante">Num-Comprobante</option>
+                                        <option value="num_comprobante">Num Comprobante</option>
                                         <option value="tipo_comprobante">Tipo Comprobante</option>
                                         <option value="fecha_hora">Fecha-Hora</option>
                                         </select>
@@ -396,7 +396,7 @@
                                     </div>
                                 </div>
 
-                          </div>
+                         </div>
 
                     <!--show article-->
                         <div class="form-group row border">
@@ -430,14 +430,10 @@
                                             
                                          </tr>
 
-
-
-                                         
                                          <tr class="totalresultado" >
                                              <td colspan="6" align="right"><strong>Subtotal:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format((total-totalImpuesto )) }}</td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format((total-totalImpuesto ) - ((total*impuesto )/100)   ) }}</td>
                                          </tr>
-
 
                                          <tr class="totalresultado" >
                                              <td colspan="6" align="right"><strong>Impuesto:</strong></td>
@@ -446,33 +442,17 @@
 
                                          <tr class="totalresultado" >
                                              <td colspan="6" align="right"><strong>Total Neto:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total))}}</td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calculadorTotalDetalle))}}</td>
                                          </tr>
 
                                          <tr class="totalresultado" >
                                              <td colspan="6" align="right"><strong>Total Ganancias:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calcularTotalGanancia))}}</td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calcularTotalGananciaDetalle))}}</td>
                                          </tr>
 
-
-
-
-                                         
-
                                      </tbody>
-
-<!-- 
-                                 <tbody v-else>
-                                   <tr>
-                                       <th colspan="8">
-                                         No hay articulos agregados
-                                       </th>
-                                   </tr>
-                                 </tbody>
-                                 !-->
                                  </table>
                            </div>
-
 
                         <div class="form-group row">
                            <div class="col-md-12">
@@ -480,13 +460,11 @@
                            </div>
                         </div>
 
-
                             </div>
                         </div>
                     </template>
 
                      <!-- final de los detalle de los ingresos-->
-
 
                     </div>
                    </div>
@@ -691,6 +669,25 @@ import vSelect from "vue-select";
                 for(var i=0; i<this.arrayDetalleIngreso.length; i++){
                   aux+=this.arrayDetalleIngreso[i].precio-this.arrayDetalleIngreso[i].preciocompra;
                   totalgan+=aux*this.arrayDetalleIngreso[i].cantidad;
+                  aux=0.0;
+                }
+                return totalgan;
+            },
+
+
+            calculadorTotalDetalle : function(){
+                var resultado=0.0;
+                for(var i=0; i<this.listarDetalleIngreso.length; i++){
+                  resultado+=this.listarDetalleIngreso[i].preciocompra*this.listarDetalleIngreso[i].cantidad;
+                }
+                return resultado;
+            },
+            calcularTotalGananciaDetalle : function(){
+                var totalgan=0.0;
+                var aux=0.0;
+                for(var i=0; i<this.listarDetalleIngreso.length; i++){
+                  aux+=this.listarDetalleIngreso[i].precio-this.listarDetalleIngreso[i].preciocompra;
+                  totalgan+=aux*this.listarDetalleIngreso[i].cantidad;
                   aux=0.0;
                 }
                 return totalgan;

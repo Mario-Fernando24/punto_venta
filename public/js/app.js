@@ -3021,7 +3021,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -3810,28 +3809,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //importo vselect
 
 
@@ -3948,6 +3925,27 @@ __webpack_require__.r(__webpack_exports__);
       for (var i = 0; i < this.arrayDetalleIngreso.length; i++) {
         aux += this.arrayDetalleIngreso[i].precio - this.arrayDetalleIngreso[i].preciocompra;
         totalgan += aux * this.arrayDetalleIngreso[i].cantidad;
+        aux = 0.0;
+      }
+
+      return totalgan;
+    },
+    calculadorTotalDetalle: function calculadorTotalDetalle() {
+      var resultado = 0.0;
+
+      for (var i = 0; i < this.listarDetalleIngreso.length; i++) {
+        resultado += this.listarDetalleIngreso[i].preciocompra * this.listarDetalleIngreso[i].cantidad;
+      }
+
+      return resultado;
+    },
+    calcularTotalGananciaDetalle: function calcularTotalGananciaDetalle() {
+      var totalgan = 0.0;
+      var aux = 0.0;
+
+      for (var i = 0; i < this.listarDetalleIngreso.length; i++) {
+        aux += this.listarDetalleIngreso[i].precio - this.listarDetalleIngreso[i].preciocompra;
+        totalgan += aux * this.listarDetalleIngreso[i].cantidad;
         aux = 0.0;
       }
 
@@ -4229,7 +4227,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -4816,6 +4813,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -5087,8 +5087,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -47702,9 +47700,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", {
                         domProps: { textContent: _vm._s(persona.email) }
-                      }),
-                      _vm._v(" "),
-                      _c("td")
+                      })
                     ])
                   }),
                   0
@@ -48242,7 +48238,7 @@ var render = function() {
         [
           _c("div", { staticClass: "card-header" }, [
             _c("i", { staticClass: "fa fa-align-justify" }),
-            _vm._v(" Ingreso\n                            "),
+            _vm._v("Ingreso\n                            "),
             _c(
               "button",
               {
@@ -48299,7 +48295,7 @@ var render = function() {
                             _c(
                               "option",
                               { attrs: { value: "num_comprobante" } },
-                              [_vm._v("Num-Comprobante")]
+                              [_vm._v("Num Comprobante")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -49570,7 +49566,9 @@ var render = function() {
                                     "$ " +
                                       _vm._s(
                                         Intl.NumberFormat().format(
-                                          _vm.total - _vm.totalImpuesto
+                                          _vm.total -
+                                            _vm.totalImpuesto -
+                                            (_vm.total * _vm.impuesto) / 100
                                         )
                                       )
                                   )
@@ -49599,7 +49597,9 @@ var render = function() {
                                   _vm._v(
                                     "$ " +
                                       _vm._s(
-                                        Intl.NumberFormat().format(_vm.total)
+                                        Intl.NumberFormat().format(
+                                          _vm.calculadorTotalDetalle
+                                        )
                                       )
                                   )
                                 ])
@@ -49613,7 +49613,7 @@ var render = function() {
                                     "$ " +
                                       _vm._s(
                                         Intl.NumberFormat().format(
-                                          _vm.calcularTotalGanancia
+                                          _vm.calcularTotalGananciaDetalle
                                         )
                                       )
                                   )
@@ -50340,9 +50340,7 @@ var render = function() {
                         domProps: {
                           textContent: _vm._s(proveedor.telefono_contacto)
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("td")
+                      })
                     ])
                   }),
                   0
@@ -50954,26 +50952,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "container-fluid" }, [
       _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("i", { staticClass: "fa fa-align-justify" }),
-          _vm._v(" Roles\n                        "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  return _vm.abrirModal("categoria", "registrar")
-                }
-              }
-            },
-            [
-              _c("i", { staticClass: "icon-plus" }),
-              _vm._v(" Nuevo\n                        ")
-            ]
-          )
-        ]),
+        _vm._m(1),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "form-group row" }, [
@@ -51071,7 +51050,7 @@ var render = function() {
               "table",
               { staticClass: "table table-bordered table-striped table-sm" },
               [
-                _vm._m(1),
+                _vm._m(2),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -51433,6 +51412,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fa fa-align-justify" }),
+      _vm._v(" Roles\n                        ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Nombre")]),
@@ -51707,9 +51695,7 @@ var render = function() {
                                 [_vm._v("Desactivado")]
                               )
                             ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td")
+                      ])
                     ])
                   }),
                   0
