@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Venta;
 use App\DetalleVenta;
 use App\Articulo;
+use App\Persona;
 use DB;
 use Carbon\Carbon;
 
@@ -14,7 +15,7 @@ class VentaController extends Controller
 {
     public function index(Request $request)
     {   
-       //  if(!$request->ajax()){return redirect('/');}
+         if(!$request->ajax()){return redirect('/');}
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
@@ -39,6 +40,24 @@ class VentaController extends Controller
             'venta' => $venta
         ];
     }
+
+
+    public function selectCliente(Request $request){
+
+    //  if(!$request->ajax()){return redirect('/'); }
+
+        $filtro=$request->get('filtro');
+
+
+        $cliente = Persona::orderBy('id', 'DESC')
+        ->where('nombre', 'like', '%'.$filtro.'%')
+        ->orwhere('telefono', 'like', '%'.$filtro.'%')
+        ->get();
+        
+        return ['cliente' => $cliente];
+      
+    }
+
 
     public function getObjetoDetalleVenta(Request $request)
     {

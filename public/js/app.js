@@ -6239,6 +6239,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -6251,8 +6267,8 @@ __webpack_require__.r(__webpack_exports__);
       idproveedor: 0,
       proveedor: '',
       tipo_comprobante: 'FACTURA',
-      serie_comprobante: '',
-      num_comprobante: '',
+      forma_pago: 'efectivo',
+      num_comprobante_pago: '',
       telefono: '',
       impuesto: 18,
       totalgananciass: 0.0,
@@ -6266,7 +6282,7 @@ __webpack_require__.r(__webpack_exports__);
       //la data que regresa nuestro metodo listaVenta se almacene en esta array
       arrayVenta: [],
       arrayDetalleIngreso: [],
-      arrayProveedor: [],
+      arrayCliente: [],
       modal: 0,
       //para saber que modal quiero mostrar, register o actualizar
       tituloModal: '',
@@ -6299,7 +6315,7 @@ __webpack_require__.r(__webpack_exports__);
       codigo: '',
       articulo: '',
       precio: 0,
-      preciocompra: 0,
+      descuento: 0,
       cantidad: 0
     };
   },
@@ -6343,7 +6359,7 @@ __webpack_require__.r(__webpack_exports__);
       var resultado = 0.0;
 
       for (var i = 0; i < this.arrayDetalleIngreso.length; i++) {
-        resultado += this.arrayDetalleIngreso[i].preciocompra * this.arrayDetalleIngreso[i].cantidad;
+        resultado += this.arrayDetalleIngreso[i].descuento * this.arrayDetalleIngreso[i].cantidad;
       }
 
       return resultado;
@@ -6353,7 +6369,7 @@ __webpack_require__.r(__webpack_exports__);
       var aux = 0.0;
 
       for (var i = 0; i < this.arrayDetalleIngreso.length; i++) {
-        aux += this.arrayDetalleIngreso[i].precio - this.arrayDetalleIngreso[i].preciocompra;
+        aux += this.arrayDetalleIngreso[i].precio - this.arrayDetalleIngreso[i].descuento;
         totalgan += aux * this.arrayDetalleIngreso[i].cantidad;
         aux = 0.0;
       }
@@ -6364,7 +6380,7 @@ __webpack_require__.r(__webpack_exports__);
       var resultado = 0.0;
 
       for (var i = 0; i < this.listarDetalleIngreso.length; i++) {
-        resultado += this.listarDetalleIngreso[i].preciocompra * this.listarDetalleIngreso[i].cantidad;
+        resultado += this.listarDetalleIngreso[i].descuento * this.listarDetalleIngreso[i].cantidad;
       }
 
       return resultado;
@@ -6374,7 +6390,7 @@ __webpack_require__.r(__webpack_exports__);
       var aux = 0.0;
 
       for (var i = 0; i < this.listarDetalleIngreso.length; i++) {
-        aux += this.listarDetalleIngreso[i].precio - this.listarDetalleIngreso[i].preciocompra;
+        aux += this.listarDetalleIngreso[i].precio - this.listarDetalleIngreso[i].descuento;
         totalgan += aux * this.listarDetalleIngreso[i].cantidad;
         aux = 0.0;
       }
@@ -6382,7 +6398,7 @@ __webpack_require__.r(__webpack_exports__);
       return totalgan;
     }
   },
-  //{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
+  //{{ Intl.NumberFormat().format((detalle.precio-detalle.descuento)*detalle.cantidad)  }}
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
     listaVenta: function listaVenta(page, buscar, criterio) {
@@ -6413,7 +6429,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (response) {
         console.log(response.data);
         var respuesta = response.data;
-        me.arrayProveedor = respuesta.proveedores;
+        me.arrayCliente = respuesta.cliente;
         loading(false);
       })["catch"](function (error) {
         console.log(error);
@@ -6471,14 +6487,14 @@ __webpack_require__.r(__webpack_exports__);
             articulo: this.articulo,
             cantidad: this.cantidad,
             precio: this.precio,
-            preciocompra: this.preciocompra
+            descuento: this.descuento
           });
           this.codigo = '';
           this.idarticulo = 0;
           this.articulo = '';
           this.cantidad = 0;
           this.precio = 0;
-          this.preciocompra = 0;
+          this.descuento = 0;
         }
       }
     },
@@ -6495,7 +6511,7 @@ __webpack_require__.r(__webpack_exports__);
           articulo: data['nombre'],
           cantidad: 1,
           precio: 1,
-          preciocompra: 1
+          descuento: 1
         });
       }
     },
@@ -6523,8 +6539,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/ingresos/registrar', {
         'idproveedor': this.idproveedor,
         'tipo_comprobante': this.tipo_comprobante,
-        'serie_comprobante': this.serie_comprobante,
-        'num_comprobante': this.num_comprobante,
+        'forma_pago': this.forma_pago,
+        'num_comprobante_pago': this.num_comprobante_pago,
         'impuesto': this.impuesto,
         'total': this.total,
         'data': this.arrayDetalleIngreso
@@ -6533,21 +6549,21 @@ __webpack_require__.r(__webpack_exports__);
         me.listado = 1;
         me.vaciarvariable(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
-        me.listaVenta(1, '', 'num_comprobante');
+        me.listaVenta(1, '', 'num_comprobante_pago');
       })["catch"](function (error) {
         console.log(error);
       });
     },
     vaciarvariable: function vaciarvariable() {
       this.idproveedor = 0;
-      this.tipo_comprobante = 'FACTURA', this.serie_comprobante = '', this.num_comprobante = '', this.impuesto = '', this.impuesto = 18, this.total = 0.0, this.idarticulo = 0, this.articulo = '', this.cantidad = '', this.precio = '', this.arrayDetalleIngreso = [];
+      this.tipo_comprobante = 'FACTURA', this.forma_pago = 'efectivo', this.num_comprobante_pago = '', this.impuesto = '', this.impuesto = 18, this.total = 0.0, this.idarticulo = 0, this.articulo = '', this.cantidad = '', this.precio = '', this.arrayDetalleIngreso = [];
     },
     //methods validar las usuario
     validarIngreso: function validarIngreso() {
       this.errorIngreso = 0;
       this.errorMensajearrayVenta = [];
       if (this.idproveedor == 0) this.errorMensajearrayVenta.push("Seleccione un proveedor ");
-      if (!this.num_comprobante) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
+      if (!this.num_comprobante_pago) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
       if (!this.tipo_comprobante) this.errorMensajearrayVenta.push("Ingrese tipo de comprobante ");
       if (this.arrayDetalleIngreso.length <= 0) this.errorMensajearrayVenta.push("Ingrese algun producto");
       if (this.errorMensajearrayVenta.length) this.errorIngreso = 1;
@@ -6573,8 +6589,8 @@ __webpack_require__.r(__webpack_exports__);
         me.proveedor = TemporalObj[0]['proveedoress']['nombre'];
         me.impuesto = TemporalObj[0]['impuesto'];
         me.tipo_comprobante = TemporalObj[0]['tipo_comprobante'];
-        me.serie_comprobante = TemporalObj[0]['serie_comprobante'];
-        me.num_comprobante = TemporalObj[0]['num_comprobante'];
+        me.forma_pago = TemporalObj[0]['forma_pago'];
+        me.num_comprobante_pago = TemporalObj[0]['num_comprobante_pago'];
         me.total = TemporalObj[0]['total'];
         me.fecha_hora = TemporalObj[0]['created_at'];
         me.idingreso = TemporalObj[0]['id'];
@@ -6616,7 +6632,7 @@ __webpack_require__.r(__webpack_exports__);
             'id': id
           }).then(function (response) {
             //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-            me.listaVenta(1, '', 'num_comprobante');
+            me.listaVenta(1, '', 'num_comprobante_pago');
             swalWithBootstrapButtons.fire('Anulado', 'El Ingreso ha sido Anulado correctamente', 'success');
           })["catch"](function (error) {
             console.log(error);
@@ -11240,7 +11256,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 500;\n}\n.negritatitle{\n      font-weight: 500;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 900;\n}\n.negritatitle{\n      font-weight: 500;\n}\n", ""]);
 
 // exports
 
@@ -53701,7 +53717,7 @@ var render = function() {
                               _c("td", {
                                 domProps: {
                                   textContent: _vm._s(
-                                    venta.num_comprobante_pago
+                                    venta.num_comprobante_pago_pago
                                   )
                                 }
                               }),
@@ -53889,15 +53905,30 @@ var render = function() {
                         { staticClass: "form-group" },
                         [
                           _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Proveedor(*)")
+                            _vm._v("Cliente"),
+                            _c(
+                              "span",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.arrayCliente == 0,
+                                    expression: "arrayCliente==0"
+                                  }
+                                ],
+                                staticClass: "validaridArticulo"
+                              },
+                              [_vm._v("*")]
+                            )
                           ]),
                           _vm._v(" "),
                           _c("v-select", {
                             attrs: {
                               label: "nombre",
                               "aria-label": "",
-                              options: _vm.arrayProveedor,
-                              placeholder: "Buscar Proveedores..."
+                              options: _vm.arrayCliente,
+                              placeholder: "Buscar clientes..."
                             },
                             on: {
                               search: _vm.selectCliente,
@@ -53910,7 +53941,24 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-3" }, [
-                      _c("label", [_vm._v("Impuesto %(*)")]),
+                      _c("label", [
+                        _vm._v("Impuesto %"),
+                        _c(
+                          "span",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.impuesto == 0,
+                                expression: "impuesto==0"
+                              }
+                            ],
+                            staticClass: "validaridArticulo"
+                          },
+                          [_vm._v("*")]
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -53937,7 +53985,24 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Tipo Comprobante(*)")]),
+                        _c("label", [
+                          _vm._v("Tipo Comprobante "),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.tipo_comprobante == 0,
+                                  expression: "tipo_comprobante==0"
+                                }
+                              ],
+                              staticClass: "validaridArticulo"
+                            },
+                            [_vm._v("*")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c(
                           "select",
@@ -53990,59 +54055,126 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Serie Comprobante")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
+                        _c("label", [
+                          _vm._v("Tipo Comprobante "),
+                          _c(
+                            "span",
                             {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.serie_comprobante,
-                              expression: "serie_comprobante"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "002-2" },
-                          domProps: { value: _vm.serie_comprobante },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.forma_pago == 0,
+                                  expression: "forma_pago==0"
+                                }
+                              ],
+                              staticClass: "validaridArticulo"
+                            },
+                            [_vm._v("*")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.forma_pago,
+                                expression: "forma_pago"
                               }
-                              _vm.serie_comprobante = $event.target.value
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.forma_pago = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
                             }
-                          }
-                        })
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seleccione")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "efectivo" } }, [
+                              _vm._v("EFECTIVO")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "datafono" } }, [
+                              _vm._v("DATAFONO")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "bancolombia" } }, [
+                              _vm._v("BANCOLOMBIA")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "nequi" } }, [
+                              _vm._v("NEQUI")
+                            ])
+                          ]
+                        )
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Num Comprobante(*)")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.num_comprobante,
-                              expression: "num_comprobante"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "002-2" },
-                          domProps: { value: _vm.num_comprobante },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                    _vm.forma_pago == "datafono" ||
+                    _vm.forma_pago == "bancolombia" ||
+                    _vm.forma_pago == "nequi"
+                      ? _c("div", { staticClass: "col-md-4" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", [
+                              _vm._v("Num Comprobante"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.num_comprobante_pago == 0,
+                                      expression: "num_comprobante_pago==0"
+                                    }
+                                  ],
+                                  staticClass: "validaridArticulo"
+                                },
+                                [_vm._v("*")]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.num_comprobante_pago,
+                                  expression: "num_comprobante_pago"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", placeholder: "002-2" },
+                              domProps: { value: _vm.num_comprobante_pago },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.num_comprobante_pago = $event.target.value
+                                }
                               }
-                              _vm.num_comprobante = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
+                            })
+                          ])
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
                       _c(
@@ -54229,57 +54361,6 @@ var render = function() {
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", [
-                          _vm._v("Precio compra"),
-                          _c(
-                            "span",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.preciocompra == 0,
-                                  expression: "preciocompra==0"
-                                }
-                              ],
-                              staticClass: "validaridArticulo"
-                            },
-                            [_vm._v("*")]
-                          )
-                        ]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.preciocompra,
-                              expression: "preciocompra"
-                            }
-                          ],
-                          attrs: {
-                            type: "number",
-                            min: "0",
-                            value: "0",
-                            step: "any",
-                            placeholder: "000.0"
-                          },
-                          domProps: { value: _vm.preciocompra },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.preciocompra = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-2" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", [
                           _vm._v("Precio venta"),
                           _c(
                             "span",
@@ -54322,6 +54403,57 @@ var render = function() {
                                 return
                               }
                               _vm.precio = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [
+                          _vm._v("Descuento"),
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.descuento < 0,
+                                  expression: "descuento<0"
+                                }
+                              ],
+                              staticClass: "validaridArticulo"
+                            },
+                            [_vm._v("*")]
+                          )
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.descuento,
+                              expression: "descuento"
+                            }
+                          ],
+                          attrs: {
+                            type: "number",
+                            min: "0",
+                            value: "0",
+                            step: "any",
+                            placeholder: "000.0"
+                          },
+                          domProps: { value: _vm.descuento },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.descuento = $event.target.value
                             }
                           }
                         })
@@ -54430,14 +54562,14 @@ var render = function() {
                                             {
                                               name: "model",
                                               rawName: "v-model",
-                                              value: detalle.preciocompra,
-                                              expression: "detalle.preciocompra"
+                                              value: detalle.descuento,
+                                              expression: "detalle.descuento"
                                             }
                                           ],
                                           staticClass: "form-control",
                                           attrs: { type: "number", value: "2" },
                                           domProps: {
-                                            value: detalle.preciocompra
+                                            value: detalle.descuento
                                           },
                                           on: {
                                             input: function($event) {
@@ -54446,7 +54578,7 @@ var render = function() {
                                               }
                                               _vm.$set(
                                                 detalle,
-                                                "preciocompra",
+                                                "descuento",
                                                 $event.target.value
                                               )
                                             }
@@ -54487,7 +54619,7 @@ var render = function() {
                                           "\n                                                " +
                                             _vm._s(
                                               Intl.NumberFormat().format(
-                                                detalle.preciocompra *
+                                                detalle.descuento *
                                                   detalle.cantidad
                                               )
                                             ) +
@@ -54501,7 +54633,7 @@ var render = function() {
                                             _vm._s(
                                               Intl.NumberFormat().format(
                                                 (detalle.precio -
-                                                  detalle.preciocompra) *
+                                                  detalle.descuento) *
                                                   detalle.cantidad
                                               )
                                             ) +
@@ -54510,7 +54642,7 @@ var render = function() {
                                       ]),
                                       _vm._v(" "),
                                       100 -
-                                        (detalle.preciocompra * 100) /
+                                        (detalle.descuento * 100) /
                                           detalle.precio <
                                       0
                                         ? _c(
@@ -54527,7 +54659,7 @@ var render = function() {
                                                   _vm._s(
                                                     (
                                                       100 -
-                                                      (detalle.preciocompra *
+                                                      (detalle.descuento *
                                                         100) /
                                                         detalle.precio
                                                     ).toFixed(2)
@@ -54543,8 +54675,7 @@ var render = function() {
                                                 _vm._s(
                                                   (
                                                     100 -
-                                                    (detalle.preciocompra *
-                                                      100) /
+                                                    (detalle.descuento * 100) /
                                                       detalle.precio
                                                   ).toFixed(2)
                                                 ) +
@@ -54652,7 +54783,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Registrar Compra")]
+                          [_vm._v("Guardar venta")]
                         )
                       ])
                     ])
@@ -54726,9 +54857,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("p", {
-                          domProps: {
-                            textContent: _vm._s(_vm.serie_comprobante)
-                          }
+                          domProps: { textContent: _vm._s(_vm.forma_pago) }
                         })
                       ])
                     ]),
@@ -54740,7 +54869,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("p", {
-                          domProps: { textContent: _vm._s(_vm.num_comprobante) }
+                          domProps: {
+                            textContent: _vm._s(_vm.num_comprobante_pago)
+                          }
                         })
                       ])
                     ])
@@ -54782,7 +54913,7 @@ var render = function() {
                                     domProps: {
                                       textContent: _vm._s(
                                         Intl.NumberFormat().format(
-                                          detalles.preciocompra
+                                          detalles.descuento
                                         )
                                       )
                                     }
@@ -54802,8 +54933,7 @@ var render = function() {
                                     domProps: {
                                       textContent: _vm._s(
                                         Intl.NumberFormat().format(
-                                          detalles.cantidad *
-                                            detalles.preciocompra
+                                          detalles.cantidad * detalles.descuento
                                         )
                                       )
                                     }
@@ -54814,7 +54944,7 @@ var render = function() {
                                       textContent: _vm._s(
                                         Intl.NumberFormat().format(
                                           (detalles.precio -
-                                            detalles.preciocompra) *
+                                            detalles.descuento) *
                                             detalles.cantidad
                                         )
                                       )
@@ -54826,7 +54956,7 @@ var render = function() {
                                       textContent: _vm._s(
                                         (
                                           100 -
-                                          (detalles.preciocompra * 100) /
+                                          (detalles.descuento * 100) /
                                             detalles.precio
                                         ).toFixed(2)
                                       )

@@ -58,7 +58,7 @@
                                                     <td v-text="venta.cliente_persona.nombre"></td>
                                                     <td v-text="venta.tipo_comprobante"></td>
                                                     <td v-text="venta.forma_pago"></td>
-                                                    <td v-text="venta.num_comprobante_pago"></td>
+                                                    <td v-text="venta.num_comprobante_pago_pago"></td>
                                                     <td v-text="venta.fecha_hora"></td>
                                                     <td v-text="venta.total"></td>
                                                     <td v-text="venta.impuesto"></td>
@@ -124,26 +124,29 @@
                             <div class="form-group row border">
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                    <label for="">Proveedor(*)</label>
+                                    <label for="">Cliente<span  class="validaridArticulo"   v-show="arrayCliente==0">*</span></label>
                                     <v-select
                                         @search="selectCliente"
                                         label="nombre"
                                         aria-label=""
-                                        :options="arrayProveedor"
-                                        placeholder="Buscar Proveedores..."
+                                        :options="arrayCliente"
+                                        placeholder="Buscar clientes..."
                                         @input="getDatosProveedor"                                        
                                     >
                                     </v-select>
                                     </div>
                                 </div>
+
+
+
                                 <div class="col-md-3">
-                                    <label>Impuesto %(*)</label>
+                                    <label>Impuesto %<span  class="validaridArticulo"   v-show="impuesto==0">*</span></label>
                                     <input type="text" class="form-control"  v-model="impuesto">
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group"> 
-                                        <label>Tipo Comprobante(*)</label>
+                                        <label>Tipo Comprobante <span  class="validaridArticulo"   v-show="tipo_comprobante==0">*</span></label>
                                             <select class="form-control" v-model="tipo_comprobante">
                                                 <option value="0">Seleccione</option>
                                                 <option value="FACTURA">Factura</option>
@@ -154,18 +157,29 @@
                                 </div>
 
 
+
+
+
                                 <div class="col-md-4">
                                     <div class="form-group"> 
-                                        <label>Serie Comprobante</label>
-                                        <input type="text" class="form-control"  v-model="serie_comprobante" placeholder="002-2">
+                                        <label>Tipo Comprobante <span  class="validaridArticulo"   v-show="forma_pago==0">*</span></label>
+                                            <select class="form-control" v-model="forma_pago">
+                                                <option value="0">Seleccione</option>
+                                                <option value="efectivo">EFECTIVO</option>
+                                                <option value="datafono">DATAFONO</option>
+                                                <option value="bancolombia">BANCOLOMBIA</option>
+                                                <option value="nequi">NEQUI</option>
+
+                                            </select>
                                     </div>
                                 </div>
 
 
-                                <div class="col-md-4">
+
+                                <div class="col-md-4" v-if="forma_pago=='datafono' || forma_pago=='bancolombia' || forma_pago=='nequi'">
                                     <div class="form-group"> 
-                                        <label>Num Comprobante(*)</label>
-                                        <input type="text" class="form-control"  v-model="num_comprobante" placeholder="002-2">
+                                        <label>Num Comprobante<span  class="validaridArticulo"   v-show="num_comprobante_pago==0">*</span></label>
+                                        <input type="text" class="form-control"  v-model="num_comprobante_pago" placeholder="002-2">
                                     </div>
                                 </div>
 
@@ -202,17 +216,19 @@
                                  </div>                   
                               </div>
                                 
-                                <div class="col-md-2">
-                                 <div class="form-group">
-                                     <label>Precio compra<span class="validaridArticulo" v-show="preciocompra==0">*</span></label><br>
-                                     <input type="number" min="0" v-model="preciocompra" value="0" step="any"  placeholder="000.0">
-                                 </div>                   
-                              </div>
 
                               <div class="col-md-2">
                                  <div class="form-group">
                                      <label>Precio venta<span class="validaridArticulo" v-show="precio==0">*</span></label><br>
                                      <input type="number" min="0" v-model="precio" value="0" step="any"  placeholder="000.0">
+                                 </div>                   
+                              </div>
+
+
+                              <div class="col-md-2">
+                                 <div class="form-group">
+                                     <label>Descuento<span class="validaridArticulo" v-show="descuento<0">*</span></label><br>
+                                     <input type="number" min="0" v-model="descuento" value="0" step="any"  placeholder="000.0">
                                  </div>                   
                               </div>
                                                        
@@ -261,7 +277,7 @@
                                             </td>
 
                                             <td>
-                                                <input v-model="detalle.preciocompra" type="number" value="2" class="form-control">
+                                                <input v-model="detalle.descuento" type="number" value="2" class="form-control">
                                             </td>
 
 
@@ -269,22 +285,22 @@
                                                 <input v-model="detalle.precio" type="number" value="2" class="form-control">
                                             </td>
                                             <td>
-                                                {{ Intl.NumberFormat().format(detalle.preciocompra*detalle.cantidad)  }}
+                                                {{ Intl.NumberFormat().format(detalle.descuento*detalle.cantidad)  }}
                                             </td>
 
 
                                             <!--ganancia-->
 
                                             <td>
-                                                {{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
+                                                {{ Intl.NumberFormat().format((detalle.precio-detalle.descuento)*detalle.cantidad)  }}
                                             </td>
 
                                             <!--porcentaje-->
-                                            <td v-if="(100-((detalle.preciocompra*100)/detalle.precio))<0" style="color:red; font-weight: 900;">
-                                                {{ (100-((detalle.preciocompra*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
+                                            <td v-if="(100-((detalle.descuento*100)/detalle.precio))<0" style="color:red; font-weight: 900;">
+                                                {{ (100-((detalle.descuento*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
                                             </td>
                                             <td v-else>
-                                                {{ (100-((detalle.preciocompra*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
+                                                {{ (100-((detalle.descuento*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
                                             </td>
                                          </tr>
 
@@ -329,7 +345,7 @@
                         <div class="form-group row">
                            <div class="col-md-12">
                                <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">Cerrar</button>
-                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">Registrar Compra</button>
+                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">Guardar venta</button>
 
                            </div>
                         </div>
@@ -381,7 +397,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Serie Comprobante</label>
-                                        <p v-text="serie_comprobante"></p>
+                                        <p v-text="forma_pago"></p>
                                     </div>
                                 </div>
 
@@ -389,7 +405,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Num Comprobante</label>
-                                        <p v-text="num_comprobante"></p>
+                                        <p v-text="num_comprobante_pago"></p>
                                     </div>
                                 </div>
 
@@ -419,11 +435,11 @@
                                           
                                             <th v-text="detalles.articulodetalle.nombre"></th>
                                             <th v-text="detalles.cantidad"></th>
-                                            <th v-text="Intl.NumberFormat().format(detalles.preciocompra)"></th>
+                                            <th v-text="Intl.NumberFormat().format(detalles.descuento)"></th>
                                             <th v-text="Intl.NumberFormat().format(detalles.precio)"></th>
-                                            <th v-text="Intl.NumberFormat().format((detalles.cantidad*detalles.preciocompra))"></th>
-                                            <th v-text="Intl.NumberFormat().format(((detalles.precio-detalles.preciocompra)*detalles.cantidad))"></th>
-                                            <th v-text="(100-((detalles.preciocompra*100)/detalles.precio)).toFixed(2)"></th>
+                                            <th v-text="Intl.NumberFormat().format((detalles.cantidad*detalles.descuento))"></th>
+                                            <th v-text="Intl.NumberFormat().format(((detalles.precio-detalles.descuento)*detalles.cantidad))"></th>
+                                            <th v-text="(100-((detalles.descuento*100)/detalles.precio)).toFixed(2)"></th>
                                             
                                          </tr>
 
@@ -571,8 +587,8 @@ import vSelect from "vue-select";
             proveedor: '',
             
             tipo_comprobante: 'FACTURA',
-            serie_comprobante : '',
-            num_comprobante: '',
+            forma_pago : 'efectivo',
+            num_comprobante_pago: '',
             telefono:'',
             impuesto: 18,
             totalgananciass: 0.0,
@@ -586,7 +602,7 @@ import vSelect from "vue-select";
             //la data que regresa nuestro metodo listaVenta se almacene en esta array
             arrayVenta:[],
             arrayDetalleIngreso:[],
-            arrayProveedor:[],
+            arrayCliente:[],
             modal : 0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
@@ -620,7 +636,7 @@ import vSelect from "vue-select";
             codigo:'',
             articulo:'',
             precio:0,
-            preciocompra:0,
+            descuento:0,
             cantidad:0,
           }
         },
@@ -656,7 +672,7 @@ import vSelect from "vue-select";
             calculadorTotal : function(){
                 var resultado=0.0;
                 for(var i=0; i<this.arrayDetalleIngreso.length; i++){
-                  resultado+=this.arrayDetalleIngreso[i].preciocompra*this.arrayDetalleIngreso[i].cantidad;
+                  resultado+=this.arrayDetalleIngreso[i].descuento*this.arrayDetalleIngreso[i].cantidad;
                 }
                 return resultado;
             },
@@ -664,7 +680,7 @@ import vSelect from "vue-select";
                 var totalgan=0.0;
                 var aux=0.0;
                 for(var i=0; i<this.arrayDetalleIngreso.length; i++){
-                  aux+=this.arrayDetalleIngreso[i].precio-this.arrayDetalleIngreso[i].preciocompra;
+                  aux+=this.arrayDetalleIngreso[i].precio-this.arrayDetalleIngreso[i].descuento;
                   totalgan+=aux*this.arrayDetalleIngreso[i].cantidad;
                   aux=0.0;
                 }
@@ -675,7 +691,7 @@ import vSelect from "vue-select";
             calculadorTotalDetalle : function(){
                 var resultado=0.0;
                 for(var i=0; i<this.listarDetalleIngreso.length; i++){
-                  resultado+=this.listarDetalleIngreso[i].preciocompra*this.listarDetalleIngreso[i].cantidad;
+                  resultado+=this.listarDetalleIngreso[i].descuento*this.listarDetalleIngreso[i].cantidad;
                 }
                 return resultado;
             },
@@ -683,14 +699,14 @@ import vSelect from "vue-select";
                 var totalgan=0.0;
                 var aux=0.0;
                 for(var i=0; i<this.listarDetalleIngreso.length; i++){
-                  aux+=this.listarDetalleIngreso[i].precio-this.listarDetalleIngreso[i].preciocompra;
+                  aux+=this.listarDetalleIngreso[i].precio-this.listarDetalleIngreso[i].descuento;
                   totalgan+=aux*this.listarDetalleIngreso[i].cantidad;
                   aux=0.0;
                 }
                 return totalgan;
             },
         },
-//{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
+//{{ Intl.NumberFormat().format((detalle.precio-detalle.descuento)*detalle.cantidad)  }}
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
@@ -727,7 +743,7 @@ import vSelect from "vue-select";
                 axios.get(url).then(function (response) {
                     console.log(response.data);
                   let respuesta = response.data;
-                    me.arrayProveedor=respuesta.proveedores;
+                    me.arrayCliente=respuesta.cliente;
                     loading(false)                    
     
                 })
@@ -798,14 +814,14 @@ import vSelect from "vue-select";
                         articulo: this.articulo,
                         cantidad : this.cantidad,
                         precio: this.precio,
-                        preciocompra:this.preciocompra,
+                        descuento:this.descuento,
                        });
                         this.codigo='';
                         this.idarticulo=0;
                         this.articulo='';
                         this.cantidad=0;
                         this.precio=0;
-                        this.preciocompra=0;
+                        this.descuento=0;
                       }
                       
                      }
@@ -828,7 +844,7 @@ import vSelect from "vue-select";
                         articulo: data['nombre'],
                         cantidad : 1,
                         precio: 1,
-                        preciocompra:1,
+                        descuento:1,
                        });
                       }
 
@@ -858,8 +874,8 @@ import vSelect from "vue-select";
                         axios.post('/ingresos/registrar', {
                             'idproveedor':  this.idproveedor,
                             'tipo_comprobante': this.tipo_comprobante,
-                            'serie_comprobante': this.serie_comprobante,
-                            'num_comprobante': this.num_comprobante,
+                            'forma_pago': this.forma_pago,
+                            'num_comprobante_pago': this.num_comprobante_pago,
                             'impuesto': this.impuesto,
                             'total':this.total,
                             'data':this.arrayDetalleIngreso,
@@ -871,7 +887,7 @@ import vSelect from "vue-select";
                             me.listado= 1;
                             me.vaciarvariable();
                         //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                        me.listaVenta(1,'','num_comprobante');
+                        me.listaVenta(1,'','num_comprobante_pago');
                         }) 
                         .catch(function (error) {
                             console.log(error);
@@ -882,8 +898,8 @@ import vSelect from "vue-select";
 
                         this.idproveedor=0;
                         this.tipo_comprobante= 'FACTURA',
-                        this.serie_comprobante = '',
-                        this.num_comprobante= '',
+                        this.forma_pago = 'efectivo',
+                        this.num_comprobante_pago= '',
                         this.impuesto='',
                         this.impuesto= 18,
                         this.total= 0.0,
@@ -899,7 +915,7 @@ import vSelect from "vue-select";
                     this.errorIngreso=0;
                     this.errorMensajearrayVenta=[];
                     if(this.idproveedor==0) this.errorMensajearrayVenta.push("Seleccione un proveedor ");
-                    if(!this.num_comprobante) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
+                    if(!this.num_comprobante_pago) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
                     if(!this.tipo_comprobante) this.errorMensajearrayVenta.push("Ingrese tipo de comprobante ");
                     if(this.arrayDetalleIngreso.length<=0) this.errorMensajearrayVenta.push("Ingrese algun producto");
 
@@ -931,8 +947,8 @@ import vSelect from "vue-select";
                     me.proveedor=TemporalObj[0]['proveedoress']['nombre'];
                     me.impuesto=TemporalObj[0]['impuesto'];
                     me.tipo_comprobante=TemporalObj[0]['tipo_comprobante'];
-                    me.serie_comprobante=TemporalObj[0]['serie_comprobante'];
-                    me.num_comprobante=TemporalObj[0]['num_comprobante'];
+                    me.forma_pago=TemporalObj[0]['forma_pago'];
+                    me.num_comprobante_pago=TemporalObj[0]['num_comprobante_pago'];
                     me.total=TemporalObj[0]['total'];
                     me.fecha_hora=TemporalObj[0]['created_at'];
                     me.idingreso=TemporalObj[0]['id'];
@@ -985,7 +1001,7 @@ import vSelect from "vue-select";
                         })
                         .then(function (response) {
                             //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                        me.listaVenta(1,'','num_comprobante');
+                        me.listaVenta(1,'','num_comprobante_pago');
                             swalWithBootstrapButtons.fire(
                             'Anulado',
                             'El Ingreso ha sido Anulado correctamente',
@@ -1059,7 +1075,7 @@ import vSelect from "vue-select";
   }
   .validaridArticulo{
       color: red;
-      font-weight: 500;
+      font-weight: 900;
   }
   .negritatitle{
       font-weight: 500;
