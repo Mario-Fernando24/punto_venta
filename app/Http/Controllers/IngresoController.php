@@ -50,7 +50,7 @@ class IngresoController extends Controller
       if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
-        $ObjetoDetalleIngreso = Ingreso::with('usuario','proveedor','proveedoress','persona')
+        $ObjetoDetalleIngreso = Ingreso::with()
         ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
 
         return ['ObjetoDetalleIngreso' => $ObjetoDetalleIngreso];
@@ -58,7 +58,7 @@ class IngresoController extends Controller
     }
     public function getArrayDetalleIngreso(Request $request){
 
-     // if(!$request->ajax()){return redirect('/'); }
+      if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
         $ArrayDetalleIng = DetalleIngreso::with('articulodetalle')
@@ -71,9 +71,9 @@ class IngresoController extends Controller
     public function ListarArticuloIngreso(Request $request)
     {   
         
-       // if(!$request->ajax()){
-       //    return redirect('/');
-       //    }
+        if(!$request->ajax()){
+           return redirect('/');
+           }
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 

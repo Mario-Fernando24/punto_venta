@@ -140,6 +140,15 @@
             Route::put('anularIngreso', 'IngresoController@anularIngreso');
         });
 
+         //controller ingresos
+         Route::prefix('ventas')->group(function() {
+            Route::get('index', 'VentaController@index');
+            Route::get('getObjetoDetalleVenta', 'VentaController@getObjetoDetalleVenta');
+            Route::get('getArrayDetalleVenta', 'VentaController@getArrayDetalleVenta');
+            Route::get('ListarArticuloVenta', 'VentaController@ListarArticuloVenta');
+
+        });
+
              
     });  //and middleware administrador
 

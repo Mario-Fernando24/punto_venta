@@ -15,10 +15,16 @@ class DetalleVenta extends Model
         'id_venta',
         'id_articulo',
         'cantidad',
-        'forma_pago',
         'precio',
         'descuento',
     ];
+
+
+    public function articulo_Detalle_Venta()
+    {
+        return $this->belongsTo(Articulo::class,'id_articulo','id');
+        
+    }
 
     public $timestamps=false;
 

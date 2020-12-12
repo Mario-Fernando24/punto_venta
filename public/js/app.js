@@ -4816,6 +4816,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -51414,7 +51415,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("i", { staticClass: "fa fa-align-justify" }),
-      _vm._v(" Roles\n                        ")
+      _vm._v("Roles\n\n                        ")
     ])
   },
   function() {
