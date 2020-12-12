@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Venta;
 use App\DetalleVenta;
 use App\Articulo;
-
-
 use DB;
 use Carbon\Carbon;
 
@@ -29,7 +27,6 @@ class VentaController extends Controller
          }
 
 
-        // return $venta;
         return [
             'pagination' => [
                 'total'         => $venta->total(),
