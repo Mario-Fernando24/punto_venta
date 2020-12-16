@@ -137,8 +137,13 @@ class VentaController extends Controller
 
        try{
 
+
+
+
+
+
           $venta = Venta::create([
-            'id_cliente' => $request->get('id_cliente'),
+            'id_cliente' => $request->get('idcliente'),
             'id_usuario' => \Auth::user()->id,
             'tipo_comprobante' => $request->get('tipo_comprobante'),
             'forma_pago' => $request->get('forma_pago'),
@@ -157,7 +162,7 @@ class VentaController extends Controller
             {
               DetalleVenta::create([
                     'id_venta' => $venta->id,
-                    'id_articulo' => $det['id_articulo'],
+                    'id_articulo' => $det['idarticulo'],
                     'cantidad' => $det['cantidad'],
                     'precio' => $det['precio'],
                     'descuento' => $det['descuento'],

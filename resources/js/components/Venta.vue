@@ -869,6 +869,30 @@ import vSelect from "vue-select";
                         if(this.validarVenta()){
                             return ;
                         }
+
+                        let me=this;
+                        axios.post('/ventas/registrar', {
+                            'idcliente':  this.idcliente,
+                            'tipo_comprobante': this.tipo_comprobante,
+                            'forma_pago': this.forma_pago,
+                            'num_comprobante_pago': this.num_comprobante_pago,
+                            'impuesto': this.impuesto,
+                            'total':this.total,
+                            'data':this.arrayDetalleVenta,
+                            
+                            
+                        })
+                        .then(function (response) {
+                            console.log('entro a esta funcion');
+                            me.listado= 1;
+                            me.vaciarvariable();
+                        //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                        me.listaVenta(1,'','num_comprobante_pago');
+                        }) 
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
                   },
 
                 vaciarvariable(){

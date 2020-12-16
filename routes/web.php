@@ -149,6 +149,8 @@
             Route::get('selectCliente', 'VentaController@selectCliente');
             Route::get('buscarArticuloVentaBarra', 'VentaController@buscarArticuloVentaBarra');
             Route::get('buscarArticuloVentaBarra', 'VentaController@buscarArticuloVentaBarra');
+            Route::post('registrar', 'VentaController@store');
+
 
             
             
