@@ -201,7 +201,7 @@
                                         <label>Articulo <span class="validaridArticulo" v-show="idarticulo==0">(*Seleccione)</span></label>
                                         <div class="form-inline">
                                             <input type="" v-model="codigo" @keyup.enter="BuscarArticuloBarraVenta()"  placeholder="Ingrese el articulo">
-                                            <button class="btn btn-primary" @click="abrirModal()">...</button>
+                                            <button class="btn btn-primary" @click="abrirModal()">+</button>
                                             <input type="text" readonly class="form-control" v-model="articulo">
                                         </div>
                                     </div>
@@ -675,8 +675,7 @@ import vSelect from "vue-select";
             },
             
         },
-//{{ Intl.NumberFormat().format((detalle.precio-detalle.descuento)*detalle.cantidad)  }}
-     //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
+        //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
                listaVenta(page, buscar, criterio){
@@ -701,6 +700,8 @@ import vSelect from "vue-select";
                 //envia la peticion de listar esa pagina
                 me.listaVenta(page, buscar, criterio);
                  },
+
+
                 selectCliente(search,loading){
                //  console.log(loading);                    
                 let me=this;
@@ -739,8 +740,11 @@ import vSelect from "vue-select";
                     });
 
                  },
+
+
               
-                BuscarArticuloBarraVenta(){
+                        
+               BuscarArticuloBarraVenta(){
                 let me=this;
                 var url= '/ventas/buscarArticuloVentaBarra?filtro='+me.codigo;
                  axios.get(url).then(function (response) {
@@ -769,13 +773,14 @@ import vSelect from "vue-select";
                     console.log(error);
                 }); 
                  },
-                 //agregar articulos al detalle 
+                 
+                 //agregar articulos al detalle  As0caiman*
                  agregarDetalle(){
                      let m;
                      if(this.idarticulo==0 || this.cantidad==0 || this.precio==0){}
                         
                         else{
-//As0caiman*  
+  
                          //validar si el productos ya se encuentra en los detalles
                          if(this.encuentra(this.idarticulo)){
                              this.aux=0;
@@ -860,34 +865,10 @@ import vSelect from "vue-select";
                     this.arrayDetalleVenta.splice(index,1);
                  },
 
-                //Metodo registrar usuario
                  registrarVenta(){
-                        if(this.validarIngreso()){
+                        if(this.validarVenta()){
                             return ;
                         }
-
-                        let me=this;
-                        axios.post('/ingresos/registrar', {
-                            'idcliente':  this.idcliente,
-                            'tipo_comprobante': this.tipo_comprobante,
-                            'forma_pago': this.forma_pago,
-                            'num_comprobante_pago': this.num_comprobante_pago,
-                            'impuesto': this.impuesto,
-                            'total':this.total,
-                            'data':this.arrayDetalleVenta,
-                            
-                            
-                        })
-                        .then(function (response) {
-                            console.log('entro a esta funcion');
-                            me.listado= 1;
-                            me.vaciarvariable();
-                        //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                        me.listaVenta(1,'','num_comprobante_pago');
-                        }) 
-                        .catch(function (error) {
-                            console.log(error);
-                        });
                   },
 
                 vaciarvariable(){
@@ -907,11 +888,31 @@ import vSelect from "vue-select";
                  },
     
                 //methods validar las usuario
-                validarIngreso(){
+                validarVenta(){
+
                     this.errorVenta=0;
                     this.errorMensajearrayVenta=[];
-                    if(this.idcliente==0) this.errorMensajearrayVenta.push("Seleccione un proveedor ");
-                    if(!this.num_comprobante_pago) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
+                    var art;
+                    var cadena="";
+ 
+                       //validar el stock 
+                      this.arrayDetalleVenta.map(function(x){
+                          if(x.cantidad>x.stock){
+                              art=x.articulo+"  con stock insuficiente"
+                              cadena+=art;
+
+                          }
+                      });
+
+                      if(cadena.length>0){
+                           this.errorMensajearrayVenta.push(cadena);
+                      }
+
+
+
+                //this.arrayDetalleVenta.push(cadena);
+                    if(this.idcliente==0) this.errorMensajearrayVenta.push("Seleccione un Cliente ");
+                   // if(!this.num_comprobante_pago) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
                     if(!this.tipo_comprobante) this.errorMensajearrayVenta.push("Ingrese tipo de comprobante ");
                     if(this.arrayDetalleVenta.length<=0) this.errorMensajearrayVenta.push("Ingrese algun producto");
 

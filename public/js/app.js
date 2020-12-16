@@ -6357,7 +6357,6 @@ __webpack_require__.r(__webpack_exports__);
       return resultado;
     }
   },
-  //{{ Intl.NumberFormat().format((detalle.precio-detalle.descuento)*detalle.cantidad)  }}
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
     listaVenta: function listaVenta(page, buscar, criterio) {
@@ -6433,12 +6432,11 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    //agregar articulos al detalle 
+    //agregar articulos al detalle  As0caiman*
     agregarDetalle: function agregarDetalle() {
       var m;
 
       if (this.idarticulo == 0 || this.cantidad == 0 || this.precio == 0) {} else {
-        //As0caiman*  
         //validar si el productos ya se encuentra en los detalles
         if (this.encuentra(this.idarticulo)) {
           this.aux = 0;
@@ -6499,41 +6497,36 @@ __webpack_require__.r(__webpack_exports__);
     eliminarDetalle: function eliminarDetalle(index) {
       this.arrayDetalleVenta.splice(index, 1);
     },
-    //Metodo registrar usuario
     registrarVenta: function registrarVenta() {
-      if (this.validarIngreso()) {
+      if (this.validarVenta()) {
         return;
       }
-
-      var me = this;
-      axios.post('/ingresos/registrar', {
-        'idcliente': this.idcliente,
-        'tipo_comprobante': this.tipo_comprobante,
-        'forma_pago': this.forma_pago,
-        'num_comprobante_pago': this.num_comprobante_pago,
-        'impuesto': this.impuesto,
-        'total': this.total,
-        'data': this.arrayDetalleVenta
-      }).then(function (response) {
-        console.log('entro a esta funcion');
-        me.listado = 1;
-        me.vaciarvariable(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-
-        me.listaVenta(1, '', 'num_comprobante_pago');
-      })["catch"](function (error) {
-        console.log(error);
-      });
     },
     vaciarvariable: function vaciarvariable() {
       this.idcliente = 0;
       this.tipo_comprobante = 'FACTURA', this.forma_pago = 'efectivo', this.num_comprobante_pago = '', this.impuesto = '', this.impuesto = 18, this.total = 0.0, this.idarticulo = 0, this.articulo = '', this.cantidad = '', this.precio = '', this.arrayDetalleVenta = [];
     },
     //methods validar las usuario
-    validarIngreso: function validarIngreso() {
+    validarVenta: function validarVenta() {
       this.errorVenta = 0;
       this.errorMensajearrayVenta = [];
-      if (this.idcliente == 0) this.errorMensajearrayVenta.push("Seleccione un proveedor ");
-      if (!this.num_comprobante_pago) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
+      var art;
+      var cadena = ""; //validar el stock 
+
+      this.arrayDetalleVenta.map(function (x) {
+        if (x.cantidad > x.stock) {
+          art = x.articulo + "  con stock insuficiente";
+          cadena += art;
+        }
+      });
+
+      if (cadena.length > 0) {
+        this.errorMensajearrayVenta.push(cadena);
+      } //this.arrayDetalleVenta.push(cadena);
+
+
+      if (this.idcliente == 0) this.errorMensajearrayVenta.push("Seleccione un Cliente "); // if(!this.num_comprobante_pago) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
+
       if (!this.tipo_comprobante) this.errorMensajearrayVenta.push("Ingrese tipo de comprobante ");
       if (this.arrayDetalleVenta.length <= 0) this.errorMensajearrayVenta.push("Ingrese algun producto");
       if (this.errorMensajearrayVenta.length) this.errorVenta = 1;
@@ -54249,7 +54242,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("...")]
+                            [_vm._v("+")]
                           ),
                           _vm._v(" "),
                           _c("input", {
