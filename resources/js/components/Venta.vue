@@ -119,7 +119,8 @@
                     <!-- fin Listado-->
 
                     <!--compra Ingreso-->
-                     <template v-else-if="listado==0">
+                    <template v-else-if="listado==0">
+
                         <div class="card-body">
                             <div class="form-group row border">
                                 <div class="col-md-9">
@@ -131,7 +132,7 @@
                                         aria-label=""
                                         :options="arrayCliente"
                                         placeholder="Buscar clientes..."
-                                        @input="getDatosProveedor"                                        
+                                        @input="getDatosCliente"                                        
                                     >
                                     </v-select>
                                     </div>
@@ -183,68 +184,67 @@
                                     </div>
                                 </div>
 
-                             <div class="col-md-12">
-                                <div v-show="errorIngreso==1" class="form-group row div-error">
-                                    <div class="text-center text-error">
-                                        <div v-for="error in errorMensajearrayVenta" :key="error" v-text="error">
-                                           
+                                <div class="col-md-12">
+                                    <div v-show="errorVenta==1" class="form-group row div-error">
+                                        <div class="text-center text-error">
+                                            <div v-for="error in errorMensajearrayVenta" :key="error" v-text="error">  
+                                            </div>
                                         </div>
                                     </div>
-                                 </div>
+                                    </div>
                                 </div>
 
-                          </div>
 
-
-                        <div class="form-group row border">
-                              <div class="col-md-4">
-                                 <div class="form-group">
-                                     <label>Articulo <span class="validaridArticulo" v-show="idarticulo==0">(*Seleccione)</span></label>
-                                     <div class="form-inline">
-                                         <input type="" v-model="codigo" @keyup.enter="buscarArticuloCodigoBarra()"  placeholder="Ingrese el articulo">
-                                         <button class="btn btn-primary" @click="abrirModal()">...</button>
-                                         <input type="text" readonly class="form-control" v-model="articulo">
-                                     </div>
-                                 </div>
-                              </div>
+                                <div class="form-group row border">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Articulo <span class="validaridArticulo" v-show="idarticulo==0">(*Seleccione)</span></label>
+                                        <div class="form-inline">
+                                            <input type="" v-model="codigo" @keyup.enter="BuscarArticuloBarraVenta()"  placeholder="Ingrese el articulo">
+                                            <button class="btn btn-primary" @click="abrirModal()">...</button>
+                                            <input type="text" readonly class="form-control" v-model="articulo">
+                                        </div>
+                                    </div>
+                                </div>
                             
 
-                              <div class="col-md-2">
-                                 <div class="form-group">
-                                     <label>Cantidad<span  class="validaridArticulo"   v-show="cantidad==0">*</span></label><br>
-                                     <input type="number" min="0" value="0" step="any" v-model="cantidad"  placeholder="00">
-                                 </div>                   
-                              </div>
                                 
 
-                              <div class="col-md-2">
-                                 <div class="form-group">
-                                     <label>Precio venta<span class="validaridArticulo" v-show="precio==0">*</span></label><br>
-                                     <input type="number" min="0" v-model="precio" value="0" step="any"  placeholder="000.0">
-                                 </div>                   
-                              </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Precio<span class="validaridArticulo" v-show="precio==0">*</span></label><br>
+                                        <input type="number" min="0" v-model="precio" value="0" step="any"  placeholder="000.0">
+                                    </div>                   
+                                </div>
 
 
-                              <div class="col-md-2">
-                                 <div class="form-group">
-                                     <label>Descuento<span class="validaridArticulo" v-show="descuento<0">*</span></label><br>
-                                     <input type="number" min="0" v-model="descuento" value="0" step="any"  placeholder="000.0">
-                                 </div>                   
-                              </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Cantidad<span  class="validaridArticulo"   v-show="cantidad==0">*</span></label><br>
+                                        <input type="number" min="0" value="0" step="any" v-model="cantidad"  placeholder="00">
+                                    </div>                   
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Descuento<span class="validaridArticulo" v-show="descuento<0">*</span></label><br>
+                                        <input type="number" min="0" v-model="descuento" value="0" step="any"  placeholder="000.0">
+                                    </div>                   
+                                </div>
                                                        
 
 
 
-                              <div class="col-md-2">
-                                 <div class="form-group">
-                                     <button @click="agregarDetalle()" class="btn btn-success form-control btnagregar"><i class="icon-plus"></i></button>
-                                 </div>                   
-                              </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button @click="agregarDetalle()" class="btn btn-success form-control btnagregar"><i class="icon-plus"></i></button>
+                                    </div>                   
+                                </div>
+                                </div>
 
-                        </div>
-
-                    <!--show article-->
-                        <div class="form-group row border">
+                         <!--show article-->
+                          <div class="form-group row border">
                            <div class="table-responsive col-md-12">
                                  <table class="table table-bordered table-striped table-sm">
                                     
@@ -253,18 +253,16 @@
 
                                             <th>Opciones</th>
                                             <th>Articulo</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio compra</th>
                                             <th>Precio venta</th>
+                                            <th>Cantidad</th>
+                                            <th>Descuento</th>
                                             <th>Subtotal</th>
-                                            <th>Ganancia</th>
-                                            <th>%</th>
 
                                          </tr>
                                      </thead>
-                                     <tbody v-if="arrayDetalleIngreso.length">
+                                     <tbody v-if="arrayDetalleVenta.length">
 
-                                         <tr v-for="(detalle,index) in arrayDetalleIngreso" :key="detalle.id">
+                                         <tr v-for="(detalle,index) in arrayDetalleVenta" :key="detalle.id">
                                             <th>
                                                 <button @click="eliminarDetalle(index)" type="button" class="btn btn-danger btn-sm">
                                                     <i class="icon-close"></i>
@@ -272,63 +270,48 @@
                                             </th>
 
                                             <th v-text="detalle.articulo"></th>
-                                            <td>
-                                                <input v-model="detalle.cantidad" type="number" value="3" class="form-control">
-                                            </td>
-
-                                            <td>
-                                                <input v-model="detalle.descuento" type="number" value="2" class="form-control">
-                                            </td>
 
 
                                             <td>
-                                                <input v-model="detalle.precio" type="number" value="2" class="form-control">
+                                                <input v-model="detalle.precio" type="number" class="form-control">
                                             </td>
-                                            <td>
-                                                {{ Intl.NumberFormat().format(detalle.descuento*detalle.cantidad)  }}
-                                            </td>
-
-
-                                            <!--ganancia-->
 
                                             <td>
-                                                {{ Intl.NumberFormat().format((detalle.precio-detalle.descuento)*detalle.cantidad)  }}
+                                                <span class="validaridArticulo" v-show="detalle.cantidad>detalle.stock">Stock {{ detalle.stock }}</span>
+                                                <input v-model="detalle.cantidad" type="number"  class="form-control">
                                             </td>
 
-                                            <!--porcentaje-->
-                                            <td v-if="(100-((detalle.descuento*100)/detalle.precio))<0" style="color:red; font-weight: 900;">
-                                                {{ (100-((detalle.descuento*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
+                                            <td>
+                                            <span class="validaridArticulo" v-show="detalle.descuento>(detalle.cantidad*detalle.precio)">Descuento superior a subtotal </span>
+                                                <input v-model="detalle.descuento" type="number"  class="form-control">
                                             </td>
-                                            <td v-else>
-                                                {{ (100-((detalle.descuento*100)/detalle.precio)).toFixed(2)  }} <b>%</b>
+
+                                            <td>
+                                                {{ Intl.NumberFormat().format((detalle.cantidad*detalle.precio)-detalle.descuento)  }}
                                             </td>
+
+
                                          </tr>
 
 
 
                                          <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Subtotal:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format(subtotal=(total-totalImpuesto )) }}</td>
+                                             <td colspan="4" align="right"><strong>Subtotal:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total-impu))}}</td>
                                          </tr>
 
 
                                          <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Impuesto:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format(totalImpuesto=((total*impuesto )/100)) }}</td>
+                                             <td colspan="4" align="right"><strong>Impuesto:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((impu=(total*impuesto)/100))}}</td>
                                          </tr>
 
                                          <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Total Neto:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total=calculadorTotal))}}</td>
+                                             <td colspan="4" align="right"><strong>Totasl Neto:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total=(calculadorTotal)))}}</td>
                                          </tr>
 
-                                         <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Total Ganancias:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calcularTotalGanancia))}}</td>
-                                         </tr>
-
-                                         
-
+                
                                      </tbody>
 
                                  <tbody v-else>
@@ -338,24 +321,25 @@
                                        </th>
                                    </tr>
                                  </tbody>
+
+                                 
                                  </table>
                            </div>
 
 
                         <div class="form-group row">
                            <div class="col-md-12">
-                               <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">Cerrar</button>
-                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">Guardar venta</button>
+                               <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
+                              <button type="button" class="btn btn-primary" @click="registrarVenta()">Guardar venta</button>
+                           </div>
+                        </div>
 
-                           </div>
-                        </div>
-                           </div>
-                        </div>
-                        </template>
+                       </div>
+                      </div>
+                    
+                    </template>
 
                     <!--fin Ingreso compra-->
-
-
 
                      <!-- mostrar los detalle de los ingreso-->
                      <template v-else-if="listado==2">
@@ -496,11 +480,6 @@
 
 
 
-
-
-
-
-
                             <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="input-group">
@@ -562,7 +541,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarIngreso()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarVenta()">Guardar</button>
 
                         </div>
                     </div>
@@ -583,7 +562,7 @@ import vSelect from "vue-select";
           return {
             //cual es la usuario que quiero edit 
             ingreso_id :0,
-            idproveedor : 0,
+            idcliente : 0,
             proveedor: '',
             
             tipo_comprobante: 'FACTURA',
@@ -601,13 +580,13 @@ import vSelect from "vue-select";
             listado: 1,
             //la data que regresa nuestro metodo listaVenta se almacene en esta array
             arrayVenta:[],
-            arrayDetalleIngreso:[],
+            arrayDetalleVenta:[],
             arrayCliente:[],
             modal : 0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
             tipoAccionButton : 0,
-            errorIngreso : 0,
+            errorVenta : 0,
             errorMensajearrayVenta : [],
           
             pagination : {
@@ -636,8 +615,10 @@ import vSelect from "vue-select";
             codigo:'',
             articulo:'',
             precio:0,
+            stock: 0,
+            cantidad: 0,
             descuento:0,
-            cantidad:0,
+            impu:0,
           }
         },
          components: {
@@ -671,21 +652,18 @@ import vSelect from "vue-select";
             },
             calculadorTotal : function(){
                 var resultado=0.0;
-                for(var i=0; i<this.arrayDetalleIngreso.length; i++){
-                  resultado+=this.arrayDetalleIngreso[i].descuento*this.arrayDetalleIngreso[i].cantidad;
+                var aux=0.0;
+
+                for(var i=0; i<this.arrayDetalleVenta.length; i++){
+                  aux+=this.arrayDetalleVenta[i].precio*this.arrayDetalleVenta[i].cantidad;
+                  resultado+=aux-this.arrayDetalleVenta[i].descuento;
+                  aux=0.0;
                 }
                 return resultado;
             },
-            calcularTotalGanancia : function(){
-                var totalgan=0.0;
-                var aux=0.0;
-                for(var i=0; i<this.arrayDetalleIngreso.length; i++){
-                  aux+=this.arrayDetalleIngreso[i].precio-this.arrayDetalleIngreso[i].descuento;
-                  totalgan+=aux*this.arrayDetalleIngreso[i].cantidad;
-                  aux=0.0;
-                }
-                return totalgan;
-            },
+
+            
+           
 
 
             calculadorTotalDetalle : function(){
@@ -695,16 +673,7 @@ import vSelect from "vue-select";
                 }
                 return resultado;
             },
-            calcularTotalGananciaDetalle : function(){
-                var totalgan=0.0;
-                var aux=0.0;
-                for(var i=0; i<this.listarDetalleIngreso.length; i++){
-                  aux+=this.listarDetalleIngreso[i].precio-this.listarDetalleIngreso[i].descuento;
-                  totalgan+=aux*this.listarDetalleIngreso[i].cantidad;
-                  aux=0.0;
-                }
-                return totalgan;
-            },
+            
         },
 //{{ Intl.NumberFormat().format((detalle.precio-detalle.descuento)*detalle.cantidad)  }}
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
@@ -722,7 +691,7 @@ import vSelect from "vue-select";
                     .catch(function (error) {
                         console.log(error);
                     });
-               },
+                 },
           
                //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
                 cambiarPagina(page, buscar, criterio){
@@ -731,10 +700,7 @@ import vSelect from "vue-select";
                 me.pagination.current_page = page;
                 //envia la peticion de listar esa pagina
                 me.listaVenta(page, buscar, criterio);
-               },
-
-
-               
+                 },
                 selectCliente(search,loading){
                //  console.log(loading);                    
                 let me=this;
@@ -752,16 +718,16 @@ import vSelect from "vue-select";
                 });           
                  },
  
-                getDatosProveedor(val1){
+                getDatosCliente(val1){
                     let me = this;
                         me.loading = true;
-                        me.idproveedor = val1.id;
-                    },
+                        me.idcliente = val1.id;
+                  },
 
 
                 listarArticulo(buscarArt, criterioArticulo){
                  let me=this;
-                  var url= '/ingresos/ListarArticuloIngreso?buscar=' + buscarArt + '&criterio=' + criterioArticulo;
+                  var url= '/ventas/ListarArticuloVenta?buscar=' + buscarArt + '&criterio=' + criterioArticulo;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
                     console.log(respuesta);
@@ -772,20 +738,29 @@ import vSelect from "vue-select";
                         console.log(error);
                     });
 
-                },
+                 },
               
-                buscarArticuloCodigoBarra(){
+                BuscarArticuloBarraVenta(){
                 let me=this;
-                var url= '/articulo/buscarArticuloBarra?filtro='+me.codigo;
+                var url= '/ventas/buscarArticuloVentaBarra?filtro='+me.codigo;
                  axios.get(url).then(function (response) {
-                    console.log(response.data);
+                     console.log(response.data);
                     let respuesta = response.data;
                     me.arrayArticulo=respuesta.buscarBarra;
+
+                    
+                    
                     //si existe elemento en el array
                     if(me.arrayArticulo.length>0){
-                        me.articulo=me.arrayArticulo[0]['nombre'];
                         me.idarticulo=me.arrayArticulo[0]['id'];
-                    }else{
+                        me.articulo=me.arrayArticulo[0]['nombre'];
+                        me.precio=me.arrayArticulo[0]['precio_venta'];
+                        me.cantidad=0;
+                        me.stock=me.arrayArticulo[0]['stock'];
+
+
+                    }
+                    else{
                         me.articulo='No existe articulo';
                         me.idarticulo=0;
                     }
@@ -797,36 +772,55 @@ import vSelect from "vue-select";
                  //agregar articulos al detalle 
                  agregarDetalle(){
                      let m;
-                     if(this.idarticulo==0 || this.cantidad==0 || this.precio==0)
-                        {}else{
+                     if(this.idarticulo==0 || this.cantidad==0 || this.precio==0){}
+                        
+                        else{
+//As0caiman*  
                          //validar si el productos ya se encuentra en los detalles
                          if(this.encuentra(this.idarticulo)){
                              this.aux=0;
                           Swal.fire(
-                            'Error!',
+                            'Advertencia!',
                             'este articulo ya esta agregado!', 
-                            'error'
+                            'warning'
                             )
                          }else{
-                     //push para agregar valores al array
-                        this.arrayDetalleIngreso.push({
-                        idarticulo:this.idarticulo,
-                        articulo: this.articulo,
-                        cantidad : this.cantidad,
-                        precio: this.precio,
-                        descuento:this.descuento,
-                       });
-                        this.codigo='';
-                        this.idarticulo=0;
-                        this.articulo='';
-                        this.cantidad=0;
-                        this.precio=0;
-                        this.descuento=0;
-                      }
+
+                             if(this.stock<this.cantidad){
+                                 Swal.fire(
+                            'Informacion!',
+                            'La cantidad a vender es mayor a los productos que tiene en el inventario ! '+this.stock, 
+                            'info'
+                              )
+
+                             }else{
+     
+                            //push para agregar valores al array
+                                this.arrayDetalleVenta.push({
+                                idarticulo:this.idarticulo,
+                                articulo: this.articulo,
+                                cantidad : this.cantidad,
+                                precio: this.precio,
+                                descuento:this.descuento,
+                                stock:this.stock,
+
+                                });
+                                this.codigo='';
+                                this.idarticulo=0;
+                                this.articulo='';
+                                this.cantidad=0;
+                                this.precio=0;
+                                this.descuento=0;
+                                this.stock=0;
+
+                             
+                            }
+
+
+                         }
                       
                      }
                  },
-
 
                  agregarDetallesModal(data=[]){
 
@@ -835,50 +829,52 @@ import vSelect from "vue-select";
                           Swal.fire(
                             'Advertencia!',
                             'este articulo ya esta agregado!', 
-                            'info'
+                            'warning'
                             )
                          }else{
                      //push para agregar valores al array
-                        this.arrayDetalleIngreso.push({
+                        this.arrayDetalleVenta.push({
                         idarticulo:data['id'],
                         articulo: data['nombre'],
                         cantidad : 1,
-                        precio: 1,
-                        descuento:1,
+                        stock:data['stock'],
+                        precio: data['precio_venta'],
+                        descuento:0,
                        });
                       }
 
                  },
+
                  encuentra(id){
                      let aux=0;
-                     for(var i=0; i<this.arrayDetalleIngreso.length; i++){
-                         if(this.arrayDetalleIngreso[i].idarticulo==id){
+                     for(var i=0; i<this.arrayDetalleVenta.length; i++){
+                         if(this.arrayDetalleVenta[i].idarticulo==id){
                              this.aux=true;
                          }
                      }
                      
                      return this.aux; 
                  },
+
                  eliminarDetalle(index){
-                    this.arrayDetalleIngreso.splice(index,1);
+                    this.arrayDetalleVenta.splice(index,1);
                  },
 
-
                 //Metodo registrar usuario
-                registrarIngreso(){
+                 registrarVenta(){
                         if(this.validarIngreso()){
                             return ;
                         }
 
                         let me=this;
                         axios.post('/ingresos/registrar', {
-                            'idproveedor':  this.idproveedor,
+                            'idcliente':  this.idcliente,
                             'tipo_comprobante': this.tipo_comprobante,
                             'forma_pago': this.forma_pago,
                             'num_comprobante_pago': this.num_comprobante_pago,
                             'impuesto': this.impuesto,
                             'total':this.total,
-                            'data':this.arrayDetalleIngreso,
+                            'data':this.arrayDetalleVenta,
                             
                             
                         })
@@ -892,11 +888,11 @@ import vSelect from "vue-select";
                         .catch(function (error) {
                             console.log(error);
                         });
-                    },
+                  },
 
                 vaciarvariable(){
 
-                        this.idproveedor=0;
+                        this.idcliente=0;
                         this.tipo_comprobante= 'FACTURA',
                         this.forma_pago = 'efectivo',
                         this.num_comprobante_pago= '',
@@ -907,27 +903,27 @@ import vSelect from "vue-select";
                         this.articulo='',
                         this.cantidad='',
                         this.precio='',
-                        this.arrayDetalleIngreso=[];
-                },
+                        this.arrayDetalleVenta=[];
+                 },
     
                 //methods validar las usuario
                 validarIngreso(){
-                    this.errorIngreso=0;
+                    this.errorVenta=0;
                     this.errorMensajearrayVenta=[];
-                    if(this.idproveedor==0) this.errorMensajearrayVenta.push("Seleccione un proveedor ");
+                    if(this.idcliente==0) this.errorMensajearrayVenta.push("Seleccione un proveedor ");
                     if(!this.num_comprobante_pago) this.errorMensajearrayVenta.push("Seleccione numero de comprobante ");
                     if(!this.tipo_comprobante) this.errorMensajearrayVenta.push("Ingrese tipo de comprobante ");
-                    if(this.arrayDetalleIngreso.length<=0) this.errorMensajearrayVenta.push("Ingrese algun producto");
+                    if(this.arrayDetalleVenta.length<=0) this.errorMensajearrayVenta.push("Ingrese algun producto");
 
-                    if(this.errorMensajearrayVenta.length) this.errorIngreso=1;
-                    return this.errorIngreso;
+                    if(this.errorMensajearrayVenta.length) this.errorVenta=1;
+                    return this.errorVenta;
                 },
            
-              
                 mostrarDetalle(){
                     this.vaciarvariable();
                     this.listado=0;
                 },
+
                 ocultarDetalle(){
                     this.listado=1;
                 },
@@ -961,7 +957,7 @@ import vSelect from "vue-select";
                    // obtener los datos del array
 
 
-                  var urldetalle= '/ingresos/getArrayDetalleIngreso?id=' +id;
+                  var urldetalle= '/ingresos/getarrayDetalleVenta?id=' +id;
                   axios.get(urldetalle).then(function (response) {
 
                     console.log('mario '+response.data);
@@ -977,6 +973,7 @@ import vSelect from "vue-select";
 
 
                 },
+
                 //Metodo para desactivar la categoria
                 anularIngreso(id){
                     const swalWithBootstrapButtons = Swal.mixin({
@@ -1023,11 +1020,13 @@ import vSelect from "vue-select";
                         }
                         })
                 },
+
                 //metodo para cerrar el modal
                 cerrarModal(){
                     this.modal=0;
                     this.tituloModal='';
                 },
+
                 //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
                 abrirModal(){   
                 this.arrayArticulo=[];    

@@ -54,7 +54,7 @@ class ArticuloContoller extends Controller
       }
            $filtro=$request->get('filtro');
            $buscarBarra=Articulo::where('codigo',$filtro)
-           ->select('id','nombre')->orderBy('nombre','asc')
+           ->select('id','nombre','stock','precio_venta','condicion')->orderBy('nombre','asc')
            ->take(1)->get();
 
            return ['buscarBarra' => $buscarBarra];

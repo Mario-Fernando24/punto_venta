@@ -41,17 +41,51 @@ class VentaController extends Controller
         ];
     }
 
+    //search article from code of barra
+    public function buscarArticuloVentaBarra(Request $request){
+      if(!$request->ajax()){
+          return redirect('/');
+     }
+          $filtro=$request->get('filtro');
+          $buscarBarra=Articulo::where('codigo',$filtro)
+          ->select('id','nombre','stock','precio_venta','condicion')->orderBy('nombre','asc')
+          ->where('stock','>','0')
+          ->take(1)->get();
+
+          return ['buscarBarra' => $buscarBarra];
+   }
+
+   public function ListarArticuloVenta(Request $request)
+   {   
+
+       
+       if(!$request->ajax()){ return redirect('/');}
+       $buscar = $request->buscar;
+       $criterio = $request->criterio;
+
+        if($buscar==''){
+
+         $listarticulos = Articulo::with('categoria')->where('stock','>','0')->orderBy('id', 'desc')->paginate(10);
+
+        }else{
+
+           $listarticulos = Articulo::with('categoria')->where('stock','>','0')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+        }
+
+       return ['listarticulos' => $listarticulos];
+   }
+
 
     public function selectCliente(Request $request){
 
-    //  if(!$request->ajax()){return redirect('/'); }
+      if(!$request->ajax()){return redirect('/'); }
 
         $filtro=$request->get('filtro');
 
 
         $cliente = Persona::orderBy('id', 'DESC')
         ->where('nombre', 'like', '%'.$filtro.'%')
-        ->orwhere('telefono', 'like', '%'.$filtro.'%')
+        ->orwhere('num_documento', 'like', '%'.$filtro.'%')
         ->get();
         
         return ['cliente' => $cliente];
@@ -90,22 +124,7 @@ class VentaController extends Controller
 
     
     
-      public function ListarArticuloVenta(Request $request)
-      {
-        
-        if(!$request->ajax()){ return redirect('/');}
-
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
-
-         if($buscar==''){
-          $listarticulos = Articulo::with('categoria')->orderBy('id', 'desc')->paginate(10);
-         }else{
-          $listarticulos = Articulo::with('categoria')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
-         }
-
-        return ['listarticulos' => $listarticulos];
-      }
+      
 
 
 

@@ -693,7 +693,6 @@ import vSelect from "vue-select";
                 return totalgan;
             },
         },
-//{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
