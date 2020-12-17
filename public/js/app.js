@@ -6236,6 +6236,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 //importo vselect
 
 
@@ -6301,7 +6302,8 @@ __webpack_require__.r(__webpack_exports__);
       descuento: 0,
       impu: 0,
       nombreAnulaVenta: '',
-      estadovali: ''
+      estadovali: '',
+      fecha_ven_anulada: ''
     };
   },
   components: {
@@ -6561,6 +6563,9 @@ __webpack_require__.r(__webpack_exports__);
       this.listado = 0;
     },
     ocultarDetalle: function ocultarDetalle() {
+      this.nombreAnulaVenta = '';
+      this.estadovali = '';
+      this.fecha_ven_anulada = '';
       this.listado = 1;
     },
     verDetalleVenta: function verDetalleVenta(id) {
@@ -6584,6 +6589,7 @@ __webpack_require__.r(__webpack_exports__);
         me.idventa = TemporalObj[0]['id'];
         me.nombreAnulaVenta = TemporalObj[0]['usuario_anulo_venta']['usuario'];
         me.estadovali = TemporalObj[0]['estado'];
+        me.fecha_ven_anulada = TemporalObj[0]['updated_at'];
       })["catch"](function (error) {
         console.log(error);
       }); // obtener los datos del array
@@ -54847,17 +54853,22 @@ var render = function() {
                     _vm._v(" "),
                     _vm.estadovali == "anulado"
                       ? _c("div", { staticClass: "col-md-3" }, [
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("label", { staticStyle: { color: "red" } }, [
-                              _vm._v("Venta Anulada por")
-                            ]),
-                            _vm._v(" "),
-                            _c("p", {
-                              domProps: {
-                                textContent: _vm._s(_vm.nombreAnulaVenta)
-                              }
-                            })
-                          ])
+                          _c(
+                            "div",
+                            { staticClass: "form-group validaridArticulo" },
+                            [
+                              _c("p", {
+                                domProps: {
+                                  textContent: _vm._s(
+                                    "venta anulada por:  " +
+                                      _vm.nombreAnulaVenta +
+                                      " fecha " +
+                                      _vm.fecha_ven_anulada
+                                  )
+                                }
+                              })
+                            ]
+                          )
                         ])
                       : _vm._e()
                   ]),

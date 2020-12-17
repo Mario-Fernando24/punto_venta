@@ -395,9 +395,10 @@
 
 
                                 <div class="col-md-3" v-if="estadovali=='anulado'">
-                                    <div class="form-group"> 
-                                        <label style="color:red">Venta Anulada por</label>
-                                        <p v-text="nombreAnulaVenta"></p>
+                                    <div class="form-group validaridArticulo"> 
+                                        <p v-text="'venta anulada por:  '+nombreAnulaVenta+' fecha '+fecha_ven_anulada"></p>
+
+                                        
                                     </div>
                                 </div>
 
@@ -623,6 +624,7 @@ import vSelect from "vue-select";
             impu:0,
             nombreAnulaVenta:'',
             estadovali:'',
+            fecha_ven_anulada:'',
           }
         },
          components: {
@@ -954,6 +956,9 @@ import vSelect from "vue-select";
                 },
 
                 ocultarDetalle(){
+                    this.nombreAnulaVenta='';
+                    this.estadovali='';
+                    this.fecha_ven_anulada='';
                     this.listado=1;
                 },
 
@@ -980,6 +985,8 @@ import vSelect from "vue-select";
                     me.idventa=TemporalObj[0]['id'];
                     me.nombreAnulaVenta=TemporalObj[0]['usuario_anulo_venta']['usuario'];
                     me.estadovali=TemporalObj[0]['estado'];
+                    me.fecha_ven_anulada=TemporalObj[0]['updated_at'];  
+
 
 
                     })
