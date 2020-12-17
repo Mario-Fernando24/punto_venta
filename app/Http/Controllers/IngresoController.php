@@ -48,7 +48,7 @@ class IngresoController extends Controller
 
     public function getObjetoDetalleIngreso(Request $request){
       
-      //if(!$request->ajax()){return redirect('/'); }
+      if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
         $ObjetoDetalleIngreso = Ingreso::with('proveedor','proveedoress','usuario','persona','usuario_anulo_ingreso')
@@ -128,6 +128,17 @@ class IngresoController extends Controller
                     'preciocompra' => $det['preciocompra'],
                 ]);
             }
+
+
+            foreach($detalles as $ep=>$det)
+            {
+              $update_price_articulo = Articulo::findOrFail($det['idarticulo']);
+              $update_price_articulo->precio_venta=$det['precio'];
+              $update_price_articulo->update();
+            }
+
+
+            
 
           //  return $persona  
 
