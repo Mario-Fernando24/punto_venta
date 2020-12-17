@@ -924,6 +924,7 @@ import vSelect from "vue-select";
                   var url= '/ingresos/getObjetoDetalleIngreso?id=' +id;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
+                    console.log(response.data);
                     //todo lo que retorne esta funcion se almacene en este array
                     TemporalObj = respuesta.ObjetoDetalleIngreso;
 

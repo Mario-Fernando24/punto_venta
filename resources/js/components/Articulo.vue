@@ -157,7 +157,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Stock</label>
                                     <div class="col-md-9">
-                                        <input type="number" v-model="stock" class="form-control" placeholder="Stock...">
+                                        <input disabled type="number" v-model="stock" class="form-control" placeholder="Stock...">
                                     </div>
                                 </div>
 
@@ -491,7 +491,7 @@ import VueBarcode from 'vue-barcode';
                  this.errorMensajeArticuloArray=[];
                  if(this.idcategoria==0) this.errorMensajeArticuloArray.push("* Seleccione alguna categoria");
                  if(!this.nombre) this.errorMensajeArticuloArray.push("* El nombre del articulo no puede estar vacio");
-                 if(!this.stock) this.errorMensajeArticuloArray.push("* El stock del producto debe ser un numero y no puede estar vacio");
+               //  if(!this.stock) this.errorMensajeArticuloArray.push("* El stock del producto debe ser un numero y no puede estar vacio");
                  if(!this.precio_venta) this.errorMensajeArticuloArray.push("* El precio del producto debe ser un numero  y no puede  estar vacio");
                  if(!this.descripcion) this.errorMensajeArticuloArray.push("* la descripcion del producto debe ser un numero  y no puede  estar vacio");
                  if(this.errorMensajeArticuloArray.length) this.errorArticulo=1;

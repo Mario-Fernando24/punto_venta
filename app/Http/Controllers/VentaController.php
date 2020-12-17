@@ -99,7 +99,7 @@ class VentaController extends Controller
       if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
-        $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta')
+        $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
         ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
 
  
@@ -185,6 +185,7 @@ class VentaController extends Controller
   
           $venta = Venta::findOrFail($request->get('id'));
           $venta->estado='anulado';
+          $venta->id_anulo_venta=\Auth::user()->id;
           $venta->update();
       }
 

@@ -17,6 +17,7 @@ class CreateVentasTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('id_cliente');
             $table->unsignedBigInteger('id_usuario');
+            $table->unsignedBigInteger('id_anulo_venta')->nullable();
             $table->string('tipo_comprobante',50)->nullable();
             $table->string('forma_pago',50)->nullable();
             $table->string('num_comprobante_pago',50)->nullable();
@@ -35,6 +36,10 @@ class CreateVentasTable extends Migration
             //para saber cual es el usuario responsable de esa venta
             $table->foreign('id_usuario')->references('id')->on('users')
             ->onDelete('cascade'); 
+
+            $table->foreign('id_anulo_venta')->references('id')->on('users')
+            ->onDelete('cascade');
+
 
 
         });

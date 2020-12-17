@@ -13,6 +13,7 @@ class Venta extends Model
         'id',
         'id_cliente',
         'id_usuario',
+        'id_anulo_venta',
         'tipo_comprobante',
         'forma_pago',
         'num_comprobante_pago',
@@ -29,6 +30,10 @@ class Venta extends Model
 
     public function usuario_hizola_venta(){
         return $this->belongsTo(User::class,'id_usuario');
+    }
+
+    public function usuario_anulo_venta(){
+        return $this->belongsTo(User::class,'id_anulo_venta');
     }
 
 }

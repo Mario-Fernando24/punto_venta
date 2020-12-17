@@ -2343,8 +2343,8 @@ __webpack_require__.r(__webpack_exports__);
       this.errorArticulo = 0;
       this.errorMensajeArticuloArray = [];
       if (this.idcategoria == 0) this.errorMensajeArticuloArray.push("* Seleccione alguna categoria");
-      if (!this.nombre) this.errorMensajeArticuloArray.push("* El nombre del articulo no puede estar vacio");
-      if (!this.stock) this.errorMensajeArticuloArray.push("* El stock del producto debe ser un numero y no puede estar vacio");
+      if (!this.nombre) this.errorMensajeArticuloArray.push("* El nombre del articulo no puede estar vacio"); //  if(!this.stock) this.errorMensajeArticuloArray.push("* El stock del producto debe ser un numero y no puede estar vacio");
+
       if (!this.precio_venta) this.errorMensajeArticuloArray.push("* El precio del producto debe ser un numero  y no puede  estar vacio");
       if (!this.descripcion) this.errorMensajeArticuloArray.push("* la descripcion del producto debe ser un numero  y no puede  estar vacio");
       if (this.errorMensajeArticuloArray.length) this.errorArticulo = 1;
@@ -4136,7 +4136,8 @@ __webpack_require__.r(__webpack_exports__);
       var TemporalObj = [];
       var url = '/ingresos/getObjetoDetalleIngreso?id=' + id;
       axios.get(url).then(function (response) {
-        var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
+        var respuesta = response.data;
+        console.log(response.data); //todo lo que retorne esta funcion se almacene en este array
 
         TemporalObj = respuesta.ObjetoDetalleIngreso;
         me.proveedor = TemporalObj[0]['proveedoress']['nombre'];
@@ -6225,6 +6226,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -6288,7 +6299,9 @@ __webpack_require__.r(__webpack_exports__);
       stock: 0,
       cantidad: 0,
       descuento: 0,
-      impu: 0
+      impu: 0,
+      nombreAnulaVenta: '',
+      estadovali: ''
     };
   },
   components: {
@@ -6569,6 +6582,8 @@ __webpack_require__.r(__webpack_exports__);
         me.total = TemporalObj[0]['total'];
         me.fecha_hora = TemporalObj[0]['created_at'];
         me.idventa = TemporalObj[0]['id'];
+        me.nombreAnulaVenta = TemporalObj[0]['usuario_anulo_venta']['usuario'];
+        me.estadovali = TemporalObj[0]['estado'];
       })["catch"](function (error) {
         console.log(error);
       }); // obtener los datos del array
@@ -47765,7 +47780,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "number", placeholder: "Stock..." },
+                          attrs: {
+                            disabled: "",
+                            type: "number",
+                            placeholder: "Stock..."
+                          },
                           domProps: { value: _vm.stock },
                           on: {
                             input: function($event) {
@@ -54786,7 +54805,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", { staticClass: "negritatitle" }, [
                           _vm._v("Tipo Comprobante")
@@ -54800,7 +54819,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", { staticClass: "negritatitle" }, [
                           _vm._v("Forma de pago")
@@ -54812,7 +54831,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", { staticClass: "negritatitle" }, [
                           _vm._v("Num Comprobante")
@@ -54824,7 +54843,23 @@ var render = function() {
                           }
                         })
                       ])
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.estadovali == "anulado"
+                      ? _c("div", { staticClass: "col-md-3" }, [
+                          _c("div", { staticClass: "form-group" }, [
+                            _c("label", { staticStyle: { color: "red" } }, [
+                              _vm._v("Venta Anulada por")
+                            ]),
+                            _vm._v(" "),
+                            _c("p", {
+                              domProps: {
+                                textContent: _vm._s(_vm.nombreAnulaVenta)
+                              }
+                            })
+                          ])
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row border" }, [

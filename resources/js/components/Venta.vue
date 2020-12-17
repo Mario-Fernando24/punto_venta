@@ -370,7 +370,7 @@
                                     <p v-text="impuesto"></p>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Tipo Comprobante</label>
                                           <p v-text="tipo_comprobante"></p>
@@ -378,7 +378,7 @@
                                 </div>
 
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Forma de pago</label>
                                         <p v-text="forma_pago"></p>
@@ -386,12 +386,22 @@
                                 </div>
 
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Num Comprobante</label>
                                         <p v-text="num_comprobante_pago"></p>
                                     </div>
                                 </div>
+
+
+                                <div class="col-md-3" v-if="estadovali=='anulado'">
+                                    <div class="form-group"> 
+                                        <label style="color:red">Venta Anulada por</label>
+                                        <p v-text="nombreAnulaVenta"></p>
+                                    </div>
+                                </div>
+
+                                
 
                          </div>
 
@@ -611,6 +621,8 @@ import vSelect from "vue-select";
             cantidad: 0,
             descuento:0,
             impu:0,
+            nombreAnulaVenta:'',
+            estadovali:'',
           }
         },
          components: {
@@ -966,6 +978,8 @@ import vSelect from "vue-select";
                     me.total=TemporalObj[0]['total'];
                     me.fecha_hora=TemporalObj[0]['created_at'];
                     me.idventa=TemporalObj[0]['id'];
+                    me.nombreAnulaVenta=TemporalObj[0]['usuario_anulo_venta']['usuario'];
+                    me.estadovali=TemporalObj[0]['estado'];
 
 
                     })

@@ -13,6 +13,7 @@ class Ingreso extends Model
     protected $fillable = [
         'idproveedor',
         'idusuario',
+        'id_anulo_ingreso',
         'tipo_comprobante',
         'serie_comprobante',
         'num_comprobante',
@@ -42,6 +43,10 @@ class Ingreso extends Model
     //un ingreso pertenece a un usuario
     public function persona(){
         return $this->belongsTo(Persona::class,'idusuario');
+    }
+
+    public function usuario_anulo_ingreso(){
+        return $this->belongsTo(User::class,'id_anulo_ingreso');
     }
 
 

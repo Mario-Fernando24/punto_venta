@@ -45,13 +45,16 @@ class IngresoController extends Controller
         ];
     }
 
+
     public function getObjetoDetalleIngreso(Request $request){
       
-      if(!$request->ajax()){return redirect('/'); }
+      //if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
-        $ObjetoDetalleIngreso = Ingreso::with()
+        $ObjetoDetalleIngreso = Ingreso::with('proveedor','proveedoress','usuario','persona','usuario_anulo_ingreso')
         ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
+
+        return $ObjetoDetalleIngreso;
 
         return ['ObjetoDetalleIngreso' => $ObjetoDetalleIngreso];
   
@@ -145,6 +148,7 @@ class IngresoController extends Controller
   
           $ingreso = Ingreso::findOrFail($request->get('id'));
           $ingreso->estado='anulado';
+          $ingreso->id_anulo_ingreso=\Auth::user()->id;
           $ingreso->update();
       }
 
