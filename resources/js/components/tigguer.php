@@ -26,3 +26,16 @@ CREATE TRIGGER triggerAnularStockIngreso AFTER UPDATE ON ingresos
          SET a.stock=a.stock-di.cantidad;
     END//
 DELIMITER ;
+
+
+
+//triguer venta para actualizar los stock "se reste"
+
+DELIMITER //
+CREATE TRIGGER triggerUpdateStockVenta AFTER INSERT ON detalle_ventas
+ FOR EACH ROW BEGIN 
+  UPDATE articulos SET articulos.stock = articulos.stock-NEW.cantidad
+    WHERE articulos.id = NEW.id_articulo;
+    END//
+
+DELIMITER ;

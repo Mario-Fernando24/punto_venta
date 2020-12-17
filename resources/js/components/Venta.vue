@@ -77,7 +77,7 @@
 
                                                     <td>
 
-                                                    <button type="button" class="btn btn-success btn-sm" @click="VerDetalleIngreso(venta.id)">
+                                                    <button type="button" class="btn btn-success btn-sm" @click="verDetalleVenta(venta.id)">
                                                     <i class="icon-eye"></i>
                                                     </button> &nbsp;
 
@@ -348,18 +348,18 @@
 
                                 <div class="col-md-2">
                                     <label class="negritatitle">ID</label>
-                                    <p v-text="idingreso"></p>
+                                    <p v-text="idventa"></p>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label class="negritatitle">Fecha Ingreso</label>
+                                    <label class="negritatitle">Fecha Venta</label>
                                     <p v-text="fecha_hora"></p>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                    <label class="negritatitle">Proveedor</label>
-                                    <p v-text="proveedor"></p>
+                                    <label class="negritatitle">Cliente</label>
+                                    <p v-text="cliente"></p>
                                     </div>
                                 </div>
 
@@ -380,7 +380,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group"> 
-                                        <label class="negritatitle">Serie Comprobante</label>
+                                        <label class="negritatitle">Forma de pago</label>
                                         <p v-text="forma_pago"></p>
                                     </div>
                                 </div>
@@ -395,7 +395,7 @@
 
                          </div>
 
-                    <!--show article-->
+                    <!--show article  -->
                         <div class="form-group row border">
                            <div class="table-responsive col-md-12">
                                  <table class="table table-bordered table-striped table-sm">
@@ -405,47 +405,39 @@
 
                                             <th>Articulo</th>
                                             <th>Cantidad</th>
-                                            <th>Precio compra</th>
                                             <th>Precio venta</th>
+                                            <th>Descuento</th>
                                             <th>Subtotal</th>
-                                            <th>Ganancia</th>
-                                            <th>%</th>
 
                                          </tr>
                                      </thead>
                                     <tbody>
 
-                                         <tr v-for="(detalles) in listarDetalleIngreso" :key="detalles.id">
+                                         <tr v-for="(venta) in listadoDetalleVenta" :key="venta.id">
                                           
-                                            <th v-text="detalles.articulodetalle.nombre"></th>
-                                            <th v-text="detalles.cantidad"></th>
-                                            <th v-text="Intl.NumberFormat().format(detalles.descuento)"></th>
-                                            <th v-text="Intl.NumberFormat().format(detalles.precio)"></th>
-                                            <th v-text="Intl.NumberFormat().format((detalles.cantidad*detalles.descuento))"></th>
-                                            <th v-text="Intl.NumberFormat().format(((detalles.precio-detalles.descuento)*detalles.cantidad))"></th>
-                                            <th v-text="(100-((detalles.descuento*100)/detalles.precio)).toFixed(2)"></th>
+                                            <th v-text="venta.articulo__detalle__venta.nombre"></th>
+                                            <th v-text="venta.cantidad"></th>
+                                            <th v-text="Intl.NumberFormat().format(venta.precio)"></th>
+                                            <th v-text="Intl.NumberFormat().format(venta.descuento)"></th>
+                                            <th v-text="Intl.NumberFormat().format(((venta.precio-venta.descuento)*venta.cantidad))"></th>
                                             
                                          </tr>
 
                                          <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Subtotal:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format((total-totalImpuesto ) - ((total*impuesto )/100)   ) }}</td>
+                                             <td colspan="4" align="right"><strong>Subtotal:</strong></td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format((total) - ((total*impuesto )/100)   ) }}</td> 
                                          </tr>
 
                                          <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Impuesto:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format(((total*impuesto )/100)) }}</td>
+                                             <td colspan="4" align="right"><strong>Impuesto:</strong></td>
+                                              <td colspan="2">$ {{ Intl.NumberFormat().format(((total*impuesto )/100)) }}</td>
                                          </tr>
 
                                          <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Total Neto:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calculadorTotalDetalle))}}</td>
+                                             <td colspan="4" align="right"><strong>Total Neto:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total))}}</td> 
                                          </tr>
 
-                                         <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Total Ganancias:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calcularTotalGananciaDetalle))}}</td>
-                                         </tr>
 
                                      </tbody>
                                  </table>
@@ -563,7 +555,7 @@ import vSelect from "vue-select";
             //cual es la usuario que quiero edit 
             ingreso_id :0,
             idcliente : 0,
-            proveedor: '',
+            cliente: '',
             
             tipo_comprobante: 'FACTURA',
             forma_pago : 'efectivo',
@@ -575,7 +567,7 @@ import vSelect from "vue-select";
             totalImpuesto:0.0,
             subtotal: 0.0,
             fecha_hora:'',
-            idingreso:'',
+            idventa:'',
             //variable para ver el listado
             listado: 1,
             //la data que regresa nuestro metodo listaVenta se almacene en esta array
@@ -610,7 +602,7 @@ import vSelect from "vue-select";
             buscarArt:'',
             arrayArticulo:[],
             ListararrayArticulo:[],
-            listarDetalleIngreso:[],
+            listadoDetalleVenta:[],
             idarticulo:0,
             codigo:'',
             articulo:'',
@@ -668,8 +660,8 @@ import vSelect from "vue-select";
 
             calculadorTotalDetalle : function(){
                 var resultado=0.0;
-                for(var i=0; i<this.listarDetalleIngreso.length; i++){
-                  resultado+=this.listarDetalleIngreso[i].descuento*this.listarDetalleIngreso[i].cantidad;
+                for(var i=0; i<this.listadoDetalleVenta.length; i++){
+                  resultado+=this.listadoDetalleVenta[i].descuento*this.listadoDetalleVenta[i].cantidad;
                 }
                 return resultado;
             },
@@ -953,26 +945,28 @@ import vSelect from "vue-select";
                     this.listado=1;
                 },
 
-                VerDetalleIngreso(id){
+                verDetalleVenta(id){
                     this.listado=2;
                    // obtener los datos del objeto
 
                   let me=this;
                   var TemporalObj=[];
-                  var url= '/ingresos/getObjetoDetalleIngreso?id=' +id;
+                  var url= '/ventas/getObjetoDetalleVenta?id=' +id;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
                     //todo lo que retorne esta funcion se almacene en este array
-                    TemporalObj = respuesta.ObjetoDetalleIngreso;
+                    TemporalObj = respuesta.ObjetoDetalleVent;
+                      console.log(TemporalObj[0]['tipo_comprobante']);
 
-                    me.proveedor=TemporalObj[0]['proveedoress']['nombre'];
+                    me.cliente=TemporalObj[0]['cliente_persona']['nombre'];
                     me.impuesto=TemporalObj[0]['impuesto'];
                     me.tipo_comprobante=TemporalObj[0]['tipo_comprobante'];
                     me.forma_pago=TemporalObj[0]['forma_pago'];
                     me.num_comprobante_pago=TemporalObj[0]['num_comprobante_pago'];
                     me.total=TemporalObj[0]['total'];
                     me.fecha_hora=TemporalObj[0]['created_at'];
-                    me.idingreso=TemporalObj[0]['id'];
+                    me.idventa=TemporalObj[0]['id'];
+
 
                     })
                     .catch(function (error) {
@@ -982,14 +976,12 @@ import vSelect from "vue-select";
                    // obtener los datos del array
 
 
-                  var urldetalle= '/ingresos/getarrayDetalleVenta?id=' +id;
+                  var urldetalle= '/ventas/getArrayDetalleVenta?id=' +id;
                   axios.get(urldetalle).then(function (response) {
 
                     console.log('mario '+response.data);
                     let respuesta = response.data;
-                    me.listarDetalleIngreso=respuesta.ArrayDetalleIng;
-
-
+                    me.listadoDetalleVenta=respuesta.ArrayDetalleVenta;
 
                     })
                     .catch(function (error) {
@@ -1099,7 +1091,7 @@ import vSelect from "vue-select";
   }
   .validaridArticulo{
       color: red;
-      font-weight: 900;
+      font-weight: 600;
   }
   .negritatitle{
       font-weight: 500;

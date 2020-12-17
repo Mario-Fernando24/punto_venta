@@ -99,11 +99,11 @@ class VentaController extends Controller
       if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
-        $ObjetoDetalleVenta = Venta::with('cliente_persona','usuario_hizola_venta')
+        $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta')
         ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
 
-
-        return ['ObjetoDetalleVenta' => $ObjetoDetalleVenta];
+ 
+        return ['ObjetoDetalleVent' => $ObjetoDetalleVent];
   
     }
     
@@ -111,7 +111,7 @@ class VentaController extends Controller
     public function getArrayDetalleVenta(Request $request)
     {
 
-       if(!$request->ajax()){return redirect('/'); }
+      // if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
         $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
@@ -175,8 +175,6 @@ class VentaController extends Controller
       }
 
     }
-
-
 
       //function para desactivar una user
       public function anularVenta(Request $request)

@@ -147,13 +147,12 @@
             Route::get('getArrayDetalleVenta', 'VentaController@getArrayDetalleVenta');
             Route::get('ListarArticuloVenta', 'VentaController@ListarArticuloVenta');
             Route::get('selectCliente', 'VentaController@selectCliente');
-            Route::get('buscarArticuloVentaBarra', 'VentaController@buscarArticuloVentaBarra');
+         //   Route::get('buscarArticuloVentaBarra', 'VentaController@buscarArticuloVentaBarra');
             Route::get('buscarArticuloVentaBarra', 'VentaController@buscarArticuloVentaBarra');
             Route::post('registrar', 'VentaController@store');
+            Route::put('anularVenta', 'VentaController@anularVenta');
 
-
-            
-            
+ 
         });
 
              
