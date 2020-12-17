@@ -6594,7 +6594,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsStyling: false
       });
       swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de Anular este Ingreso?',
+        title: 'Estas seguro de Anular esta venta?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -6603,12 +6603,12 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.isConfirmed) {
           var me = _this;
-          axios.put('/ingresos/anularIngreso', {
+          axios.put('/ventas/anularVenta', {
             'id': id
           }).then(function (response) {
             //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
             me.listaVenta(1, '', 'num_comprobante_pago');
-            swalWithBootstrapButtons.fire('Anulado', 'El Ingreso ha sido Anulado correctamente', 'success');
+            swalWithBootstrapButtons.fire('Anulado', 'La venta ha sido Anulado correctamente', 'success');
           })["catch"](function (error) {
             console.log(error);
           });

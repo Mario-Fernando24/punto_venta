@@ -39,3 +39,17 @@ CREATE TRIGGER triggerUpdateStockVenta AFTER INSERT ON detalle_ventas
     END//
 
 DELIMITER ;
+
+
+//triguer para actualizar el stock de los articulos que anule la factura por medio del id del venta que quiero eliminar
+
+DELIMITER //
+CREATE TRIGGER triggerAnularStockVenta AFTER UPDATE ON ventas
+  FOR EACH ROW BEGIN 
+  UPDATE articulos a
+     JOIN detalle_ventas dv
+         ON dv.id_articulo=a.id
+         AND dv.id_venta=NEW.id
+         SET a.stock=a.stock+dv.cantidad;
+    END//
+DELIMITER ;

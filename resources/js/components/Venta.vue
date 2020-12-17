@@ -1001,7 +1001,7 @@ import vSelect from "vue-select";
                         buttonsStyling: false
                         })
                         swalWithBootstrapButtons.fire({
-                        title: 'Estas seguro de Anular este Ingreso?',
+                        title: 'Estas seguro de Anular esta venta?',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'Aceptar',
@@ -1010,7 +1010,7 @@ import vSelect from "vue-select";
                         }).then((result) => {
                         if (result.isConfirmed) {
                             let me=this;
-                        axios.put('/ingresos/anularIngreso', {
+                        axios.put('/ventas/anularVenta', {
                             'id' : id
                         })
                         .then(function (response) {
@@ -1018,7 +1018,7 @@ import vSelect from "vue-select";
                         me.listaVenta(1,'','num_comprobante_pago');
                             swalWithBootstrapButtons.fire(
                             'Anulado',
-                            'El Ingreso ha sido Anulado correctamente',
+                            'La venta ha sido Anulado correctamente',
                             'success'
                             )
                         })
