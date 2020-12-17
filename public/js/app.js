@@ -53706,7 +53706,7 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", {
                                 domProps: {
-                                  textContent: _vm._s(venta.fecha_hora)
+                                  textContent: _vm._s(venta.created_at)
                                 }
                               }),
                               _vm._v(" "),

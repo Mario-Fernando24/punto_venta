@@ -59,7 +59,7 @@
                                                     <td v-text="venta.tipo_comprobante"></td>
                                                     <td v-text="venta.forma_pago"></td>
                                                     <td v-text="venta.num_comprobante_pago_pago"></td>
-                                                    <td v-text="venta.fecha_hora"></td>
+                                                    <td v-text="venta.created_at"></td>
                                                     <td v-text="venta.total"></td>
                                                     <td v-text="venta.impuesto"></td>
 
