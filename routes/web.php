@@ -76,6 +76,25 @@
                 Route::put('actualizar', 'ClienteController@update');
                 });
 
+
+
+         //controller ingresos
+         Route::prefix('ventas')->group(function() {
+            Route::get('index', 'VentaController@index');
+            Route::get('getObjetoDetalleVenta', 'VentaController@getObjetoDetalleVenta');
+            Route::get('getArrayDetalleVenta', 'VentaController@getArrayDetalleVenta');
+            Route::get('ListarArticuloVenta', 'VentaController@ListarArticuloVenta');
+            Route::get('selectCliente', 'VentaController@selectCliente');
+         //   Route::get('buscarArticuloVentaBarra', 'VentaController@buscarArticuloVentaBarra');
+            Route::get('buscarArticuloVentaBarra', 'VentaController@buscarArticuloVentaBarra');
+            Route::post('registrar', 'VentaController@store');
+            Route::put('anularVenta', 'VentaController@anularVenta');
+
+ 
+        });
+
+        
+
         });     //and middleware Vendedor
 
 
@@ -154,7 +173,7 @@
 
  
         });
-
+        
              
     });  //and middleware administrador
 

@@ -3809,6 +3809,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -3870,7 +3880,10 @@ __webpack_require__.r(__webpack_exports__);
       articulo: '',
       precio: 0,
       preciocompra: 0,
-      cantidad: 0
+      cantidad: 0,
+      nombreAnulaIngreso: '',
+      estadovaling: '',
+      fecha_ing_anulada: ''
     };
   },
   components: {
@@ -3952,6 +3965,7 @@ __webpack_require__.r(__webpack_exports__);
       return totalgan;
     }
   },
+  //{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
     listarIngreso: function listarIngreso(page, buscar, criterio) {
@@ -4127,6 +4141,9 @@ __webpack_require__.r(__webpack_exports__);
       this.listado = 0;
     },
     ocultarDetalle: function ocultarDetalle() {
+      this.nombreAnulaIngreso = '';
+      this.estadovaling = '';
+      this.fecha_ing_anulada = '';
       this.listado = 1;
     },
     VerDetalleIngreso: function VerDetalleIngreso(id) {
@@ -4136,8 +4153,7 @@ __webpack_require__.r(__webpack_exports__);
       var TemporalObj = [];
       var url = '/ingresos/getObjetoDetalleIngreso?id=' + id;
       axios.get(url).then(function (response) {
-        var respuesta = response.data;
-        console.log(response.data); //todo lo que retorne esta funcion se almacene en este array
+        var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
 
         TemporalObj = respuesta.ObjetoDetalleIngreso;
         me.proveedor = TemporalObj[0]['proveedoress']['nombre'];
@@ -4148,6 +4164,9 @@ __webpack_require__.r(__webpack_exports__);
         me.total = TemporalObj[0]['total'];
         me.fecha_hora = TemporalObj[0]['created_at'];
         me.idingreso = TemporalObj[0]['id'];
+        me.nombreAnulaIngreso = TemporalObj[0]['usuario_anulo_ingreso']['usuario'];
+        me.estadovaling = TemporalObj[0]['estado'];
+        me.fecha_ing_anulada = TemporalObj[0]['updated_at'];
       })["catch"](function (error) {
         console.log(error);
       }); // obtener los datos del array
@@ -50475,7 +50494,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", { staticClass: "negritatitle" }, [
                           _vm._v("Tipo Comprobante")
@@ -50489,7 +50508,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", { staticClass: "negritatitle" }, [
                           _vm._v("Serie Comprobante")
@@ -50503,7 +50522,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-3" }, [
                       _c("div", { staticClass: "form-group" }, [
                         _c("label", { staticClass: "negritatitle" }, [
                           _vm._v("Num Comprobante")
@@ -50513,7 +50532,28 @@ var render = function() {
                           domProps: { textContent: _vm._s(_vm.num_comprobante) }
                         })
                       ])
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.estadovaling == "anulado"
+                      ? _c("div", { staticClass: "col-md-3" }, [
+                          _c(
+                            "div",
+                            { staticClass: "form-group validaridArticulo" },
+                            [
+                              _c("p", {
+                                domProps: {
+                                  textContent: _vm._s(
+                                    "Compra anulada por:  " +
+                                      _vm.nombreAnulaIngreso +
+                                      " fecha " +
+                                      _vm.fecha_ing_anulada
+                                  )
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row border" }, [

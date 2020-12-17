@@ -64,7 +64,7 @@
                 @elseif(Auth::user()->idrol==2)
                 
                 <template v-if="menu==5">
-                <h1>Ventas Ventas</H1>
+                <Venta></Venta>
                 </template>
 
                 <template v-if="menu==6">

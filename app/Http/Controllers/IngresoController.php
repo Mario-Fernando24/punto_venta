@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ingreso;
@@ -46,7 +45,8 @@ class IngresoController extends Controller
     }
 
 
-    public function getObjetoDetalleIngreso(Request $request){
+    public function getObjetoDetalleIngreso(Request $request)
+    {
       
       if(!$request->ajax()){return redirect('/'); }
 
@@ -54,12 +54,12 @@ class IngresoController extends Controller
         $ObjetoDetalleIngreso = Ingreso::with('proveedor','proveedoress','usuario','persona','usuario_anulo_ingreso')
         ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
 
-        return $ObjetoDetalleIngreso;
 
         return ['ObjetoDetalleIngreso' => $ObjetoDetalleIngreso];
   
     }
-    public function getArrayDetalleIngreso(Request $request){
+    public function getArrayDetalleIngreso(Request $request)
+    {
 
       if(!$request->ajax()){return redirect('/'); }
 
@@ -68,7 +68,7 @@ class IngresoController extends Controller
         ->where('idingreso',$id)->orderBy('id', 'ASC')->get();
         return ['ArrayDetalleIng' => $ArrayDetalleIng];  
       
-      }
+    }
 
 
     public function ListarArticuloIngreso(Request $request)
@@ -153,17 +153,13 @@ class IngresoController extends Controller
       //function para desactivar una user
       public function anularIngreso(Request $request)
       {
-         if(!$request->ajax()){
-          return redirect('/');
-         }
+         if(!$request->ajax()){return redirect('/');}
   
           $ingreso = Ingreso::findOrFail($request->get('id'));
           $ingreso->estado='anulado';
           $ingreso->id_anulo_ingreso=\Auth::user()->id;
           $ingreso->update();
       }
-
-
 
 }
 

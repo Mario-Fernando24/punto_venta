@@ -47,7 +47,8 @@ class ProveedorController extends Controller
     }
 
     //seleccionar proveedor desde la vista ingreso para hacer una compra
-    public function SelectProveedor(Request $request){
+    public function SelectProveedor(Request $request)
+    {
 
      if(!$request->ajax()){
         return redirect('/');
@@ -62,10 +63,10 @@ class ProveedorController extends Controller
         ->select('persona.id','persona.nombre','persona.num_documento')
         ->orderBy('persona.nombre', 'asc')
         ->get();
-  // return $proveedores;
+          // return $proveedores;
 
         
-  return ['proveedores' => $proveedores];
+      return ['proveedores' => $proveedores];
 
     }
 

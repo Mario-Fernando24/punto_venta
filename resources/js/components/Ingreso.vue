@@ -1,4 +1,4 @@
- <template>
+<template>
 <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
@@ -373,7 +373,7 @@
                                     <p v-text="impuesto"></p>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Tipo Comprobante</label>
                                           <p v-text="tipo_comprobante"></p>
@@ -381,7 +381,7 @@
                                 </div>
 
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Serie Comprobante</label>
                                         <p v-text="serie_comprobante"></p>
@@ -389,12 +389,22 @@
                                 </div>
 
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Num Comprobante</label>
                                         <p v-text="num_comprobante"></p>
                                     </div>
                                 </div>
+
+
+
+                                <div class="col-md-3" v-if="estadovaling=='anulado'">
+                                    <div class="form-group validaridArticulo"> 
+                                        <p v-text="'Compra anulada por:  '+nombreAnulaIngreso+' fecha '+fecha_ing_anulada"></p>
+                                    </div>
+                                </div>
+
+
 
                          </div>
 
@@ -625,6 +635,11 @@ import vSelect from "vue-select";
             precio:0,
             preciocompra:0,
             cantidad:0,
+
+            nombreAnulaIngreso:'',
+            estadovaling:'',
+            fecha_ing_anulada:'',
+
           }
         },
          components: {
@@ -673,8 +688,6 @@ import vSelect from "vue-select";
                 }
                 return totalgan;
             },
-
-
             calculadorTotalDetalle : function(){
                 var resultado=0.0;
                 for(var i=0; i<this.listarDetalleIngreso.length; i++){
@@ -693,6 +706,7 @@ import vSelect from "vue-select";
                 return totalgan;
             },
         },
+//{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
               
@@ -740,8 +754,6 @@ import vSelect from "vue-select";
                         me.loading = true;
                         me.idproveedor = val1.id;
                     },
-
-
                 listarArticulo(buscarArt, criterioArticulo){
                  let me=this;
                   var url= '/ingresos/ListarArticuloIngreso?buscar=' + buscarArt + '&criterio=' + criterioArticulo;
@@ -754,7 +766,6 @@ import vSelect from "vue-select";
                     .catch(function (error) {
                         console.log(error);
                     });
-
                 },
               
                 buscarArticuloCodigoBarra(){
@@ -809,10 +820,7 @@ import vSelect from "vue-select";
                       
                      }
                  },
-
-
                  agregarDetallesModal(data=[]){
-
                        if(this.encuentra(data['id'])){
                              this.aux=0;
                           Swal.fire(
@@ -830,7 +838,6 @@ import vSelect from "vue-select";
                         preciocompra:1,
                        });
                       }
-
                  },
                  encuentra(id){
                      let aux=0;
@@ -845,14 +852,11 @@ import vSelect from "vue-select";
                  eliminarDetalle(index){
                     this.arrayDetalleIngreso.splice(index,1);
                  },
-
-
                 //Metodo registrar usuario
                 registrarIngreso(){
                         if(this.validarIngreso()){
                             return ;
                         }
-
                         let me=this;
                         axios.post('/ingresos/registrar', {
                             'idproveedor':  this.idproveedor,
@@ -876,9 +880,7 @@ import vSelect from "vue-select";
                             console.log(error);
                         });
                     },
-
                 vaciarvariable(){
-
                         this.idproveedor=0;
                         this.tipo_comprobante= 'FACTURA',
                         this.serie_comprobante = '',
@@ -901,7 +903,6 @@ import vSelect from "vue-select";
                     if(!this.num_comprobante) this.errorMensajeArrayIngreso.push("Seleccione numero de comprobante ");
                     if(!this.tipo_comprobante) this.errorMensajeArrayIngreso.push("Ingrese tipo de comprobante ");
                     if(this.arrayDetalleIngreso.length<=0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
-
                     if(this.errorMensajeArrayIngreso.length) this.errorIngreso=1;
                     return this.errorIngreso;
                 },
@@ -912,22 +913,22 @@ import vSelect from "vue-select";
                     this.listado=0;
                 },
                 ocultarDetalle(){
+
+                    this.nombreAnulaIngreso='';
+                    this.estadovaling='';
+                    this.fecha_ing_anulada='';
                     this.listado=1;
                 },
-
                 VerDetalleIngreso(id){
                     this.listado=2;
                    // obtener los datos del objeto
-
                   let me=this;
                   var TemporalObj=[];
                   var url= '/ingresos/getObjetoDetalleIngreso?id=' +id;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
-                    console.log(response.data);
                     //todo lo que retorne esta funcion se almacene en este array
                     TemporalObj = respuesta.ObjetoDetalleIngreso;
-
                     me.proveedor=TemporalObj[0]['proveedoress']['nombre'];
                     me.impuesto=TemporalObj[0]['impuesto'];
                     me.tipo_comprobante=TemporalObj[0]['tipo_comprobante'];
@@ -937,29 +938,26 @@ import vSelect from "vue-select";
                     me.fecha_hora=TemporalObj[0]['created_at'];
                     me.idingreso=TemporalObj[0]['id'];
 
+
+                    me.nombreAnulaIngreso=TemporalObj[0]['usuario_anulo_ingreso']['usuario'];
+                    me.estadovaling=TemporalObj[0]['estado'];
+                    me.fecha_ing_anulada=TemporalObj[0]['updated_at'];  
+
+
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-
                    // obtener los datos del array
-
-
                   var urldetalle= '/ingresos/getArrayDetalleIngreso?id=' +id;
                   axios.get(urldetalle).then(function (response) {
-
                     console.log('mario '+response.data);
                     let respuesta = response.data;
                     me.listarDetalleIngreso=respuesta.ArrayDetalleIng;
-
-
-
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-
-
                 },
                 //Metodo para desactivar la categoria
                 anularIngreso(id){
