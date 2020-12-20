@@ -6266,7 +6266,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 //importo vselect
 
 
@@ -49576,9 +49575,7 @@ var render = function() {
                                     },
                                     [_c("i", { staticClass: "icon-eye" })]
                                   ),
-                                  _vm._v(
-                                    "  \n\n\n                                                    "
-                                  ),
+                                  _vm._v(" "),
                                   ingreso.estado == "registrado"
                                     ? [
                                         _c(
@@ -53845,9 +53842,7 @@ var render = function() {
                                     },
                                     [_c("i", { staticClass: "icon-eye" })]
                                   ),
-                                  _vm._v(
-                                    "  \n\n\n                                                    "
-                                  ),
+                                  _vm._v(" "),
                                   _c(
                                     "button",
                                     {
@@ -53861,9 +53856,7 @@ var render = function() {
                                     },
                                     [_c("i", { staticClass: "icon-doc" })]
                                   ),
-                                  _vm._v(
-                                    "  \n\n\n                                                    "
-                                  ),
+                                  _vm._v(" "),
                                   venta.estado == "registrado"
                                     ? [
                                         _c(

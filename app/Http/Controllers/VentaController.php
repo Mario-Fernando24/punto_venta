@@ -204,10 +204,11 @@ class VentaController extends Controller
 
         $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
         ->where('id_venta',$id)->orderBy('id', 'ASC')->get(); 
+        $mytime=Carbon::now('America/Bogota');
 
 
         $pdf = PDF::loadView('pdf.ventas',compact('ObjetoDetalleVent','ArrayDetalleVenta'));
-        return $pdf->download('venta');   
+        return $pdf->download('venta-'.$ObjetoDetalleVent->id.'-'.$mytime);   
         
           
       

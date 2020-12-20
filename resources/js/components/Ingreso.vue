@@ -82,7 +82,7 @@
 
                                                     <button type="button" class="btn btn-success btn-sm" @click="VerDetalleIngreso(ingreso.id)">
                                                     <i class="icon-eye"></i>
-                                                    </button> &nbsp;
+                                                    </button> 
 
 
                                                     <template v-if="ingreso.estado=='registrado'"> 

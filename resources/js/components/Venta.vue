@@ -76,15 +76,14 @@
 
 
                                                     <td>
-       
                                                     <button type="button" class="btn btn-success btn-sm" @click="verDetalleVenta(venta.id)">
                                                     <i class="icon-eye"></i>
-                                                    </button> &nbsp;
+                                                    </button> 
 
 
                                                     <button type="button" class="btn btn-info btn-sm" @click="descargarventa(venta.id)">
                                                     <i class="icon-doc"></i>
-                                                    </button> &nbsp;
+                                                    </button>
 
 
                                                     <template v-if="venta.estado=='registrado'"> 

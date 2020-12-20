@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Articulo;
 use App\Categoria;
 use Barryvdh\DomPDF\Facade as PDF;
+use DB;
+use Carbon\Carbon;
 
 
 class ArticuloContoller extends Controller
@@ -134,8 +136,9 @@ class ArticuloContoller extends Controller
         $cantidad=Articulo::count();
 
         $pdf = PDF::loadView('pdf.articuloInventario',['inventariopdf'=>$inventariopdf,'cantidad'=>$cantidad]);
+        $mytime=Carbon::now('America/Bogota');
 
-        return $pdf->download('inventario_articulos');  
+        return $pdf->download('inventario_articulos-'.$mytime);  
 
 
     }
