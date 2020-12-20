@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Articulo;
 use App\Categoria;
+use Barryvdh\DomPDF\Facade as PDF;
 
 
 class ArticuloContoller extends Controller
@@ -124,6 +125,19 @@ class ArticuloContoller extends Controller
         $articulo = Articulo::findOrFail($request->id);
         $articulo->condicion='1';
         $articulo->update();
+    }
+
+    public function ListarPdfInventario()
+    {
+        $inventariopdf = Articulo::with('categoria')->orderBy('nombre', 'desc')->get();
+        //cantidad de articulos que tenemos en nuestra entidad articulo 
+        $cantidad=Articulo::count();
+
+        $pdf = PDF::loadView('pdf.articuloInventario',['inventariopdf'=>$inventariopdf,'cantidad'=>$cantidad]);
+
+        return $pdf->download('inventario_articulos');  
+
+
     }
 
 

@@ -12,6 +12,9 @@
                         <button type="button"  @click="abrirModal('articulo','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
+                        <button type="button"  @click="cargarPdfInventario()" class="btn btn-info">
+                            <i class="icon-plus"></i>&nbsp;Descargar pdf
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -482,6 +485,10 @@ import VueBarcode from 'vue-barcode';
                     )
                 }
                 })
+           },
+
+           cargarPdfInventario(){
+              window.open('http://127.0.0.1:8000/articulo/ListarPdfInventario','_blank');
            },
            
 

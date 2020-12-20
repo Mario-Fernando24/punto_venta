@@ -190,5 +190,21 @@ class VentaController extends Controller
       }
 
 
+     //  public function pdfVenta(Request $request, $id){
+
+        //objeto de la venta
+
+     //   $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
+      //  ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
+
+        //detalle de la venta
+
+      //  $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
+      //  ->where('id_venta',$id)->orderBy('id', 'ASC')->get();
+
+     //   return $ArrayDetalleVenta;
+   //   }
+
+
 
 }

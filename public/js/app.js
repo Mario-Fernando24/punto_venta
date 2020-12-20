@@ -2106,6 +2106,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 //importamos vueBarcod
  //axios nos ayuda hacer peticiones http desde el navegador
 
@@ -2337,6 +2340,9 @@ __webpack_require__.r(__webpack_exports__);
           swalWithBootstrapButtons.fire('Cancelado', '', 'error');
         }
       });
+    },
+    cargarPdfInventario: function cargarPdfInventario() {
+      window.open('http://127.0.0.1:8000/articulo/ListarPdfInventario', '_blank');
     },
     //methods validar las categoria
     validarArticulo: function validarArticulo() {
@@ -47235,6 +47241,23 @@ var render = function() {
             [
               _c("i", { staticClass: "icon-plus" }),
               _vm._v(" Nuevo\n                        ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-info",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.cargarPdfInventario()
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "icon-plus" }),
+              _vm._v(" Descargar pdf\n                        ")
             ]
           )
         ]),

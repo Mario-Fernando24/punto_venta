@@ -113,6 +113,8 @@
             Route::put('actualizar', 'ArticuloContoller@update');
             Route::put('desactivar', 'ArticuloContoller@desactivar');
             Route::put('activar', 'ArticuloContoller@activar');
+            Route::get('ListarPdfInventario', 'ArticuloContoller@ListarPdfInventario');
+
         });
 
         //controller client
