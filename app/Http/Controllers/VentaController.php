@@ -59,8 +59,7 @@ class VentaController extends Controller
    public function ListarArticuloVenta(Request $request)
    {   
 
-       
-       if(!$request->ajax()){ return redirect('/');}
+       //if(!$request->ajax()){ return redirect('/');}
        $buscar = $request->buscar;
        $criterio = $request->criterio;
 
@@ -72,6 +71,7 @@ class VentaController extends Controller
 
            $listarticulos = Articulo::with('categoria')->where('stock','>','0')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
         }
+
 
        return ['listarticulos' => $listarticulos];
    }

@@ -1,11 +1,27 @@
 <div class="sidebar">
             <nav class="sidebar-nav">
                 <ul class="nav">
+
+
+                
+                <li class="nav-title">
+                        @if(Auth::user()->idrol==1)
+                         Admin {{Auth::user()->usuario}} 
+                         @endif
+
+                         @if(Auth::user()->idrol==2)
+                         Vendedor {{Auth::user()->usuario}} 
+                         @endif
+
+                         @if(Auth::user()->idrol==3)
+                         Bodeguero {{Auth::user()->usuario}} 
+                         @endif
+
+                    </li>
+
+                    
                     <li @click="menu=0" class="nav-item" >
                         <a class="nav-link active" href="#"><i class="icon-speedometer"></i> Escritorio</a>
-                    </li>
-                    <li class="nav-title">
-                        Mantenimiento
                     </li>
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-bag"></i> Bodega</a>

@@ -3,7 +3,18 @@
                 <ul class="nav">
                    
                     <li class="nav-title">
-                        Menu {{Auth::user()->usuario}} 
+                        @if(Auth::user()->idrol==1)
+                         Admin {{Auth::user()->usuario}} 
+                         @endif
+
+                         @if(Auth::user()->idrol==2)
+                         Vendedor {{Auth::user()->usuario}} 
+                         @endif
+
+                         @if(Auth::user()->idrol==3)
+                         Bodeguero {{Auth::user()->usuario}} 
+                         @endif
+
                     </li>
 
 
