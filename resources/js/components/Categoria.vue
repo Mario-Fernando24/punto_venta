@@ -40,17 +40,17 @@
                             <tbody>
                                 <tr v-for="categoria in arrayCategoria" :key="categoria.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('categoria', 'actualizar',categoria)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('categoria', 'actualizar',categoria)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         
                                         <template v-if="categoria.condicion"> 
-                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarCategoria(categoria.id)">
+                                        <button type="button"  class="btn btn-outline-danger btn-sm" @click="desactivarCategoria(categoria.id)">
                                           <i class="icon-trash"></i>
                                         </button>
                                         </template>
                                          <template v-else> 
-                                        <button type="button"  class="btn btn-success btn-sm" @click="activarCategoria(categoria.id)">
+                                        <button type="button"  class="btn btn-outline-success btn-sm" @click="activarCategoria(categoria.id)">
                                           <i class="icon-check"></i>
                                         </button>
                                         </template>
@@ -133,8 +133,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarCategoria()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarCategoria()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarCategoria()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarCategoria()">Actualizar</button>
 
                         </div>
                     </div>

@@ -12,10 +12,11 @@
                         <button type="button"  @click="abrirModal('articulo','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
-                        <button type="button"  @click="cargarPdfInventario()" class="btn btn-info">
+                        <button type="button"  @click="cargarPdfInventario()" class="btn btn-outline-danger">
                             <i class="icon-plus"></i>&nbsp;Descargar pdf
                         </button>
                     </div>
+
                     <div class="card-body">
                         <div class="form-group row">
                             <div class="col-md-6">
@@ -48,16 +49,16 @@
 
                                 <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         <template v-if="articulo.condicion"> 
-                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarArticulo(articulo.id)">
+                                        <button type="button"  class="btn btn-outline-danger btn-sm" @click="desactivarArticulo(articulo.id)">
                                           <i class="icon-trash"></i>
                                         </button>
                                         </template>
                                          <template v-else> 
-                                        <button type="button"  class="btn btn-success btn-sm" @click="activarArticulo(articulo.id)">
+                                        <button type="button"  class="btn btn-outline-success btn-sm" @click="activarArticulo(articulo.id)">
                                           <i class="icon-check"></i>
                                         </button>
                                         </template>
@@ -184,8 +185,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarArticulo()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarArticulo()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarArticulo()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarArticulo()">Actualizar</button>
 
                         </div>
                     </div>

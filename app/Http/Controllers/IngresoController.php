@@ -7,6 +7,7 @@ use App\Articulo;
 use App\Categoria;
 use DB;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class IngresoController extends Controller
 {
@@ -159,6 +160,27 @@ class IngresoController extends Controller
           $ingreso->estado='anulado';
           $ingreso->id_anulo_ingreso=\Auth::user()->id;
           $ingreso->update();
+      }
+
+      
+      public function pdfIngreso(Request $request, $id){
+
+
+
+
+        $ObjetoDetalleIngreso = Ingreso::with('proveedor','proveedoress','usuario','persona','usuario_anulo_ingreso')
+        ->where('id',$id)->orderBy('id', 'DESC')->first();
+
+
+        $ArrayDetalleIng = DetalleIngreso::with('articulodetalle')
+        ->where('idingreso',$id)->orderBy('id', 'ASC')->get();
+        
+        $mytime=Carbon::now('America/Bogota');
+
+
+        $pdf = PDF::loadView('pdf.ingreso',compact('ObjetoDetalleIngreso','ArrayDetalleIng'));
+        return $pdf->download('compra-');   
+      
       }
 
 }

@@ -47,7 +47,7 @@
                             <tbody>
                                 <tr v-for="persona in arrayPersona" :key="persona.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('persona', 'actualizar',persona)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('persona', 'actualizar',persona)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         </td>
@@ -161,8 +161,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarCliente()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarArticulo()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarCliente()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarArticulo()">Actualizar</button>
 
                         </div>
                     </div>

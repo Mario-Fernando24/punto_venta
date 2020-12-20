@@ -334,7 +334,7 @@
                         <div class="form-group row">
                            <div class="col-md-12">
                                <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
-                              <button type="button" class="btn btn-primary" @click="registrarVenta()">Guardar venta</button>
+                              <button type="button" class="btn btn-outline-primary" @click="registrarVenta()">Guardar venta</button>
                            </div>
                         </div>
 

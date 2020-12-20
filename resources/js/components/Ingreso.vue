@@ -85,6 +85,11 @@
                                                     </button> 
 
 
+                                                    <button type="button" class="btn btn-info btn-sm" @click="descargaringreso(ingreso.id)">
+                                                    <i class="icon-doc"></i>
+                                                    </button>
+
+
                                                     <template v-if="ingreso.estado=='registrado'"> 
                                                     <button type="button"  class="btn btn-danger btn-sm" @click="anularIngreso(ingreso.id)">
                                                     <i class="icon-trash"></i>
@@ -559,7 +564,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarIngreso()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarIngreso()">Guardar</button>
 
                         </div>
                     </div>
@@ -905,6 +910,12 @@ import vSelect from "vue-select";
                     if(this.arrayDetalleIngreso.length<=0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
                     if(this.errorMensajeArrayIngreso.length) this.errorIngreso=1;
                     return this.errorIngreso;
+                },
+                
+                descargaringreso(id)
+                {
+                    window.open('http://127.0.0.1:8000/ingresos/pdfIngreso/'+id+','+'_blank');
+
                 },
            
               

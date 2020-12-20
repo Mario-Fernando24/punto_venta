@@ -142,8 +142,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarCategoria()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarCategoria()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarCategoria()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarCategoria()">Actualizar</button>
 
                         </div>
                     </div>

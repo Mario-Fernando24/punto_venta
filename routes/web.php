@@ -159,6 +159,8 @@
             Route::get('getArrayDetalleIngreso', 'IngresoController@getArrayDetalleIngreso');
             Route::post('registrar', 'IngresoController@store');
             Route::put('anularIngreso', 'IngresoController@anularIngreso');
+            Route::get('pdfIngreso/{id}', 'IngresoController@pdfIngreso');
+
         });
         
          //controller ingresos

@@ -48,18 +48,18 @@
                             <tbody>
                                 <tr v-for="usuario in arrayUsuario" :key="usuario.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('usuario', 'actualizar',usuario)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('usuario', 'actualizar',usuario)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
 
 
                                         <template v-if="usuario.condicion"> 
-                                        <button type="button"  class="btn btn-danger btn-sm" @click="desactivarUsuario(usuario.id)">
+                                        <button type="button"  class="btn btn-outline-danger btn-sm" @click="desactivarUsuario(usuario.id)">
                                           <i class="icon-trash"></i>
                                         </button>
                                         </template>
                                          <template v-else> 
-                                        <button type="button"  class="btn btn-success btn-sm" @click="activarUsuario(usuario.id)">
+                                        <button type="button"  class="btn btn-outline-success btn-sm" @click="activarUsuario(usuario.id)">
                                           <i class="icon-check"></i>
                                         </button>
                                         </template>
@@ -227,8 +227,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarUsuario()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarUsuario()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarUsuario()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarUsuario()">Actualizar</button>
 
                         </div>
                     </div>

@@ -47,7 +47,7 @@
                             <tbody>
                                 <tr v-for="proveedor in arrayProveedor" :key="proveedor.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('proveedor', 'actualizar',proveedor)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('proveedor', 'actualizar',proveedor)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         </td>
@@ -179,8 +179,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarProveedor()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-primary" @click="actualizarProveedor()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarProveedor()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarProveedor()">Actualizar</button>
 
                         </div>
                     </div>

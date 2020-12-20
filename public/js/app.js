@@ -2109,6 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 //importamos vueBarcod
  //axios nos ayuda hacer peticiones http desde el navegador
 
@@ -3825,6 +3826,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -4141,6 +4147,9 @@ __webpack_require__.r(__webpack_exports__);
       if (this.arrayDetalleIngreso.length <= 0) this.errorMensajeArrayIngreso.push("Ingrese algun producto");
       if (this.errorMensajeArrayIngreso.length) this.errorIngreso = 1;
       return this.errorIngreso;
+    },
+    descargaringreso: function descargaringreso(id) {
+      window.open('http://127.0.0.1:8000/ingresos/pdfIngreso/' + id + ',' + '_blank');
     },
     mostrarDetalle: function mostrarDetalle() {
       this.vaciarvariable();
@@ -47255,7 +47264,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-info",
+              staticClass: "btn btn-outline-danger",
               attrs: { type: "button" },
               on: {
                 click: function($event) {
@@ -47378,7 +47387,7 @@ var render = function() {
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-warning btn-sm",
+                              staticClass: "btn btn-outline-warning btn-sm",
                               attrs: { type: "button", "data-toggle": "modal" },
                               on: {
                                 click: function($event) {
@@ -47400,7 +47409,8 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-danger btn-sm",
+                                    staticClass:
+                                      "btn btn-outline-danger btn-sm",
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -47417,7 +47427,8 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-success btn-sm",
+                                    staticClass:
+                                      "btn btn-outline-success btn-sm",
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -47944,7 +47955,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -47960,7 +47971,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -48170,7 +48181,7 @@ var render = function() {
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-warning btn-sm",
+                              staticClass: "btn btn-outline-warning btn-sm",
                               attrs: { type: "button", "data-toggle": "modal" },
                               on: {
                                 click: function($event) {
@@ -48192,7 +48203,8 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-danger btn-sm",
+                                    staticClass:
+                                      "btn btn-outline-danger btn-sm",
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -48209,7 +48221,8 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-success btn-sm",
+                                    staticClass:
+                                      "btn btn-outline-success btn-sm",
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -48532,7 +48545,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -48548,7 +48561,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -48756,7 +48769,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-warning btn-sm",
+                            staticClass: "btn btn-outline-warning btn-sm",
                             attrs: { type: "button", "data-toggle": "modal" },
                             on: {
                               click: function($event) {
@@ -49235,7 +49248,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -49251,7 +49264,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -49574,6 +49587,22 @@ var render = function() {
                                       }
                                     },
                                     [_c("i", { staticClass: "icon-eye" })]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-info btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.descargaringreso(
+                                            ingreso.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "icon-doc" })]
                                   ),
                                   _vm._v(" "),
                                   ingreso.estado == "registrado"
@@ -51037,7 +51066,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -51395,7 +51424,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-warning btn-sm",
+                            staticClass: "btn btn-outline-warning btn-sm",
                             attrs: { type: "button", "data-toggle": "modal" },
                             on: {
                               click: function($event) {
@@ -51969,7 +51998,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -51985,7 +52014,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -52478,7 +52507,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -52494,7 +52523,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -52699,7 +52728,7 @@ var render = function() {
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-warning btn-sm",
+                              staticClass: "btn btn-outline-warning btn-sm",
                               attrs: { type: "button", "data-toggle": "modal" },
                               on: {
                                 click: function($event) {
@@ -52721,7 +52750,8 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-danger btn-sm",
+                                    staticClass:
+                                      "btn btn-outline-danger btn-sm",
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -52736,7 +52766,8 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-success btn-sm",
+                                    staticClass:
+                                      "btn btn-outline-success btn-sm",
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -53506,7 +53537,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -53522,7 +53553,7 @@ var render = function() {
                   ? _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-outline-primary",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -54831,7 +54862,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-primary",
+                            staticClass: "btn btn-outline-primary",
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
