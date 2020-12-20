@@ -123,7 +123,7 @@
             </div>
             <div id="fact">
                 <p>{{ $ObjetoDetalleVent->tipo_comprobante }}<br>
-                # {{ $ObjetoDetalleVent->id }}<br>
+                # 00{{ $ObjetoDetalleVent->id }}<br>
                 {{ $ObjetoDetalleVent->forma_pago }}</p>
             </div>
         </header>

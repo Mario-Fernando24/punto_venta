@@ -123,7 +123,7 @@
             </div>
             <div id="fact">
                 <p>Factura<br>
-                0001-0004</p>
+                # 00{{ $ObjetoDetalleIngreso->id }}</p>
             </div>
         </header>
         <br>
@@ -137,11 +137,11 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th><p id="cliente">Sr(a).  <br>
-                            Documento: 47715777<br>
-                            Dirección: Zarumilla 113 - Chiclayo<br>
-                            Teléfono: 931742904<br>
-                            Email: jcarlos.ad7@gmail.com</p></th>
+                            <th><p id="cliente">Sr(a). {{ $ObjetoDetalleIngreso->proveedoress->nombre }} <br>
+                            {{ $ObjetoDetalleIngreso->proveedoress->tipo_documento }}: {{ $ObjetoDetalleIngreso->proveedoress->num_documento }}<br>
+                            Dirección: {{ $ObjetoDetalleIngreso->proveedoress->direccion }}<br>
+                            Teléfono: {{ $ObjetoDetalleIngreso->proveedoress->telefono }}<br>
+                            Email: {{ $ObjetoDetalleIngreso->proveedoress->email }}</p></th>
                         </tr>
                     </tbody>
                 </table>
@@ -159,8 +159,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>vendedor</td>
-                            <td>fecha</td>
+                            <td>{{ $ObjetoDetalleIngreso->usuario->usuario }}</td>
+                            <td>{{ $ObjetoDetalleIngreso->created_at }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -182,45 +182,55 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>cant</td>
-                            <td>descripcion del producto descripcion del producto descripcion del producto</td>
-                            <td>precio compra</td>
-                            <td>precio venta</td>
-                            <td>subtotal</td>
-                            <td>ganancia</td>
+                    <?php $gananciaAcumulada = 0; ?>
 
+                    @foreach($ArrayDetalleIng as $detallevent)
+
+                        <tr>
+                            <td>{{ $detallevent->cantidad }}</td>
+                            <td>{{ $detallevent->articulodetalle->nombre }}</td>
+                            <td>{{ $detallevent->preciocompra }}</td>
+                            <td>{{ $detallevent->precio }}</td>
+                            <td>{{ number_format(($detallevent->preciocompra*$detallevent->cantidad),0,',','.') }}</td>
+                            <td>{{ number_format(($detallevent->precio*$detallevent->cantidad-($detallevent->preciocompra*$detallevent->cantidad)),0,',','.') }}</td>
+
+                            @php
+                        $gananciaAcumulada+=($detallevent->precio*$detallevent->cantidad-($detallevent->preciocompra*$detallevent->cantidad));
+                        @endphp
                         </tr>
+                        @endforeach
+
                     </tbody>
+                    <br><br>
                     <tfoot>
                         <tr>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th>SUBTOTAL</th>
-                            <td>subtotal</td>
+                            <td>{{ number_format((($ObjetoDetalleIngreso->total)-(($ObjetoDetalleIngreso->total*$ObjetoDetalleIngreso->impuesto)/100)),0,',','.')  }}</td>
                         </tr>
                         <tr>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th>IMPUESTO</th>
-                            <td>iva</td>
+                            <td>{{ number_format((($ObjetoDetalleIngreso->total*$ObjetoDetalleIngreso->impuesto)/100),0,',','.') }}</td>
                         </tr>
                         <tr>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th>TOTAL</th>
-                            <td>total</td>
+                            <td>{{ number_format(($ObjetoDetalleIngreso->total),0,',','.')}}</td>
                         </tr>
 
                         <tr>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>GANACIA</th>
-                            <td>ganancia</td>
+                            <th>GANANCIA</th>
+                            <td><?php echo number_format($gananciaAcumulada,0,',','.') ?></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -230,7 +240,7 @@
         <br>
         <footer>
             <div id="gracias">
-                <p><b>Gracias por su compra!</b></p>
+                <p><b>compra ingresada por {{ $ObjetoDetalleIngreso->usuario->usuario }}</b></p>
             </div>
         </footer>
     </body>

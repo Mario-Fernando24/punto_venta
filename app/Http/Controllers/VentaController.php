@@ -200,17 +200,14 @@ class VentaController extends Controller
         $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
         ->where('id',$id)->orderBy('id', 'DESC')->first();
         
-
-
         $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
         ->where('id_venta',$id)->orderBy('id', 'ASC')->get(); 
         $mytime=Carbon::now('America/Bogota');
+         
 
 
         $pdf = PDF::loadView('pdf.ventas',compact('ObjetoDetalleVent','ArrayDetalleVenta'));
         return $pdf->download('venta-'.$ObjetoDetalleVent->id.'-'.$mytime);   
-        
-          
       
       }
 

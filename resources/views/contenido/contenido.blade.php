@@ -14,16 +14,14 @@
                     <Categoria></Categoria>
                     </template>
 
-                    
-                    <template v-if="menu==3">
-                    <Ingreso></Ingreso>
-                    </template>
-
 
                     <template v-if="menu==2">
                     <Articulo></Articulo>
                     </template>
 
+                    <template v-if="menu==3">
+                    <Ingreso></Ingreso>
+                    </template>
 
                     <template v-if="menu==4">
                     <Proveedor></Proveedor>

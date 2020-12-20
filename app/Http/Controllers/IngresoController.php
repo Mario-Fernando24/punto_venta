@@ -165,9 +165,6 @@ class IngresoController extends Controller
       
       public function pdfIngreso(Request $request, $id){
 
-
-
-
         $ObjetoDetalleIngreso = Ingreso::with('proveedor','proveedoress','usuario','persona','usuario_anulo_ingreso')
         ->where('id',$id)->orderBy('id', 'DESC')->first();
 
@@ -179,8 +176,7 @@ class IngresoController extends Controller
 
 
         $pdf = PDF::loadView('pdf.ingreso',compact('ObjetoDetalleIngreso','ArrayDetalleIng'));
-        return $pdf->download('compra-');   
-      
+        return $pdf->download('compra-'.$ObjetoDetalleIngreso->id.'-'.$mytime);   
       }
 
 }
