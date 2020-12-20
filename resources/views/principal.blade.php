@@ -11,6 +11,9 @@
     <link rel="shortcut icon" href="img/favicon.png">
     <title>Home | TenderPos</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+
 
 
     <!---initial laravel mix css -->

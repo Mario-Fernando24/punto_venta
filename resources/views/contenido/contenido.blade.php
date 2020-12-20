@@ -2,13 +2,15 @@
 @section('contenido')
 
 <template v-if="menu==0">
-<h1>Escritorio</1>
+<Dashboard></Dashboard>
 </template>
 
 
 @if(Auth::check())
       
       @if(Auth::user()->idrol==1)
+
+      
 
                     <template v-if="menu==1">
                     <Categoria></Categoria>
@@ -31,6 +33,9 @@
                     <Venta></Venta>
                     </template>
 
+
+
+                    
                     <template v-if="menu==6">
                     <Cliente></Cliente>
                     </template>
