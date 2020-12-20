@@ -62,6 +62,21 @@ class ArticuloContoller extends Controller
 
            return ['buscarBarra' => $buscarBarra];
     }
+
+    public function validateCodeBarra(Request $request)
+    {
+
+        $codigo=$request->get('filtro');
+        $buscarBarra=Articulo::where('codigo',$codigo)
+        ->first();
+        
+        if($buscarBarra){
+            return ['validate' => true];
+        }
+
+        return ['validate' => false];
+        
+    }
     
 
 

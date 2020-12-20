@@ -139,7 +139,6 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Codigo</label>
                                     <div class="col-md-9">
-                                     <span class="color" v-if="validarcode">El codigo de barra ya existe(*)</span>
                                         <input type="text" v-on:keyup="validateCodigoBarra()" v-model="codigo" class="form-control" placeholder="codigo de barra">
                                     <barcode :value="codigo" :options="{ format: 'EAN-13' }">
                                         Generando codigo de barra
@@ -226,7 +225,6 @@ import VueBarcode from 'vue-barcode';
             precio_venta:0,
             stock:0,
             descripcion : '',
-            actividades: [],
             //la data que regresa nuestro metodo listarCategoria se almacene en esta array
             arrayArticulo:[],
 
@@ -300,7 +298,7 @@ import VueBarcode from 'vue-barcode';
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
         validateCodigoBarra: function() {
-      
+
 
                   let me=this;
                   let aux='';

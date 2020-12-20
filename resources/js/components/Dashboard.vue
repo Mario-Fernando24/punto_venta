@@ -135,7 +135,7 @@
                         mesIngreso='Noviembre '+x.anio;
                         break;
                         case 12:
-                        mesIngreso='Diciembre '+x.anio;
+                        mesIngreso='Diciembre ';
                         break;
                     }
                     

@@ -2110,6 +2110,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importamos vueBarcod
  //axios nos ayuda hacer peticiones http desde el navegador
 
@@ -2117,6 +2126,7 @@ __webpack_require__.r(__webpack_exports__);
   //dentro de la data colocamos las variables 
   data: function data() {
     return {
+      validarcodigoBarra: '',
       //cual es la categoria que quiero edit 
       articulo_id: 0,
       idcategoria: 0,
@@ -2126,11 +2136,13 @@ __webpack_require__.r(__webpack_exports__);
       precio_venta: 0,
       stock: 0,
       descripcion: '',
+      actividades: [],
       //la data que regresa nuestro metodo listarCategoria se almacene en esta array
       arrayArticulo: [],
       modal: 0,
       //para saber que modal quiero mostrar, register o actualizar
       tituloModal: '',
+      validarcode: '',
       tipoAccionButton: 0,
       errorArticulo: 0,
       errorMensajeArticuloArray: [],
@@ -2193,6 +2205,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
+    validateCodigoBarra: function validateCodigoBarra() {
+      var me = this;
+      var aux = '';
+      axios.get('/articulo/validateCodeBarra?filtro=' + this.codigo).then(function (response) {
+        var respuestaaa = response.data;
+        aux = respuestaaa.validate;
+        me.validarcode = aux;
+        console.log(aux);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     listarArticulo: function listarArticulo(page, buscar, criterio) {
       var me = this;
       var url = '/articulo/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -3399,7 +3423,7 @@ __webpack_require__.r(__webpack_exports__);
             break;
 
           case 12:
-            mesIngreso = 'Diciembre ' + x.anio;
+            mesIngreso = 'Diciembre ';
             break;
         }
 
@@ -47991,6 +48015,12 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-9" },
                         [
+                          _vm.validarcode
+                            ? _c("span", { staticClass: "color" }, [
+                                _vm._v("El codigo de barra ya existe(*)")
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -48007,6 +48037,9 @@ var render = function() {
                             },
                             domProps: { value: _vm.codigo },
                             on: {
+                              keyup: function($event) {
+                                return _vm.validateCodigoBarra()
+                              },
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return

@@ -132,6 +132,9 @@
             Route::put('desactivar', 'ArticuloContoller@desactivar');
             Route::put('activar', 'ArticuloContoller@activar');
             Route::get('ListarPdfInventario', 'ArticuloContoller@ListarPdfInventario');
+            Route::get('validateCodeBarra', 'ArticuloContoller@validateCodeBarra');
+
+            
 
         });
 
