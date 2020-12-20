@@ -50712,7 +50712,6 @@ var render = function() {
                                       _vm._s(
                                         Intl.NumberFormat().format(
                                           _vm.total -
-                                            _vm.totalImpuesto -
                                             (_vm.total * _vm.impuesto) / 100
                                         )
                                       )

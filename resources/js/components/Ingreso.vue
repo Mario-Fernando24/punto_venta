@@ -447,7 +447,7 @@
 
                                          <tr class="totalresultado" >
                                              <td colspan="6" align="right"><strong>Subtotal:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format((total-totalImpuesto ) - ((total*impuesto )/100)   ) }}</td>
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format((total ) - ((total*impuesto )/100)   ) }}</td>
                                          </tr>
 
                                          <tr class="totalresultado" >
