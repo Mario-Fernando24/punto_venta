@@ -172,8 +172,8 @@
             Route::get('buscarArticuloVentaBarra', 'VentaController@buscarArticuloVentaBarra');
             Route::post('registrar', 'VentaController@store');
             Route::put('anularVenta', 'VentaController@anularVenta');
+            Route::get('pdfVenta/{id}', 'VentaController@pdfVenta');
 
- 
         });
         
              

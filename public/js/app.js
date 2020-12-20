@@ -6262,6 +6262,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -6664,6 +6669,9 @@ __webpack_require__.r(__webpack_exports__);
           swalWithBootstrapButtons.fire('Cancelado', '', 'error');
         }
       });
+    },
+    descargarventa: function descargarventa(id) {
+      window.open('http://127.0.0.1:8000/ventas/pdfVenta/' + id + ',' + '_blank');
     },
     //metodo para cerrar el modal
     cerrarModal: function cerrarModal() {
@@ -53839,6 +53847,22 @@ var render = function() {
                                   _vm._v(
                                     "  \n\n\n                                                    "
                                   ),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-info btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.descargarventa(venta.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "icon-doc" })]
+                                  ),
+                                  _vm._v(
+                                    "  \n\n\n                                                    "
+                                  ),
                                   venta.estado == "registrado"
                                     ? [
                                         _c(
@@ -55398,7 +55422,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Estado")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Opciones")])
+        _c("th", { attrs: { colspan: "3" } }, [_vm._v("Opciones")])
       ])
     ])
   },

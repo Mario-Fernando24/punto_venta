@@ -8,6 +8,7 @@ use App\Articulo;
 use App\Persona;
 use DB;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade as PDF;
 
 use Illuminate\Http\Request;
 
@@ -190,20 +191,23 @@ class VentaController extends Controller
       }
 
 
-     //  public function pdfVenta(Request $request, $id){
+       public function pdfVenta(Request $request, $id){
 
-        //objeto de la venta
 
-     //   $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
-      //  ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
+        $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
+        ->where('id',$id)->orderBy('id', 'DESC')->first();
+        
 
-        //detalle de la venta
+        $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
+        ->where('id_venta',$id)->orderBy('id', 'ASC')->get(); 
 
-      //  $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
-      //  ->where('id_venta',$id)->orderBy('id', 'ASC')->get();
 
-     //   return $ArrayDetalleVenta;
-   //   }
+        $pdf = PDF::loadView('pdf.ventas',compact('ObjetoDetalleVent','ArrayDetalleVenta'));
+        return $pdf->download('venta');   
+        
+          
+      
+      }
 
 
 

@@ -45,7 +45,7 @@
                                                 <th>Total</th>
                                                 <th>Impuesto</th>
                                                 <th>Estado</th>
-                                                <th>Opciones</th>
+                                                <th colspan="3">Opciones</th>
 
 
                                             </tr>
@@ -76,9 +76,14 @@
 
 
                                                     <td>
-
+       
                                                     <button type="button" class="btn btn-success btn-sm" @click="verDetalleVenta(venta.id)">
                                                     <i class="icon-eye"></i>
+                                                    </button> &nbsp;
+
+
+                                                    <button type="button" class="btn btn-info btn-sm" @click="descargarventa(venta.id)">
+                                                    <i class="icon-doc"></i>
                                                     </button> &nbsp;
 
 
@@ -885,6 +890,8 @@ import vSelect from "vue-select";
                             'impuesto': this.impuesto,
                             'total':this.total,
                             'data':this.arrayDetalleVenta,
+
+                            
                             
                             
                         })
@@ -1057,6 +1064,11 @@ import vSelect from "vue-select";
                             )
                         }
                         })
+                },
+
+                descargarventa(id){
+                    window.open('http://127.0.0.1:8000/ventas/pdfVenta/'+id+','+'_blank');
+
                 },
 
                 //metodo para cerrar el modal
