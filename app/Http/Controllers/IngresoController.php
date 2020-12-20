@@ -168,14 +168,12 @@ class IngresoController extends Controller
         $ObjetoDetalleIngreso = Ingreso::with('proveedor','proveedoress','usuario','persona','usuario_anulo_ingreso')
         ->where('id',$id)->orderBy('id', 'DESC')->first();
 
-
         $ArrayDetalleIng = DetalleIngreso::with('articulodetalle')
         ->where('idingreso',$id)->orderBy('id', 'ASC')->get();
-        
         $mytime=Carbon::now('America/Bogota');
 
-
         $pdf = PDF::loadView('pdf.ingreso',compact('ObjetoDetalleIngreso','ArrayDetalleIng'));
+        
         return $pdf->download('compra-'.$ObjetoDetalleIngreso->id.'-'.$mytime);   
       }
 

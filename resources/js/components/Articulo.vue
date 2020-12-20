@@ -13,7 +13,7 @@
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                         <button type="button"  @click="cargarPdfInventario()" class="btn btn-outline-danger">
-                            <i class="icon-plus"></i>&nbsp;Descargar pdf
+                            <i class="icon-doc"></i>&nbsp;Descargar pdf
                         </button>
                     </div>
 

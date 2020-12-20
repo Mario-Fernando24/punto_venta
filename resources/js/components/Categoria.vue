@@ -12,6 +12,10 @@
                         <button type="button"  @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
+
+                        <button type="button"  @click="cargarPdfCategoria()" class="btn btn-outline-danger">
+                            <i class="icon-doc"></i>&nbsp;Descargar pdf
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -344,6 +348,9 @@
                     )
                 }
                 })
+           },
+           cargarPdfCategoria(){
+              window.open('http://127.0.0.1:8000/categoria/ListarPdfCategoria','_blank');
            },
 
 

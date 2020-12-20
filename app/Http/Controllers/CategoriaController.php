@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Categoria;
 use App\Roles;
+use Barryvdh\DomPDF\Facade as PDF;
+use DB;
+use Carbon\Carbon;
 //Paginating Query Builder Results
 //use Illuminate\Support\Facades\DB;
 
@@ -124,6 +127,19 @@ class CategoriaController extends Controller
         $categoria = Categoria::findOrFail($request->id);
         $categoria->condicion='1';
         $categoria->update();
+    }
+
+    public function ListarPdfCategoria()
+    {
+        $categoriapdf = Categoria::orderBy('nombre', 'asc')->get();
+        //cantidad de articulos que tenemos en nuestra entidad articulo 
+        $cantidad=Categoria::count();
+
+        $pdf = PDF::loadView('pdf.categoriaAll',['categoriapdf'=>$categoriapdf,'cantidad'=>$cantidad]);
+        $mytime=Carbon::now('America/Bogota');
+
+        return $pdf->download('Todas_categorias-'.$mytime);  
+
     }
 
 }

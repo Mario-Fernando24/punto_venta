@@ -2581,6 +2581,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -2746,6 +2750,9 @@ __webpack_require__.r(__webpack_exports__);
           swalWithBootstrapButtons.fire('Cancelado', '', 'error');
         }
       });
+    },
+    cargarPdfCategoria: function cargarPdfCategoria() {
+      window.open('http://127.0.0.1:8000/categoria/ListarPdfCategoria', '_blank');
     },
     //Metodo para activar la categoria
     activarCategoria: function activarCategoria(id) {
@@ -47273,7 +47280,7 @@ var render = function() {
               }
             },
             [
-              _c("i", { staticClass: "icon-plus" }),
+              _c("i", { staticClass: "icon-doc" }),
               _vm._v(" Descargar pdf\n                        ")
             ]
           )
@@ -48069,6 +48076,23 @@ var render = function() {
             [
               _c("i", { staticClass: "icon-plus" }),
               _vm._v(" Nuevo\n                        ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-danger",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.cargarPdfCategoria()
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "icon-doc" }),
+              _vm._v(" Descargar pdf\n                        ")
             ]
           )
         ]),

@@ -105,6 +105,21 @@
             return view('contenido/contenido');
         })->name('main');
 
+
+         //controller categories
+         Route::prefix('categoria')->group(function() {
+            Route::get('index', 'CategoriaController@index');
+            Route::post('registrar', 'CategoriaController@store');
+            Route::put('actualizar', 'CategoriaController@update');
+            Route::put('desactivar', 'CategoriaController@desactivar');
+            Route::put('activar', 'CategoriaController@activar');
+            Route::get('mostrarCategoriaActivas', 'CategoriaController@mostrarCategoriaActivas');
+            Route::get('ListarPdfCategoria', 'CategoriaController@ListarPdfCategoria');
+
+            });
+
+
+
         //contoller articles
         Route::prefix('articulo')->group(function() {
             Route::get('index', 'ArticuloContoller@index');
