@@ -6550,6 +6550,7 @@ __webpack_require__.r(__webpack_exports__);
         'data': this.arrayDetalleVenta
       }).then(function (response) {
         console.log('entro a esta funcion');
+        window.open('http://127.0.0.1:8000/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
         me.listado = 1;
         me.vaciarvariable(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 

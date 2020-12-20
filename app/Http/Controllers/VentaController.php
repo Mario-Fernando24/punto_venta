@@ -170,6 +170,9 @@ class VentaController extends Controller
                 ]);
             }
 
+            return ['id' => $venta->id];
+
+
 
       }catch (ModelNotFoundException $e) {
         DB::rollBack();
@@ -197,6 +200,7 @@ class VentaController extends Controller
         $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
         ->where('id',$id)->orderBy('id', 'DESC')->first();
         
+
 
         $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
         ->where('id_venta',$id)->orderBy('id', 'ASC')->get(); 
