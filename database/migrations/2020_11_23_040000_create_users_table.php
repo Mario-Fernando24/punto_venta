@@ -25,6 +25,10 @@ class CreateUsersTable extends Migration
             $table->boolean('condicion')->default(1); 
             $table->rememberToken();
             $table->timestamps();
+            
+            DB::table('users')->insert(array('id'=>'1','idrol'=>'1','email'=>'mariofer@gmail.com','usuario'=>'mariofer','password'=>'$2y$10$mcfpQKKZjyRmtw7UeSok9OE2qg8ztfuUlTtHa0lE1v7Vt0WFWfc9W'));
+
+        
 
 
 

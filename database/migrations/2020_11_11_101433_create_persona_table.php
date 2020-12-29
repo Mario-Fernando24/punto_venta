@@ -22,6 +22,9 @@ class CreatePersonaTable extends Migration
             $table->string('telefono',100)->nullable();
             $table->string('email',100)->unique();
             $table->timestamps();
+
+            DB::table('persona')->insert(array('id'=>'1','nombre'=>'mariofer','tipo_documento'=>'3242343','num_documento'=>'3242343','direccion'=>'3242343','telefono'=>'3242343','email'=>'mariofer@gmail.com'));
+            
         });
     }
 

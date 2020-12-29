@@ -5,11 +5,10 @@ por cada fila que actualice ==>  FOR EACH ROW BEGIN
 
 DELIMITER //
 CREATE TRIGGER triggerUpdateStockIngreso AFTER INSERT ON detalle_ingresos
- FOR EACH ROW BEGIN 
+ FOR EACH ROW BEGIN
   UPDATE articulos SET articulos.stock = articulos.stock+NEW.cantidad
     WHERE articulos.id = NEW.idarticulo;
     END//
-
 DELIMITER ;
 
 
@@ -18,7 +17,7 @@ DELIMITER ;
 
 DELIMITER //
 CREATE TRIGGER triggerAnularStockIngreso AFTER UPDATE ON ingresos
-  FOR EACH ROW BEGIN 
+  FOR EACH ROW BEGIN
   UPDATE articulos a
      JOIN detalle_ingresos di
          ON di.idarticulo=a.id
@@ -33,7 +32,7 @@ DELIMITER ;
 
 DELIMITER //
 CREATE TRIGGER triggerUpdateStockVenta AFTER INSERT ON detalle_ventas
- FOR EACH ROW BEGIN 
+ FOR EACH ROW BEGIN
   UPDATE articulos SET articulos.stock = articulos.stock-NEW.cantidad
     WHERE articulos.id = NEW.id_articulo;
     END//
@@ -45,7 +44,7 @@ DELIMITER ;
 
 DELIMITER //
 CREATE TRIGGER triggerAnularStockVenta AFTER UPDATE ON ventas
-  FOR EACH ROW BEGIN 
+  FOR EACH ROW BEGIN
   UPDATE articulos a
      JOIN detalle_ventas dv
          ON dv.id_articulo=a.id
