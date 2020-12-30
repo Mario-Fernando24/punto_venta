@@ -49,6 +49,11 @@
                     <Roles></Roles>
                     </template>
 
+
+                    <template v-if="menu==12">
+                    <Caja></Caja>
+                    </template>
+
                     <template v-if="menu==9">
                     <h1>Reporte de ingresoAAA</1>
                     </template>
@@ -61,9 +66,6 @@
                     <h1>aYUDA aYUDA aYUDA</H1>
                     </template>
 
-                    <template v-if="menu==12">
-                    <h1>Acerca de Acerca deAcerca deSSSSSS</h1>
-                    </template>
 
 
                 @elseif(Auth::user()->idrol==2)

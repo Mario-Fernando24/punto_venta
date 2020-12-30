@@ -15,6 +15,7 @@ Vue.component('User', require('./components/User.vue').default);
 Vue.component('Ingreso', require('./components/Ingreso.vue').default);
 Vue.component('Venta', require('./components/Venta.vue').default);
 Vue.component('Dashboard', require('./components/Dashboard.vue').default);
+Vue.component('Caja', require('./components/Caja.vue').default);
 
 
 
