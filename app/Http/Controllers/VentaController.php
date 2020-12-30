@@ -6,6 +6,7 @@ use App\Venta;
 use App\DetalleVenta;
 use App\Articulo;
 use App\Persona;
+use App\Caja;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -44,16 +45,21 @@ class VentaController extends Controller
 
     //search article from code of barra
     public function buscarArticuloVentaBarra(Request $request){
-      if(!$request->ajax()){
-          return redirect('/');
-     }
+    
+
           $filtro=$request->get('filtro');
           $buscarBarra=Articulo::where('codigo',$filtro)
           ->select('id','nombre','stock','precio_venta','condicion')->orderBy('nombre','asc')
           ->where('stock','>','0')
           ->take(1)->get();
 
-          return ['buscarBarra' => $buscarBarra];
+
+          return response()->json([
+            'status' => 'ok',
+            'buscarBarra' => $buscarBarra,
+
+        ], 200);
+
    }
 
    public function ListarArticuloVenta(Request $request)
@@ -131,21 +137,26 @@ class VentaController extends Controller
 
     public function store(Request $request)
     {
-       if(!$request->ajax()){
-        return redirect('/');
-       }
+     //  if(!$request->ajax()){
+     //   return redirect('/');
+     //  }
        $mytime=Carbon::now('America/Bogota');
+       
+       $id_caja_users=DB::table('caja')
+       ->where('id_vendedor',\Auth::user()->id)
+       ->where('Cajaactual','abierto')->first();
+
+       
+
 
        try{
-
-
-
 
 
 
           $venta = Venta::create([
             'id_cliente' => $request->get('idcliente'),
             'id_usuario' => \Auth::user()->id,
+            'id_apertura_caja_usuario'=>$id_caja_users->idcaja,
             'tipo_comprobante' => $request->get('tipo_comprobante'),
             'forma_pago' => $request->get('forma_pago'),
             'num_comprobante_pago' => $request->get('num_comprobante_pago'),

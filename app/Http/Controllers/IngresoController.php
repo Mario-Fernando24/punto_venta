@@ -101,11 +101,18 @@ class IngresoController extends Controller
        }
        $mytime=Carbon::now('America/Bogota');
 
+       $id_caja_users=DB::table('caja')
+       ->where('id_vendedor',\Auth::user()->id)
+       ->where('Cajaactual','abierto')->first();
+
+       
+
        try{
 
           $ingreso = Ingreso::create([
             'idproveedor' => $request->get('idproveedor'),
             'idusuario' => \Auth::user()->id,
+            'id_apertura_caja_usuario'=>$id_caja_users->idcaja,
             'tipo_comprobante' => $request->get('tipo_comprobante'),
             'serie_comprobante' => $request->get('serie_comprobante'),
             'num_comprobante' => $request->get('num_comprobante'),

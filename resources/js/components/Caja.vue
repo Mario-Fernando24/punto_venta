@@ -278,16 +278,29 @@
                                          </tr>
 
 
+
                 
                                      </tbody>
                                  </table>
                            </div>
 
+                           
+
+                             <div class="form-group row">
+                                    <label class="col-md-12 form-control-label" for="text-input"><b>Observación Apertura de caja</b></label>
+                                    <div class="col-md-12">
+                                        <textarea class="col-md-12" v-model="observacion_apertura" type="text"></textarea>
+                                    </div>
+                                </div>
+
+
+
+
 
                         <div class="form-group row">
                            <div class="col-md-12">
                                <button type="button"  class="btn btn-secondary">Cerrar</button>
-                              <button type="button" class="btn btn-outline-primary" >Grabar</button>
+                              <button type="button" class="btn btn-outline-primary" @click="apertura_de_caja()">Grabar</button>
                            </div>
                         </div>
 
@@ -326,6 +339,7 @@
        cincuentamil: 0 ,
        cienmil: 0 
         },
+      observacion_apertura:'sin ninguna novedad',  
 
 
         
@@ -441,16 +455,21 @@
           //Metodo registrar categoria
           apertura_de_caja(){
 
-                 
+                 console.log(this.calcularTotalAperturaCaja);
+                 console.log(this.observacion_apertura);
+                 console.log(this.moneyInitial);
+
                   let me=this;
                   axios.post('/caja/aperturaCaja', {
-                    'nombre':  this.nombre,
-                    'descripcion': this.descripcion
+                    'Cajainicial':  this.calcularTotalAperturaCaja,
+                    'obs_apertura':  this.observacion_apertura,
+                    'dinero_inicial': this.moneyInitial,
                 })
                 .then(function (response) {
-                    me.cerrarModal();
-                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listaCategoria(1,'','nombre');
+                    console.log('ok mario');
+               //     me.cerrarModal();
+                //    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+               //     me.listaCategoria(1,'','nombre');
                 }) 
                 .catch(function (error) {
                     console.log(error);

@@ -14,6 +14,7 @@ class Venta extends Model
         'id_cliente',
         'id_usuario',
         'id_anulo_venta',
+        'id_apertura_caja_usuario',
         'tipo_comprobante',
         'forma_pago',
         'num_comprobante_pago',

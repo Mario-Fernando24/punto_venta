@@ -15,14 +15,14 @@ class CreateCajaTable extends Migration
     {
         Schema::create('caja', function (Blueprint $table) {
             $table->bigIncrements('idcaja');
-            $table->string('Cajainicial',100)->unique();
             $table->unsignedBigInteger('id_vendedor');
+            $table->string('Cajainicial')->nullable();
             $table->string('Fecha',100)->nullable();
             $table->string('Cajaactual',100)->nullable();
             $table->string('obs_apertura',100)->nullable();
-            $table->string('obs_final',100)->unique();
-            $table->json('dinero_inicial');
-            $table->json('dinero_final');
+            $table->string('obs_final',100)->nullable();
+            $table->json('dinero_inicial')->nullable();
+            $table->json('dinero_final')->nullable();
             $table->timestamps();
 
 

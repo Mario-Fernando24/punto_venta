@@ -2765,6 +2765,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -2783,6 +2796,7 @@ __webpack_require__.r(__webpack_exports__);
         cincuentamil: 0,
         cienmil: 0
       },
+      observacion_apertura: 'sin ninguna novedad',
       //cual es la categoria que quiero edit 
       categoria_id: 0,
       nombre: '',
@@ -2877,14 +2891,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Metodo registrar categoria
     apertura_de_caja: function apertura_de_caja() {
+      console.log(this.calcularTotalAperturaCaja);
+      console.log(this.observacion_apertura);
+      console.log(this.moneyInitial);
       var me = this;
       axios.post('/caja/aperturaCaja', {
-        'nombre': this.nombre,
-        'descripcion': this.descripcion
+        'Cajainicial': this.calcularTotalAperturaCaja,
+        'obs_apertura': this.observacion_apertura,
+        'dinero_inicial': this.moneyInitial
       }).then(function (response) {
-        me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-
-        me.listaCategoria(1, '', 'nombre');
+        console.log('ok mario'); //     me.cerrarModal();
+        //    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+        //     me.listaCategoria(1,'','nombre');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -49977,7 +49995,60 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(5)
+                      _c("div", { staticClass: "form-group row" }, [
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.observacion_apertura,
+                                expression: "observacion_apertura"
+                              }
+                            ],
+                            staticClass: "col-md-12",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.observacion_apertura },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.observacion_apertura = $event.target.value
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              attrs: { type: "button" }
+                            },
+                            [_vm._v("Cerrar")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-primary",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.apertura_de_caja()
+                                }
+                              }
+                            },
+                            [_vm._v("Grabar")]
+                          )
+                        ])
+                      ])
                     ])
                   ]
                 )
@@ -50055,21 +50126,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-secondary", attrs: { type: "button" } },
-          [_vm._v("Cerrar")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn btn-outline-primary", attrs: { type: "button" } },
-          [_vm._v("Grabar")]
-        )
-      ])
-    ])
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-12 form-control-label",
+        attrs: { for: "text-input" }
+      },
+      [_c("b", [_vm._v("Observación Apertura de caja")])]
+    )
   }
 ]
 render._withStripped = true

@@ -199,6 +199,13 @@
 
         });
         
+
+         //controller ingresos
+         Route::prefix('caja')->group(function() {
+            Route::post('aperturaCaja', 'CajaController@aperturaCaja');
+        });
+
+
              
     });  //and middleware administrador
 

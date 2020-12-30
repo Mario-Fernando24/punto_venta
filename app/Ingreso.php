@@ -14,6 +14,7 @@ class Ingreso extends Model
         'idproveedor',
         'idusuario',
         'id_anulo_ingreso',
+        'id_apertura_caja_usuario',
         'tipo_comprobante',
         'serie_comprobante',
         'num_comprobante',
