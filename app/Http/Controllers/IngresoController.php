@@ -107,6 +107,8 @@ class IngresoController extends Controller
 
        
 
+       
+
        try{
 
           $ingreso = Ingreso::create([
@@ -147,8 +149,6 @@ class IngresoController extends Controller
 
 
             
-
-          //  return $persona  
 
       }catch (ModelNotFoundException $e) {
         DB::rollBack();

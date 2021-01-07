@@ -19,8 +19,7 @@ class Caja extends Model
         'obs_final',
         'dinero_inicial',
         'dinero_final',
-
-
+        'updated_at',
     ];
 
 

@@ -10,15 +10,27 @@ use Illuminate\Http\Request;
 
 class CajaController extends Controller
 {
+
+
+    public function ShowCajaUser()
+    {
+        $cajaOpen = Caja::with('apertura_vendedor')
+        ->where('id_vendedor',\Auth::user()->id)->where('Cajaactual','abierto')->take(1)->get();
+       
+        return response()->json([
+            'status' => 'ok',
+            'cajaOpen' => $cajaOpen,
+        ], 200);
+
+
+    }  
+
+
     public function aperturaCaja(Request $request)
     {
-
-       //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
        if(!$request->ajax()){
         return redirect('/');
        }
-
-
        $mytime=Carbon::now('America/Bogota');
         
        //return $request->get('dinero_inicial');
@@ -33,5 +45,26 @@ class CajaController extends Controller
         'dinero_final' => '0',
         ]);
     }  
+
+
+    public function cerrarCaja(Request $request)
+    {
+       
+        if(!$request->ajax()){
+        return redirect('/');
+       }
+
+        $mytime=Carbon::now('America/Bogota');        
+        $cajaUpdate = Caja::findOrFail($request->id);
+        $cajaUpdate->Cajaactual='abierto';
+        $cajaUpdate->obs_final=$request->get('obs_final');
+        $cajaUpdate->dinero_final=json_encode($request->get('dinero_final'));
+        $cajaUpdate->updated_at=$mytime;
+        $cajaUpdate->update();
+    }  
+
+
+
+
 
 }
