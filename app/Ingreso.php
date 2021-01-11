@@ -52,3 +52,10 @@ class Ingreso extends Model
 
 
 }
+
+
+
+
+
+
+

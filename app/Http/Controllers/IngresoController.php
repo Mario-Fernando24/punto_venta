@@ -105,7 +105,12 @@ class IngresoController extends Controller
        ->where('id_vendedor',\Auth::user()->id)
        ->where('Cajaactual','abierto')->first();
 
-       
+
+       if($id_caja_users==false){
+         
+       }
+
+       //pendiente validación si false consulta pasar parametro con laravel
 
        
 

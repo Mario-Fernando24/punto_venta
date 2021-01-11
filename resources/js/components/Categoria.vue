@@ -1,5 +1,5 @@
  <template>
-<main class="main">
+    <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Escritorio</a></li>

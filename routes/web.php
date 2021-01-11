@@ -204,7 +204,11 @@
          Route::prefix('caja')->group(function() {
             Route::post('aperturaCaja', 'CajaController@aperturaCaja');
             Route::get('ShowCajaUser', 'CajaController@ShowCajaUser');
+        });
 
+
+        Route::prefix('egreso')->group(function() {
+            Route::get('registerDocumentoCaja', 'EgresoController@registerDocumentoCaja');
         });
 
         

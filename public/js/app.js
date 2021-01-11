@@ -50760,7 +50760,7 @@ var render = function() {
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
           _c("i", { staticClass: "fa fa-align-justify" }),
-          _vm._v(" Categorías\n                        "),
+          _vm._v(" Categorías\n                    "),
           _c(
             "button",
             {
@@ -50774,7 +50774,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "icon-plus" }),
-              _vm._v(" Nuevo\n                        ")
+              _vm._v(" Nuevo\n                    ")
             ]
           ),
           _vm._v(" "),
@@ -50791,7 +50791,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "icon-doc" }),
-              _vm._v(" Descargar pdf\n                        ")
+              _vm._v(" Descargar pdf\n                    ")
             ]
           )
         ]),
@@ -50919,7 +50919,7 @@ var render = function() {
                             [_c("i", { staticClass: "icon-pencil" })]
                           ),
                           _vm._v(
-                            "  \n                                        \n                                        "
+                            "  \n                                    \n                                    "
                           ),
                           categoria.condicion
                             ? [

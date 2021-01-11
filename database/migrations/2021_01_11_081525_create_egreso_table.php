@@ -20,7 +20,7 @@ class CreateEgresoTable extends Migration
             $table->string('tipo_egreso',100)->nullable();
             $table->decimal('valor_egreso',11,2)->nullable();
             $table->string('motivo_egreso',100)->nullable();
-
+            $table->boolean('estado')->default(1);
             $table->timestamps();
 
 
