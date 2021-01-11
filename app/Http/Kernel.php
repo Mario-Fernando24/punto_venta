@@ -64,6 +64,8 @@ class Kernel extends HttpKernel
         'Administrador' => \App\Http\Middleware\Administrador::class,
         'Vendedor' => \App\Http\Middleware\Vendedor::class,
         'Almacenero' => \App\Http\Middleware\Almacenero::class,
+        'jwtauth' => \App\Http\Middleware\JWTAuthentication::class,
+ 
     ];
 
     /**

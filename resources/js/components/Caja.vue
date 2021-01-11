@@ -9,18 +9,19 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Cajas
-                        <button type="button"  @click="abrirCaja('apertura','registrar')" class="btn btn-info">
+                        <button v-if="this.estadoCajausers.Cajaactual!='abierto'" type="button"  @click="abrirCaja('apertura','registrar')" class="btn btn-info">
                             <i class="icon-plus"></i>&nbsp;Apertura de caja
                         </button>
 
 
-                        <button type="button" class="btn btn-warning" @click="abrirCaja('apertura','cierre')">
+                        <button v-if="this.estadoCajausers.Cajaactual=='abierto'" type="button" class="btn btn-warning" @click="abrirCaja('apertura','actual')">
                             <i class="icon-doc"></i>&nbsp;Caja Actual
                         </button>
 
-                        <button type="button" class="btn btn-danger" @click="abrirCaja('apertura','cierre')">
+                        <button v-if="this.estadoCajausers.Cajaactual=='abierto'" type="button" class="btn btn-danger" @click="abrirCaja('apertura','cierre')">
                             <i class="icon-doc"></i>&nbsp;Cierre de caja
                         </button>
+                        
 
 
 
@@ -90,7 +91,7 @@
             </div>
             <!--Inicio del modal agregar/actualizar-->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-primary modal-lg" role="document">
+                <div   class="modal-dialog modal-primary modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
@@ -287,7 +288,9 @@
                         <div class="form-group row">
                            <div class="col-md-12">
                               <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                              <button type="button" class="btn btn-outline-primary" @click="apertura_de_caja()">Grabar</button>
+                              <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-info" @click="apertura_de_caja()">Abrir caja</button>
+                              <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-danger" @click="apertura_de_caja()">Cerrar caja</button>
+
                            </div>
                         </div>
 
@@ -302,6 +305,138 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
+
+
+
+
+
+            <!--modal caja actual init-->
+
+
+            <!--Inicio del modal agregar/actualizar-->
+            <div class="modal fade"  tabindex="-1" :class="{'mostrar':modalactual}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-warning modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="tituloModal"></h4>
+                            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                        <div class="form-group col border">
+                           <div class="table-responsive col-md-12">
+                                 <table class="table table-bordered table-striped table-sm">
+                                    
+                                     <thead>
+                                         <tr>
+                                            <th>Fecha actual</th>
+                                            <th v-text="currentDay"> </th>
+                                            <th v-text="currentHour"></th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                    <tr>
+
+                                         <tr>
+                                            <th>Efectivo de ventas:</th>
+                                            <td></td>
+                                            <td v-text="Intl.NumberFormat().format(efectivo_ventas)"></td>
+                                         </tr>
+                                         <tr>
+                                            <th>(+)Total de Ingresos</th>
+                                            <td></td>
+                                            <td></td>
+                                         </tr>
+
+                                         <tr>
+                                            <th>(-) Total de Egreso:</th>
+                                            <td></td>
+                                            <td></td>
+                                         </tr>
+
+
+                                         <tr>
+                                            <th><b>(+)</b>Base:</th>
+                                            <td></td>
+                                            <td v-text="Intl.NumberFormat().format(estadoCajausers.Cajainicial)"></td>
+                                         </tr>
+
+
+
+                                        <tr class="totalresultado" >
+                                             <td></td>
+                                             <td align="right"><strong>Efectivo en caja :</strong></td>
+                                             <td class="text-error" v-text="Intl.NumberFormat().format(efectivo_ventas+parseInt(estadoCajausers.Cajainicial))"></td>
+                                         </tr><br>
+
+
+                                         <tr>
+                                             <td align="right"><strong>Forma de pago:</strong></td>
+                                             <td></td>
+                                             <td><strong>Valor</strong></td>
+                                         </tr>
+
+
+                                         <tr>
+                                            <th>Efectivo:</th>
+                                            <td></td>
+                                            <td v-text="Intl.NumberFormat().format(efectivo_ventas)"></td>
+                                         </tr>
+
+
+                                         <tr>
+                                            <th>Datafono 1:</th>
+                                            <td></td>
+                                            <td v-text="Intl.NumberFormat().format(datafono_Venta)"></td>
+                                         </tr>
+
+                                         <tr>
+                                            <th>Transferencia:</th>
+                                            <td>(nequi, bancolombia, daviplata otros)</td>
+                                            <td v-text="Intl.NumberFormat().format(transferncia_Venta)"></td>
+                                         </tr>
+
+
+                                        <tr class="totalresultado" >
+                                             <td></td>
+                                             <td align="right"><strong>Total de venta :</strong></td>
+                                             <td class="text-error" v-text="Intl.NumberFormat().format(efectivo_ventas+datafono_Venta+transferncia_Venta)"></td>
+                                         </tr>
+
+
+                                     </tbody>
+                                 </table>
+                           </div>
+
+                           
+
+
+
+
+
+                        <div class="form-group row">
+                           <div class="col-md-12">
+                              <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
+                           </div>
+                        </div>
+                       </div>
+                             
+                            
+                                
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            <!--end modal caja actual-->
+
+
      
         </main>
 </template>
@@ -327,7 +462,10 @@
             cienmil: 0 
                 },
             observacion_apertura:'sin ninguna novedad',  
-            arrayShowCajaUser:[],
+            estadoCajausers:'',
+            efectivo_ventas:0,
+            transferncia_Venta:0,
+            datafono_Venta:0,
 
             //cual es la categoria que quiero edit 
             categoria_id :0,
@@ -336,6 +474,7 @@
             //la data que regresa nuestro metodo listarCategoria se almacene en esta array
             arrayCategoria:[],
             modal : 0,
+            modalactual:0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
             tipoAccionButton : 0,
@@ -362,12 +501,35 @@
                 return resultado;
             },
 
+
+        currentDay() {
+            let curr = new Date();
+            return `${curr.getDay()}/${
+                curr.getMonth() + 1
+            }/${curr.getFullYear()}`;
+        },
+        currentHour() {
+            let curr = new Date();
+            let hour = curr.getHours();
+            let isPm = hour >= 12 ? true : false;
+            hour = hour > 12 ? hour - 12 : hour;
+            return `${hour < 10 ? "0" : ""}${hour}:${
+                curr.getMinutes() < 10 ? "0" : ""
+            }${curr.getMinutes()} ${isPm ? "pm" : "am"}`;
+        },
+
+
+            
+
         },
 
 
 
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
+
+
+
               
           listaCategoria(page, buscar, criterio){
               
@@ -432,9 +594,13 @@
                   let me=this;
                   axios.get('/caja/ShowCajaUser').then(function (response) {
 
-                    var respuestaaa=response.data;
-                    me.arrayShowCajaUser = respuesta.cajaOpen;
-                  //  me.arrayCategoria= respuestaaa.categorias.data;
+                    var respuestaaa=response.data.cajaOpen;
+                    me.estadoCajausers= respuestaaa;
+
+                    me.efectivo_ventas=response.data.Efectivo_de_Ventas;
+                    me.transferncia_Venta=response.data.transferencia_ventas;
+                    me.datafono_Venta=response.data.datafono_Ventas;
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -467,6 +633,7 @@
             cerrarModal(){
                 let me=this;
                 me.modal=0;
+                me.modalactual=0;
                 me.vaciarVariables();
               },
 
@@ -493,9 +660,16 @@
                                this.modal=1;
                                this.tituloModal='Cierre de caja';
                                this.tipoAccionButton=2;
-                               this.categoria_id=data['id'];
-                               this.nombre=data['nombre'];
-                               this.descripcion=data['descripcion'];
+                             break;
+                             }   
+
+
+                              case 'actual':
+                            {
+                               // console.log(data);
+                               this.modalactual=1;
+
+                               this.tituloModal='Total efectivo General';
                              break;
                              }   
                                  
@@ -507,7 +681,8 @@
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarCategoria
-      this.listaCategoria(1,this.buscar,this.criterio);     
+      this.listaCategoria(1,this.buscar,this.criterio); 
+      this.listarCajaAbierta();    
          }
     }
 </script>

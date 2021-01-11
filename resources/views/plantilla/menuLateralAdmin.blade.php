@@ -30,7 +30,7 @@
                                 <a class="nav-link" href="#"><i class="icon-basket-loaded"></i> Facturar</a>
                             </li>
                             <li @click="menu=6" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-notebook"></i> Clientes</a>
+                                <a class="nav-link" href="#"><i class="fa fa-group"></i> Clientes</a>
                             </li>
                         </ul>
                     </li>
@@ -65,18 +65,48 @@
                         </ul>
                     </li>
 
-                   
+                    
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-people"></i> Acceso</a>
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i>Documento de caja</a>
                         <ul class="nav-dropdown-items">
-                            <li @click="menu=7" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-user"></i> Usuarios</a>
+
+                        <li @click="menu=9" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Egreso (-)</a>
                             </li>
-                            <li @click="menu=8" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-user-following"></i> Roles</a>
+
+
+                           <li @click="menu=9" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por cobrar</a>
                             </li>
+                            <li @click="menu=10" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por pagar</a>
+                            </li>
+
+
+                            <li @click="menu=10" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cortesia</a>
+                            </li>
+
+                            
+                            <li @click="menu=10" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>gasto administrativo</a>
+                            </li>
+
+                            
+                            <li @click="menu=10" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Abono</a>
+                            </li>
+
+
                         </ul>
                     </li>
+
+
+                    <li @click="menu=12" class="nav-item">
+                        <a class="nav-link" href="#"><i class="icon-book-open"></i>Caja</a>
+                    </li>
+
+
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-pie-chart"></i> Informes</a>
                         <ul class="nav-dropdown-items">
@@ -111,49 +141,20 @@
                     </li>
 
 
-                    
-
-
-
-                    <li @click="menu=12" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-book-open"></i>Caja</a>
-                    </li>
-
-
-
-                    
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i>Documento de caja</a>
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-people"></i> Acceso</a>
                         <ul class="nav-dropdown-items">
-
-                           <li @click="menu=9" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por cobrar</a>
+                            <li @click="menu=7" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-user"></i> Usuarios</a>
                             </li>
-                            <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por pagar</a>
+                            <li @click="menu=8" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-user-following"></i> Roles</a>
                             </li>
-
-
-                            <li @click="menu=9" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Nomina</a>
-                            </li>
-                            <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cortesia</a>
-                            </li>
-
-                            
-                            <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>gasto administrativo</a>
-                            </li>
-
-                            
-                            <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Abono</a>
-                            </li>
-
-
                         </ul>
                     </li>
+
+
+
 
                     
                 </ul>

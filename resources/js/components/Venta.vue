@@ -172,8 +172,7 @@
                                                 <option value="0">Seleccione</option>
                                                 <option value="efectivo">EFECTIVO</option>
                                                 <option value="datafono">DATAFONO</option>
-                                                <option value="bancolombia">BANCOLOMBIA</option>
-                                                <option value="nequi">NEQUI</option>
+                                                <option value="transferencia">Transferencia <b>(nequi, bancolombia, daviplata otros)</b></option>
 
                                             </select>
                                     </div>
@@ -181,10 +180,10 @@
 
 
 
-                                <div class="col-md-4" v-if="forma_pago=='datafono' || forma_pago=='bancolombia' || forma_pago=='nequi'">
+                                <div class="col-md-4" v-if="forma_pago=='datafono' || forma_pago=='transferencia'">
                                     <div class="form-group"> 
                                         <label>Num Comprobante<span  class="validaridArticulo"   v-show="num_comprobante_pago==0">*</span></label>
-                                        <input type="text" class="form-control"  v-model="num_comprobante_pago" placeholder="002-2">
+                                        <input type="text" class="form-control"  v-model="num_comprobante_pago" placeholder="002-2, bancolombia, nequi etc">
                                     </div>
                                 </div>
 

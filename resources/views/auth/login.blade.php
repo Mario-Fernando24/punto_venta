@@ -14,7 +14,7 @@
               <p class="text-muted">Control de acceso a TenderPos</p>
               <div class="input-group mb-3 @error('usuario') is-invalid @enderror">
                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                <input type="text" name="usuario" value="{{old('usuario')}}" id="usuario" class="form-control" placeholder="Usuario">
+                <input type="text" name="usuario" value="{{old('usuario')}}"  id="usuario" class="form-control" placeholder="Usuario">
               </div>
               @if ($errors->has('usuario'))
                <span class="help-block">

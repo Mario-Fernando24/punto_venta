@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Caja;
+use App\Venta;
+use App\DetalleVenta;
 use DB;
 use Carbon\Carbon;
 
@@ -15,13 +17,51 @@ class CajaController extends Controller
     public function ShowCajaUser()
     {
         $cajaOpen = Caja::with('apertura_vendedor')
-        ->where('id_vendedor',\Auth::user()->id)->where('Cajaactual','abierto')->take(1)->get();
+        ->where('id_vendedor',\Auth::user()->id)->orderBy('idcaja', 'desc')->first();
+
+
+        $Efectivo_de_Ventas = Venta::where('id_usuario', \Auth::user()->id)
+        ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+        ->where('estado','registrado')
+        ->where('forma_pago','efectivo')
+        ->get()->sum('total');
+
+
+        $transferencia_ventas = Venta::where('id_usuario', \Auth::user()->id)
+        ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+        ->where('estado','registrado')
+        ->where('forma_pago','transferencia')
+        ->get()->sum('total');
+
+
+        $datafono_Ventas = Venta::where('id_usuario', \Auth::user()->id)
+        ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+        ->where('estado','registrado')
+        ->where('forma_pago','datafono')
+        ->get()->sum('total');
+
+
+     
+        if(!empty($cajaOpen)){
        
         return response()->json([
             'status' => 'ok',
             'cajaOpen' => $cajaOpen,
+            'Efectivo_de_Ventas'=>$Efectivo_de_Ventas,
+            'transferencia_ventas'=>$transferencia_ventas,
+            'datafono_Ventas'=>$datafono_Ventas,
         ], 200);
+        }else{
 
+        return response()->json([
+            'status' => 'primera apertura caja',
+            'cajaOpen' => 'new',
+            'Efectivo_de_Ventas'=>'0',
+            'transferencia_ventas'=>'0',
+            'datafono_Ventas'=>'0',
+        ], 404);
+
+        }
 
     }  
 
@@ -56,7 +96,7 @@ class CajaController extends Controller
 
         $mytime=Carbon::now('America/Bogota');        
         $cajaUpdate = Caja::findOrFail($request->id);
-        $cajaUpdate->Cajaactual='abierto';
+        $cajaUpdate->Cajaactual='cerrado';
         $cajaUpdate->obs_final=$request->get('obs_final');
         $cajaUpdate->dinero_final=json_encode($request->get('dinero_final'));
         $cajaUpdate->updated_at=$mytime;

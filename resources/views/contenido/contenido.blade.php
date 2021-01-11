@@ -55,7 +55,7 @@
                     </template>
 
                     <template v-if="menu==9">
-                    <h1>Reporte de ingresoAAA</1>
+                    <Egreso></Egreso>
                     </template>
 
                     <template v-if="menu==10">

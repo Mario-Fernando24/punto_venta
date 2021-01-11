@@ -17,6 +17,7 @@ Vue.component('Venta', require('./components/Venta.vue').default);
 Vue.component('Dashboard', require('./components/Dashboard.vue').default);
 Vue.component('Caja', require('./components/Caja.vue').default);
 
+Vue.component('Egreso', require('./components/DocumentoCaja/Egreso.vue').default);
 
 
 /**
