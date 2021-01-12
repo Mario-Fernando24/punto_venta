@@ -354,7 +354,7 @@
                                          <tr>
                                             <th>(-) Total de Egreso:</th>
                                             <td></td>
-                                            <td></td>
+                                            <td v-text="Intl.NumberFormat().format(egreso_venta)"></td>
                                          </tr>
 
 
@@ -369,7 +369,7 @@
                                         <tr class="totalresultado" >
                                              <td></td>
                                              <td align="right"><strong>Efectivo en caja :</strong></td>
-                                             <td class="text-error" v-text="Intl.NumberFormat().format(efectivo_ventas+parseInt(estadoCajausers.Cajainicial))"></td>
+                                             <td class="text-error" v-text="Intl.NumberFormat().format((efectivo_ventas+parseInt(estadoCajausers.Cajainicial))-egreso_venta)"></td>
                                          </tr><br>
 
 
@@ -466,6 +466,7 @@
             efectivo_ventas:0,
             transferncia_Venta:0,
             datafono_Venta:0,
+            egreso_venta:0,
 
             //cual es la categoria que quiero edit 
             categoria_id :0,
@@ -600,6 +601,8 @@
                     me.efectivo_ventas=response.data.Efectivo_de_Ventas;
                     me.transferncia_Venta=response.data.transferencia_ventas;
                     me.datafono_Venta=response.data.datafono_Ventas;
+                    me.egreso_venta=response.data.Egreso;
+                    
 
                     })
                     .catch(function (error) {

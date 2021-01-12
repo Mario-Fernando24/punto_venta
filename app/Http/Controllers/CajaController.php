@@ -68,6 +68,7 @@ class CajaController extends Controller
             'Efectivo_de_Ventas'=>'0',
             'transferencia_ventas'=>'0',
             'datafono_Ventas'=>'0',
+            'Egreso'=>'0',
         ], 404);
 
         }
