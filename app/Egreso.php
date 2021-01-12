@@ -16,6 +16,7 @@ class Egreso extends Model
             'tipo_egreso',
             'valor_egreso',
             'motivo_egreso',
+            'estado'
         ];
 
 

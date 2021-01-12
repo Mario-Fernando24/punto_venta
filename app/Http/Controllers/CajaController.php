@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Caja;
 use App\Venta;
+use App\Egreso;
 use App\DetalleVenta;
 use DB;
 use Carbon\Carbon;
@@ -41,6 +42,13 @@ class CajaController extends Controller
         ->get()->sum('total');
 
 
+
+        $Egreso = Egreso::where('id_users', \Auth::user()->id)
+        ->where('id_caja', $cajaOpen->idcaja)
+        ->where('estado',1)
+        ->get()->sum('valor_egreso');
+
+
      
         if(!empty($cajaOpen)){
        
@@ -50,6 +58,7 @@ class CajaController extends Controller
             'Efectivo_de_Ventas'=>$Efectivo_de_Ventas,
             'transferencia_ventas'=>$transferencia_ventas,
             'datafono_Ventas'=>$datafono_Ventas,
+            'Egreso'=>$Egreso,
         ], 200);
         }else{
 

@@ -4352,6 +4352,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4361,10 +4377,11 @@ __webpack_require__.r(__webpack_exports__);
       modal: 0,
       tituloModal: '',
       tipoAccionButton: 0,
-      arrayCategoria: [],
+      arraEgreso: [],
       tipo_egreso: 'nomina',
       valor_egreso: '',
       motivo_egreso: '',
+      validar_caja: '',
       errorEgreso: 0,
       errorMensajeEgresoArray: [],
       pagination: {
@@ -4414,10 +4431,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     listarEgreso: function listarEgreso(page, buscar, criterio) {
       var me = this;
-      var url = '/categoria/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = '/egreso/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
-        me.arrayCategoria = respuesta.categorias.data;
+        me.arraEgreso = respuesta.GetEgreso.data;
         me.pagination = respuesta.pagination;
       })["catch"](function (error) {
         console.log(error);
@@ -4428,9 +4445,45 @@ __webpack_require__.r(__webpack_exports__);
       me.pagination.current_page = page;
       me.listarEgreso(page, buscar, criterio);
     },
+    validateOpenCaja: function validateOpenCaja() {
+      var me = this;
+      axios.get('egreso/ValidateOpenCaja').then(function (response) {
+        var respuesta = response.data;
+        me.validar_caja = respuesta.status;
+
+        if (respuesta.status == 'error') {
+          me.ShowModalAperturaCaja();
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     cerrarModal: function cerrarModal() {
       this.modal = 0;
       this.tituloModal = '';
+    },
+    ShowModalAperturaCaja: function ShowModalAperturaCaja() {
+      var swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-info',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      });
+      swalWithBootstrapButtons.fire({
+        title: 'apertura de caja Cerrada!',
+        text: "Estas seguro de Abrir la caja ?",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Open Caja',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.isConfirmed) {//pasar al otro componente
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
+        }
+      });
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -4456,13 +4509,18 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
-      axios.post('/categoria/registrar', {
-        'nombre': this.nombre,
-        'descripcion': this.descripcion
+      axios.post('/egreso/registerDocumentoCaja', {
+        'tipo_egreso': this.tipo_egreso,
+        'valor_egreso': this.valor_egreso,
+        'motivo_egreso': this.motivo_egreso
       }).then(function (response) {
-        me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+        var respuesta = response.data;
 
-        me.listaCategoria(1, '', 'nombre');
+        if (respuesta.status == 'ok') {
+          me.listarEgreso(1, '', 'nombre');
+          me.cerrarModal();
+          Swal.fire('Exitoso?', 'Documento de caja Ingresado correctamenta', 'success');
+        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4475,10 +4533,46 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.motivo_egreso) this.errorMensajeEgresoArray.push("El campo motivo egreso es obligatorio");
       if (this.errorMensajeEgresoArray.length) this.errorEgreso = 1;
       return this.errorEgreso;
+    },
+    AnularDocumentoDeCaja: function AnularDocumentoDeCaja(id, tipo) {
+      var _this = this;
+
+      var swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      });
+      swalWithBootstrapButtons.fire({
+        title: 'Estas seguro que desea anular esta ' + tipo,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          var me = _this;
+          axios.put('/egreso/AnularDocumentoCaja', {
+            'id': id
+          }).then(function (response) {
+            me.listarEgreso(1, '', 'nombre');
+            swalWithBootstrapButtons.fire('Anulado', 'El Documento ha sido Anulado correctamente', 'success');
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
+        }
+      });
     }
   },
   mounted: function mounted() {
     this.listarEgreso(1, this.buscar, this.criterio);
+    this.validateOpenCaja();
   }
 });
 
@@ -52152,272 +52246,305 @@ var render = function() {
         _c("div", { staticClass: "card-header" }, [
           _c("i", { staticClass: "fa fa-align-justify" }),
           _vm._v(" Egreso\n                    "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary",
-              attrs: { type: "button" },
-              on: {
-                click: function($event) {
-                  return _vm.abrirModal("egreso", "documento")
-                }
-              }
-            },
-            [
-              _c("i", { staticClass: "icon-plus" }),
-              _vm._v(" Documento de caja\n                    ")
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("div", { staticClass: "input-group" }, [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.criterio,
-                        expression: "criterio"
-                      }
-                    ],
-                    staticClass: "form-control col-md-3",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.criterio = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "nombre" } }, [
-                      _vm._v("Nombre")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "descripcion" } }, [
-                      _vm._v("Descripción")
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.buscar,
-                      expression: "buscar"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Buscar..." },
-                  domProps: { value: _vm.buscar },
+          _vm.validar_caja == "ok"
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button" },
                   on: {
-                    keyup: function($event) {
-                      if (
-                        !$event.type.indexOf("key") &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
-                      }
-                      return _vm.listarEgreso(1, _vm.buscar, _vm.criterio)
-                    },
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.buscar = $event.target.value
+                    click: function($event) {
+                      return _vm.abrirModal("egreso", "documento")
                     }
                   }
-                }),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "submit" },
-                    on: {
-                      click: function($event) {
-                        return _vm.listarEgreso(1, _vm.buscar, _vm.criterio)
+                },
+                [
+                  _c("i", { staticClass: "icon-plus" }),
+                  _vm._v(" Documento de caja\n                    ")
+                ]
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _vm.validar_caja == "error"
+          ? _c("div", { staticClass: "card-body" }, [_vm._m(1)])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.validar_caja == "ok"
+          ? _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "form-group row" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "input-group" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.criterio,
+                            expression: "criterio"
+                          }
+                        ],
+                        staticClass: "form-control col-md-3",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.criterio = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "nombre" } }, [
+                          _vm._v("Nombre")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "descripcion" } }, [
+                          _vm._v("Descripción")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.buscar,
+                          expression: "buscar"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "Buscar..." },
+                      domProps: { value: _vm.buscar },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.listarEgreso(1, _vm.buscar, _vm.criterio)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.buscar = $event.target.value
+                        }
                       }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-search" }), _vm._v(" Buscar")]
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "table-responsive" }, [
-            _c(
-              "table",
-              { staticClass: "table table-bordered table-striped table-sm" },
-              [
-                _vm._m(1),
-                _vm._v(" "),
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" },
+                        on: {
+                          click: function($event) {
+                            return _vm.listarEgreso(1, _vm.buscar, _vm.criterio)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-search" }),
+                        _vm._v(" Buscar")
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "table-responsive" }, [
                 _c(
-                  "tbody",
-                  _vm._l(_vm.arrayCategoria, function(categoria) {
-                    return _c("tr", { key: categoria.id }, [
-                      _c(
-                        "td",
-                        [
+                  "table",
+                  {
+                    staticClass: "table table-bordered table-striped table-sm"
+                  },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.arraEgreso, function(egreso) {
+                        return _c("tr", { key: egreso.id }, [
                           _c(
-                            "button",
+                            "td",
+                            [
+                              egreso.estado
+                                ? [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-outline-danger btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.AnularDocumentoDeCaja(
+                                              egreso.idegreso,
+                                              egreso.tipo_egreso
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "icon-trash" })]
+                                    )
+                                  ]
+                                : [_vm._m(3, true)]
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: {
+                              textContent: _vm._s(egreso.tipo_egreso)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: {
+                              textContent: _vm._s(egreso.valor_egreso)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: {
+                              textContent: _vm._s(egreso.motivo_egreso)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            domProps: {
+                              textContent: _vm._s(egreso.get_user.usuario)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("td", [
+                            egreso.estado == 1
+                              ? _c("div", [
+                                  _c(
+                                    "span",
+                                    { staticClass: "badge badge-success" },
+                                    [_vm._v("Activo")]
+                                  )
+                                ])
+                              : _c("div", [
+                                  _c(
+                                    "span",
+                                    { staticClass: "badge badge-danger" },
+                                    [_vm._v("Desactivado")]
+                                  )
+                                ])
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("nav", [
+                _c(
+                  "ul",
+                  { staticClass: "pagination" },
+                  [
+                    _vm.pagination.current_page > 1
+                      ? _c("li", { staticClass: "page-item" }, [
+                          _c(
+                            "a",
                             {
-                              staticClass: "btn btn-outline-warning btn-sm",
-                              attrs: { type: "button", "data-toggle": "modal" },
+                              staticClass: "page-link",
+                              attrs: { href: "#" },
                               on: {
                                 click: function($event) {
-                                  return _vm.abrirModal(
-                                    "egreso",
-                                    "actualizar",
-                                    categoria
+                                  $event.preventDefault()
+                                  return _vm.cambiarPagina(
+                                    _vm.pagination.current_page - 1,
+                                    _vm.buscar,
+                                    _vm.criterio
                                   )
                                 }
                               }
                             },
-                            [_c("i", { staticClass: "icon-pencil" })]
-                          ),
-                          _vm._v(
-                            "  \n                                    \n                                    "
-                          ),
-                          categoria.condicion
-                            ? [_vm._m(2, true)]
-                            : [_vm._m(3, true)]
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(categoria.nombre) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(categoria.descripcion) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", [
-                        categoria.condicion == 1
-                          ? _c("div", [
-                              _c(
-                                "span",
-                                { staticClass: "badge badge-success" },
-                                [_vm._v("Activo")]
-                              )
-                            ])
-                          : _c("div", [
-                              _c(
-                                "span",
-                                { staticClass: "badge badge-danger" },
-                                [_vm._v("Desactivado")]
-                              )
-                            ])
-                      ])
-                    ])
-                  }),
-                  0
+                            [_vm._v("Ant")]
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.pagesNumber, function(page) {
+                      return _c(
+                        "li",
+                        {
+                          key: page,
+                          staticClass: "page-item",
+                          class: [page == _vm.isActived ? "active" : ""]
+                        },
+                        [
+                          _c("a", {
+                            staticClass: "page-link",
+                            attrs: { href: "#" },
+                            domProps: { textContent: _vm._s(page) },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.cambiarPagina(
+                                  page,
+                                  _vm.buscar,
+                                  _vm.criterio
+                                )
+                              }
+                            }
+                          })
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    _vm.pagination.current_page < _vm.pagination.last_page
+                      ? _c("li", { staticClass: "page-item" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "page-link",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.cambiarPagina(
+                                    _vm.pagination.current_page + 1,
+                                    _vm.buscar,
+                                    _vm.criterio
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Sig")]
+                          )
+                        ])
+                      : _vm._e()
+                  ],
+                  2
                 )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("nav", [
-            _c(
-              "ul",
-              { staticClass: "pagination" },
-              [
-                _vm.pagination.current_page > 1
-                  ? _c("li", { staticClass: "page-item" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "page-link",
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.cambiarPagina(
-                                _vm.pagination.current_page - 1,
-                                _vm.buscar,
-                                _vm.criterio
-                              )
-                            }
-                          }
-                        },
-                        [_vm._v("Ant")]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._l(_vm.pagesNumber, function(page) {
-                  return _c(
-                    "li",
-                    {
-                      key: page,
-                      staticClass: "page-item",
-                      class: [page == _vm.isActived ? "active" : ""]
-                    },
-                    [
-                      _c("a", {
-                        staticClass: "page-link",
-                        attrs: { href: "#" },
-                        domProps: { textContent: _vm._s(page) },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.cambiarPagina(
-                              page,
-                              _vm.buscar,
-                              _vm.criterio
-                            )
-                          }
-                        }
-                      })
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                _vm.pagination.current_page < _vm.pagination.last_page
-                  ? _c("li", { staticClass: "page-item" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "page-link",
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.cambiarPagina(
-                                _vm.pagination.current_page + 1,
-                                _vm.buscar,
-                                _vm.criterio
-                              )
-                            }
-                          }
-                        },
-                        [_vm._v("Sig")]
-                      )
-                    ])
-                  : _vm._e()
-              ],
-              2
-            )
-          ])
-        ])
+              ])
+            ])
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),
@@ -52690,30 +52817,33 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Opciones")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Nombre")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Descripción")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Estado")])
-      ])
+    return _c("div", { staticClass: "table-responsive" }, [
+      _c(
+        "table",
+        { staticClass: "table table-bordered table-striped table-sm" },
+        [_c("tbody", [_c("h1", [_vm._v("Caja Cerrada")])])]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-outline-danger btn-sm",
-        attrs: { type: "button" }
-      },
-      [_c("i", { staticClass: "icon-trash" })]
-    )
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Opción")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Tipo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Valor")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Motivo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Usuario")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Estado")])
+      ])
+    ])
   },
   function() {
     var _vm = this

@@ -208,7 +208,10 @@
 
 
         Route::prefix('egreso')->group(function() {
-            Route::get('registerDocumentoCaja', 'EgresoController@registerDocumentoCaja');
+            Route::get('index', 'EgresoController@index');            
+            Route::post('registerDocumentoCaja', 'EgresoController@registerDocumentoCaja');
+            Route::get('ValidateOpenCaja', 'EgresoController@ValidateOpenCaja'); 
+            Route::put('AnularDocumentoCaja', 'EgresoController@AnularDocumentoCaja');
         });
 
         

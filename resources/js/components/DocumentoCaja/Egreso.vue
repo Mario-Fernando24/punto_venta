@@ -9,12 +9,25 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Egreso
-                        <button type="button"  @click="abrirModal('egreso','documento')" class="btn btn-secondary">
+                        <button v-if="validar_caja=='ok'" type="button"  @click="abrirModal('egreso','documento')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Documento de caja
                         </button>
 
                     </div>
-                    <div class="card-body">
+
+
+                    <div class="card-body" v-if="validar_caja=='error'">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-striped table-sm">
+                            <tbody>
+                                <h1>Caja Cerrada</h1>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+
+                    <div class="card-body" v-if="validar_caja=='ok'">
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="input-group">
@@ -32,21 +45,20 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opciones</th>
-                                    <th>Nombre</th>
-                                    <th>Descripción</th>
+                                    <th>Opción</th>
+                                    <th>Tipo</th>
+                                    <th>Valor</th>
+                                    <th>Motivo</th>
+                                    <th>Usuario</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="categoria in arrayCategoria" :key="categoria.id">
+                                <tr v-for="egreso in arraEgreso" :key="egreso.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('egreso', 'actualizar',categoria)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
-                                          <i class="icon-pencil"></i>
-                                        </button> &nbsp;
                                         
-                                        <template v-if="categoria.condicion"> 
-                                        <button type="button"  class="btn btn-outline-danger btn-sm" >
+                                        <template v-if="egreso.estado"> 
+                                        <button @click="AnularDocumentoDeCaja(egreso.idegreso, egreso.tipo_egreso)" type="button"  class="btn btn-outline-danger btn-sm" >
                                           <i class="icon-trash"></i>
                                         </button>
                                         </template>
@@ -58,11 +70,15 @@
 
                                         </td>
 
-                                        <td v-text="categoria.nombre"></td>
-                                        <td v-text="categoria.descripcion"></td>
+                                        <td v-text="egreso.tipo_egreso"></td>
+                                        <td v-text="egreso.valor_egreso"></td>
+                                        <td v-text="egreso.motivo_egreso"></td>
+                                        <td v-text="egreso.get_user.usuario"></td>
+
+
 
                                         <td>
-                                        <div v-if="categoria.condicion==1">
+                                        <div v-if="egreso.estado==1">
                                         <span class="badge badge-success">Activo</span>
                                         </div>
 
@@ -78,7 +94,7 @@
                         <nav>
 
                                 <ul class="pagination">
-                                                                    <!--si la pagina actual > que 1-->
+                                                                <!--si la pagina actual > que 1-->
 
                                 <li class="page-item" v-if="pagination.current_page > 1 ">
                                     <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
@@ -173,12 +189,13 @@
             modal : 0,
             tituloModal : '',
             tipoAccionButton : 0,
-            arrayCategoria:[],
+            arraEgreso:[],
 
 
             tipo_egreso:'nomina',
             valor_egreso:'',
             motivo_egreso:'',
+            validar_caja:'',
             errorEgreso : 0,
             errorMensajeEgresoArray : [],
 
@@ -231,18 +248,16 @@
         methods: {
               
           listarEgreso(page, buscar, criterio){
-              
                  let me=this;
-                  var url= '/categoria/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                  var url= '/egreso/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
-                    me.arrayCategoria = respuesta.categorias.data;
+                    me.arraEgreso = respuesta.GetEgreso.data;
                     me.pagination = respuesta.pagination;
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-
               },
           
                 cambiarPagina(page, buscar, criterio){
@@ -251,13 +266,60 @@
                 me.listarEgreso(page, buscar, criterio);
             },
 
+             validateOpenCaja(){
 
+                  let me=this;
+                  axios.get('egreso/ValidateOpenCaja').then(function (response) {
+                    var respuesta=response.data;
+                    me.validar_caja=respuesta.status;
+                        if(respuesta.status=='error')
+                        {   
+                            me.ShowModalAperturaCaja();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
 
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
 
               },
+
+
+            ShowModalAperturaCaja(){
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-info',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'apertura de caja Cerrada!',
+                text: "Estas seguro de Abrir la caja ?",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Open Caja',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+                 //pasar al otro componente
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    '',
+                    'error'
+                    )
+                }
+                })
+           },
 
 
             abrirModal(modelo, accion, data=[]){
@@ -281,20 +343,29 @@
               },
 
 
-          registrarEgreso(){
+            registrarEgreso(){
 
                   if(this.validarEgreso()){
                       return ;
                   }
                   let me=this;
-                  axios.post('/categoria/registrar', {
-                    'nombre':  this.nombre,
-                    'descripcion': this.descripcion
+                  axios.post('/egreso/registerDocumentoCaja', {
+                    'tipo_egreso':  this.tipo_egreso,
+                    'valor_egreso': this.valor_egreso,
+                    'motivo_egreso':this.motivo_egreso,
                 })
                 .then(function (response) {
-                    me.cerrarModal();
-                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    me.listaCategoria(1,'','nombre');
+
+                      var respuesta=response.data;
+                        if(respuesta.status=='ok'){
+                            me.listarEgreso(1,'','nombre');
+                            me.cerrarModal();
+                            Swal.fire(
+                            'Exitoso?',
+                            'Documento de caja Ingresado correctamenta',
+                            'success'
+                            )
+                    }
                 }) 
                 .catch(function (error) {
                     console.log(error);
@@ -302,7 +373,7 @@
 
               },
 
-               validarEgreso(){
+            validarEgreso(){
                 this.errorEgreso=0;
                  this.errorMensajeEgresoArray=[];
 
@@ -313,10 +384,61 @@
                  return this.errorEgreso;
               },
 
+               AnularDocumentoDeCaja(id,tipo){
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'Estas seguro que desea anular esta '+tipo,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+
+                  let me=this;
+                axios.put('/egreso/AnularDocumentoCaja', {
+                  'id' : id
+               })
+                .then(function (response) {
+
+                    me.listarEgreso(1,'','nombre');
+
+                    swalWithBootstrapButtons.fire(
+                    'Anulado',
+                    'El Documento ha sido Anulado correctamente',
+                    'success'
+                    )
+                })
+                  .catch(function (error) {
+                      console.log(error);
+                  });
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    '',
+                    'error'
+                    )
+                }
+                })
+           },
+
 
         },
         mounted() {
-      this.listarEgreso(1,this.buscar,this.criterio);     
+      this.listarEgreso(1,this.buscar,this.criterio);    
+      this.validateOpenCaja(); 
          }
     }
 </script>
