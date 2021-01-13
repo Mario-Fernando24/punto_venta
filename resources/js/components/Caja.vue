@@ -402,14 +402,14 @@
                                           <tr>
                                             <th>Credito:</th>
                                             <td></td>
-                                            <td></td>
+                                            <td v-text="Intl.NumberFormat().format(credito_venta)"></td>
                                          </tr>
 
 
                                         <tr class="totalresultado" >
                                              <td></td>
                                              <td align="right"><strong>Total de venta :</strong></td>
-                                             <td class="text-error" v-text="Intl.NumberFormat().format(efectivo_ventas+datafono_Venta+transferncia_Venta)"></td>
+                                             <td class="text-error" v-text="Intl.NumberFormat().format(efectivo_ventas+datafono_Venta+transferncia_Venta+credito_venta)"></td>
                                          </tr>
 
 
@@ -473,6 +473,7 @@
             transferncia_Venta:0,
             datafono_Venta:0,
             egreso_venta:0,
+            credito_venta:0,
 
             //cual es la categoria que quiero edit 
             categoria_id :0,
@@ -608,6 +609,7 @@
                     me.transferncia_Venta=response.data.transferencia_ventas;
                     me.datafono_Venta=response.data.datafono_Ventas;
                     me.egreso_venta=response.data.Egreso;
+                    me.credito_venta=response.data.Credito;
                     
 
                     })

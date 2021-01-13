@@ -42,11 +42,22 @@ class CajaController extends Controller
         ->get()->sum('total');
 
 
+        $Credito = Venta::where('id_usuario', \Auth::user()->id)
+        ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+        ->where('estado','registrado')
+        ->where('forma_pago','credito')
+        ->get()->sum('total');
+
+
 
         $Egreso = Egreso::where('id_users', \Auth::user()->id)
         ->where('id_caja', $cajaOpen->idcaja)
         ->where('estado',1)
         ->get()->sum('valor_egreso');
+
+
+
+
 
 
      
@@ -59,6 +70,7 @@ class CajaController extends Controller
             'transferencia_ventas'=>$transferencia_ventas,
             'datafono_Ventas'=>$datafono_Ventas,
             'Egreso'=>$Egreso,
+            'Credito'=>$Credito,
         ], 200);
         }else{
 
@@ -69,6 +81,7 @@ class CajaController extends Controller
             'transferencia_ventas'=>'0',
             'datafono_Ventas'=>'0',
             'Egreso'=>'0',
+            'Credito'=>'0',
         ], 404);
 
         }

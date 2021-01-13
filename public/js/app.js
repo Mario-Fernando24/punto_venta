@@ -2930,6 +2930,7 @@ __webpack_require__.r(__webpack_exports__);
       transferncia_Venta: 0,
       datafono_Venta: 0,
       egreso_venta: 0,
+      credito_venta: 0,
       //cual es la categoria que quiero edit 
       categoria_id: 0,
       nombre: '',
@@ -3020,6 +3021,7 @@ __webpack_require__.r(__webpack_exports__);
         me.transferncia_Venta = response.data.transferencia_ventas;
         me.datafono_Venta = response.data.datafono_Ventas;
         me.egreso_venta = response.data.Egreso;
+        me.credito_venta = response.data.Credito;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -50656,12 +50658,26 @@ var render = function() {
                                 })
                               ]),
                               _vm._v(" "),
-                              _vm._m(11),
+                              _c("tr", [
+                                _c("th", [_vm._v("Credito:")]),
+                                _vm._v(" "),
+                                _c("td"),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.credito_venta
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(12),
+                                _vm._m(11),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -50670,7 +50686,8 @@ var render = function() {
                                       Intl.NumberFormat().format(
                                         _vm.efectivo_ventas +
                                           _vm.datafono_Venta +
-                                          _vm.transferncia_Venta
+                                          _vm.transferncia_Venta +
+                                          _vm.credito_venta
                                       )
                                     )
                                   }
@@ -50829,18 +50846,6 @@ var staticRenderFns = [
       _c("td"),
       _vm._v(" "),
       _c("td", [_c("strong", [_vm._v("Valor")])])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Credito:")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td")
     ])
   },
   function() {
