@@ -49508,7 +49508,7 @@ var render = function() {
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
           _c("i", { staticClass: "fa fa-align-justify" }),
-          _vm._v(" Cajas\n                        "),
+          _vm._v(" Caja\n                        "),
           this.estadoCajausers.Cajaactual != "abierto"
             ? _c(
                 "button",
@@ -49542,7 +49542,7 @@ var render = function() {
                 },
                 [
                   _c("i", { staticClass: "icon-doc" }),
-                  _vm._v(" Caja Actual\n                        ")
+                  _vm._v(" Mostrar cuadre de caja \n                        ")
                 ]
               )
             : _vm._e(),

@@ -74,16 +74,9 @@
                                 <a class="nav-link" href="#"><i class="icon-chart"></i>Egreso (-)</a>
                             </li>
 
-                           <li @click="menu=9" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por cobrar</a>
-                            </li>
-                            <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por pagar</a>
-                            </li>
-
                             
                             <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Abono</a>
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Ingreso (+)</a>
                             </li>
 
 
@@ -113,7 +106,7 @@
 
                             
                             <li  class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i> Ingresos Anuladas</a>
+                                <a class="nav-link" href="#"><i class="icon-chart"></i>Ingresos Anuladas</a>
                             </li>
                             
                             <li  class="nav-item">

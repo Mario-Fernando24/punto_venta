@@ -8,14 +8,14 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Cajas
+                        <i class="fa fa-align-justify"></i> Caja
                         <button v-if="this.estadoCajausers.Cajaactual!='abierto'" type="button"  @click="abrirCaja('apertura','registrar')" class="btn btn-info">
                             <i class="icon-plus"></i>&nbsp;Apertura de caja
                         </button>
 
 
                         <button v-if="this.estadoCajausers.Cajaactual=='abierto'" type="button" class="btn btn-warning" @click="abrirCaja('apertura','actual')">
-                            <i class="icon-doc"></i>&nbsp;Caja Actual
+                            <i class="icon-doc"></i>&nbsp;Mostrar cuadre de caja 
                         </button>
 
                         <button v-if="this.estadoCajausers.Cajaactual=='abierto'" type="button" class="btn btn-danger" @click="abrirCaja('apertura','cierre')">
