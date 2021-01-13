@@ -28,6 +28,12 @@ class Credito extends Model
     public function clienteCredito()
     {
         return $this->belongsTo(Persona::class,'idCliente');
+    }
+
+    public function detallesVentaCredito()
+    {
+        return $this->hasMany(DetalleVenta::class,'id_venta','idVenta');
         
     }
+
 }
