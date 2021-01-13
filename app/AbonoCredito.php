@@ -8,7 +8,7 @@ class AbonoCredito extends Model
 {
     
     protected $table = 'abono_creditos';
-    protected $primaryKey = 'idCredito';
+    protected $primaryKey = 'id';
     
     protected $fillable = [
         'id',
@@ -18,4 +18,16 @@ class AbonoCredito extends Model
         'observacion',
         'estado',
     ];
+
+
+    public function Credito()
+    {
+        return $this->belongsTo(Credito::class,'id_Credito');
+        
+    }
+
+    public function UserIngresado()
+    {
+        return $this->belongsTo(User::class,'idusers');
+    }
 }
