@@ -59,7 +59,7 @@
                     </template>
 
                     <template v-if="menu==10">
-                    <h1>Reporte de ventaSSSSS</1>
+                    <Credito></Credito>
                     </template>
 
                     <template v-if="menu==11">
