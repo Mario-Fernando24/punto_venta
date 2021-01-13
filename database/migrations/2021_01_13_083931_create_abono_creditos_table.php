@@ -19,7 +19,7 @@ class CreateAbonoCreditosTable extends Migration
             $table->unsignedBigInteger('idusers');
             $table->decimal('montoAbonar',11,2)->nullable();
             $table->string('observacion',100)->nullable();
-            $table->boolean('estado')->default(0);
+            $table->boolean('estado')->default(1);
             $table->timestamps();
 
 

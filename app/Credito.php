@@ -18,4 +18,16 @@ class Credito extends Model
         'observacion',
         'estado',
     ];
+
+    public function ventaCredito()
+    {
+        return $this->belongsTo(Venta::class,'idVenta');
+        
+    }
+
+    public function clienteCredito()
+    {
+        return $this->belongsTo(Persona::class,'idCliente');
+        
+    }
 }
