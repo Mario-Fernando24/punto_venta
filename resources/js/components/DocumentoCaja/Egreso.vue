@@ -32,8 +32,9 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="nombre">Nombre</option>
-                                      <option value="descripcion">Descripción</option>
+                                      <option value="tipo_egreso">Tipo Documento</option>
+                                      <option value="valor_egreso">Valor</option>
+                                      <option value="motivo_egreso">motivo Documento</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarEgreso(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
                                     <button type="submit" @click="listarEgreso(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
@@ -209,7 +210,7 @@
             },
 
             offset : 3,
-            criterio : 'nombre',
+            criterio : 'tipo_egreso',
             buscar  : '',
           }
         },
@@ -274,7 +275,10 @@
                     me.validar_caja=respuesta.status;
                         if(respuesta.status=='error')
                         {   
+
                             me.ShowModalAperturaCaja();
+
+
                         }
                     })
                     .catch(function (error) {

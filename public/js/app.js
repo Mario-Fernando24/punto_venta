@@ -2900,6 +2900,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4370,6 +4376,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4395,7 +4402,7 @@ __webpack_require__.r(__webpack_exports__);
         'to': 0
       },
       offset: 3,
-      criterio: 'nombre',
+      criterio: 'tipo_egreso',
       buscar: ''
     };
   },
@@ -50649,10 +50656,12 @@ var render = function() {
                                 })
                               ]),
                               _vm._v(" "),
+                              _vm._m(11),
+                              _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(11),
+                                _vm._m(12),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -50820,6 +50829,18 @@ var staticRenderFns = [
       _c("td"),
       _vm._v(" "),
       _c("td", [_c("strong", [_vm._v("Valor")])])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Credito:")]),
+      _vm._v(" "),
+      _c("td"),
+      _vm._v(" "),
+      _c("td")
     ])
   },
   function() {
@@ -52309,12 +52330,16 @@ var render = function() {
                         }
                       },
                       [
-                        _c("option", { attrs: { value: "nombre" } }, [
-                          _vm._v("Nombre")
+                        _c("option", { attrs: { value: "tipo_egreso" } }, [
+                          _vm._v("Tipo Documento")
                         ]),
                         _vm._v(" "),
-                        _c("option", { attrs: { value: "descripcion" } }, [
-                          _vm._v("Descripción")
+                        _c("option", { attrs: { value: "valor_egreso" } }, [
+                          _vm._v("Valor")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "motivo_egreso" } }, [
+                          _vm._v("motivo Documento")
                         ])
                       ]
                     ),
@@ -57773,6 +57798,10 @@ var render = function() {
                               _vm._v("DATAFONO")
                             ]),
                             _vm._v(" "),
+                            _c("option", { attrs: { value: "credito" } }, [
+                              _vm._v("CREDITO")
+                            ]),
+                            _vm._v(" "),
                             _vm._m(2)
                           ]
                         )
@@ -58998,8 +59027,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("option", { attrs: { value: "transferencia" } }, [
-      _vm._v("Transferencia "),
-      _c("b", [_vm._v("(nequi, bancolombia, daviplata otros)")])
+      _vm._v("TRANSFERENCIA "),
+      _c("b", [_vm._v(" (nequi, bancolombia, daviplata otros)")])
     ])
   },
   function() {

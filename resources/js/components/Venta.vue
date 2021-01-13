@@ -172,8 +172,8 @@
                                                 <option value="0">Seleccione</option>
                                                 <option value="efectivo">EFECTIVO</option>
                                                 <option value="datafono">DATAFONO</option>
-                                                <option value="transferencia">Transferencia <b>(nequi, bancolombia, daviplata otros)</b></option>
-
+                                                <option value="credito">CREDITO</option>
+                                                <option value="transferencia">TRANSFERENCIA <b> (nequi, bancolombia, daviplata otros)</b></option>
                                             </select>
                                     </div>
                                 </div>

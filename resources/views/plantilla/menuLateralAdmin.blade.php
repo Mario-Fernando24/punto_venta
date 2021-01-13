@@ -74,22 +74,11 @@
                                 <a class="nav-link" href="#"><i class="icon-chart"></i>Egreso (-)</a>
                             </li>
 
-
                            <li @click="menu=9" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por cobrar</a>
                             </li>
                             <li @click="menu=10" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-chart"></i>Cuentas por pagar</a>
-                            </li>
-
-
-                            <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Cortesia</a>
-                            </li>
-
-                            
-                            <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>gasto administrativo</a>
                             </li>
 
                             

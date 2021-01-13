@@ -399,6 +399,12 @@
                                             <td v-text="Intl.NumberFormat().format(transferncia_Venta)"></td>
                                          </tr>
 
+                                          <tr>
+                                            <th>Credito:</th>
+                                            <td></td>
+                                            <td></td>
+                                         </tr>
+
 
                                         <tr class="totalresultado" >
                                              <td></td>
