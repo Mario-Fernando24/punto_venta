@@ -214,6 +214,10 @@
             Route::put('AnularDocumentoCaja', 'EgresoController@AnularDocumentoCaja');
         });
 
+        Route::prefix('credito')->group(function() {
+            Route::get('index', 'ControllerCredito@index');            
+        });
+
         
              
     });  //and middleware administrador
