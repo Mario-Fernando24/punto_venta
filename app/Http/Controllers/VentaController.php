@@ -7,6 +7,7 @@ use App\DetalleVenta;
 use App\Articulo;
 use App\Persona;
 use App\Caja;
+use App\Credito;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -146,14 +147,9 @@ class VentaController extends Controller
        ->where('id_vendedor',\Auth::user()->id)
        ->where('Cajaactual','abierto')->first();
 
-       
-
-
        try{
 
-
-
-          $venta = Venta::create([
+        $venta = Venta::create([
             'id_cliente' => $request->get('idcliente'),
             'id_usuario' => \Auth::user()->id,
             'id_apertura_caja_usuario'=>$id_caja_users->idcaja,
@@ -165,6 +161,16 @@ class VentaController extends Controller
             'total' => $request->get('total'),
             'estado' => 'registrado',
           ]);
+
+
+          if($request->get('forma_pago')=='credito')
+          {
+            $credito = Credito::create([
+              'idVenta' => $venta->id,
+              'idCliente' => $request->get('idcliente'),
+              'deuda' => $request->get('total'),
+            ]);
+          }
 
             //array de deatalle
             $detalles=$request->data; 

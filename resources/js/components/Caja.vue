@@ -77,7 +77,7 @@
                                         </div>
 
                                         <div v-else>
-                                        <span class="badge badge-danger">Desactivado</span>
+                                        <span class="badge badge-danger">Anulado</span>
                                         </div>
                                     </td>
                                 </tr>

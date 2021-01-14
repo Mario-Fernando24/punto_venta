@@ -78,17 +78,20 @@
                 <Cliente></Cliente>
                 </template>
 
-                <template v-if="menu==10">
-                <h1>Reporte de venta</H1>
-                </template>
 
-                <template v-if="menu==11">
-                <h1>aYUDA aYUDAaYUDA</1>
-                </template>
+                   <template v-if="menu==12">
+                    <Caja></Caja>
+                    </template>
 
-                <template v-if="menu==12">
-                <h1>Acerca de Acerca de</H1>
-                </template>
+                    <template v-if="menu==9">
+                    <Egreso></Egreso>
+                    </template>
+
+                    <template v-if="menu==10">
+                    <Credito></Credito>
+                    </template>
+
+
 
                 @elseif(Auth::user()->idrol==3)
 

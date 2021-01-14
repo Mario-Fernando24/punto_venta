@@ -49964,7 +49964,7 @@ var render = function() {
                               _c(
                                 "span",
                                 { staticClass: "badge badge-danger" },
-                                [_vm._v("Desactivado")]
+                                [_vm._v("Anulado")]
                               )
                             ])
                       ])
