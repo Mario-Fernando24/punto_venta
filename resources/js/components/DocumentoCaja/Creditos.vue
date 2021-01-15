@@ -8,14 +8,8 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i>Creditos
-                        <button type="button"  @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
-                            <i class="icon-plus"></i>&nbsp;Nuevo
-                        </button>
-
-                        <button type="button"  @click="cargarPdfCategoria()" class="btn btn-outline-danger">
-                            <i class="icon-doc"></i>&nbsp;Descargar pdf
-                        </button>
+                        <i class="fa fa-align-justify"></i>Listado de creditos
+                        
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -39,7 +33,7 @@
                                     <th>Cliente</th>
                                     <th>Deuda</th>
                                     <th>estado</th>
-                                    <th>Opciones</th>
+                                    <th>Abonar</th>
 
                                 </tr>
                             </thead>
@@ -61,21 +55,9 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" @click="abrirModal('credito', 'actualizar',credito)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
-                                          <i class="icon-pencil"></i>
+                                        <button type="button" @click="abrirModal('credito', 'abonar',credito)" class="btn btn-outline-danger btn-sm" data-toggle="modal">
+                                          <i class="icon-credit-card"></i> 
                                         </button> &nbsp;
-                                        
-                                        <template v-if="credito.condicion"> 
-                                        <button type="button"  class="btn btn-outline-danger btn-sm" >
-                                          <i class="icon-trash"></i>
-                                        </button>
-                                        </template>
-                                         <template v-else> 
-                                        <button type="button"  class="btn btn-outline-success btn-sm">
-                                          <i class="icon-check"></i>
-                                        </button>
-                                        </template>
-
                                     </td>
 
                                 </tr>
@@ -207,6 +189,28 @@
                 });
 
               },
+
+
+
+               abrirModal(modelo, accion, data=[]){
+                  switch(modelo){
+                      case "credito":
+                     {
+                         switch(accion){
+                            
+                             case 'abonar':
+                            {
+                                console.log('sss');
+                              break;
+                             } 
+                             }   
+                                 
+                         } 
+                      }
+                  },
+
+
+              
 
 
            

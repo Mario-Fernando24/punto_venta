@@ -19,7 +19,7 @@
 
 
                     <li @click="menu=0" class="nav-item" >
-                        <a class="nav-link active" href="#"><i class="icon-speedometer"></i> Escritorio</a>
+                        <a class="nav-link active" href="#"><i class="icon-home"></i> Escritorio</a>
                     </li>
 
                     
@@ -71,12 +71,12 @@
                         <ul class="nav-dropdown-items">
 
                         <li @click="menu=9" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Egreso (-)</a>
+                                <a class="nav-link" href="#"><i class="icon-credit-card"></i>Egreso (-)</a>
                             </li>
 
                             
                             <li @click="menu=10" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i>Ingreso (+)</a>
+                                <a class="nav-link" href="#"><i class="icon-credit-card"></i>Ingreso (+)</a>
                             </li>
 
 
@@ -85,7 +85,7 @@
 
 
                     <li @click="menu=12" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-book-open"></i>Caja</a>
+                        <a class="nav-link" href="#"><i class="fa fa-money"></i>Movimiento de Caja</a>
                     </li>
 
 
