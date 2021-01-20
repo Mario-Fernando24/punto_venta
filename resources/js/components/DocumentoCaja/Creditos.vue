@@ -124,8 +124,10 @@
                                     <th>#</th>
                                     <th>users</th>
                                     <th>Abono</th>
-                                    <th>Deuda</th>
                                     <th>Observación</th>
+                                    <th>Fecha</th>
+
+
                                     <th>Estado</th> 
                                 </tr>
                             </thead>
@@ -140,17 +142,27 @@
                                     <tr class="totalresultado" v-for="abonos in abono_credito" :key="abonos.id">
                                         <td v-text="abonos.id"></td>
                                         <td v-text="abonos.idusers"></td>
-                                        <td class="text-error" v-text="abonos.montoAbonar"></td>
-                                        <td v-text="deuda"></td>
+                                        <td class="text-error" v-text=" Intl.NumberFormat().format(abonos.montoAbonar)"></td>
                                         <td v-text="abonos.observacion"></td>
                                         <td v-text="abonos.created_at"></td>
+
+                                        <td v-if="abonos.estado==1" class="badge badge-danger">DEBE</td>
+                                        
+                                        <td v-if="abonos.estado==0" class="badge badge-success"> PAGO</td>
+                                        
+
                                     </tr>
 
+                                  
+                                  <tr class="totalresultado" >
+                                             <td colspan="5" align="right"><strong>Credito :</strong></td>
+                                             <td v-text="Intl.NumberFormat().format(deuda)"></td>
+                                         </tr>
 
-                                    <tr class="totalresultado" >
 
+                                       <tr class="totalresultado" >
                                              <td colspan="5" align="right"><strong>Deuda actual :</strong></td>
-                                             <td>222</td>
+                                             <td v-text="Intl.NumberFormat().format(deuda-acumabonodeuda)"></td>
                                          </tr>
 
                            </tbody>
@@ -305,6 +317,7 @@
               vaciarVariable()
               {
                  this.detalles_venta_credito=[];
+                 this.acumabonodeuda=0;
               },
 
 
@@ -336,8 +349,7 @@
                                         
                                         aux=parseFloat(x.montoAbonar);
                                         acumulador=acumulador+aux;
-                                      //  me.acumabonodeuda=acumulador;
-                                        console.log('montoAbonado=>'+acumulador);
+                                        me.acumabonodeuda=acumulador;
                                     
                                 });
 

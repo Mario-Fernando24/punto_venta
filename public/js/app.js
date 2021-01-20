@@ -4395,6 +4395,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4489,6 +4501,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     vaciarVariable: function vaciarVariable() {
       this.detalles_venta_credito = [];
+      this.acumabonodeuda = 0;
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -4513,9 +4526,8 @@ __webpack_require__.r(__webpack_exports__);
                   var me = this;
                   this.abono_credito.map(function (x) {
                     aux = parseFloat(x.montoAbonar);
-                    acumulador = acumulador + aux; //  me.acumabonodeuda=acumulador;
-
-                    console.log('montoAbonado=>' + acumulador);
+                    acumulador = acumulador + aux;
+                    me.acumabonodeuda = acumulador;
                   });
                   break;
                 }
@@ -53030,14 +53042,10 @@ var render = function() {
                                                 staticClass: "text-error",
                                                 domProps: {
                                                   textContent: _vm._s(
-                                                    abonos.montoAbonar
+                                                    Intl.NumberFormat().format(
+                                                      abonos.montoAbonar
+                                                    )
                                                   )
-                                                }
-                                              }),
-                                              _vm._v(" "),
-                                              _c("td", {
-                                                domProps: {
-                                                  textContent: _vm._s(_vm.deuda)
                                                 }
                                               }),
                                               _vm._v(" "),
@@ -53055,12 +53063,69 @@ var render = function() {
                                                     abonos.created_at
                                                   )
                                                 }
-                                              })
+                                              }),
+                                              _vm._v(" "),
+                                              abonos.estado == 1
+                                                ? _c(
+                                                    "td",
+                                                    {
+                                                      staticClass:
+                                                        "badge badge-danger"
+                                                    },
+                                                    [_vm._v("DEBE")]
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              abonos.estado == 0
+                                                ? _c(
+                                                    "td",
+                                                    {
+                                                      staticClass:
+                                                        "badge badge-success"
+                                                    },
+                                                    [_vm._v(" PAGO")]
+                                                  )
+                                                : _vm._e()
                                             ]
                                           )
                                         }),
                                         _vm._v(" "),
-                                        _vm._m(6)
+                                        _c(
+                                          "tr",
+                                          { staticClass: "totalresultado" },
+                                          [
+                                            _vm._m(6),
+                                            _vm._v(" "),
+                                            _c("td", {
+                                              domProps: {
+                                                textContent: _vm._s(
+                                                  Intl.NumberFormat().format(
+                                                    _vm.deuda
+                                                  )
+                                                )
+                                              }
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "tr",
+                                          { staticClass: "totalresultado" },
+                                          [
+                                            _vm._m(7),
+                                            _vm._v(" "),
+                                            _c("td", {
+                                              domProps: {
+                                                textContent: _vm._s(
+                                                  Intl.NumberFormat().format(
+                                                    _vm.deuda -
+                                                      _vm.acumabonodeuda
+                                                  )
+                                                )
+                                              }
+                                            })
+                                          ]
+                                        )
                                       ],
                                       2
                                     )
@@ -53068,9 +53133,9 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _vm._m(7),
+                          _vm._m(8),
                           _vm._v(" "),
-                          _vm._m(8)
+                          _vm._m(9)
                         ])
                       ])
                     ])
@@ -53191,9 +53256,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Abono")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Deuda")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Observación")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha")]),
         _vm._v(" "),
         _c("th", [_vm._v("Estado")])
       ])
@@ -53213,12 +53278,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", { staticClass: "totalresultado" }, [
-      _c("td", { attrs: { colspan: "5", align: "right" } }, [
-        _c("strong", [_vm._v("Deuda actual :")])
-      ]),
-      _vm._v(" "),
-      _c("td", [_vm._v("222")])
+    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
+      _c("strong", [_vm._v("Credito :")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
+      _c("strong", [_vm._v("Deuda actual :")])
     ])
   },
   function() {
