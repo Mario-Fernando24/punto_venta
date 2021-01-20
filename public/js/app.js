@@ -4407,6 +4407,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4422,6 +4433,9 @@ __webpack_require__.r(__webpack_exports__);
       abono_credito: [],
       deuda: 0,
       acumabonodeuda: 0,
+      //variables modal credito
+      montoAbonar: 0,
+      observacionAbono: '',
       pagination: {
         'total': 0,
         'current_page': 0,
@@ -4483,7 +4497,7 @@ __webpack_require__.r(__webpack_exports__);
       me.pagination.current_page = page;
       me.listaCategoria(page, buscar, criterio);
     },
-    registrarCategoria: function registrarCategoria() {
+    abonarCredito: function abonarCredito() {
       if (this.validarCategoria()) {
         return;
       }
@@ -53010,7 +53024,45 @@ var render = function() {
                                 _vm._m(4),
                                 _vm._v(" "),
                                 _vm.abono_credito.length == 0
-                                  ? _c("tbody", [_vm._m(5)])
+                                  ? _c("tbody", [
+                                      _vm._m(5),
+                                      _vm._v(" "),
+                                      _c(
+                                        "tr",
+                                        { staticClass: "totalresultado" },
+                                        [
+                                          _vm._m(6),
+                                          _vm._v(" "),
+                                          _c("td", {
+                                            domProps: {
+                                              textContent: _vm._s(
+                                                Intl.NumberFormat().format(
+                                                  _vm.deuda
+                                                )
+                                              )
+                                            }
+                                          })
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "tr",
+                                        { staticClass: "totalresultado" },
+                                        [
+                                          _vm._m(7),
+                                          _vm._v(" "),
+                                          _c("td", {
+                                            domProps: {
+                                              textContent: _vm._s(
+                                                Intl.NumberFormat().format(
+                                                  _vm.deuda - _vm.acumabonodeuda
+                                                )
+                                              )
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ])
                                   : _c(
                                       "tbody",
                                       [
@@ -53070,20 +53122,9 @@ var render = function() {
                                                     "td",
                                                     {
                                                       staticClass:
-                                                        "badge badge-danger"
-                                                    },
-                                                    [_vm._v("DEBE")]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              abonos.estado == 0
-                                                ? _c(
-                                                    "td",
-                                                    {
-                                                      staticClass:
                                                         "badge badge-success"
                                                     },
-                                                    [_vm._v(" PAGO")]
+                                                    [_vm._v("Abono")]
                                                   )
                                                 : _vm._e()
                                             ]
@@ -53094,7 +53135,7 @@ var render = function() {
                                           "tr",
                                           { staticClass: "totalresultado" },
                                           [
-                                            _vm._m(6),
+                                            _vm._m(8),
                                             _vm._v(" "),
                                             _c("td", {
                                               domProps: {
@@ -53112,7 +53153,7 @@ var render = function() {
                                           "tr",
                                           { staticClass: "totalresultado" },
                                           [
-                                            _vm._m(7),
+                                            _vm._m(9),
                                             _vm._v(" "),
                                             _c("td", {
                                               domProps: {
@@ -53133,9 +53174,88 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _vm._m(8),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-md-3 form-control-label",
+                                attrs: { for: "text-input" }
+                              },
+                              [_vm._v("Monto Abonar")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.montoAbonar,
+                                    expression: "montoAbonar"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "$ Valor abonar"
+                                },
+                                domProps: { value: _vm.montoAbonar },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.montoAbonar = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm.montoAbonar > _vm.deuda - _vm.acumabonodeuda
+                                ? _c("strong", { staticClass: "text-error" }, [
+                                    _vm._v(
+                                      "Monto Abonar es mayor a deudad actual"
+                                    )
+                                  ])
+                                : _vm._e()
+                            ])
+                          ]),
                           _vm._v(" "),
-                          _vm._m(9)
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-md-3 form-control-label",
+                                attrs: { for: "text-input" }
+                              },
+                              [_vm._v("Observación")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-9" }, [
+                              _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.observacionAbono,
+                                    expression: "observacionAbono"
+                                  }
+                                ],
+                                staticClass: "form-control col-md-12",
+                                attrs: { type: "text" },
+                                domProps: { value: _vm.observacionAbono },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.observacionAbono = $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ])
                         ])
                       ])
                     ])
@@ -53166,27 +53286,11 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.registrarCategoria()
+                            return _vm.abonarCredito()
                           }
                         }
                       },
                       [_vm._v("Guardar")]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.tipoAccionButton == 2
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-outline-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.actualizarCategoria()
-                          }
-                        }
-                      },
-                      [_vm._v("Actualizar")]
                     )
                   : _vm._e()
               ])
@@ -53294,44 +53398,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-3 form-control-label",
-          attrs: { for: "text-input" }
-        },
-        [_vm._v("Monto Abonar")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-9" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", placeholder: "$ Valor abonar" }
-        })
-      ])
+    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
+      _c("strong", [_vm._v("Credito :")])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-md-3 form-control-label",
-          attrs: { for: "text-input" }
-        },
-        [_vm._v("Observación")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-9" }, [
-        _c("textarea", {
-          staticClass: "form-control col-md-12",
-          attrs: { type: "text" }
-        })
-      ])
+    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
+      _c("strong", [_vm._v("Deuda actual :")])
     ])
   }
 ]

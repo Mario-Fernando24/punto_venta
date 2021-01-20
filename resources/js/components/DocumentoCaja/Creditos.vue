@@ -135,25 +135,8 @@
                                     <tr class="totalresultado" >
                                         <td colspan="6" align="right"><strong>No tiene ningun Abono</strong></td>
                                     </tr>
-                           </tbody>
 
 
-                            <tbody v-else>
-                                    <tr class="totalresultado" v-for="abonos in abono_credito" :key="abonos.id">
-                                        <td v-text="abonos.id"></td>
-                                        <td v-text="abonos.idusers"></td>
-                                        <td class="text-error" v-text=" Intl.NumberFormat().format(abonos.montoAbonar)"></td>
-                                        <td v-text="abonos.observacion"></td>
-                                        <td v-text="abonos.created_at"></td>
-
-                                        <td v-if="abonos.estado==1" class="badge badge-danger">DEBE</td>
-                                        
-                                        <td v-if="abonos.estado==0" class="badge badge-success"> PAGO</td>
-                                        
-
-                                    </tr>
-
-                                  
                                   <tr class="totalresultado" >
                                              <td colspan="5" align="right"><strong>Credito :</strong></td>
                                              <td v-text="Intl.NumberFormat().format(deuda)"></td>
@@ -166,6 +149,34 @@
                                          </tr>
 
                            </tbody>
+
+
+                            <tbody v-else>
+                                    <tr class="totalresultado" v-for="abonos in abono_credito" :key="abonos.id">
+                                        <td v-text="abonos.id"></td>
+                                        <td v-text="abonos.idusers"></td>
+                                        <td class="text-error" v-text=" Intl.NumberFormat().format(abonos.montoAbonar)"></td>
+                                        <td v-text="abonos.observacion"></td>
+                                        <td v-text="abonos.created_at"></td>
+
+                                        <td v-if="abonos.estado==1" class="badge badge-success">Abono</td>
+
+                                        </tr>
+
+                                  
+                                        <tr class="totalresultado" >
+                                             <td colspan="5" align="right"><strong>Credito :</strong></td>
+                                             <td v-text="Intl.NumberFormat().format(deuda)"></td>
+                                         </tr>
+
+
+                                        <tr class="totalresultado" >
+                                             <td colspan="5" align="right"><strong>Deuda actual :</strong></td>
+                                             <td v-text="Intl.NumberFormat().format(deuda-acumabonodeuda)"></td>
+                                         </tr>
+
+                           </tbody>
+
                         </table>
                         </div>
 
@@ -173,15 +184,16 @@
                           <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Monto Abonar</label>
                                     <div class="col-md-9">
-                                        <input type="text"  class="form-control" placeholder="$ Valor abonar">
+                                        <input type="text" v-model="montoAbonar"  class="form-control" placeholder="$ Valor abonar">
                                     </div>
+                                    <p><strong class="text-error" v-if="montoAbonar>(deuda-acumabonodeuda)">Monto Abonar es mayor a deudad actual</strong></p>
                             </div>
 
 
                           <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Observación</label>
                                     <div class="col-md-9">
-                                         <textarea class="form-control col-md-12"  type="text"></textarea>
+                                         <textarea v-model="observacionAbono" class="form-control col-md-12"  type="text"></textarea>
                                     </div>
                             </div>
                         
@@ -194,8 +206,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarCategoria()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarCategoria()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="abonarCredito()">Guardar</button>
 
                         </div>
                     </div>
@@ -224,6 +235,9 @@
             abono_credito:[],
             deuda:0,
             acumabonodeuda:0,
+           //variables modal credito
+            montoAbonar:0,
+            observacionAbono:'',
 
             pagination : {
                 'total' : 0,
@@ -294,7 +308,7 @@
             },
 
 
-              registrarCategoria(){
+              abonarCredito(){
 
                   if(this.validarCategoria()){
                       return ;
