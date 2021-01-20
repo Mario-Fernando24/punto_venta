@@ -36,4 +36,10 @@ class Credito extends Model
         
     }
 
+    public function AbonoCredito()
+    {
+        return $this->hasMany(AbonoCredito::class,'id_Credito','idCredito');
+
+    }
+
 }

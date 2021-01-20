@@ -88,7 +88,100 @@
                 </div>
                 <!-- Fin ejemplo de tabla Listado -->
             </div>
+
+
             <!--Inicio del modal agregar/actualizar-->
+            <div class="modal fade"  tabindex="-1" :class="{'mostrar':modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-warning modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="tituloModal"></h4>
+                            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                
+
+
+
+
+
+
+            <div class="container-fluid">
+                <!-- Ejemplo de tabla Listado -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i>Detalles del credito
+                        
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>users</th>
+                                    <th>Abono</th>
+                                    <th>Deuda</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th> 
+                                </tr>
+                            </thead>
+                            <tbody v-if="abono_credito.length==0">
+                                    <tr class="totalresultado" >
+                                        <td colspan="6" align="right"><strong>No tiene ningun Abono</strong></td>
+                                    </tr>
+                           </tbody>
+
+
+                            <tbody v-else>
+                                    <tr class="totalresultado" v-for="abonos in abono_credito" :key="abonos.id">
+                                        <td v-text="abonos.id"></td>
+                                        <td v-text="abonos.idusers"></td>
+                                        <td v-text="abonos.montoAbonar"></td>
+                                        <td v-text="abonos.observacion"></td>
+                                        <td v-text="abonos.created_at"></td>
+
+                                    </tr>
+                           </tbody>
+                        </table>
+                        </div>
+
+                          <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Monto Abonar</label>
+                                    <div class="col-md-9">
+                                        <input type="text"  class="form-control" placeholder="$ Valor abonar">
+                                    </div>
+                            </div>
+
+
+                          <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Observación</label>
+                                    <div class="col-md-9">
+                                         <textarea class="form-control col-md-12"  type="text"></textarea>
+                                    </div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <!-- Fin ejemplo de tabla Listado -->
+            </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarCategoria()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarCategoria()">Actualizar</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
             
      
         </main>
@@ -101,6 +194,13 @@
         data(){
           return {
             arraCredito:[],
+            credito_id:0,
+            tipoAccionButton:0,
+            tituloModal:'',
+            modal:0,
+           //array creditos 
+            detalles_venta_credito:[],
+            abono_credito:[],
             pagination : {
                 'total' : 0,
                 'current_page' : 0,
@@ -163,14 +263,14 @@
 
               },
           
-                cambiarPagina(page, buscar, criterio){
+             cambiarPagina(page, buscar, criterio){
                 let me = this;
                 me.pagination.current_page = page;
                 me.listaCategoria(page, buscar, criterio);
             },
 
 
-          registrarCategoria(){
+              registrarCategoria(){
 
                   if(this.validarCategoria()){
                       return ;
@@ -190,6 +290,11 @@
 
               },
 
+              vaciarVariable()
+              {
+                 this.detalles_venta_credito=[];
+              },
+
 
 
                abrirModal(modelo, accion, data=[]){
@@ -200,7 +305,18 @@
                             
                              case 'abonar':
                             {
-                                console.log('sss');
+                               // console.log('sss');
+
+                                console.log(data);
+                               this.modal=1;
+                               this.tituloModal='Abonar Credito';
+                               this.tipoAccionButton=1;
+                               this.credito_id=data['id'];
+
+
+                               this.detalles_venta_credito=data.detalles_venta_credito;
+                               this.abono_credito=data.abono_credito;
+                               console.log(this.abono_credito.length);
                               break;
                              } 
                              }   
@@ -208,6 +324,15 @@
                          } 
                       }
                   },
+
+             
+            //metodo para cerrar el modal
+            cerrarModal(){
+                this.modal=0;
+                this.tituloModal='';
+                this.vaciarVariable();
+
+              },     
 
 
               
