@@ -15,6 +15,8 @@ class ControllerCredito extends Controller
       $buscar = $request->buscar;
       $criterio = $request->criterio;
 
+      $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito')->orderBy('idCredito', 'DESC')->paginate(10);
+
        if($buscar==''){
           $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito')->orderBy('idCredito', 'DESC')->paginate(10);
        }else{

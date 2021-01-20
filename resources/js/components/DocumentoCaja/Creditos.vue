@@ -125,7 +125,7 @@
                                     <th>users</th>
                                     <th>Abono</th>
                                     <th>Deuda</th>
-                                    <th>Fecha</th>
+                                    <th>Observación</th>
                                     <th>Estado</th> 
                                 </tr>
                             </thead>
@@ -140,14 +140,23 @@
                                     <tr class="totalresultado" v-for="abonos in abono_credito" :key="abonos.id">
                                         <td v-text="abonos.id"></td>
                                         <td v-text="abonos.idusers"></td>
-                                        <td v-text="abonos.montoAbonar"></td>
+                                        <td class="text-error" v-text="abonos.montoAbonar"></td>
+                                        <td v-text="deuda"></td>
                                         <td v-text="abonos.observacion"></td>
                                         <td v-text="abonos.created_at"></td>
-
                                     </tr>
+
+
+                                    <tr class="totalresultado" >
+
+                                             <td colspan="5" align="right"><strong>Deuda actual :</strong></td>
+                                             <td>222</td>
+                                         </tr>
+
                            </tbody>
                         </table>
                         </div>
+
 
                           <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Monto Abonar</label>
@@ -201,6 +210,9 @@
            //array creditos 
             detalles_venta_credito:[],
             abono_credito:[],
+            deuda:0,
+            acumabonodeuda:0,
+
             pagination : {
                 'total' : 0,
                 'current_page' : 0,
@@ -305,9 +317,6 @@
                             
                              case 'abonar':
                             {
-                               // console.log('sss');
-
-                                console.log(data);
                                this.modal=1;
                                this.tituloModal='Abonar Credito';
                                this.tipoAccionButton=1;
@@ -316,7 +325,25 @@
 
                                this.detalles_venta_credito=data.detalles_venta_credito;
                                this.abono_credito=data.abono_credito;
-                               console.log(this.abono_credito.length);
+                               //deuda actual
+                               this.deuda=data['deuda'];
+                                
+                                //suma array abonodeuda 
+                                var aux;
+                                var acumulador=0;
+                                let me=this;
+                                this.abono_credito.map(function(x){
+                                        
+                                        aux=parseFloat(x.montoAbonar);
+                                        acumulador=acumulador+aux;
+                                      //  me.acumabonodeuda=acumulador;
+                                        console.log('montoAbonado=>'+acumulador);
+                                    
+                                });
+
+
+                                
+
                               break;
                              } 
                              }   

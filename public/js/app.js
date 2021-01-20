@@ -4386,6 +4386,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4399,6 +4408,8 @@ __webpack_require__.r(__webpack_exports__);
       //array creditos 
       detalles_venta_credito: [],
       abono_credito: [],
+      deuda: 0,
+      acumabonodeuda: 0,
       pagination: {
         'total': 0,
         'current_page': 0,
@@ -4488,15 +4499,24 @@ __webpack_require__.r(__webpack_exports__);
             switch (accion) {
               case 'abonar':
                 {
-                  // console.log('sss');
-                  console.log(data);
                   this.modal = 1;
                   this.tituloModal = 'Abonar Credito';
                   this.tipoAccionButton = 1;
                   this.credito_id = data['id'];
                   this.detalles_venta_credito = data.detalles_venta_credito;
-                  this.abono_credito = data.abono_credito;
-                  console.log(this.abono_credito.length);
+                  this.abono_credito = data.abono_credito; //deuda actual
+
+                  this.deuda = data['deuda']; //suma array abonodeuda 
+
+                  var aux;
+                  var acumulador = 0;
+                  var me = this;
+                  this.abono_credito.map(function (x) {
+                    aux = parseFloat(x.montoAbonar);
+                    acumulador = acumulador + aux; //  me.acumabonodeuda=acumulador;
+
+                    console.log('montoAbonado=>' + acumulador);
+                  });
                   break;
                 }
             }
@@ -52981,65 +53001,76 @@ var render = function() {
                                   ? _c("tbody", [_vm._m(5)])
                                   : _c(
                                       "tbody",
-                                      _vm._l(_vm.abono_credito, function(
-                                        abonos
-                                      ) {
-                                        return _c(
-                                          "tr",
-                                          {
-                                            key: abonos.id,
-                                            staticClass: "totalresultado"
-                                          },
-                                          [
-                                            _c("td", {
-                                              domProps: {
-                                                textContent: _vm._s(abonos.id)
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("td", {
-                                              domProps: {
-                                                textContent: _vm._s(
-                                                  abonos.idusers
-                                                )
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("td", {
-                                              domProps: {
-                                                textContent: _vm._s(
-                                                  abonos.montoAbonar
-                                                )
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("td", {
-                                              domProps: {
-                                                textContent: _vm._s(
-                                                  abonos.observacion
-                                                )
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("td", {
-                                              domProps: {
-                                                textContent: _vm._s(
-                                                  abonos.created_at
-                                                )
-                                              }
-                                            })
-                                          ]
-                                        )
-                                      }),
-                                      0
+                                      [
+                                        _vm._l(_vm.abono_credito, function(
+                                          abonos
+                                        ) {
+                                          return _c(
+                                            "tr",
+                                            {
+                                              key: abonos.id,
+                                              staticClass: "totalresultado"
+                                            },
+                                            [
+                                              _c("td", {
+                                                domProps: {
+                                                  textContent: _vm._s(abonos.id)
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("td", {
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    abonos.idusers
+                                                  )
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("td", {
+                                                staticClass: "text-error",
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    abonos.montoAbonar
+                                                  )
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("td", {
+                                                domProps: {
+                                                  textContent: _vm._s(_vm.deuda)
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("td", {
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    abonos.observacion
+                                                  )
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("td", {
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    abonos.created_at
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        }),
+                                        _vm._v(" "),
+                                        _vm._m(6)
+                                      ],
+                                      2
                                     )
                               ]
                             )
                           ]),
                           _vm._v(" "),
-                          _vm._m(6),
+                          _vm._m(7),
                           _vm._v(" "),
-                          _vm._m(7)
+                          _vm._m(8)
                         ])
                       ])
                     ])
@@ -53162,7 +53193,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Deuda")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Fecha")]),
+        _c("th", [_vm._v("Observación")]),
         _vm._v(" "),
         _c("th", [_vm._v("Estado")])
       ])
@@ -53176,6 +53207,18 @@ var staticRenderFns = [
       _c("td", { attrs: { colspan: "6", align: "right" } }, [
         _c("strong", [_vm._v("No tiene ningun Abono")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", { staticClass: "totalresultado" }, [
+      _c("td", { attrs: { colspan: "5", align: "right" } }, [
+        _c("strong", [_vm._v("Deuda actual :")])
+      ]),
+      _vm._v(" "),
+      _c("td", [_vm._v("222")])
     ])
   },
   function() {
