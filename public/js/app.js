@@ -4418,6 +4418,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -52839,7 +52845,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-outline-danger btn-sm",
+                            staticClass: "btn btn-outline-success btn-sm",
                             attrs: { type: "button", "data-toggle": "modal" },
                             on: {
                               click: function($event) {
@@ -53124,7 +53130,7 @@ var render = function() {
                                                       staticClass:
                                                         "badge badge-success"
                                                     },
-                                                    [_vm._v("Abono")]
+                                                    [_vm._v("Abonado")]
                                                   )
                                                 : _vm._e()
                                             ]
@@ -53154,6 +53160,24 @@ var render = function() {
                                           { staticClass: "totalresultado" },
                                           [
                                             _vm._m(9),
+                                            _vm._v(" "),
+                                            _c("td", {
+                                              domProps: {
+                                                textContent: _vm._s(
+                                                  Intl.NumberFormat().format(
+                                                    _vm.acumabonodeuda
+                                                  )
+                                                )
+                                              }
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "tr",
+                                          { staticClass: "totalresultado" },
+                                          [
+                                            _vm._m(10),
                                             _vm._v(" "),
                                             _c("td", {
                                               domProps: {
@@ -53215,7 +53239,7 @@ var render = function() {
                               _vm.montoAbonar > _vm.deuda - _vm.acumabonodeuda
                                 ? _c("strong", { staticClass: "text-error" }, [
                                     _vm._v(
-                                      "Monto Abonar es mayor a deudad actual"
+                                      "Monto abonar es mayor a la deudad actual"
                                     )
                                   ])
                                 : _vm._e()
@@ -53400,6 +53424,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("td", { attrs: { colspan: "5", align: "right" } }, [
       _c("strong", [_vm._v("Credito :")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "5", align: "right" } }, [
+      _c("strong", [_vm._v("Total abonado :")])
     ])
   },
   function() {

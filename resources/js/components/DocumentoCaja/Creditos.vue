@@ -55,7 +55,7 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" @click="abrirModal('credito', 'abonar',credito)" class="btn btn-outline-danger btn-sm" data-toggle="modal">
+                                        <button type="button" @click="abrirModal('credito', 'abonar',credito)" class="btn btn-outline-success btn-sm" data-toggle="modal">
                                           <i class="icon-credit-card"></i> 
                                         </button> &nbsp;
                                     </td>
@@ -159,7 +159,7 @@
                                         <td v-text="abonos.observacion"></td>
                                         <td v-text="abonos.created_at"></td>
 
-                                        <td v-if="abonos.estado==1" class="badge badge-success">Abono</td>
+                                        <td v-if="abonos.estado==1" class="badge badge-success">Abonado</td>
 
                                         </tr>
 
@@ -167,6 +167,12 @@
                                         <tr class="totalresultado" >
                                              <td colspan="5" align="right"><strong>Credito :</strong></td>
                                              <td v-text="Intl.NumberFormat().format(deuda)"></td>
+                                         </tr>
+
+                                           
+                                        <tr class="totalresultado" >
+                                             <td colspan="5" align="right"><strong>Total abonado :</strong></td>
+                                             <td v-text="Intl.NumberFormat().format(acumabonodeuda)"></td>
                                          </tr>
 
 
@@ -186,7 +192,7 @@
                                     <div class="col-md-9">
                                         <input type="text" v-model="montoAbonar"  class="form-control" placeholder="$ Valor abonar">
                                     </div>
-                                    <p><strong class="text-error" v-if="montoAbonar>(deuda-acumabonodeuda)">Monto Abonar es mayor a deudad actual</strong></p>
+                                    <p><strong class="text-error" v-if="montoAbonar>(deuda-acumabonodeuda)">Monto abonar es mayor a la deudad actual</strong></p>
                             </div>
 
 
@@ -359,6 +365,7 @@
                                 var aux;
                                 var acumulador=0;
                                 let me=this;
+                                
                                 this.abono_credito.map(function(x){
                                         
                                         aux=parseFloat(x.montoAbonar);
