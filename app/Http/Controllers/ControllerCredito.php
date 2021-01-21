@@ -10,12 +10,10 @@ class ControllerCredito extends Controller
     public function index(Request $request)
     {
 
-     // if(!$request->ajax()){return redirect('/');}
+      if(!$request->ajax()){return redirect('/');}
 
       $buscar = $request->buscar;
       $criterio = $request->criterio;
-
-      $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito')->orderBy('idCredito', 'DESC')->paginate(10);
 
        if($buscar==''){
           $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito')->orderBy('idCredito', 'DESC')->paginate(10);
@@ -36,5 +34,33 @@ class ControllerCredito extends Controller
     ];
     
     } 
+
+    public function abonarCredito(Request $request)
+    {
+        if(!$request->ajax()){return redirect('/');}
+
+        try {
+
+        $AbonoCredito = AbonoCredito::create([
+            'id_Credito' => $request->get('credito_id'),
+            'idusers' => \Auth::user()->id,
+            'montoAbonar' => $request->get('montoAbonar'),
+            'observacion' => $request->get('observacionAbono'),
+
+            ]);
+
+        return response()->json([
+            'status' => 'ok',
+            'AbonoCredito' => $AbonoCredito,
+        ], 200);
+
+        } catch (\Exception $exception) {
+            return redirect()->route('main');
+        }
+
+
+
+
+    }
 
 }

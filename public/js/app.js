@@ -4520,12 +4520,18 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
-      axios.post('/categoria/registrar', {
-        'nombre': this.nombre,
-        'descripcion': this.descripcion
+      axios.post('/credito/abonarCredito', {
+        'montoAbonar': this.montoAbonar,
+        'observacionAbono': this.observacionAbono,
+        'credito_id': this.credito_id
       }).then(function (response) {
-        me.cerrarModal();
-        me.listaCategoria(1, '', 'nombre');
+        var respuesta = response.data;
+
+        if (respuesta.status == 'ok') {
+          me.cerrarModal();
+          me.listaCategoria(1, '', 'nombre');
+          Swal.fire('Exitoso?', 'Abono  Ingresado correctamenta', 'success');
+        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4555,10 +4561,11 @@ __webpack_require__.r(__webpack_exports__);
             switch (accion) {
               case 'abonar':
                 {
+                  console.log(data);
                   this.modal = 1;
                   this.tituloModal = 'Abonar Credito';
                   this.tipoAccionButton = 1;
-                  this.credito_id = data['id'];
+                  this.credito_id = data['idCredito'];
                   this.detalles_venta_credito = data.detalles_venta_credito;
                   this.abono_credito = data.abono_credito; //deuda actual
 

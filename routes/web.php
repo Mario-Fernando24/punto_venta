@@ -215,7 +215,8 @@
         });
 
         Route::prefix('credito')->group(function() {
-            Route::get('index', 'ControllerCredito@index');            
+            Route::get('index', 'ControllerCredito@index');    
+            Route::post('abonarCredito','ControllerCredito@abonarCredito');     
         });
 
         
