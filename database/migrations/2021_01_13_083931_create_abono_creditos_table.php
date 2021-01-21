@@ -17,14 +17,17 @@ class CreateAbonoCreditosTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('id_Credito');
             $table->unsignedBigInteger('idusers');
+            $table->unsignedBigInteger('id_caja');
             $table->decimal('montoAbonar',11,2)->nullable();
             $table->string('observacion',100)->nullable();
             $table->boolean('estado')->default(1);
             $table->timestamps();
-
+            
 
             $table->foreign('id_Credito')->references('idCredito')->on('creditos'); 
             $table->foreign('idusers')->references('id')->on('users'); 
+            $table->foreign('id_caja')->references('idcaja')->on('caja'); 
+
         });
     }
 

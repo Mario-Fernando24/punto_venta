@@ -50,7 +50,7 @@
                                         </div>
 
                                         <div v-else>
-                                        <span class="badge badge-success">Pago</span>
+                                        <span class="badge badge-success">Pagado</span>
                                         </div>
                                     </td>
 
@@ -192,6 +192,8 @@
                                         <input type="text" v-model="montoAbonar"  class="form-control" placeholder="$ Valor abonar">
                                     </div>
                                     <p><strong class="text-error" v-if="montoAbonar>(deuda-acumabonodeuda)">Monto abonar es mayor a la deudad actual</strong></p>
+                                    <p><strong class="text-success" v-if="montoAbonar==(deuda-acumabonodeuda)">Desea pagar todo el credito</strong></p>
+
                             </div>
 
 
@@ -332,11 +334,22 @@
                   if(this.validarAbonoCredito()){
                       return ;
                   }
+                  
                   let me=this;
+                  var creditoPagado;
+                   if(me.montoAbonar==(me.deuda-me.acumabonodeuda))
+                    {
+                      creditoPagado=1;
+                    }
+                    else{
+                       creditoPagado=0;
+                    }
                   axios.post('/credito/abonarCredito', {
                     'montoAbonar':  this.montoAbonar,
                     'observacionAbono': this.observacionAbono,
-                    'credito_id': this.credito_id
+                    'credito_id': this.credito_id,
+                    'estado':creditoPagado
+                   
                 })
                 .then(function (response) {
 
@@ -471,6 +484,10 @@
   }
   .text-error{
     color: red !important;
+    font-weight: bold;
+  }
+  .text-success{
+    color: green !important;
     font-weight: bold;
   }
 </style>

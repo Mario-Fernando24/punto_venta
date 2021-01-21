@@ -4432,6 +4432,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4520,10 +4522,19 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
+      var creditoPagado;
+
+      if (me.montoAbonar == me.deuda - me.acumabonodeuda) {
+        creditoPagado = 1;
+      } else {
+        creditoPagado = 0;
+      }
+
       axios.post('/credito/abonarCredito', {
         'montoAbonar': this.montoAbonar,
         'observacionAbono': this.observacionAbono,
-        'credito_id': this.credito_id
+        'credito_id': this.credito_id,
+        'estado': creditoPagado
       }).then(function (response) {
         var respuesta = response.data;
 
@@ -12996,7 +13007,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-success{\n    color: green !important;\n    font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -52866,7 +52877,7 @@ var render = function() {
                               _c(
                                 "span",
                                 { staticClass: "badge badge-success" },
-                                [_vm._v("Pago")]
+                                [_vm._v("Pagado")]
                               )
                             ])
                       ]),
@@ -53272,6 +53283,16 @@ var render = function() {
                                       "Monto abonar es mayor a la deudad actual"
                                     )
                                   ])
+                                : _vm._e()
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm.montoAbonar == _vm.deuda - _vm.acumabonodeuda
+                                ? _c(
+                                    "strong",
+                                    { staticClass: "text-success" },
+                                    [_vm._v("Desea pagar todo el credito")]
+                                  )
                                 : _vm._e()
                             ])
                           ]),

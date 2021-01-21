@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Credito;
 use App\AbonoCredito;
 use Illuminate\Http\Request;
+use DB;
+use Carbon\Carbon;
 
 class ControllerCredito extends Controller
 {
@@ -40,14 +42,26 @@ class ControllerCredito extends Controller
         if(!$request->ajax()){return redirect('/');}
 
         try {
+          $estado=$request->get('estado');  
+
+            $id_caja_users=DB::table('caja')
+            ->where('id_vendedor',\Auth::user()->id)
+            ->where('Cajaactual','abierto')->first();
 
         $AbonoCredito = AbonoCredito::create([
             'id_Credito' => $request->get('credito_id'),
             'idusers' => \Auth::user()->id,
+            'id_caja'=>$id_caja_users->idcaja,
             'montoAbonar' => $request->get('montoAbonar'),
             'observacion' => $request->get('observacionAbono'),
 
             ]);
+
+            if($estado==1){
+                $credito = Credito::findOrFail($request->get('credito_id'));
+                $credito->estado='1';
+                $credito->update();
+            }
 
         return response()->json([
             'status' => 'ok',

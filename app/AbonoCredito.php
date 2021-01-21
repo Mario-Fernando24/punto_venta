@@ -14,6 +14,7 @@ class AbonoCredito extends Model
         'id',
         'id_Credito',
         'idusers',
+        'id_caja',
         'montoAbonar',
         'observacion',
         'estado',
