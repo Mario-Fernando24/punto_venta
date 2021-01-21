@@ -5,6 +5,7 @@ use App\Caja;
 use App\Venta;
 use App\Egreso;
 use App\DetalleVenta;
+use App\AbonoCredito;
 use DB;
 use Carbon\Carbon;
 
@@ -55,12 +56,11 @@ class CajaController extends Controller
         ->where('estado',1)
         ->get()->sum('valor_egreso');
 
+        $IngresoAbonoCredito = AbonoCredito::where('idusers', \Auth::user()->id)
+        ->where('id_caja', $cajaOpen->idcaja)
+        ->get()->sum('montoAbonar');
 
 
-
-
-
-     
         if(!empty($cajaOpen)){
        
         return response()->json([
@@ -71,6 +71,7 @@ class CajaController extends Controller
             'datafono_Ventas'=>$datafono_Ventas,
             'Egreso'=>$Egreso,
             'Credito'=>$Credito,
+            'IngresoAbonoCredito'=>$IngresoAbonoCredito,
         ], 200);
         }else{
 
@@ -82,6 +83,7 @@ class CajaController extends Controller
             'datafono_Ventas'=>'0',
             'Egreso'=>'0',
             'Credito'=>'0',
+            'IngresoAbonoCredito'=>'0',
         ], 404);
 
         }

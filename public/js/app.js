@@ -2931,6 +2931,7 @@ __webpack_require__.r(__webpack_exports__);
       datafono_Venta: 0,
       egreso_venta: 0,
       credito_venta: 0,
+      ingresoAbonocredito: 0,
       //cual es la categoria que quiero edit 
       categoria_id: 0,
       nombre: '',
@@ -3022,6 +3023,7 @@ __webpack_require__.r(__webpack_exports__);
         me.datafono_Venta = response.data.datafono_Ventas;
         me.egreso_venta = response.data.Egreso;
         me.credito_venta = response.data.Credito;
+        me.ingresoAbonocredito = response.data.IngresoAbonoCredito;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4197,6 +4199,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -51020,7 +51024,21 @@ var render = function() {
                                 })
                               ]),
                               _vm._v(" "),
-                              _vm._m(7),
+                              _c("tr", [
+                                _c("th", [_vm._v("(+)Total de Ingresos")]),
+                                _vm._v(" "),
+                                _c("td"),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.ingresoAbonocredito
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
                               _vm._v(" "),
                               _c("tr", [
                                 _c("th", [_vm._v("(-) Total de Egreso:")]),
@@ -51039,7 +51057,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", [
-                                _vm._m(8),
+                                _vm._m(7),
                                 _vm._v(" "),
                                 _c("td"),
                                 _vm._v(" "),
@@ -51057,7 +51075,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(9),
+                                _vm._m(8),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -51076,7 +51094,7 @@ var render = function() {
                               ]),
                               _c("br"),
                               _vm._v(" "),
-                              _vm._m(10),
+                              _vm._m(9),
                               _vm._v(" "),
                               _c("tr", [
                                 _c("th", [_vm._v("Efectivo:")]),
@@ -51149,7 +51167,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(11),
+                                _vm._m(10),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -51279,18 +51297,6 @@ var staticRenderFns = [
       },
       [_c("b", [_vm._v("Observación Apertura de caja")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("(+)Total de Ingresos")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td")
-    ])
   },
   function() {
     var _vm = this
@@ -53239,98 +53245,115 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "col-md-3 form-control-label",
-                                attrs: { for: "text-input" }
-                              },
-                              [_vm._v("Monto Abonar")]
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-9" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.montoAbonar,
-                                    expression: "montoAbonar"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  placeholder: "$ Valor abonar"
-                                },
-                                domProps: { value: _vm.montoAbonar },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.montoAbonar = $event.target.value
-                                  }
-                                }
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c("p", [
-                              _vm.montoAbonar > _vm.deuda - _vm.acumabonodeuda
-                                ? _c("strong", { staticClass: "text-error" }, [
-                                    _vm._v(
-                                      "Monto abonar es mayor a la deudad actual"
-                                    )
+                          _vm.deuda != _vm.acumabonodeuda
+                            ? _c("div", [
+                                _c("div", { staticClass: "form-group row" }, [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass:
+                                        "col-md-3 form-control-label",
+                                      attrs: { for: "text-input" }
+                                    },
+                                    [_vm._v("Monto Abonar")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-9" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.montoAbonar,
+                                          expression: "montoAbonar"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        placeholder: "$ Valor abonar"
+                                      },
+                                      domProps: { value: _vm.montoAbonar },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.montoAbonar = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm.montoAbonar >
+                                    _vm.deuda - _vm.acumabonodeuda
+                                      ? _c(
+                                          "strong",
+                                          { staticClass: "text-error" },
+                                          [
+                                            _vm._v(
+                                              "Monto abonar es mayor a la deudad actual"
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm.montoAbonar ==
+                                    _vm.deuda - _vm.acumabonodeuda
+                                      ? _c(
+                                          "strong",
+                                          { staticClass: "text-success" },
+                                          [
+                                            _vm._v(
+                                              "Desea pagar todo el credito"
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
                                   ])
-                                : _vm._e()
-                            ]),
-                            _vm._v(" "),
-                            _c("p", [
-                              _vm.montoAbonar == _vm.deuda - _vm.acumabonodeuda
-                                ? _c(
-                                    "strong",
-                                    { staticClass: "text-success" },
-                                    [_vm._v("Desea pagar todo el credito")]
-                                  )
-                                : _vm._e()
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "col-md-3 form-control-label",
-                                attrs: { for: "text-input" }
-                              },
-                              [_vm._v("Observación")]
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-9" }, [
-                              _c("textarea", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.observacionAbono,
-                                    expression: "observacionAbono"
-                                  }
-                                ],
-                                staticClass: "form-control col-md-12",
-                                attrs: { type: "text" },
-                                domProps: { value: _vm.observacionAbono },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.observacionAbono = $event.target.value
-                                  }
-                                }
-                              })
-                            ])
-                          ]),
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group row" }, [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass:
+                                        "col-md-3 form-control-label",
+                                      attrs: { for: "text-input" }
+                                    },
+                                    [_vm._v("Observación")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-9" }, [
+                                    _c("textarea", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.observacionAbono,
+                                          expression: "observacionAbono"
+                                        }
+                                      ],
+                                      staticClass: "form-control col-md-12",
+                                      attrs: { type: "text" },
+                                      domProps: { value: _vm.observacionAbono },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.observacionAbono =
+                                            $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ])
+                            : _vm._e(),
                           _vm._v(" "),
                           _c(
                             "div",

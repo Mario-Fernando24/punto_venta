@@ -185,7 +185,7 @@
                         </table>
                         </div>
 
-
+                       <div v-if="deuda!=acumabonodeuda">
                           <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Monto Abonar</label>
                                     <div class="col-md-9">
@@ -203,6 +203,8 @@
                                          <textarea v-model="observacionAbono" class="form-control col-md-12"  type="text"></textarea>
                                     </div>
                             </div>
+
+                     </div>    
 
 
                             <div v-show="errorAbonarCredito==1" class="form-group row div-error">

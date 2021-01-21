@@ -348,7 +348,7 @@
                                          <tr>
                                             <th>(+)Total de Ingresos</th>
                                             <td></td>
-                                            <td></td>
+                                            <td v-text="Intl.NumberFormat().format(ingresoAbonocredito)"></td>
                                          </tr>
 
                                          <tr>
@@ -474,6 +474,7 @@
             datafono_Venta:0,
             egreso_venta:0,
             credito_venta:0,
+            ingresoAbonocredito:0,
 
             //cual es la categoria que quiero edit 
             categoria_id :0,
@@ -536,9 +537,7 @@
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
 
-
-
-              
+      
           listaCategoria(page, buscar, criterio){
               
                  let me=this;
@@ -610,6 +609,7 @@
                     me.datafono_Venta=response.data.datafono_Ventas;
                     me.egreso_venta=response.data.Egreso;
                     me.credito_venta=response.data.Credito;
+                    me.ingresoAbonocredito=response.data.IngresoAbonoCredito;
                     
 
                     })
