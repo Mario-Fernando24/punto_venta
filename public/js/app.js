@@ -4424,6 +4424,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4441,7 +4449,10 @@ __webpack_require__.r(__webpack_exports__);
       acumabonodeuda: 0,
       //variables modal credito
       montoAbonar: 0,
-      observacionAbono: '',
+      observacionAbono: 'ninguna',
+      //validacion abonar credito
+      errorAbonarCredito: 0,
+      errorAbonoMensajeArray: [],
       pagination: {
         'total': 0,
         'current_page': 0,
@@ -4504,7 +4515,7 @@ __webpack_require__.r(__webpack_exports__);
       me.listaCategoria(page, buscar, criterio);
     },
     abonarCredito: function abonarCredito() {
-      if (this.validarCategoria()) {
+      if (this.validarAbonoCredito()) {
         return;
       }
 
@@ -4519,9 +4530,21 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    validarAbonoCredito: function validarAbonoCredito() {
+      this.errorAbonarCredito = 0;
+      this.errorAbonoMensajeArray = [];
+      if (!this.montoAbonar) this.errorAbonoMensajeArray.push("El monto Abonar no puede estar vacio");
+      if (this.montoAbonar > this.deuda - this.acumabonodeuda) this.errorAbonoMensajeArray.push("Monto abonar es mayor a la deudad actual");
+      if (this.errorAbonoMensajeArray.length) this.errorAbonarCredito = 1;
+      return this.errorAbonarCredito;
+    },
     vaciarVariable: function vaciarVariable() {
       this.detalles_venta_credito = [];
       this.acumabonodeuda = 0;
+      this.montoAbonar = 0;
+      this.observacionAbono = 'ninguna';
+      this.errorAbonarCredito = 0;
+      this.errorAbonoMensajeArray = [];
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -53279,7 +53302,37 @@ var render = function() {
                                 }
                               })
                             ])
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.errorAbonarCredito == 1,
+                                  expression: "errorAbonarCredito==1"
+                                }
+                              ],
+                              staticClass: "form-group row div-error"
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "text-center text-error" },
+                                _vm._l(_vm.errorAbonoMensajeArray, function(
+                                  error
+                                ) {
+                                  return _c("div", {
+                                    key: error,
+                                    domProps: { textContent: _vm._s(error) }
+                                  })
+                                }),
+                                0
+                              )
+                            ]
+                          )
                         ])
                       ])
                     ])

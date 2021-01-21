@@ -168,7 +168,6 @@
                                              <td colspan="5" align="right"><strong>Credito :</strong></td>
                                              <td v-text="Intl.NumberFormat().format(deuda)"></td>
                                          </tr>
-
                                            
                                         <tr class="totalresultado" >
                                              <td colspan="5" align="right"><strong>Total abonado :</strong></td>
@@ -202,6 +201,15 @@
                                          <textarea v-model="observacionAbono" class="form-control col-md-12"  type="text"></textarea>
                                     </div>
                             </div>
+
+
+                            <div v-show="errorAbonarCredito==1" class="form-group row div-error">
+                                    <div class="text-center text-error">
+                                        <div v-for="error in errorAbonoMensajeArray" :key="error" v-text="error">
+                                           
+                                        </div>
+                                    </div>
+                                </div>
                         
                     </div>
                 </div>
@@ -243,7 +251,12 @@
             acumabonodeuda:0,
            //variables modal credito
             montoAbonar:0,
-            observacionAbono:'',
+            observacionAbono:'ninguna',
+
+            //validacion abonar credito
+
+            errorAbonarCredito : 0,
+            errorAbonoMensajeArray : [],
 
             pagination : {
                 'total' : 0,
@@ -316,7 +329,7 @@
 
               abonarCredito(){
 
-                  if(this.validarCategoria()){
+                  if(this.validarAbonoCredito()){
                       return ;
                   }
                   let me=this;
@@ -334,10 +347,26 @@
 
               },
 
+              validarAbonoCredito()
+              {
+
+                this.errorAbonarCredito=0;
+                 this.errorAbonoMensajeArray=[];
+
+                 if(!this.montoAbonar) this.errorAbonoMensajeArray.push("El monto Abonar no puede estar vacio");
+                 if(this.montoAbonar>(this.deuda-this.acumabonodeuda)) this.errorAbonoMensajeArray.push("Monto abonar es mayor a la deudad actual");
+                 if(this.errorAbonoMensajeArray.length) this.errorAbonarCredito=1;
+                 return this.errorAbonarCredito;
+              },
+
               vaciarVariable()
               {
                  this.detalles_venta_credito=[];
                  this.acumabonodeuda=0;
+                 this.montoAbonar=0;
+                 this.observacionAbono='ninguna';
+                 this.errorAbonarCredito=0;
+                 this.errorAbonoMensajeArray=[];
               },
 
 
