@@ -51086,7 +51086,8 @@ var render = function() {
                                           parseInt(
                                             _vm.estadoCajausers.Cajainicial
                                           ) -
-                                          _vm.egreso_venta
+                                          _vm.egreso_venta +
+                                          _vm.ingresoAbonocredito
                                       )
                                     )
                                   }

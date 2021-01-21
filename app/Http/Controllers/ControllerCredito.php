@@ -17,6 +17,7 @@ class ControllerCredito extends Controller
       $buscar = $request->buscar;
       $criterio = $request->criterio;
 
+
        if($buscar==''){
           $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito')->orderBy('idCredito', 'DESC')->paginate(10);
        }else{
@@ -48,7 +49,7 @@ class ControllerCredito extends Controller
             ->where('id_vendedor',\Auth::user()->id)
             ->where('Cajaactual','abierto')->first();
 
-        $AbonoCredito = AbonoCredito::create([
+            $AbonoCredito = AbonoCredito::create([
             'id_Credito' => $request->get('credito_id'),
             'idusers' => \Auth::user()->id,
             'id_caja'=>$id_caja_users->idcaja,

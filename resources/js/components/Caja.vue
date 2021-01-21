@@ -369,7 +369,7 @@
                                         <tr class="totalresultado" >
                                              <td></td>
                                              <td align="right"><strong>Efectivo en caja :</strong></td>
-                                             <td class="text-error" v-text="Intl.NumberFormat().format((efectivo_ventas+parseInt(estadoCajausers.Cajainicial))-egreso_venta)"></td>
+                                             <td class="text-error" v-text="Intl.NumberFormat().format(((efectivo_ventas+parseInt(estadoCajausers.Cajainicial))-egreso_venta)+ingresoAbonocredito)"></td>
                                          </tr><br>
 
 
