@@ -11,15 +11,20 @@ class NuevoUsuario extends Mailable
 {
     use Queueable, SerializesModels;
     public $subject='Mensaje recibido';
+    public $usuario;
+    public $password;
+ 
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($usuario,$password)
     {
-        //
+        $this->usuario=$usuario;
+        $this->password=$password;
+ 
     }
 
     /**

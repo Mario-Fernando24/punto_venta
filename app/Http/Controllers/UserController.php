@@ -54,8 +54,10 @@ class UserController extends Controller
        }
        try{
 
+       $usuario=$request->get('usuario');
+       $password=$request->get('password');
 
-        Mail::to($request->get('email'))->send(new NuevoUsuario);
+       Mail::to($request->get('email'))->send(new NuevoUsuario($usuario,$password));
         
             $persona = Persona::create([
             'nombre' => $request->get('nombre'),
