@@ -225,10 +225,16 @@
                                 </div>
                             </form>
                         </div>
+
+
+
                         <div class="modal-footer">
+                            <img v-if="isLoaded==true" src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" alt="logo" width="220" height="110">
+                            <div v-if="isLoaded==false">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarUsuario()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary"  @click="registrarUsuario()">Guardar</button>
                             <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarUsuario()">Actualizar</button>
+                            </div>
 
                         </div>
                     </div>
@@ -257,6 +263,8 @@
             usuario: '',
             password:'',
             idRol:0,
+
+            isLoaded: false,
 
             //la data que regresa nuestro metodo listarusuario se almacene en esta array
             arrayUsuario:[],
@@ -318,6 +326,7 @@
                 }
                 return pagesArray;  
             }
+
         },
 
 
@@ -372,6 +381,9 @@
                   if(this.validarUsuario()){
                       return ;
                   }
+
+                this.isLoaded = true;
+
                   let me=this;
                   axios.post('/user/registrar', {
                     'nombre':  this.nombre,
@@ -455,7 +467,7 @@
                 this.idRol=0;
                 this.errorMensajeArrayUsuario = [];
                 this.errorUsuario = 0;
-
+                this.isLoaded = false;
               },
 
 

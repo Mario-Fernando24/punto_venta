@@ -7139,6 +7139,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -7155,6 +7161,7 @@ __webpack_require__.r(__webpack_exports__);
       usuario: '',
       password: '',
       idRol: 0,
+      isLoaded: false,
       //la data que regresa nuestro metodo listarusuario se almacene en esta array
       arrayUsuario: [],
       arrayRol: [],
@@ -7262,6 +7269,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      this.isLoaded = true;
       var me = this;
       axios.post('/user/registrar', {
         'nombre': this.nombre,
@@ -7332,6 +7340,7 @@ __webpack_require__.r(__webpack_exports__);
       this.idRol = 0;
       this.errorMensajeArrayUsuario = [];
       this.errorUsuario = 0;
+      this.isLoaded = false;
     },
     showPassword: function showPassword() {
       if (this.type === 'password') {
@@ -58395,50 +58404,66 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.cerrarModal()
+                _vm.isLoaded == true
+                  ? _c("img", {
+                      attrs: {
+                        src:
+                          "https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif",
+                        alt: "logo",
+                        width: "220",
+                        height: "110"
                       }
-                    }
-                  },
-                  [_vm._v("Cerrar")]
-                ),
-                _vm._v(" "),
-                _vm.tipoAccionButton == 1
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-outline-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.registrarUsuario()
-                          }
-                        }
-                      },
-                      [_vm._v("Guardar")]
-                    )
+                    })
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.tipoAccionButton == 2
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-outline-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.actualizarUsuario()
+                _vm.isLoaded == false
+                  ? _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.cerrarModal()
+                            }
                           }
-                        }
-                      },
-                      [_vm._v("Actualizar")]
-                    )
+                        },
+                        [_vm._v("Cerrar")]
+                      ),
+                      _vm._v(" "),
+                      _vm.tipoAccionButton == 1
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-primary",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.registrarUsuario()
+                                }
+                              }
+                            },
+                            [_vm._v("Guardar")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.tipoAccionButton == 2
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-primary",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actualizarUsuario()
+                                }
+                              }
+                            },
+                            [_vm._v("Actualizar")]
+                          )
+                        : _vm._e()
+                    ])
                   : _vm._e()
               ])
             ])

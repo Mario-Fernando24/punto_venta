@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class NuevoUsuario extends Mailable
 {
     use Queueable, SerializesModels;
-    public $subject='Mensaje recibido';
+    public $subject='Bienvenido a la Familia TenderPos';
     public $usuario;
     public $password;
  
