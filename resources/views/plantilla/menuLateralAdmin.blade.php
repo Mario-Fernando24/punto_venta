@@ -62,6 +62,9 @@
                             <li @click="menu=2" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-bag"></i> Artículos</a>
                             </li>
+                            <li @click="menu=2" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-bag"></i> Ajuste de inventario</a>
+                            </li>
                         </ul>
                     </li>
 

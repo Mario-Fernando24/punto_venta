@@ -4957,7 +4957,7 @@ __webpack_require__.r(__webpack_exports__);
         if (respuesta.status == 'ok') {
           me.listarEgreso(1, '', 'nombre');
           me.cerrarModal();
-          Swal.fire('Exitoso?', 'Documento de caja Ingresado correctamenta', 'success');
+          Swal.fire('Exitoso?', 'Documento de caja Ingresado correctamente', 'success');
         }
       })["catch"](function (error) {
         console.log(error);

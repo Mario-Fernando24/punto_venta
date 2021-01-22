@@ -366,7 +366,7 @@
                             me.cerrarModal();
                             Swal.fire(
                             'Exitoso?',
-                            'Documento de caja Ingresado correctamenta',
+                            'Documento de caja Ingresado correctamente',
                             'success'
                             )
                     }

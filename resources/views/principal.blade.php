@@ -117,7 +117,7 @@
 
     <footer class="app-footer">
         <span><a href="http://www.incanatoit.com/">Todos los derechos reservado</a> &copy; 2020</span>
-        <span class="ml-auto">Desarrollado por <a href="mariomunoz.com">Mario Muñoz</a></span>
+        <span class="ml-auto">Desarrollado por <a href="https://appestrategico.com/">Appestrategico</a></span>
     </footer>
 
 </body>
