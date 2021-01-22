@@ -7,6 +7,10 @@ use App\User;
 use App\Persona;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\NuevoUsuario;
+//para el envio de correo electronicos
+use Illuminate\Support\Facades\Mail;
+
 
 class UserController extends Controller
 {
@@ -51,6 +55,8 @@ class UserController extends Controller
        try{
 
 
+        Mail::to($request->get('email'))->send(new NuevoUsuario);
+        
             $persona = Persona::create([
             'nombre' => $request->get('nombre'),
             'tipo_documento' => $request->get('tipo_documento'),
@@ -69,7 +75,9 @@ class UserController extends Controller
             'usuario' => $request->get('usuario'),
             'password' => Hash::make($request->get('password')),
             ]);
+
             return $persona;
+
 
 
       }catch (ModelNotFoundException $e) {
