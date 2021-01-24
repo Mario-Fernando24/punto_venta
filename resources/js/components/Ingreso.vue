@@ -4,7 +4,18 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Escritorio</a></li>
             </ol>
-            <div class="container-fluid">
+
+            <div class="card-body" v-if="validar_caja=='error'">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-striped table-sm">
+                            <tbody>
+                                <h1>Caja Cerrada</h1>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    
+            <div class="container-fluid" v-if="validar_caja=='ok'">
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
@@ -640,6 +651,9 @@ import vSelect from "vue-select";
             precio:0,
             preciocompra:0,
             cantidad:0,
+             //validar caja open
+             validar_caja:'',
+
 
             nombreAnulaIngreso:'',
             estadovaling:'',
@@ -1026,13 +1040,69 @@ import vSelect from "vue-select";
                 this.arrayArticulo=[];    
                 this.modal=1;
                 this.tituloModal='Seleccione uno o varios Articulos';
+                },
+                
+
+
+                 validateOpenCaja(){
+
+                  let me=this;
+                  axios.get('egreso/ValidateOpenCaja').then(function (response) {
+                    var respuesta=response.data;
+                    me.validar_caja=respuesta.status;
+                        if(respuesta.status=='error')
+                        {   
+                            me.ShowModalAperturaCaja();
+
+
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
+
+             ShowModalAperturaCaja(){
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-info',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'apertura de caja Cerrada!',
+                text: "presione click en el modulo movimiento de caja",
+                icon: 'info',
+                showCancelButton: true,
+               // confirmButtonText: 'Open Caja',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+                 //pasar al otro componente
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    '',
+                    'error'
+                    )
                 }
+                })
+           },
+
+
 
 
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarIngreso
       this.listarIngreso(1,this.buscar,this.criterio);  
+      this.validateOpenCaja();
          }
     }
 </script>
