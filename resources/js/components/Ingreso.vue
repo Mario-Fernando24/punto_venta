@@ -1027,10 +1027,12 @@ import vSelect from "vue-select";
                 this.modal=1;
                 this.tituloModal='Seleccione uno o varios Articulos';
                 }
+
+
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarIngreso
-      this.listarIngreso(1,this.buscar,this.criterio);     
+      this.listarIngreso(1,this.buscar,this.criterio);  
          }
     }
 </script>

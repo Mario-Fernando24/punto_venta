@@ -11,7 +11,21 @@
                         <i class="fa fa-align-justify"></i>Listado de creditos
                         
                     </div>
-                    <div class="card-body">
+
+
+
+                    <div class="card-body" v-if="validar_caja=='error'">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-striped table-sm">
+                            <tbody>
+                                <h1>Caja Cerrada</h1>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-body" v-if="validar_caja=='ok'">
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="input-group">
@@ -256,6 +270,9 @@
            //variables modal credito
             montoAbonar:0,
             observacionAbono:'ninguna',
+            //validar caja open
+             validar_caja:'',
+
 
             //validacion abonar credito
 
@@ -433,9 +450,6 @@
                                     
                                 });
 
-
-                                
-
                               break;
                              } 
                              }   
@@ -451,7 +465,60 @@
                 this.tituloModal='';
                 this.vaciarVariable();
 
-              },     
+              }, 
+              
+
+
+
+             validateOpenCaja(){
+
+                  let me=this;
+                  axios.get('egreso/ValidateOpenCaja').then(function (response) {
+                    var respuesta=response.data;
+                    me.validar_caja=respuesta.status;
+                        if(respuesta.status=='error')
+                        {   
+                            me.ShowModalAperturaCaja();
+
+
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
+             ShowModalAperturaCaja(){
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-info',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'apertura de caja Cerrada!',
+                text: "presione click en el modulo movimiento de caja",
+                icon: 'info',
+                showCancelButton: true,
+               // confirmButtonText: 'Open Caja',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+                 //pasar al otro componente
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    '',
+                    'error'
+                    )
+                }
+                })
+           },
 
 
               
@@ -463,6 +530,8 @@
         mounted() {
        //hacemos referencia a nuestro metodo  listarCategoria
       this.listaCategoria(1,this.buscar,this.criterio);     
+      this.validateOpenCaja(); 
+
          }
     }
 </script>

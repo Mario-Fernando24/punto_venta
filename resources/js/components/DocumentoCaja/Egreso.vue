@@ -304,10 +304,10 @@
 
                 swalWithBootstrapButtons.fire({
                 title: 'apertura de caja Cerrada!',
-                text: "Estas seguro de Abrir la caja ?",
+                text: "presione click en el modulo movimiento de caja",
                 icon: 'info',
                 showCancelButton: true,
-                confirmButtonText: 'Open Caja',
+               // confirmButtonText: 'Open Caja',
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true
                 }).then((result) => {
