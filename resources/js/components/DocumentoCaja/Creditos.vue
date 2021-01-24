@@ -122,7 +122,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>users</th>
+                                    <th>Vendedor</th>
                                     <th>Abono</th>
                                     <th>Observación</th>
                                     <th>Fecha</th>
@@ -154,7 +154,7 @@
                             <tbody v-else>
                                     <tr class="totalresultado" v-for="abonos in abono_credito" :key="abonos.id">
                                         <td v-text="abonos.id"></td>
-                                        <td v-text="abonos.idusers"></td>
+                                        <td v-text="abonos.user_ingresado['usuario']"></td>
                                         <td class="text-error" v-text=" Intl.NumberFormat().format(abonos.montoAbonar)"></td>
                                         <td v-text="abonos.observacion"></td>
                                         <td v-text="abonos.created_at"></td>
@@ -417,7 +417,7 @@
 
                                this.detalles_venta_credito=data.detalles_venta_credito;
                                this.abono_credito=data.abono_credito;
-                               //deuda actual
+                               //deuda actual0
                                this.deuda=data['deuda'];
                                 
                                 //suma array abonodeuda 

@@ -4582,7 +4582,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.tipoAccionButton = 1;
                   this.credito_id = data['idCredito'];
                   this.detalles_venta_credito = data.detalles_venta_credito;
-                  this.abono_credito = data.abono_credito; //deuda actual
+                  this.abono_credito = data.abono_credito; //deuda actual0
 
                   this.deuda = data['deuda']; //suma array abonodeuda 
 
@@ -53148,7 +53148,9 @@ var render = function() {
                                               _c("td", {
                                                 domProps: {
                                                   textContent: _vm._s(
-                                                    abonos.idusers
+                                                    abonos.user_ingresado[
+                                                      "usuario"
+                                                    ]
                                                   )
                                                 }
                                               }),
@@ -53494,7 +53496,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("users")]),
+        _c("th", [_vm._v("Vendedor")]),
         _vm._v(" "),
         _c("th", [_vm._v("Abono")]),
         _vm._v(" "),

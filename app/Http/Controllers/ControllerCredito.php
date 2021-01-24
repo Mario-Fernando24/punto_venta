@@ -12,16 +12,15 @@ class ControllerCredito extends Controller
     public function index(Request $request)
     {
 
-      if(!$request->ajax()){return redirect('/');}
+     // if(!$request->ajax()){return redirect('/');}
 
       $buscar = $request->buscar;
       $criterio = $request->criterio;
 
-
        if($buscar==''){
-          $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito')->orderBy('idCredito', 'DESC')->paginate(10);
+          $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito.UserIngresado')->orderBy('idCredito', 'DESC')->paginate(10);
        }else{
-          $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('idCredito', 'desc')->paginate(10);
+          $credito = Credito::with('ventaCredito','clienteCredito','detallesVentaCredito','AbonoCredito.UserIngresado')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('idCredito', 'desc')->paginate(10);
        }
 
       return [

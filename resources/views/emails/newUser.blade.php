@@ -14,7 +14,7 @@
 <p class="text-black">Usuario:  <span class="f-w-bold"><b>{{ $usuario }}</b><br></span> Password: <span><b> {{ $password}}</b></span></p>
 <div class="text-center p-y-10"><a class="btn" href="#" 
 target="R9RbDF2ac_uyR8sTEq1eeXl" rel="noopener noreferrer">Click</a></div>
-<p class="p-t-5 text-black">Si no has sido tú, omite este mensaje, tu cuenta está segura.</p>
+<p class="p-t-5 text-black">Si no has siuo tú, omite este mensaje, tu cuenta está segura.</p>
 </div>
 <div class="m-b-10 p-t-10 f-w-light text-black text-left p-x-8">Saludos,
 <div class="f-w-bold text-primary">TenderPos Facturación</div>
