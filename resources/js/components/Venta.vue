@@ -18,7 +18,7 @@
 
                     <template v-if="validar_caja=='error'">
 
-                        <div class="card-body" v-if="validar_caja=='error'">
+                        <div class="card-body">
                                     <div class="table-responsive">
                                     <table class="table table-bordered table-striped table-sm">
                                         <tbody>
@@ -30,7 +30,7 @@
                     </template>
 
 
-                    
+
                     <!--Listado-->
                     <template v-if="listado==1 && validar_caja=='ok'" >
                         <div class="card-body">

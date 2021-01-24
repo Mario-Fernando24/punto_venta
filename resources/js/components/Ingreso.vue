@@ -5,7 +5,8 @@
                 <li class="breadcrumb-item"><a href="#">Escritorio</a></li>
             </ol>
 
-            <div class="card-body" v-if="validar_caja=='error'">
+                    <template v-if="validar_caja=='error'">
+                      <div class="card-body">
                         <div class="table-responsive">
                           <table class="table table-bordered table-striped table-sm">
                             <tbody>
@@ -13,8 +14,9 @@
                             </tbody>
                         </table>
                         </div>
-                    </div>
-                    
+                     </div>
+                    </template> 
+
             <div class="container-fluid" v-if="validar_caja=='ok'">
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
@@ -1060,7 +1062,7 @@ import vSelect from "vue-select";
                     .catch(function (error) {
                         console.log(error);
                     });
-            },
+                },
 
 
              ShowModalAperturaCaja(){

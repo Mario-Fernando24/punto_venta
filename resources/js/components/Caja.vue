@@ -89,6 +89,9 @@
                 </div>
                 <!-- Fin ejemplo de tabla Listado -->
             </div>
+
+
+
             <!--Inicio del modal agregar/actualizar-->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
                 <div   class="modal-dialog modal-primary modal-lg" role="document">
@@ -670,7 +673,7 @@
                                // console.log(data);
                                this.modal=1;
                                this.tituloModal='Cierre de caja';
-                               this.tipoAccionButton=2;
+                               this.tipoAccionButton=3;
                              break;
                              }   
 
