@@ -8161,6 +8161,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -8227,7 +8243,9 @@ __webpack_require__.r(__webpack_exports__);
       impu: 0,
       nombreAnulaVenta: '',
       estadovali: '',
-      fecha_ven_anulada: ''
+      fecha_ven_anulada: '',
+      //validar caja open
+      validar_caja: ''
     };
   },
   components: {
@@ -8578,11 +8596,48 @@ __webpack_require__.r(__webpack_exports__);
       this.arrayArticulo = [];
       this.modal = 1;
       this.tituloModal = 'Seleccione uno o varios Articulos';
+    },
+    validateOpenCaja: function validateOpenCaja() {
+      var me = this;
+      axios.get('egreso/ValidateOpenCaja').then(function (response) {
+        var respuesta = response.data;
+        me.validar_caja = respuesta.status;
+
+        if (respuesta.status == 'error') {
+          me.ShowModalAperturaCaja();
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    ShowModalAperturaCaja: function ShowModalAperturaCaja() {
+      var swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-info',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      });
+      swalWithBootstrapButtons.fire({
+        title: 'apertura de caja Cerrada!',
+        text: "presione click en el modulo movimiento de caja",
+        icon: 'info',
+        showCancelButton: true,
+        // confirmButtonText: 'Open Caja',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.isConfirmed) {//pasar al otro componente
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
+        }
+      });
     }
   },
   mounted: function mounted() {
     //hacemos referencia a nuestro metodo  listaVenta
     this.listaVenta(1, this.buscar, this.criterio);
+    this.validateOpenCaja();
   }
 });
 
@@ -58847,7 +58902,15 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm.listado == 1
+          _vm.validar_caja == "error"
+            ? [
+                _vm.validar_caja == "error"
+                  ? _c("div", { staticClass: "card-body" }, [_vm._m(1)])
+                  : _vm._e()
+              ]
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.listado == 1 && _vm.validar_caja == "ok"
             ? [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "form-group row" }, [
@@ -58961,7 +59024,7 @@ var render = function() {
                           "table table-bordered table-striped table-sm"
                       },
                       [
-                        _vm._m(1),
+                        _vm._m(2),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -59416,7 +59479,7 @@ var render = function() {
                               _vm._v("CREDITO")
                             ]),
                             _vm._v(" "),
-                            _vm._m(2)
+                            _vm._m(3)
                           ]
                         )
                       ])
@@ -59785,7 +59848,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(3),
+                          _vm._m(4),
                           _vm._v(" "),
                           _vm.arrayDetalleVenta.length
                             ? _c(
@@ -59975,7 +60038,7 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(4),
+                                    _vm._m(5),
                                     _vm._v(" "),
                                     _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
@@ -59990,7 +60053,7 @@ var render = function() {
                                   ]),
                                   _vm._v(" "),
                                   _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(5),
+                                    _vm._m(6),
                                     _vm._v(" "),
                                     _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
@@ -60007,7 +60070,7 @@ var render = function() {
                                   ]),
                                   _vm._v(" "),
                                   _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(6),
+                                    _vm._m(7),
                                     _vm._v(" "),
                                     _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
@@ -60023,7 +60086,7 @@ var render = function() {
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(7)])
+                            : _c("tbody", [_vm._m(8)])
                         ]
                       )
                     ]),
@@ -60179,7 +60242,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(8),
+                          _vm._m(9),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -60232,7 +60295,7 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(9),
+                                _vm._m(10),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -60248,7 +60311,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(10),
+                                _vm._m(11),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -60263,7 +60326,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(11),
+                                _vm._m(12),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -60467,7 +60530,7 @@ var render = function() {
                       staticClass: "table table-bordered table-striped table-sm"
                     },
                     [
-                      _vm._m(12),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -60604,6 +60667,18 @@ var staticRenderFns = [
       _c("li", { staticClass: "breadcrumb-item" }, [
         _c("a", { attrs: { href: "#" } }, [_vm._v("Escritorio")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "table-responsive" }, [
+      _c(
+        "table",
+        { staticClass: "table table-bordered table-striped table-sm" },
+        [_c("tbody", [_c("h1", [_vm._v("Caja Cerrada")])])]
+      )
     ])
   },
   function() {

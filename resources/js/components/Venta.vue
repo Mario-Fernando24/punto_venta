@@ -15,8 +15,24 @@
 
 
                     </div>
+
+                    <template v-if="validar_caja=='error'">
+
+                        <div class="card-body" v-if="validar_caja=='error'">
+                                    <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-sm">
+                                        <tbody>
+                                            <h1>Caja Cerrada</h1>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                    </template>
+
+
+                    
                     <!--Listado-->
-                    <template v-if="listado==1">
+                    <template v-if="listado==1 && validar_caja=='ok'" >
                         <div class="card-body">
                             <div class="form-group row">
                                 <div class="col-md-6">
@@ -628,6 +644,9 @@ import vSelect from "vue-select";
             nombreAnulaVenta:'',
             estadovali:'',
             fecha_ven_anulada:'',
+
+             //validar caja open
+             validar_caja:'',
           }
         },
          components: {
@@ -1083,11 +1102,65 @@ import vSelect from "vue-select";
                 this.arrayArticulo=[];    
                 this.modal=1;
                 this.tituloModal='Seleccione uno o varios Articulos';
+                },
+
+
+                 validateOpenCaja(){
+
+                  let me=this;
+                  axios.get('egreso/ValidateOpenCaja').then(function (response) {
+                    var respuesta=response.data;
+                    me.validar_caja=respuesta.status;
+                        if(respuesta.status=='error')
+                        {   
+                            me.ShowModalAperturaCaja();
+
+
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                },
+
+                ShowModalAperturaCaja(){
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-info',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'apertura de caja Cerrada!',
+                text: "presione click en el modulo movimiento de caja",
+                icon: 'info',
+                showCancelButton: true,
+               // confirmButtonText: 'Open Caja',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+                 //pasar al otro componente
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    '',
+                    'error'
+                    )
                 }
+                })
+           },
+
+
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listaVenta
-      this.listaVenta(1,this.buscar,this.criterio);     
+      this.listaVenta(1,this.buscar,this.criterio);  
+      this.validateOpenCaja();   
          }
     }
 </script>
