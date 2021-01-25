@@ -2,7 +2,7 @@
     <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Escritorio</a></li>
+                <li class="breadcrumb-item"><a href="#">Escritorio Mario</a></li>
             </ol>
             <div class="container-fluid">
                 <!-- Ejemplo de tabla Listado -->
