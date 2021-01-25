@@ -8,7 +8,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Categorías
+                        <i class="fa fa-align-justify"></i> Categoríasguyguyguygyugyug
                         <button type="button"  @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
