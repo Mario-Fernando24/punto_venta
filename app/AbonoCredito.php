@@ -31,4 +31,7 @@ class AbonoCredito extends Model
     {
         return $this->belongsTo(User::class,'idusers');
     }
+
+
+    
 }

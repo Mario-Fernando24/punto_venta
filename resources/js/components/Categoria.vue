@@ -350,7 +350,7 @@
                 })
            },
            cargarPdfCategoria(){
-              window.open('http://127.0.0.1:8000/categoria/ListarPdfCategoria','_blank');
+              window.open('http://54.237.93.88/categoria/ListarPdfCategoria','_blank');
            },
 
 
