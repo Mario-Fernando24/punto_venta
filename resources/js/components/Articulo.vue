@@ -528,7 +528,7 @@ import VueBarcode from 'vue-barcode';
            },
 
            cargarPdfInventario(){
-              window.open('http://127.0.0.1:8000/articulo/ListarPdfInventario','_blank');
+              window.open('http://54.237.93.88/articulo/ListarPdfInventario','_blank');
            },
            
 

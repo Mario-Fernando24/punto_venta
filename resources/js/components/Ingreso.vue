@@ -930,7 +930,7 @@ import vSelect from "vue-select";
                 
                 descargaringreso(id)
                 {
-                    window.open('http://127.0.0.1:8000/ingresos/pdfIngreso/'+id+','+'_blank');
+                    window.open('http://54.237.93.88/ingresos/pdfIngreso/'+id+','+'_blank');
 
                 },
            
