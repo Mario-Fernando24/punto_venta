@@ -6226,99 +6226,307 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
   data: function data() {
     return {
-      //cual es la categoria que quiero edit 
-      categoria_id: 0,
-      nombre: '',
-      descripcion: '',
       //la data que regresa nuestro metodo listarCategoria se almacene en esta array
-      arrayCategoria: [],
+      companyobjeto: '',
       modal: 0,
       //para saber que modal quiero mostrar, register o actualizar
       tituloModal: '',
       tipoAccionButton: 0,
-      errorCategoria: 0,
-      errorMensajeCategoriaArray: []
+      errorCompany: 0,
+      errorMensajeCompanyArray: [],
+      imagencompany: '',
+      modalImage: 0,
+      id_perfil: 0,
+      company_razonsocial: '',
+      company_telefono: '',
+      company_direccion: '',
+      company_impuesto: '',
+      company_nit: '',
+      company_correo: '',
+      company_codpostal: '',
+      company_propietario: '',
+      company_ciudad: ''
     };
   },
   computed: {},
-  //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
-    listaCategoria: function listaCategoria(page, buscar, criterio) {
+    objetoCompany: function objetoCompany() {
       var me = this;
-      var url = '/categoria/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = '/company/index';
       axios.get(url).then(function (response) {
-        var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
-
-        me.arrayCategoria = respuesta.categorias.data;
-        me.pagination = respuesta.pagination;
+        var respuesta = response.data;
+        me.companyobjeto = response.data.Perfil;
+        me.id_perfil = me.companyobjeto.id;
+        me.company_razonsocial = me.companyobjeto.razon_social;
+        me.company_telefono = me.companyobjeto.telefono;
+        me.company_direccion = me.companyobjeto.direccion;
+        me.company_impuesto = me.companyobjeto.impuesto;
+        me.company_nit = me.companyobjeto.nit;
+        me.company_correo = me.companyobjeto.correo;
+        me.company_codpostal = me.companyobjeto.codigo_postal;
+        me.company_propietario = me.companyobjeto.propietario;
+        me.company_ciudad = me.companyobjeto.ciudad;
       })["catch"](function (error) {
         console.log(error);
       });
     },
-    actualizarCategoria: function actualizarCategoria() {
-      if (this.validarCategoria()) {
+    validateCompany: function validateCompany() {
+      this.errorCompany = 0;
+      this.errorMensajeCompanyArray = [];
+      if (!this.company_razonsocial) this.errorMensajeCompanyArray.push("Razon social no puede estar vacio");
+      if (!this.company_telefono) this.errorMensajeCompanyArray.push(" Telefono no puede estar vacio");
+      if (!this.company_direccion) this.errorMensajeCompanyArray.push("Dirección no puede estar vacio");
+      if (!this.company_impuesto) this.errorMensajeCompanyArray.push("Impuesto no puede estar vacio");
+      if (!this.company_nit) this.errorMensajeCompanyArray.push("Nit no puede estar vacio");
+      if (!this.company_correo) this.errorMensajeCompanyArray.push("Correo no puede estar vacio");
+      if (!this.company_codpostal) this.errorMensajeCompanyArray.push("El codigo Postal no puede estar vacio");
+      if (!this.company_propietario) this.errorMensajeCompanyArray.push("Propietario no puede estar vacio");
+      if (!this.company_ciudad) this.errorMensajeCompanyArray.push("Ciudad no puede estar vacio");
+      if (this.errorMensajeCompanyArray.length) this.errorCompany = 1;
+      return this.errorCompany;
+    },
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+      this.modalImage = 0;
+      this.tituloModal = '';
+      this.tituloModal = '';
+      this.descripcion = '';
+      this.errorMensajeCompanyArray = [];
+      this.errorCompany = 0;
+    },
+    updateProfileCompany: function updateProfileCompany() {
+      if (this.validateCompany()) {
         return;
       }
 
       var me = this;
-      axios.put('/categoria/actualizar', {
-        'nombre': this.nombre,
-        'descripcion': this.descripcion,
-        'id': this.categoria_id
+      axios.post('/company/register', {
+        'id': this.id_perfil,
+        'razon_social': this.company_razonsocial,
+        'telefono': this.company_telefono,
+        'direccion': this.company_direccion,
+        'impuesto': this.company_impuesto,
+        'nit': this.company_nit,
+        'correo': this.company_correo,
+        'codigo_postal': this.company_codpostal,
+        'propietario': this.company_propietario,
+        'ciudad': this.company_ciudad
       }).then(function (response) {
-        me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+        me.cerrarModal();
+        me.objetoCompany();
+        var respuesta = response.data;
 
-        me.listaCategoria(1, '', 'nombre');
+        if (response.data.status == 'ok') {
+          Swal.fire('Exitoso?', 'La empresa guardada correctamente', 'success');
+        }
       })["catch"](function (error) {
         console.log(error);
       });
-    },
-    validarCategoria: function validarCategoria() {
-      this.errorCategoria = 0;
-      this.errorMensajeCategoriaArray = [];
-      if (!this.nombre) this.errorMensajeCategoriaArray.push("El nombre de la categoria no puede estar vacio");
-      if (this.errorMensajeCategoriaArray.length) this.errorCategoria = 1;
-      return this.errorCategoria;
-    },
-    cerrarModal: function cerrarModal() {
-      this.modal = 0;
-      this.tituloModal = '';
-      this.nombre = '';
-      this.descripcion = '';
-      this.errorMensajeCategoriaArray = [];
-      this.errorCategoria = 0;
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
       switch (modelo) {
-        case "categoria":
+        case "company":
           {
             switch (accion) {
               case 'actualizar':
                 {
                   // console.log(data);
                   this.modal = 1;
-                  this.tituloModal = 'Editar Categoria';
+                  this.tituloModal = 'Editar Empresa';
                   this.tipoAccionButton = 2;
-                  this.categoria_id = data['id'];
-                  this.nombre = data['nombre'];
                   this.descripcion = data['descripcion'];
+                  break;
+                }
+
+              case 'updateImage':
+                {
+                  // console.log(data);
+                  this.modalImage = 1;
+                  this.tituloModal = 'Actulizar imagen de la Empresa';
                   break;
                 }
             }
           }
       }
+    },
+    onImagePerfil: function onImagePerfil(e) {
+      console.log(e.target.files[0]);
+      this.imagencompany = e.target.files[0];
+    },
+    updateImageCompany: function updateImageCompany(e) {
+      var me = this;
+      e.preventDefault();
+      var currentObj = this;
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+      var formData = new FormData();
+      formData.append('image', this.imagencompany);
+      formData.append('id', this.id_perfil);
+      axios.post('/company/updateImage', formData, config).then(function (response) {
+        var respuesta = response.data;
+
+        if (response.data.status == 'ok') {
+          me.objetoCompany();
+          me.cerrarModal();
+          Swal.fire('Exitoso?', 'Imagen de la empresa guardada correctamente', 'success');
+        }
+
+        currentObj.success = response.data.success;
+      })["catch"](function (error) {
+        currentObj.output = error;
+      });
     }
   },
   mounted: function mounted() {
     //hacemos referencia a nuestro metodo  listarCategoria
-    this.listaCategoria(1, this.buscar, this.criterio);
+    this.objetoCompany();
   }
 });
 
@@ -13429,7 +13637,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrilla{\n    color: black !important;\n    font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -56864,7 +57072,175 @@ var render = function() {
   return _c("main", { staticClass: "main" }, [
     _vm._m(0),
     _vm._v(" "),
-    _vm._m(1),
+    _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "card" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "form",
+            {
+              staticClass: "form-horizontal",
+              attrs: {
+                action: "",
+                method: "post",
+                enctype: "multipart/form-data"
+              }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("img", {
+                    staticClass: "rounded-circle",
+                    staticStyle: { height: "160px", width: "260px" },
+                    attrs: {
+                      src: "/img/company/" + _vm.companyobjeto.image_perfil
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-info btn-sm",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.abrirModal("company", "updateImage")
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "icon-picture " }),
+                      _vm._v(" Editar\n                                   ")
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("h3", [
+                    _c("i", { staticClass: "icon-user text-negrilla" }, [
+                      _vm._v("Razón social: "),
+                      _c("p", {
+                        domProps: {
+                          textContent: _vm._s(_vm.companyobjeto.razon_social)
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("i", { staticClass: "icon-phone text-negrilla" }, [
+                    _vm._v("Telefono: "),
+                    _c("p", {
+                      domProps: {
+                        textContent: _vm._s(_vm.companyobjeto.telefono)
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("i", { staticClass: "icon-map text-negrilla" }, [
+                    _vm._v("Dirección:"),
+                    _c("p", {
+                      domProps: {
+                        textContent: _vm._s(_vm.companyobjeto.direccion)
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("i", { staticClass: "icon-info text-negrilla" }, [
+                    _vm._v("Impuesto: "),
+                    _c("p", {
+                      domProps: {
+                        textContent: _vm._s(_vm.companyobjeto.impuesto)
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("i", { staticClass: "icon-info text-negrilla" }, [
+                    _vm._v("Nit"),
+                    _c("p", {
+                      domProps: { textContent: _vm._s(_vm.companyobjeto.nit) }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("i", { staticClass: "icon-info text-negrilla" }, [
+                    _vm._v("Correo: "),
+                    _c("p", {
+                      domProps: {
+                        textContent: _vm._s(_vm.companyobjeto.correo)
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("i", { staticClass: "icon-map text-negrilla" }, [
+                    _vm._v("Codigo postal: "),
+                    _c("p", {
+                      domProps: {
+                        textContent: _vm._s(_vm.companyobjeto.codigo_postal)
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("i", { staticClass: "icon-user text-negrilla" }, [
+                    _vm._v("Propietario: "),
+                    _c("p", {
+                      domProps: {
+                        textContent: _vm._s(_vm.companyobjeto.propietario)
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-3" }, [
+                  _c("i", { staticClass: "icon-info text-negrilla" }, [
+                    _vm._v("Ciudad: "),
+                    _c("p", {
+                      domProps: {
+                        textContent: _vm._s(_vm.companyobjeto.ciudad)
+                      }
+                    })
+                  ])
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-success btn-sm",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.abrirModal("company", "actualizar")
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "icon-pencil" }),
+              _vm._v(" Actualizar\n                                   ")
+            ]
+          )
+        ])
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -56926,37 +57302,34 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Nombre")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-sm-12" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-12 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Razón social")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nombre,
-                              expression: "nombre"
+                              value: _vm.company_razonsocial,
+                              expression: "company_razonsocial"
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            placeholder: "Nombre de categoría"
-                          },
-                          domProps: { value: _vm.nombre },
+                          attrs: { type: "email", placeholder: "Telefono..." },
+                          domProps: { value: _vm.company_razonsocial },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.nombre = $event.target.value
+                              _vm.company_razonsocial = $event.target.value
                             }
                           }
                         })
@@ -56964,23 +57337,159 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Descripción")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-sm-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-6 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Telefono")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.descripcion,
-                              expression: "descripcion"
+                              value: _vm.company_telefono,
+                              expression: "company_telefono"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "email", placeholder: "Telefono..." },
+                          domProps: { value: _vm.company_telefono },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.company_telefono = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-6 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Direccion")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.company_direccion,
+                              expression: "company_direccion"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "email", placeholder: "Dirección..." },
+                          domProps: { value: _vm.company_direccion },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.company_direccion = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "col-sm-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-6 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Impuesto")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.company_impuesto,
+                              expression: "company_impuesto"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "email", placeholder: "Impuesto..." },
+                          domProps: { value: _vm.company_impuesto },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.company_impuesto = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-6 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Nit")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.company_nit,
+                              expression: "company_nit"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "email", placeholder: "Nit..." },
+                          domProps: { value: _vm.company_nit },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.company_nit = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "col-sm-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-6 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Correo")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.company_correo,
+                              expression: "company_correo"
                             }
                           ],
                           staticClass: "form-control",
@@ -56988,13 +57497,120 @@ var render = function() {
                             type: "email",
                             placeholder: "Descripción..."
                           },
-                          domProps: { value: _vm.descripcion },
+                          domProps: { value: _vm.company_correo },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.descripcion = $event.target.value
+                              _vm.company_correo = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-6 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Cod postal")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.company_codpostal,
+                              expression: "company_codpostal"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "email",
+                            placeholder: "Codigo postal..."
+                          },
+                          domProps: { value: _vm.company_codpostal },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.company_codpostal = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "col-sm-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-6 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Propietario")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.company_propietario,
+                              expression: "company_propietario"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "email",
+                            placeholder: "Propietario de la empresa..."
+                          },
+                          domProps: { value: _vm.company_propietario },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.company_propietario = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-6 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Ciudad")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.company_ciudad,
+                              expression: "company_ciudad"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "email", placeholder: "Ciudad..." },
+                          domProps: { value: _vm.company_ciudad },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.company_ciudad = $event.target.value
                             }
                           }
                         })
@@ -57008,8 +57624,8 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.errorCategoria == 1,
-                            expression: "errorCategoria==1"
+                            value: _vm.errorCompany == 1,
+                            expression: "errorCompany==1"
                           }
                         ],
                         staticClass: "form-group row div-error"
@@ -57018,9 +57634,7 @@ var render = function() {
                         _c(
                           "div",
                           { staticClass: "text-center text-error" },
-                          _vm._l(_vm.errorMensajeCategoriaArray, function(
-                            error
-                          ) {
+                          _vm._l(_vm.errorMensajeCompanyArray, function(error) {
                             return _c("div", {
                               key: error,
                               domProps: { textContent: _vm._s(error) }
@@ -57057,13 +57671,125 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.actualizarCategoria()
+                            return _vm.updateProfileCompany()
                           }
                         }
                       },
                       [_vm._v("Actualizar")]
                     )
                   : _vm._e()
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        class: { mostrar: _vm.modalImage },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary modal-lg",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  domProps: { textContent: _vm._s(_vm.tituloModal) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    attrs: { enctype: "multipart/form-data" },
+                    on: { submit: _vm.updateImageCompany }
+                  },
+                  [
+                    _c("strong", [_vm._v("Image:")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: { type: "file" },
+                      on: { change: _vm.onImagePerfil }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.id_perfil,
+                          expression: "id_perfil"
+                        }
+                      ],
+                      attrs: { type: "hidden" },
+                      domProps: { value: _vm.id_perfil },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.id_perfil = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.cerrarModal()
+                            }
+                          }
+                        },
+                        [_vm._v("Cerrar")]
+                      ),
+                      _vm._v(" "),
+                      _c("button", { staticClass: "btn btn-outline-info" }, [
+                        _vm._v("Actualizar")
+                      ])
+                    ])
+                  ]
+                )
               ])
             ])
           ]
@@ -57087,15 +57813,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container-fluid" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("i", { staticClass: "fa fa-align-justify" }),
-          _vm._v(" Perfil\n                  \n                ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" })
-      ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fas fa-edit" }),
+      _vm._v(" "),
+      _c("a", { staticClass: "text-negrilla" }, [_vm._v("Perfil")])
     ])
   }
 ]

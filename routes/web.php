@@ -219,6 +219,16 @@
             Route::post('abonarCredito','ControllerCredito@abonarCredito');     
         });
 
+
+        Route::prefix('company')->group(function() {
+            Route::get('index', 'perfilController@index');  
+            Route::post('updateImage', 'perfilController@updateImage');    
+            Route::post('register', 'perfilController@register');    
+
+        });
+
+        
+
         
              
     });  //and middleware administrador

@@ -62,7 +62,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img src="https://avatars0.githubusercontent.com/u/62738293?s=460&u=fd6de1b7317b182c084ba43ae63661f7fa7a21bf&v=4" class="img-avatar" alt="admin@bootstrapmaster.com">
+                    <img src="/img/tenderpos.jpeg" class="img-avatar" alt="admin@bootstrapmaster.com">
                     <span class="d-md-down-none">{{Auth::user()->usuario}}  </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">

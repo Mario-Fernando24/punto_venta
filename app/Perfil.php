@@ -20,6 +20,7 @@ class Perfil extends Model
         'propietario',
         'ciudad',
         'telefono',
+        'direccion',
         'correo',
         'image_perfil',
     ];

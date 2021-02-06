@@ -15,12 +15,14 @@ class CreatePerfilTable extends Migration
     {
         Schema::create('perfil', function (Blueprint $table) {
             $table->bigIncrements('id');
+
             $table->unsignedBigInteger('id_admin');
             $table->string('nit',100)->nullable();
             $table->string('impuesto',100)->nullable();
             $table->string('razon_social',100)->nullable();
             $table->string('codigo_postal',100)->nullable();
             $table->string('propietario',100)->nullable();
+            $table->string('direccion',100)->nullable();
             $table->string('ciudad',100)->nullable();
             $table->string('telefono',100)->nullable();
             $table->string('correo',100)->nullable();
