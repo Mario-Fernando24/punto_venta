@@ -67,6 +67,11 @@
                     </template>
 
 
+                    <template v-if="menu==15">
+                    <Perfil></Perfil>
+                    </template>
+
+
 
                 @elseif(Auth::user()->idrol==2)
                 

@@ -33,7 +33,7 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Nommbre</th>
+                                    <th>Nombre - Razon social</th>
                                     <th>Tip doc</th>
                                     <th>Numero</th>
                                     <th>Dirección</th>
@@ -101,7 +101,7 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre - Razón social</label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
                                     </div>

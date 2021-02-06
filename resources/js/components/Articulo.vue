@@ -72,7 +72,20 @@
                                         <td v-text="articulo.nombre"></td>
                                         <td v-text="articulo.categoria.nombre"></td>
                                         <td v-text="articulo.precio_venta"></td>
+
+
+                                        <template v-if="articulo.stock<=5 && articulo.stock>0">
+                                        <td><span class="badge bg-warning" v-text="articulo.stock"></span></td>
+                                        </template>
+                                        <template v-if="articulo.stock<=0">
+                                        <td><span class="badge bg-danger" v-text="articulo.stock"></span></td>
+                                        </template>
+
+                                        <template v-if="articulo.stock>5">
                                         <td v-text="articulo.stock"></td>
+                                        </template>
+
+
                                         <td v-text="articulo.descripcion"></td>
 
                                         <td>
@@ -223,7 +236,7 @@ import VueBarcode from 'vue-barcode';
             nombre_categoria :'',
             codigo : '',
             nombre : '',
-            precio_venta:0,
+            precio_venta:1,
             stock:0,
             descripcion : '',
             actividades: [],
@@ -553,7 +566,7 @@ import VueBarcode from 'vue-barcode';
                 this.nombre_categoria ='';
                 this.codigo = '';
                 this.nombre='';
-                this.precio_venta=0;
+                this.precio_venta=1;
                 this.stock=0;    
                 this.descripcion='';
               //  this.errorMensajeArticuloArray = [];
@@ -576,7 +589,7 @@ import VueBarcode from 'vue-barcode';
                                 this.nombre_categoria ='';
                                 this.codigo = '';
                                 this.nombre='';
-                                this.precio_venta=0;
+                                this.precio_venta=1;
                                 this.stock=0;    
                                 this.descripcion='';
                                 this.tipoAccionButton=1;

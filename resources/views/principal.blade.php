@@ -69,7 +69,7 @@
                     <div class="dropdown-header text-center">
                         <strong>Cuenta</strong>
                     </div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Perfil</a>
+                    <a @click="menu=15" class="dropdown-item" href="#"><i class="fa fa-user"></i> Perfil</a>
                     <a class="dropdown-item" href="{{ url('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     ><i class="fa fa-lock"></i> Cerrar sesión</a>
@@ -116,7 +116,7 @@
     <!--end vue-->
 
     <footer class="app-footer">
-        <span><a href="http://www.incanatoit.com/">Todos los derechos reservado</a> &copy; 2020</span>
+        <span><a href="http://www.incanatoit.com/">Todos los derechos reservado</a> &copy; 2021</span>
         <span class="ml-auto">Desarrollado por <a href="https://appestrategico.com/">Appestrategico</a></span>
     </footer>
 
