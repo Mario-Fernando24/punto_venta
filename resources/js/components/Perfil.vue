@@ -8,7 +8,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-edit"></i> <a class="text-negrilla">Perfil</a>
+                        <i class="fas fa-edit"></i> <a class="text-negrilla">Perfil de la empresa</a>
                       
                     </div>
                     <div class="card-body">
@@ -30,7 +30,7 @@
                                     <div class="row">
                                         <div class="col-sm-3"><i class="icon-phone text-negrilla">Telefono: <p v-text="companyobjeto.telefono"></p></i></div>
                                         <div class="col-sm-3"><i class="icon-map text-negrilla" >Dirección:<p v-text="companyobjeto.direccion"></p></i></div>
-                                        <div class="col-sm-3"><i class="icon-info text-negrilla">Impuesto: <p v-text="companyobjeto.impuesto"></p></i></div>
+                                        <div class="col-sm-3"><i class="icon-info text-negrilla">Impuestos: <p v-text="companyobjeto.impuesto"></p></i></div>
                                         <div class="col-sm-3"><i class="icon-info text-negrilla">Nit<p v-text="companyobjeto.nit"></p></i></div>
                                     </div>
                                     <div class="row">

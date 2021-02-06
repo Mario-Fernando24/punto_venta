@@ -114,11 +114,12 @@
     <body>
         <header>
         <div id="logo">
-                <img src="https://10619-2.s.cdn12.com/rests/original/107_507022930.jpg" alt="incanatoIT" id="imagen">
+                <img src="{{$image}}" alt="incanatoIT" id="imagen">
             </div>
             <div id="datos">
                 <p id="encabezado">
-                    <b>LICOMAHELA</b><br>MIGUEL ALFONSO ROMERO, MONTERIA - CORDOBA, COLOMBIA<br>Telefono:(+51)931742904<br>Email:licomahela7@gmail.com
+                    <b> {{$Perfil->razon_social}}</b><br> {{$Perfil->propietario}}<br>{{$Perfil->ciudad}}
+                    <br>Telefono:{{$Perfil->telefono}}<br>Email:{{$Perfil->correo}}<br>Nit: {{$Perfil->nit}}
                 </p>
             </div>
             <div id="fact">

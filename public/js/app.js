@@ -6008,7 +6008,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.errorIngreso;
     },
     descargaringreso: function descargaringreso(id) {
-      window.open('http://54.237.93.88/ingresos/pdfIngreso/' + id + ',' + '_blank');
+      window.open('http://127.0.0.1:8000/ingresos/pdfIngreso/' + id + ',' + '_blank');
     },
     mostrarDetalle: function mostrarDetalle() {
       this.vaciarvariable();
@@ -57155,7 +57155,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "col-sm-3" }, [
                   _c("i", { staticClass: "icon-info text-negrilla" }, [
-                    _vm._v("Impuesto: "),
+                    _vm._v("Impuestos: "),
                     _c("p", {
                       domProps: {
                         textContent: _vm._s(_vm.companyobjeto.impuesto)
@@ -57816,7 +57816,9 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("i", { staticClass: "fas fa-edit" }),
       _vm._v(" "),
-      _c("a", { staticClass: "text-negrilla" }, [_vm._v("Perfil")])
+      _c("a", { staticClass: "text-negrilla" }, [
+        _vm._v("Perfil de la empresa")
+      ])
     ])
   }
 ]
