@@ -15,7 +15,6 @@ class CreatePerfilTable extends Migration
     {
         Schema::create('perfil', function (Blueprint $table) {
             $table->bigIncrements('id');
-
             $table->unsignedBigInteger('id_admin');
             $table->string('nit',100)->nullable();
             $table->string('impuesto',100)->nullable();

@@ -7,20 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Perfil extends Model
 {
     
-    protected $table = 'persona';
+    protected $table = 'perfil';
     protected $primaryKey = 'id';
     
     protected $fillable = [
         'id',
-        'name_empresa',
+        'id_admin',
+        'nit',
+        'impuesto',
+        'razon_social',
+        'codigo_postal',
         'propietario',
-        'departamento',
-        'municipio',
+        'ciudad',
         'telefono',
         'correo',
         'image_perfil',
-
     ];
 
-
+    public function GetUser(){
+        return $this->belongsTo(User::class,'id_admin','id');
+    }
 }
