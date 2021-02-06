@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Venta;
 use App\DetalleVenta;
 use App\Articulo;
 use App\Persona;
 use App\Caja;
 use App\Credito;
+use App\Perfil;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -220,10 +220,11 @@ class VentaController extends Controller
         $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
         ->where('id_venta',$id)->orderBy('id', 'ASC')->get(); 
         $mytime=Carbon::now('America/Bogota');
-         
 
-
-        $pdf = PDF::loadView('pdf.ventas',compact('ObjetoDetalleVent','ArrayDetalleVenta'));
+        $Perfil = Perfil::with('GetUser')->first();
+        $image='img/company/'.$Perfil->image_perfil;
+        
+        $pdf = PDF::loadView('pdf.ventas',compact('ObjetoDetalleVent','ArrayDetalleVenta','Perfil','image'));
         return $pdf->download('venta-'.$ObjetoDetalleVent->id.'-'.$mytime);   
       
       }
