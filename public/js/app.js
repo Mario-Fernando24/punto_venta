@@ -8864,7 +8864,7 @@ __webpack_require__.r(__webpack_exports__);
         'data': this.arrayDetalleVenta
       }).then(function (response) {
         console.log('entro a esta funcion');
-        window.open('http://54.237.93.88/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
+        window.open('http://127.0.0.1/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
         me.listado = 1;
         me.vaciarvariable(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
@@ -57322,7 +57322,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "email", placeholder: "Telefono..." },
+                          attrs: {
+                            type: "email",
+                            placeholder: "Razón social..."
+                          },
                           domProps: { value: _vm.company_razonsocial },
                           on: {
                             input: function($event) {

@@ -87,7 +87,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                     <label class="col-md-12 form-control-label" for="email-input">Razón social</label>
-                                        <input type="email" v-model="company_razonsocial" class="form-control" placeholder="Telefono...">
+                                        <input type="email" v-model="company_razonsocial" class="form-control" placeholder="Razón social...">
                                     </div>
 
                                 </div>

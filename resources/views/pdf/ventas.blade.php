@@ -118,8 +118,9 @@
             </div>
             <div id="datos">
                 <p id="encabezado">
-                    <b> {{$Perfil->razon_social}}</b><br> {{$Perfil->propietario}}<br>{{$Perfil->ciudad}}
-                    <br>Telefono:{{$Perfil->telefono}}<br>Email:{{$Perfil->correo}}<br>Nit: {{$Perfil->nit}}
+                    <b> {{$Perfil->razon_social}}</b><br> {{$Perfil->propietario}}<br>Nit: {{$Perfil->nit}}
+                    <br>Telefono:{{$Perfil->telefono}}<br>Email:{{$Perfil->correo}}<br>Ciudad: {{$Perfil->ciudad}}
+                    <br>Dirección: {{$Perfil->direccion}}
                 </p>
             </div>
             <div id="fact">
