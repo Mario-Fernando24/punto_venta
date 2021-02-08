@@ -46,7 +46,7 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>#</th>
+                                    <th>Arqueo</th>
                                     <th>Responsable</th>
                                     <th>fecha inicial</th>
                                     <th>fecha cierre</th>
@@ -58,7 +58,7 @@
                                 <tr v-for="caja in arraCaja" :key="caja.id">
                                     <td>
                                        
-                                        <button type="button"  class="btn btn-warning btn-sm" >
+                                        <button type="button" @click="downloadArqueoIdUsers(caja.idcaja,caja.id_vendedor)"  class="btn btn-warning btn-sm" >
                                          <i class="icon-cloud-download"></i> 
                                         </button>
                                         </td>
@@ -847,6 +847,17 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+
+              },
+
+              downloadArqueoIdUsers(idarque, idusers)
+              {
+                  console.log('id'+idarque);
+                  console.log('idusers'+idusers);
+
+                  let me=this;
+                  var url= 'http://127.0.0.1:8000/caja/detalleinformeCajaImpresa?idcaja=' + idarque + '&idvendedor=' + idusers;
+                    window.open(url);
 
               },
 

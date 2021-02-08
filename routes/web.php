@@ -208,6 +208,9 @@
             Route::get('cerrarCaja','CajaController@cerrarCaja');
             Route::get('imprimircerrarCaja','CajaController@imprimircerrarCaja');
             Route::get('informeCaja','CajaController@informeCaja');
+            Route::get('detalleinformeCajaImpresa','CajaController@detalleinformeCajaImpresa');
+
+            
         });
 
 

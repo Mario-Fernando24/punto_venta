@@ -17,10 +17,10 @@ use Illuminate\Http\Request;
 class CajaController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         
-       // if(!$request->ajax()){  return redirect('/');}
+        if(!$request->ajax()){  return redirect('/');}
 
 
     
@@ -435,6 +435,144 @@ class CajaController extends Controller
 
        
     }  
+
+
+
+
+    public function detalleinformeCajaImpresa(Request $request)
+    {
+        
+
+      $cajaId=$request->idcaja;
+      $vendedorId=$request->idvendedor;
+
+
+      $mytime=Carbon::now('America/Bogota');
+
+      $cajaOpen = Caja::with('apertura_vendedor')
+      ->where('idcaja',$cajaId)->first();
+
+
+
+      //# numero de facturas por arqueos
+      $numFacArqueosRegistrado=DB::table('ventas')
+      ->select(DB::raw('count(*) as total'))
+      ->where('id_apertura_caja_usuario',$cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->first();
+
+      $numFacArqueosAnulado=DB::table('ventas')
+      ->select(DB::raw('count(*) as total'))
+      ->where('id_apertura_caja_usuario',$cajaOpen->idcaja)
+      ->where('estado','anulado')
+      ->first();
+
+      
+
+      //Ingreso // =========================================
+      $nomina = Egreso::where('id_users', $vendedorId)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tipo_egreso','nomina')
+      ->get()->sum('valor_egreso');
+
+
+      $Cortesia = Egreso::where('id_users', $vendedorId)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tipo_egreso','cortesia')
+      ->get()->sum('valor_egreso');
+
+
+
+      $GastoAdministrativo = Egreso::where('id_users', $vendedorId)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tipo_egreso','gastoadmin')
+      ->get()->sum('valor_egreso');
+      
+
+      //Ingreso end // =========================================
+
+
+      //Credito ================================================
+
+
+    
+      $Credito = Venta::where('id_usuario', $vendedorId)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','credito')
+      ->get()->sum('total');
+
+      //end Credito ============================================
+
+      //======== datafono and transferencia ====================
+
+             
+      $Transferencia = Venta::where('id_usuario', $vendedorId)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','transferencia')
+      ->get();
+
+
+      $Datafono = Venta::where('id_usuario', $vendedorId)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','datafono')
+      ->get();
+
+      //======================star 
+
+      $efectivo_de_Ventas = Venta::where('id_usuario', $vendedorId)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','efectivo')
+      ->get()->sum('total');
+
+
+      $transferencia_ventas = Venta::where('id_usuario', $vendedorId)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','transferencia')
+      ->get()->sum('total');
+
+
+      $datafono_Ventas = Venta::where('id_usuario', $vendedorId)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','datafono')
+      ->get()->sum('total');
+
+
+
+      // end
+
+      
+      $IngresoAbonoCredito = AbonoCredito::where('idusers', $vendedorId)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->get()->sum('montoAbonar');
+
+
+      $Egreso = Egreso::where('id_users', $vendedorId)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->get()->sum('valor_egreso');
+
+      //profile of company
+        
+      $Perfil = Perfil::with('GetUser')->first();
+
+
+      //end of company
+
+      //======== end datafono and transferencia ================
+      $pdf = PDF::loadView('pdf.cierrecaja',compact('cajaOpen','numFacArqueosRegistrado','numFacArqueosAnulado','nomina','Cortesia','GastoAdministrativo','Credito','Transferencia','Datafono','efectivo_de_Ventas','transferencia_ventas','datafono_Ventas','IngresoAbonoCredito','Egreso','Perfil'));
+      return $pdf->download('InformeDecaja-'.$mytime.'-'.\Auth::user()->id);   
+
+    } 
+    
     
 
 

@@ -3291,6 +3291,13 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    downloadArqueoIdUsers: function downloadArqueoIdUsers(idarque, idusers) {
+      console.log('id' + idarque);
+      console.log('idusers' + idusers);
+      var me = this;
+      var url = 'http://127.0.0.1:8000/caja/detalleinformeCajaImpresa?idcaja=' + idarque + '&idvendedor=' + idusers;
+      window.open(url);
+    },
     //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
     cambiarPagina: function cambiarPagina(page, buscar, criterio) {
       var me = this; //actualiza a la pagina actual
@@ -9234,7 +9241,7 @@ __webpack_require__.r(__webpack_exports__);
         'data': this.arrayDetalleVenta
       }).then(function (response) {
         console.log('entro a esta funcion');
-        window.open('http://127.0.0.1/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
+        window.open('http://127.0.0.1:8000/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
         me.listado = 1;
         me.vaciarvariable(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
@@ -51179,7 +51186,24 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.arraCaja, function(caja) {
                     return _c("tr", { key: caja.id }, [
-                      _vm._m(2, true),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.downloadArqueoIdUsers(
+                                  caja.idcaja,
+                                  caja.id_vendedor
+                                )
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "icon-cloud-download" })]
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", {
                         domProps: { textContent: _vm._s(caja.idcaja) }
@@ -51382,7 +51406,7 @@ var render = function() {
                               "table table-bordered table-striped table-sm"
                           },
                           [
-                            _vm._m(3),
+                            _vm._m(2),
                             _vm._v(" "),
                             _c("tbody", [
                               _c("tr"),
@@ -51938,7 +51962,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(4),
+                                _vm._m(3),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -51957,7 +51981,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group row" }, [
-                        _vm._m(5),
+                        _vm._m(4),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("textarea", {
@@ -52111,7 +52135,7 @@ var render = function() {
                               "table table-bordered table-striped table-sm"
                           },
                           [
-                            _vm._m(6),
+                            _vm._m(5),
                             _vm._v(" "),
                             _c("tbody", [
                               _c("tr"),
@@ -52667,7 +52691,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(7),
+                                _vm._m(6),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -52686,7 +52710,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group row" }, [
-                        _vm._m(8),
+                        _vm._m(7),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("textarea", {
@@ -52907,7 +52931,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", [
-                                _vm._m(9),
+                                _vm._m(8),
                                 _vm._v(" "),
                                 _c("td"),
                                 _vm._v(" "),
@@ -52925,7 +52949,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(10),
+                                _vm._m(9),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -52945,7 +52969,7 @@ var render = function() {
                               ]),
                               _c("br"),
                               _vm._v(" "),
-                              _vm._m(11),
+                              _vm._m(10),
                               _vm._v(" "),
                               _c("tr", [
                                 _c("th", [_vm._v("Efectivo:")]),
@@ -53018,7 +53042,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(12),
+                                _vm._m(11),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -53086,7 +53110,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Opciones")]),
         _vm._v(" "),
-        _c("th", [_vm._v("#")]),
+        _c("th", [_vm._v("Arqueo")]),
         _vm._v(" "),
         _c("th", [_vm._v("Responsable")]),
         _vm._v(" "),
@@ -53096,18 +53120,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Estado")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c(
-        "button",
-        { staticClass: "btn btn-warning btn-sm", attrs: { type: "button" } },
-        [_c("i", { staticClass: "icon-cloud-download" })]
-      )
     ])
   },
   function() {
