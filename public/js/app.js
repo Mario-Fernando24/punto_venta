@@ -2922,6 +2922,230 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -2956,6 +3180,7 @@ __webpack_require__.r(__webpack_exports__);
       arrayCategoria: [],
       modal: 0,
       modalactual: 0,
+      modalcerrar: 0,
       //para saber que modal quiero mostrar, register o actualizar
       tituloModal: '',
       tipoAccionButton: 0,
@@ -3060,6 +3285,7 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       me.modal = 0;
       me.modalactual = 0;
+      me.modalcerrar = 0;
       me.vaciarVariables();
     },
     //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
@@ -3083,7 +3309,7 @@ __webpack_require__.r(__webpack_exports__);
               case 'cierre':
                 {
                   // console.log(data);
-                  this.modal = 1;
+                  this.modalcerrar = 1;
                   this.tituloModal = 'Cierre de caja';
                   this.tipoAccionButton = 3;
                   break;
@@ -3099,6 +3325,72 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
       }
+    },
+    imprimir_informe_de_caja: function imprimir_informe_de_caja() {
+      var _this = this;
+
+      var swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-info',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      });
+      swalWithBootstrapButtons.fire({
+        title: 'informe del arqueo abierto!',
+        text: "Desea descargar de forma automatica un informe detallado del arqueo",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          _this.cerrarModal();
+
+          var url = 'http://127.0.0.1:8000/caja/informeCaja';
+          window.open(url);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
+        }
+      });
+    },
+    imprimir_cerrar_de_caja: function imprimir_cerrar_de_caja() {
+      var me = this;
+      axios.get('caja/cerrarCaja').then(function (response) {
+        var respuesta = response.data;
+        me.cerrarModal();
+        me.listarCajaAbierta();
+
+        if (respuesta.status == 'ok') {
+          var swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn btn-info',
+              cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+          });
+          swalWithBootstrapButtons.fire({
+            title: 'Caja cerrada!',
+            text: "se descargara de forma automatica un informe detallado del arqueo",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+          }).then(function (result) {
+            if (result.isConfirmed) {
+              //pasar al otro componente
+              var url = 'http://127.0.0.1:8000/caja/imprimircerrarCaja';
+              window.open(url);
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              swalWithBootstrapButtons.fire('Cancelado', '', 'error');
+            }
+          });
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {
@@ -51588,6 +51880,733 @@ var render = function() {
       "div",
       {
         staticClass: "modal fade",
+        class: { mostrar: _vm.modalcerrar },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary modal-lg",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  domProps: { textContent: _vm._s(_vm.tituloModal) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "form-horizontal",
+                    attrs: {
+                      action: "",
+                      method: "post",
+                      enctype: "multipart/form-data"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group col border" }, [
+                      _c("div", { staticClass: "table-responsive col-md-12" }, [
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-bordered table-striped table-sm"
+                          },
+                          [
+                            _vm._m(7),
+                            _vm._v(" "),
+                            _c("tbody", [
+                              _c("tr"),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 100.000")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.cienmil,
+                                          expression: "moneyInitial.cienmil"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        min: "0",
+                                        type: "number",
+                                        placeholder: "cien mil"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.cienmil
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "cienmil",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.cienmil * 100000
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 50.000")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.cincuentamil,
+                                          expression:
+                                            "moneyInitial.cincuentamil"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "cincuenta mil"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.cincuentamil
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "cincuentamil",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.cincuentamil * 50000
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 20.000")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.veintemil,
+                                          expression: "moneyInitial.veintemil"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "veinte mil"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.veintemil
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "veintemil",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.veintemil * 20000
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 10.000")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.diezmil,
+                                          expression: "moneyInitial.diezmil"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "diez mil"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.diezmil
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "diezmil",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.diezmil * 10000
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 5.000")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.cincomil,
+                                          expression: "moneyInitial.cincomil"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "cinco mil"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.cincomil
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "cincomil",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.cincomil * 5000
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 2.000")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.dosmil,
+                                          expression: "moneyInitial.dosmil"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "dos mil"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.dosmil
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "dosmil",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.dosmil * 2000
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 1.000")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.mil,
+                                          expression: "moneyInitial.mil"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "mil"
+                                      },
+                                      domProps: { value: _vm.moneyInitial.mil },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "mil",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.mil * 1000
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 500")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.quiniento,
+                                          expression: "moneyInitial.quiniento"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "quinientos"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.quiniento
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "quiniento",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.quiniento * 500
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 200")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.dociento,
+                                          expression: "moneyInitial.dociento"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "docientos"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.dociento
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "dociento",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.dociento * 200
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 100")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.cien,
+                                          expression: "moneyInitial.cien"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "cien"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.cien
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "cien",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.cien * 100
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _c("th", [_vm._v("$ 50")]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "col-md-8" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.moneyInitial.cincuenta,
+                                          expression: "moneyInitial.cincuenta"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "0",
+                                        placeholder: "ciencienta"
+                                      },
+                                      domProps: {
+                                        value: _vm.moneyInitial.cincuenta
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.moneyInitial,
+                                            "cincuenta",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", {
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.moneyInitial.cincuenta * 50
+                                      )
+                                    )
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("tr", { staticClass: "totalresultado" }, [
+                                _c("td"),
+                                _vm._v(" "),
+                                _vm._m(8),
+                                _vm._v(" "),
+                                _c("td", {
+                                  staticClass: "text-error",
+                                  domProps: {
+                                    textContent: _vm._s(
+                                      Intl.NumberFormat().format(
+                                        _vm.calcularTotalAperturaCaja
+                                      )
+                                    )
+                                  }
+                                })
+                              ])
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _vm._m(9),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.observacion_apertura,
+                                expression: "observacion_apertura"
+                              }
+                            ],
+                            staticClass: "col-md-12",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.observacion_apertura },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.observacion_apertura = $event.target.value
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.cerrarModal()
+                                }
+                              }
+                            },
+                            [_vm._v("Cerrar")]
+                          ),
+                          _vm._v(" "),
+                          _vm.tipoAccionButton == 3
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-outline-danger",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.imprimir_cerrar_de_caja()
+                                    }
+                                  }
+                                },
+                                [_vm._v("Cerrar caja")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-warning",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.imprimir_informe_de_caja()
+                                }
+                              }
+                            },
+                            [_vm._v("Imprimir Informe")]
+                          )
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
         class: { mostrar: _vm.modalactual },
         staticStyle: { display: "none" },
         attrs: {
@@ -51721,7 +52740,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", [
-                                _vm._m(7),
+                                _vm._m(10),
                                 _vm._v(" "),
                                 _c("td"),
                                 _vm._v(" "),
@@ -51739,7 +52758,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(8),
+                                _vm._m(11),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -51759,7 +52778,7 @@ var render = function() {
                               ]),
                               _c("br"),
                               _vm._v(" "),
-                              _vm._m(9),
+                              _vm._m(12),
                               _vm._v(" "),
                               _c("tr", [
                                 _c("th", [_vm._v("Efectivo:")]),
@@ -51832,7 +52851,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(10),
+                                _vm._m(13),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -51961,6 +52980,41 @@ var staticRenderFns = [
         attrs: { for: "text-input" }
       },
       [_c("b", [_vm._v("Observación Apertura de caja")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Denominación")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Cantidad")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Subtotal")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { align: "right" } }, [
+      _c("strong", [_vm._v("Dinero total :")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-md-12 form-control-label",
+        attrs: { for: "text-input" }
+      },
+      [_c("b", [_vm._v("Obserwwvación Apertura de caja")])]
     )
   },
   function() {

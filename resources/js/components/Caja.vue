@@ -92,7 +92,7 @@
 
 
 
-            <!--Inicio del modal agregar/actualizar-->
+            <!--inicio abrir del modal agregar/actualizar-->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
                 <div   class="modal-dialog modal-primary modal-lg" role="document">
                     <div class="modal-content">
@@ -308,6 +308,230 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
+            <!--end abrir caja-->
+
+
+
+
+
+            <!--Inicio del modal para cerrar caja-->
+            <div class="modal fade"  tabindex="-1" :class="{'mostrar':modalcerrar}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div   class="modal-dialog modal-primary modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="tituloModal"></h4>
+                            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                        <div class="form-group col border">
+                           <div class="table-responsive col-md-12">
+                                 <table class="table table-bordered table-striped table-sm">
+                                    
+                                     <thead>
+                                         <tr>
+
+                                            <th>Denominación</th>
+                                            <th>Cantidad</th>
+                                            <th>Subtotal</th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                    <tr>
+
+                                         <tr>
+                                            <th>$ 100.000</th>
+                                            <td>
+                                                <div class="col-md-8">
+                                                    <input min="0" type="number" v-model="moneyInitial.cienmil"  class="form-control" placeholder="cien mil">
+                                               </div>
+                                            </td>
+                                            <td v-text="Intl.NumberFormat().format(moneyInitial.cienmil*100000)"></td>
+                                         </tr>
+
+
+                                         <tr>
+                                            <th>$ 50.000</th>
+                                            <td>
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.cincuentamil" class="form-control" placeholder="cincuenta mil">
+                                               </div>
+
+                                            </td>
+
+                                            <td v-text="Intl.NumberFormat().format(moneyInitial.cincuentamil*50000)"></td>
+                                         </tr>
+
+
+                                         <tr>
+                                            <th>$ 20.000</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.veintemil" class="form-control" placeholder="veinte mil">
+                                               </div>
+
+                                            </td>
+                                            <td v-text="Intl.NumberFormat().format(moneyInitial.veintemil*20000)"></td>
+                                         </tr>
+
+
+
+                                         <tr>
+                                            <th>$ 10.000</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.diezmil" class="form-control" placeholder="diez mil">
+                                               </div>
+
+                                            </td>
+                                            <td v-text="Intl.NumberFormat().format(moneyInitial.diezmil*10000)"></td>
+                                         </tr>
+
+
+
+                                         <tr>
+                                            <th>$ 5.000</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.cincomil" class="form-control" placeholder="cinco mil">
+                                               </div>
+
+                                            </td>
+                                            <td v-text=" Intl.NumberFormat().format(moneyInitial.cincomil*5000)"></td>
+                                         </tr>
+
+
+
+                                         <tr>
+                                            <th>$ 2.000</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.dosmil" class="form-control" placeholder="dos mil">
+                                               </div>
+
+                                            </td>
+                                            <td v-text=" Intl.NumberFormat().format(moneyInitial.dosmil*2000)"></td>
+                                         </tr>
+
+
+
+                                         <tr>
+                                            <th>$ 1.000</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.mil" class="form-control" placeholder="mil">
+                                               </div>
+
+                                            </td>
+                                            <td v-text=" Intl.NumberFormat().format(moneyInitial.mil*1000)"></td>
+                                         </tr>
+
+
+                                         <tr>
+                                            <th>$ 500</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.quiniento" class="form-control" placeholder="quinientos">
+                                               </div>
+
+                                            </td>
+                                            <td v-text=" Intl.NumberFormat().format(moneyInitial.quiniento*500)"></td>
+                                         </tr>
+
+                                         <tr>
+                                            <th>$ 200</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.dociento" class="form-control" placeholder="docientos">
+                                               </div>
+
+                                            </td>
+                                            <td v-text=" Intl.NumberFormat().format(moneyInitial.dociento*200)"></td>
+                                         </tr>
+
+                                          <tr>
+                                            <th>$ 100</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.cien" class="form-control" placeholder="cien">
+                                               </div>
+
+                                            </td>
+                                            <td v-text=" Intl.NumberFormat().format(moneyInitial.cien*100)"></td>
+                                         </tr>
+
+                                         <tr>
+                                            <th>$ 50</th>
+                                            <td>
+
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" v-model="moneyInitial.cincuenta" class="form-control" placeholder="ciencienta">
+                                               </div>
+                                               
+                                            </td>
+                                            <td v-text=" Intl.NumberFormat().format(moneyInitial.cincuenta*50)"></td>
+                                         </tr>
+
+
+                                        <tr class="totalresultado" >
+                                             <td></td>
+                                             <td align="right"><strong>Dinero total :</strong></td>
+                                             <td class="text-error" v-text="Intl.NumberFormat().format(calcularTotalAperturaCaja)"></td>
+                                         </tr>
+
+
+
+                
+                                     </tbody>
+                                 </table>
+                           </div>
+
+                           
+
+                             <div class="form-group row">
+                                    <label class="col-md-12 form-control-label" for="text-input"><b>Obserwwvación Apertura de caja</b></label>
+                                    <div class="col-md-12">
+                                        <textarea class="col-md-12" v-model="observacion_apertura" type="text"></textarea>
+                                    </div>
+                                </div>
+
+
+
+
+
+                        <div class="form-group row">
+                           <div class="col-md-12">
+                              <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
+                              <button type="button" v-if="tipoAccionButton==3" class="btn btn-outline-danger" @click="imprimir_cerrar_de_caja()">Cerrar caja</button>
+                            <button type="button" class="btn btn-outline-warning" @click="imprimir_informe_de_caja()">Imprimir Informe</button>
+
+                           </div>
+                        </div>
+
+                       </div>
+                             
+                            
+                                
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            <!--cierre caja-->
 
 
 
@@ -487,6 +711,7 @@
             arrayCategoria:[],
             modal : 0,
             modalactual:0,
+            modalcerrar:0,
             //para saber que modal quiero mostrar, register o actualizar
             tituloModal : '',
             tipoAccionButton : 0,
@@ -624,23 +849,23 @@
 
 
 
-           cargarPdfCategoria(){
-              window.open('http://127.0.0.1:8000/categoria/ListarPdfCategoria','_blank');
-           },
+                cargarPdfCategoria(){
+                    window.open('http://127.0.0.1:8000/categoria/ListarPdfCategoria','_blank');
+                },
 
 
             
            
 
               //methods validar las categoria
-            validarCategoria(){
-                this.errorCategoria=0;
-                 this.errorMensajeCategoriaArray=[];
+                validarCategoria(){
+                    this.errorCategoria=0;
+                    this.errorMensajeCategoriaArray=[];
 
-                 if(!this.nombre) this.errorMensajeCategoriaArray.push("El nombre de la categoria no puede estar vacio");
-                 if(this.errorMensajeCategoriaArray.length) this.errorCategoria=1;
-                 return this.errorCategoria;
-              },
+                    if(!this.nombre) this.errorMensajeCategoriaArray.push("El nombre de la categoria no puede estar vacio");
+                    if(this.errorMensajeCategoriaArray.length) this.errorCategoria=1;
+                    return this.errorCategoria;
+                },
 
 
            //metodo para cerrar el modal
@@ -648,6 +873,7 @@
                 let me=this;
                 me.modal=0;
                 me.modalactual=0;
+                me.modalcerrar=0;
                 me.vaciarVariables();
               },
 
@@ -671,7 +897,7 @@
                              case 'cierre':
                             {
                                // console.log(data);
-                               this.modal=1;
+                               this.modalcerrar=1;
                                this.tituloModal='Cierre de caja';
                                this.tipoAccionButton=3;
                              break;
@@ -690,6 +916,108 @@
                          } 
                       }
                   }
+
+              },
+
+             
+              imprimir_informe_de_caja()
+              {
+
+               const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-info',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                title: 'informe del arqueo abierto!',
+                text: "Desea descargar de forma automatica un informe detallado del arqueo",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+                }).then((result) => {
+                if (result.isConfirmed) {
+                   this.cerrarModal();
+                  var url= 'http://127.0.0.1:8000/caja/informeCaja';
+                  window.open(url);
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    '',
+                    'error'
+                    )
+                }
+                })
+
+              },
+
+               
+               imprimir_cerrar_de_caja()
+              {
+
+
+
+                  let me=this;
+                  axios.get('caja/cerrarCaja').then(function (response) {
+                    var respuesta=response.data;
+                            me.cerrarModal();
+                            me.listarCajaAbierta();
+
+                        if(respuesta.status=='ok')
+                        {   
+
+                            const swalWithBootstrapButtons = Swal.mixin({
+                                customClass: {
+                                    confirmButton: 'btn btn-info',
+                                    cancelButton: 'btn btn-danger'
+                                },
+                                buttonsStyling: false
+                                })
+
+                                swalWithBootstrapButtons.fire({
+                                title: 'Caja cerrada!',
+                                text: "se descargara de forma automatica un informe detallado del arqueo",
+                                icon: 'info',
+                                showCancelButton: true,
+                                confirmButtonText: 'Aceptar',
+                                cancelButtonText: 'Cancelar',
+                                reverseButtons: true
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+                                //pasar al otro componente
+
+
+                                var url= 'http://127.0.0.1:8000/caja/imprimircerrarCaja';
+                                window.open(url);
+
+
+                                } else if (
+                                    result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                    swalWithBootstrapButtons.fire(
+                                    'Cancelado',
+                                    '',
+                                    'error'
+                                    )
+                                }
+                                })
+
+                                        }
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    });
+
+
+
+
 
               }
         },

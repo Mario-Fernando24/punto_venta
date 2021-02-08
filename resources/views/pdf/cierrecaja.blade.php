@@ -112,15 +112,25 @@
         }
     </style>
     <body>
-        <header>
-            <div id="datos">
-                <p id="encabezado">
-                   <b>Arqueo: # {{ $cajaOpen->idcaja }}</b>
-                </p>
+
+
+    <section>
+            <div>
+                <table id="facliente">
+                    <tbody>
+                        <tr>
+                            <th><p id="cliente">
+                                
+                                <b> {{$Perfil->razon_social}}</b><br>
+                                 {{$Perfil->ciudad}} <br>
+                                Arqueo # {{ $cajaOpen->idcaja }}
+                                 </th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-           
-        </header>
-        <br>
+        </section>
+
 
 
 
@@ -328,6 +338,7 @@
                                 <br>Credito: (-) {{ number_format(($Credito),0,',','.') }}
                                 <br>Ingreso: (+) {{ number_format($IngresoAbonoCredito,0,',','.') }}
                                 <br>------------------------------------------------
+                                <br>
                                 <br>$$$ _________________________________________
                                 </th>
 

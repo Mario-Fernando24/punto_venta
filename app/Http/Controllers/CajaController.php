@@ -6,6 +6,7 @@ use App\Venta;
 use App\Egreso;
 use App\DetalleVenta;
 use App\AbonoCredito;
+use App\Perfil;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -112,9 +113,164 @@ class CajaController extends Controller
         'dinero_final' => '0',
         ]);
     }  
+   
+    public function cerrarCaja()
+    {
+
+      $cajaOpen = Caja::with('apertura_vendedor')
+      ->where('id_vendedor',\Auth::user()->id)->orderBy('idcaja', 'desc')->first();
+
+      $cajaUpdate = Caja::findOrFail($cajaOpen->idcaja);
+      $cajaUpdate->Cajaactual='cerrado';
+      $cajaUpdate->update();
+
+        return response()->json([
+            'status' => 'ok'], 200);
+        
+
+    }
+
+    public function imprimircerrarCaja()
+    {
+       
+      //  if(!$request->ajax()){
+      //  return redirect('/');
+      // }
+
+      $mytime=Carbon::now('America/Bogota');
+
+      $cajaOpen = Caja::with('apertura_vendedor')
+      ->where('id_vendedor',\Auth::user()->id)->orderBy('idcaja', 'desc')->first();
 
 
-    public function cerrarCaja(Request $request)
+
+
+      //# numero de facturas por arqueos
+      $numFacArqueosRegistrado=DB::table('ventas')
+      ->select(DB::raw('count(*) as total'))
+      ->where('id_apertura_caja_usuario',$cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->first();
+
+      $numFacArqueosAnulado=DB::table('ventas')
+      ->select(DB::raw('count(*) as total'))
+      ->where('id_apertura_caja_usuario',$cajaOpen->idcaja)
+      ->where('estado','anulado')
+      ->first();
+
+      
+
+      //Ingreso // =========================================
+      $nomina = Egreso::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tipo_egreso','nomina')
+      ->get()->sum('valor_egreso');
+
+
+      $Cortesia = Egreso::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tipo_egreso','cortesia')
+      ->get()->sum('valor_egreso');
+
+
+
+      $GastoAdministrativo = Egreso::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tipo_egreso','gastoadmin')
+      ->get()->sum('valor_egreso');
+      
+
+      //Ingreso end // =========================================
+
+
+      //Credito ================================================
+
+
+    
+      $Credito = Venta::where('id_usuario', \Auth::user()->id)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','credito')
+      ->get()->sum('total');
+
+      //end Credito ============================================
+
+      //======== datafono and transferencia ====================
+
+             
+      $Transferencia = Venta::where('id_usuario', \Auth::user()->id)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','transferencia')
+      ->get();
+
+
+      $Datafono = Venta::where('id_usuario', \Auth::user()->id)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','datafono')
+      ->get();
+
+      //======================star 
+
+      $efectivo_de_Ventas = Venta::where('id_usuario', \Auth::user()->id)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','efectivo')
+      ->get()->sum('total');
+
+
+      $transferencia_ventas = Venta::where('id_usuario', \Auth::user()->id)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','transferencia')
+      ->get()->sum('total');
+
+
+      $datafono_Ventas = Venta::where('id_usuario', \Auth::user()->id)
+      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
+      ->where('estado','registrado')
+      ->where('forma_pago','datafono')
+      ->get()->sum('total');
+
+
+
+      // end
+
+      
+      $IngresoAbonoCredito = AbonoCredito::where('idusers', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->get()->sum('montoAbonar');
+
+
+      $Egreso = Egreso::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->get()->sum('valor_egreso');
+
+      //profile of company
+        
+      $Perfil = Perfil::with('GetUser')->first();
+
+
+      //end of company
+      
+
+
+  
+
+      //======== end datafono and transferencia ================
+      $pdf = PDF::loadView('pdf.cierrecaja',compact('cajaOpen','numFacArqueosRegistrado','numFacArqueosAnulado','nomina','Cortesia','GastoAdministrativo','Credito','Transferencia','Datafono','efectivo_de_Ventas','transferencia_ventas','datafono_Ventas','IngresoAbonoCredito','Egreso','Perfil'));
+      return $pdf->download('caja cerrada-'.$mytime);   
+
+       
+    }
+
+
+    public function informeCaja(Request $request)
     {
        
       //  if(!$request->ajax()){
@@ -179,8 +335,6 @@ class CajaController extends Controller
       ->get()->sum('total');
 
       //end Credito ============================================
-      
-
 
       //======== datafono and transferencia ====================
 
@@ -198,14 +352,7 @@ class CajaController extends Controller
       ->where('forma_pago','datafono')
       ->get();
 
-
-
-
-
-
-
       //======================star 
-
 
       $efectivo_de_Ventas = Venta::where('id_usuario', \Auth::user()->id)
       ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
@@ -241,26 +388,26 @@ class CajaController extends Controller
       ->where('id_caja', $cajaOpen->idcaja)
       ->where('estado',1)
       ->get()->sum('valor_egreso');
-      
+
+      //profile of company
+        
+      $Perfil = Perfil::with('GetUser')->first();
 
 
-  
-    
+      //end of company
 
       //======== end datafono and transferencia ================
-      $pdf = PDF::loadView('pdf.cierrecaja',compact('cajaOpen','numFacArqueosRegistrado','numFacArqueosAnulado','nomina','Cortesia','GastoAdministrativo','Credito','Transferencia','Datafono','efectivo_de_Ventas','transferencia_ventas','datafono_Ventas','IngresoAbonoCredito','Egreso'));
-      return $pdf->download('cierreCaja-'.$mytime);   
+      $pdf = PDF::loadView('pdf.cierrecaja',compact('cajaOpen','numFacArqueosRegistrado','numFacArqueosAnulado','nomina','Cortesia','GastoAdministrativo','Credito','Transferencia','Datafono','efectivo_de_Ventas','transferencia_ventas','datafono_Ventas','IngresoAbonoCredito','Egreso','Perfil'));
+      return $pdf->download('InformeDecaja-'.$mytime);   
 
        
-
-        $mytime=Carbon::now('America/Bogota');        
-        $cajaUpdate = Caja::findOrFail($request->id);
-        $cajaUpdate->Cajaactual='cerrado';
-        $cajaUpdate->obs_final=$request->get('obs_final');
-        $cajaUpdate->dinero_final=json_encode($request->get('dinero_final'));
-        $cajaUpdate->updated_at=$mytime;
-        $cajaUpdate->update();
     }  
+    
+
+
+
+
+    
 
 
 

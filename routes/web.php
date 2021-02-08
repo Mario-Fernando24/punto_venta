@@ -205,6 +205,8 @@
             Route::post('aperturaCaja', 'CajaController@aperturaCaja');
             Route::get('ShowCajaUser', 'CajaController@ShowCajaUser');
             Route::get('cerrarCaja','CajaController@cerrarCaja');
+            Route::get('imprimircerrarCaja','CajaController@imprimircerrarCaja');
+            Route::get('informeCaja','CajaController@informeCaja');
         });
 
 
