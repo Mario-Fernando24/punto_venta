@@ -35,8 +35,8 @@
                                       <option value="nombre">Nombre</option>
                                       <option value="descripcion">Descripción</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listaCategoria(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
-                                    <button type="submit" @click="listaCategoria(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarCaja(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
+                                    <button type="submit" @click="listarCaja(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -48,42 +48,64 @@
                                     <th>Opciones</th>
                                     <th>#</th>
                                     <th>Responsable</th>
+                                    <th>fecha inicial</th>
+                                    <th>fecha cierre</th>
                                     <th>Estado</th>
+
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="categoria in arrayCategoria" :key="categoria.id">
+                                <tr v-for="caja in arraCaja" :key="caja.id">
                                     <td>
-                                        
-                                        <template v-if="categoria.condicion"> 
-                                        <button type="button"  class="btn btn-success btn-sm" >
-                                            <i class="fas fa-calculator"></i>
+                                       
+                                        <button type="button"  class="btn btn-warning btn-sm" >
+                                         <i class="icon-cloud-download"></i> 
                                         </button>
-                                        </template>
-                                         <template v-else> 
-                                        <button type="button"  class="btn btn-success btn-sm" >
-                                           <i class="fas fa-calculator"></i>
-                                        </button>
-                                        </template>
-
                                         </td>
 
-                                        <td v-text="categoria.nombre"></td>
-                                        <td v-text="categoria.descripcion"></td>
+                                        <td v-text="caja.idcaja"></td>
+                                        <td v-text="caja.apertura_vendedor.usuario"></td>
+                                        <td v-text="caja.Fecha"></td>
+                                        <td v-text="caja.updated_at"></td>
+
+
 
                                         <td>
-                                        <div v-if="categoria.condicion==1">
-                                        <span class="badge badge-success">Activo</span>
+
+                                        <div v-if="caja.Cajaactual=='cerrado'">
+                                        <span class="badge badge-danger">Cerrado</span>
                                         </div>
 
-                                        <div v-else>
-                                        <span class="badge badge-danger">Anulado</span>
+                                        <div v-if="caja.Cajaactual=='abierto'">
+                                        <span class="badge badge-success">Abierta</span>
                                         </div>
                                     </td>
                                 </tr>
                                 </tbody>
                         </table>
                         </div>
+
+                         <nav>
+
+                                <ul class="pagination">
+                                                                    <!--si la pagina actual > que 1-->
+
+                                <li class="page-item" v-if="pagination.current_page > 1 ">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
+                                </li>
+                                                                <!--iteramos la propiedad computada-->
+
+                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
+                                </li>
+                                <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Sig</a>
+                                </li>
+                            </ul>
+
+                        </nav>
+
+                        
                         
                     </div>
                 </div>
@@ -708,7 +730,7 @@
             nombre : '',
             descripcion : '',
             //la data que regresa nuestro metodo listarCategoria se almacene en esta array
-            arrayCategoria:[],
+            arraCaja:[],
             modal : 0,
             modalactual:0,
             modalcerrar:0,
@@ -717,6 +739,22 @@
             tipoAccionButton : 0,
             errorCategoria : 0,
             errorMensajeCategoriaArray : [],
+
+            pagination : {
+                //numero total de registro
+                'total' : 0,
+                //Obtenga el número de página actual.
+                'current_page' : 0,
+                //El número de elementos que se mostrarán por página.
+                'per_page' : 0,
+              //  Obtenga el número de página de la última página disponible. (No disponible cuando se usa simplePaginate).
+                'last_page' : 0,
+                //desde la pagina
+                'from'  : 0,
+                //hasta pagina
+                'to' : 0,
+            },
+
           
 
             offset : 3,
@@ -756,6 +794,35 @@
         },
 
 
+
+
+                       //calcular la pagina actual
+            isActived : function(){
+              return   this.pagination.current_page
+            },
+            //calcular el numero de paginas
+            pagesNumber : function(){
+                if(!this.pagination.to){
+                    return [];
+                }
+                var from = this.pagination.current_page - this.offset; 
+                if(from < 1){
+                    from = 1;
+                }
+                var to = from + (this.offset * 2);
+                if(to >=  this.pagination.last_page){
+                    to = this.pagination.last_page;
+                }
+                var pagesArray = [];
+                while(from <= to){
+                    pagesArray.push(from);
+                    from++;
+                }
+                return pagesArray;  
+            }
+
+
+
             
 
         },
@@ -766,14 +833,15 @@
         methods: {
 
       
-          listaCategoria(page, buscar, criterio){
+          listarCaja(page, buscar, criterio){
               
                  let me=this;
                   var url= '/caja/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
                     //todo lo que retorne esta funcion se almacene en este array
-                    me.arrayCategoria = respuesta.categorias.data;
+                    me.arraCaja = respuesta.listaCaja.data;
+                  //  console.log(respuesta.listaCaja.data);
                     me.pagination = respuesta.pagination;
                     })
                     .catch(function (error) {
@@ -781,6 +849,16 @@
                     });
 
               },
+
+
+          //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
+                cambiarPagina(page, buscar, criterio){
+                let me = this;
+                //actualiza a la pagina actual
+                me.pagination.current_page = page;
+                //envia la peticion de listar esa pagina
+                me.listarCaja(page, buscar, criterio);
+            },
           
          
 
@@ -799,6 +877,8 @@
                 .then(function (response) {
                     me.listarCajaAbierta();
                     me.vaciarVariables();
+                    me.listarCaja(1,'',''); 
+
                     me.modal=0;
                     console.log('ok mario');
                 }) 
@@ -969,6 +1049,8 @@
                     var respuesta=response.data;
                             me.cerrarModal();
                             me.listarCajaAbierta();
+                            me.listarCaja(1,'',''); 
+
 
                         if(respuesta.status=='ok')
                         {   
@@ -1023,7 +1105,7 @@
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarCategoria
-      this.listaCategoria(1,this.buscar,this.criterio); 
+      this.listarCaja(1,this.buscar,this.criterio); 
       this.listarCajaAbierta();    
          }
     }

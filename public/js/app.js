@@ -3146,6 +3146,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -3177,7 +3199,7 @@ __webpack_require__.r(__webpack_exports__);
       nombre: '',
       descripcion: '',
       //la data que regresa nuestro metodo listarCategoria se almacene en esta array
-      arrayCategoria: [],
+      arraCaja: [],
       modal: 0,
       modalactual: 0,
       modalcerrar: 0,
@@ -3186,6 +3208,20 @@ __webpack_require__.r(__webpack_exports__);
       tipoAccionButton: 0,
       errorCategoria: 0,
       errorMensajeCategoriaArray: [],
+      pagination: {
+        //numero total de registro
+        'total': 0,
+        //Obtenga el número de página actual.
+        'current_page': 0,
+        //El número de elementos que se mostrarán por página.
+        'per_page': 0,
+        //  Obtenga el número de página de la última página disponible. (No disponible cuando se usa simplePaginate).
+        'last_page': 0,
+        //desde la pagina
+        'from': 0,
+        //hasta pagina
+        'to': 0
+      },
       offset: 3,
       criterio: 'nombre',
       buscar: ''
@@ -3207,21 +3243,61 @@ __webpack_require__.r(__webpack_exports__);
       var isPm = hour >= 12 ? true : false;
       hour = hour > 12 ? hour - 12 : hour;
       return "".concat(hour < 10 ? "0" : "").concat(hour, ":").concat(curr.getMinutes() < 10 ? "0" : "").concat(curr.getMinutes(), " ").concat(isPm ? "pm" : "am");
+    },
+    //calcular la pagina actual
+    isActived: function isActived() {
+      return this.pagination.current_page;
+    },
+    //calcular el numero de paginas
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+
+      var from = this.pagination.current_page - this.offset;
+
+      if (from < 1) {
+        from = 1;
+      }
+
+      var to = from + this.offset * 2;
+
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+
+      var pagesArray = [];
+
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+
+      return pagesArray;
     }
   },
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
   methods: {
-    listaCategoria: function listaCategoria(page, buscar, criterio) {
+    listarCaja: function listarCaja(page, buscar, criterio) {
       var me = this;
       var url = '/caja/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
 
-        me.arrayCategoria = respuesta.categorias.data;
+        me.arraCaja = respuesta.listaCaja.data; //  console.log(respuesta.listaCaja.data);
+
         me.pagination = respuesta.pagination;
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
+    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
+      var me = this; //actualiza a la pagina actual
+
+      me.pagination.current_page = page; //envia la peticion de listar esa pagina
+
+      me.listarCaja(page, buscar, criterio);
     },
     apertura_de_caja: function apertura_de_caja() {
       console.log(this.calcularTotalAperturaCaja);
@@ -3235,6 +3311,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         me.listarCajaAbierta();
         me.vaciarVariables();
+        me.listarCaja(1, '', '');
         me.modal = 0;
         console.log('ok mario');
       })["catch"](function (error) {
@@ -3361,6 +3438,7 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.cerrarModal();
         me.listarCajaAbierta();
+        me.listarCaja(1, '', '');
 
         if (respuesta.status == 'ok') {
           var swalWithBootstrapButtons = Swal.mixin({
@@ -3395,7 +3473,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     //hacemos referencia a nuestro metodo  listarCategoria
-    this.listaCategoria(1, this.buscar, this.criterio);
+    this.listarCaja(1, this.buscar, this.criterio);
     this.listarCajaAbierta();
   }
 });
@@ -51062,7 +51140,7 @@ var render = function() {
                       ) {
                         return null
                       }
-                      return _vm.listaCategoria(1, _vm.buscar, _vm.criterio)
+                      return _vm.listarCaja(1, _vm.buscar, _vm.criterio)
                     },
                     input: function($event) {
                       if ($event.target.composing) {
@@ -51080,7 +51158,7 @@ var render = function() {
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
-                        return _vm.listaCategoria(1, _vm.buscar, _vm.criterio)
+                        return _vm.listarCaja(1, _vm.buscar, _vm.criterio)
                       }
                     }
                   },
@@ -51099,48 +51177,137 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.arrayCategoria, function(categoria) {
-                    return _c("tr", { key: categoria.id }, [
-                      _c(
-                        "td",
-                        [
-                          categoria.condicion
-                            ? [_vm._m(2, true)]
-                            : [_vm._m(3, true)]
-                        ],
-                        2
-                      ),
+                  _vm._l(_vm.arraCaja, function(caja) {
+                    return _c("tr", { key: caja.id }, [
+                      _vm._m(2, true),
                       _vm._v(" "),
                       _c("td", {
-                        domProps: { textContent: _vm._s(categoria.nombre) }
+                        domProps: { textContent: _vm._s(caja.idcaja) }
                       }),
                       _vm._v(" "),
                       _c("td", {
-                        domProps: { textContent: _vm._s(categoria.descripcion) }
+                        domProps: {
+                          textContent: _vm._s(caja.apertura_vendedor.usuario)
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(caja.Fecha) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(caja.updated_at) }
                       }),
                       _vm._v(" "),
                       _c("td", [
-                        categoria.condicion == 1
+                        caja.Cajaactual == "cerrado"
+                          ? _c("div", [
+                              _c(
+                                "span",
+                                { staticClass: "badge badge-danger" },
+                                [_vm._v("Cerrado")]
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        caja.Cajaactual == "abierto"
                           ? _c("div", [
                               _c(
                                 "span",
                                 { staticClass: "badge badge-success" },
-                                [_vm._v("Activo")]
+                                [_vm._v("Abierta")]
                               )
                             ])
-                          : _c("div", [
-                              _c(
-                                "span",
-                                { staticClass: "badge badge-danger" },
-                                [_vm._v("Anulado")]
-                              )
-                            ])
+                          : _vm._e()
                       ])
                     ])
                   }),
                   0
                 )
               ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("nav", [
+            _c(
+              "ul",
+              { staticClass: "pagination" },
+              [
+                _vm.pagination.current_page > 1
+                  ? _c("li", { staticClass: "page-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "page-link",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.cambiarPagina(
+                                _vm.pagination.current_page - 1,
+                                _vm.buscar,
+                                _vm.criterio
+                              )
+                            }
+                          }
+                        },
+                        [_vm._v("Ant")]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._l(_vm.pagesNumber, function(page) {
+                  return _c(
+                    "li",
+                    {
+                      key: page,
+                      staticClass: "page-item",
+                      class: [page == _vm.isActived ? "active" : ""]
+                    },
+                    [
+                      _c("a", {
+                        staticClass: "page-link",
+                        attrs: { href: "#" },
+                        domProps: { textContent: _vm._s(page) },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.cambiarPagina(
+                              page,
+                              _vm.buscar,
+                              _vm.criterio
+                            )
+                          }
+                        }
+                      })
+                    ]
+                  )
+                }),
+                _vm._v(" "),
+                _vm.pagination.current_page < _vm.pagination.last_page
+                  ? _c("li", { staticClass: "page-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "page-link",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.cambiarPagina(
+                                _vm.pagination.current_page + 1,
+                                _vm.buscar,
+                                _vm.criterio
+                              )
+                            }
+                          }
+                        },
+                        [_vm._v("Sig")]
+                      )
+                    ])
+                  : _vm._e()
+              ],
+              2
             )
           ])
         ])
@@ -51215,7 +51382,7 @@ var render = function() {
                               "table table-bordered table-striped table-sm"
                           },
                           [
-                            _vm._m(4),
+                            _vm._m(3),
                             _vm._v(" "),
                             _c("tbody", [
                               _c("tr"),
@@ -51771,7 +51938,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(5),
+                                _vm._m(4),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -51790,7 +51957,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group row" }, [
-                        _vm._m(6),
+                        _vm._m(5),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("textarea", {
@@ -51944,7 +52111,7 @@ var render = function() {
                               "table table-bordered table-striped table-sm"
                           },
                           [
-                            _vm._m(7),
+                            _vm._m(6),
                             _vm._v(" "),
                             _c("tbody", [
                               _c("tr"),
@@ -52500,7 +52667,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(8),
+                                _vm._m(7),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -52519,7 +52686,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group row" }, [
-                        _vm._m(9),
+                        _vm._m(8),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("textarea", {
@@ -52740,7 +52907,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", [
-                                _vm._m(10),
+                                _vm._m(9),
                                 _vm._v(" "),
                                 _c("td"),
                                 _vm._v(" "),
@@ -52758,7 +52925,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(11),
+                                _vm._m(10),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -52778,7 +52945,7 @@ var render = function() {
                               ]),
                               _c("br"),
                               _vm._v(" "),
-                              _vm._m(12),
+                              _vm._m(11),
                               _vm._v(" "),
                               _c("tr", [
                                 _c("th", [_vm._v("Efectivo:")]),
@@ -52851,7 +53018,7 @@ var render = function() {
                               _c("tr", { staticClass: "totalresultado" }, [
                                 _c("td"),
                                 _vm._v(" "),
-                                _vm._m(13),
+                                _vm._m(12),
                                 _vm._v(" "),
                                 _c("td", {
                                   staticClass: "text-error",
@@ -52923,6 +53090,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Responsable")]),
         _vm._v(" "),
+        _c("th", [_vm._v("fecha inicial")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("fecha cierre")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Estado")])
       ])
     ])
@@ -52931,21 +53102,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-success btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fas fa-calculator" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-success btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fas fa-calculator" })]
-    )
+    return _c("td", [
+      _c(
+        "button",
+        { staticClass: "btn btn-warning btn-sm", attrs: { type: "button" } },
+        [_c("i", { staticClass: "icon-cloud-download" })]
+      )
+    ])
   },
   function() {
     var _vm = this

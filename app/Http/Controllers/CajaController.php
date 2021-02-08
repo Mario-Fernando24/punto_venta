@@ -17,6 +17,39 @@ use Illuminate\Http\Request;
 class CajaController extends Controller
 {
 
+    public function index()
+    {
+        
+       // if(!$request->ajax()){  return redirect('/');}
+
+
+    
+        $listaCaja = Caja::with('apertura_vendedor')->orderBy('idcaja', 'DESC')->paginate(10);
+      
+
+       return [
+        'pagination' => [
+            //numero total de registro
+            'total'         => $listaCaja->total(),
+            //Obtenga el número de página actual.
+            'current_page'  => $listaCaja->currentPage(),
+            //El número de elementos que se mostrarán por página.
+            'per_page'      => $listaCaja->perPage(),
+          //  Obtenga el número de página de la última página disponible. (No disponible cuando se usa simplePaginate).
+            'last_page'     => $listaCaja->lastPage(),
+            //desde la pagina
+            'from'          => $listaCaja->firstItem(),
+            //hasta la pagina
+            'to'            => $listaCaja->lastItem(),
+        ],
+        'listaCaja' => $listaCaja
+    ];
+
+
+
+
+    }
+
 
     public function ShowCajaUser()
     {
