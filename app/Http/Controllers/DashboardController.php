@@ -7,6 +7,7 @@ use App\Ingreso;
 use App\DetalleIngreso;
 use App\Venta;
 use App\DetalleVenta;
+use App\Articulo;
 use DB;
 use Carbon\Carbon;
 
@@ -35,8 +36,34 @@ class DashboardController extends Controller
         ->groupBy(DB::raw('MONTH(v.fecha_hora)'),DB::raw('YEAR(v.fecha_hora)'))
         ->get();
 
+
+      //  $DetalleVenta=DB::table('detalle_ventas as d')
+      //  ->join('articulos as art','art.id','=','d.id_articulo')
+      //  ->select('art.id','d.cantidad','art.nombre',DB::raw('sum(d.precio) as Dinero'))
+       // DB::raw('SUM(d.precio) as total')
+       // ->groupBy('art.nombre')
+      // ->get();
+      
+
+       
+      $TotalProductosVendidos = DB::table('detalle_ventas as d')
+       ->join('articulos as art','art.id','=','d.id_articulo')
+      ->select(DB::raw('sum(d.precio) as Dinero'),'d.id_articulo','art.nombre')
+      ->groupBy('d.id_articulo')
+      ->orderBy('Dinero', 'desc')
+      ->get();
+
+
+      $totallPorProductos = DB::table('detalle_ventas as d')
+       ->join('articulos as art','art.id','=','d.id_articulo')
+      ->select(DB::raw('sum(d.cantidad) as total'),'d.id_articulo','art.nombre')
+      ->groupBy('d.id_articulo')
+      ->orderBy('total', 'desc')
+      ->get();
+
+
  
-        return ['ingresos'=>$ingresos,'ventas'=>$ventas,'anio'=>$anio];      
+        return ['ingresos'=>$ingresos,'ventas'=>$ventas,'anio'=>$anio,'TotalProductosVendidos'=>$TotalProductosVendidos,'totallPorProductos'=>$totallPorProductos];      
  
     }
 

@@ -14,7 +14,7 @@
                     <div class="col-md-6">
                         <div class="card card-chart">
                             <div class="card-header">
-                                <h4>Ingresos por meses</h4>
+                                <h4>Compras por meses</h4>
                             </div>
                             <div class="card-content">
                                 <div class="ct-chart">
@@ -51,32 +51,32 @@
                     <div class="col-md-6">
                         <div class="card card-chart">
                             <div class="card-header">
-                                <h4>Los 10 productos más vendidos del mes</h4>
+                                <h4>Venta total por producto</h4>
                             </div>
                             <div class="card-content">
                                 <div class="ct-chart">
-                                    <canvas id="ingresos">                                                
+                                    <canvas id="productosMasVendido">                                                
                                     </canvas>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <p>Compras de los últimos meses.</p>
+                                <p>Venta total por producto</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="card card-chart">
                             <div class="card-header">
-                                <h4>Ventas por dia</h4>
+                                <h4>Productos vendidos</h4>
                             </div>
                             <div class="card-content">
                                 <div class="ct-chart">
-                                    <canvas id="ventas">                                                
+                                    <canvas id="productoTotal">                                                
                                     </canvas>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <p>Ventas de los últimos meses.</p>
+                                <p>Productos vendidos.</p>
                             </div>
                         </div>
                     </div>
@@ -104,6 +104,21 @@
                 ventas:[],
                 varTotalVenta:[],
                 varMesVenta:[],
+
+
+                varproductosMasVendidoss:null,
+                charproductosMasVendidos:null,
+                varproductosMasVendidos:[],
+                TotalproductosMasVendidos:[],
+                productosMasVendidos:[],
+
+                varproductos:null,
+                charproductos:null,
+                productos:[],
+                totalproductos:[],
+                nombreproductos:[],
+             
+                
             }
         },
         methods : {
@@ -128,6 +143,33 @@
                     me.ventas = respuesta.ventas;
                     //cargamos los datos del chart
                     me.loadVentas();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            getProductosMasVendidos(){
+                let me=this;
+                var url= '/dashboard';
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data;
+                    me.productosMasVendidos = respuesta.TotalProductosVendidos;
+                    //cargamos los datos del chart
+                    me.loadProductoMasVendidos();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            getProductos(){
+                let me=this;
+                var url= '/dashboard';
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data;
+                    me.productos = respuesta.totallPorProductos;
+                    //cargamos los datos del chart
+                    me.loadProducto();
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -276,11 +318,115 @@
                         }
                     }
                 });
+            },
+
+            loadProductoMasVendidos(){
+                let me=this;
+                let mes_venta='';
+                me.productosMasVendidos.map(function(x){
+                    console.log(x.nombre);
+
+                    me.varproductosMasVendidos.push(x.nombre);
+                    me.TotalproductosMasVendidos.push(x.Dinero);
+                });
+                me.varproductosMasVendidoss=document.getElementById('productosMasVendido').getContext('2d');
+
+                me.charproductosMasVendidos = new Chart(me.varproductosMasVendidoss, {
+                    type: 'bar',
+                    data: {
+                        labels: me.varproductosMasVendidos,
+                        datasets: [{
+                            label: 'Productos mas vendidos',
+                            data: me.TotalproductosMasVendidos,
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
+            },
+
+            loadProducto(){
+
+                  let me=this;
+                let mes_venta='';
+                me.productos.map(function(x){
+                    console.log(x.total);
+
+                    me.nombreproductos.push(x.nombre);
+                    me.totalproductos.push(x.total);
+                });
+                me.varproductos=document.getElementById('productoTotal').getContext('2d');
+
+                me.charproductos = new Chart(me.varproductos, {
+                    type: 'bar',
+                    data: {
+                        labels: me.nombreproductos,
+                        datasets: [{
+                            label: 'Productos mas vendidos',
+                            data: me.totalproductos,
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
+
             }
         },
         mounted() {
             this.getIngresos();
             this.getVentas();
+            this.getProductosMasVendidos();
+            this.getProductos();
         }
     }
 </script>

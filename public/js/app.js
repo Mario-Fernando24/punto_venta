@@ -4760,7 +4760,17 @@ __webpack_require__.r(__webpack_exports__);
       charVenta: null,
       ventas: [],
       varTotalVenta: [],
-      varMesVenta: []
+      varMesVenta: [],
+      varproductosMasVendidoss: null,
+      charproductosMasVendidos: null,
+      varproductosMasVendidos: [],
+      TotalproductosMasVendidos: [],
+      productosMasVendidos: [],
+      varproductos: null,
+      charproductos: null,
+      productos: [],
+      totalproductos: [],
+      nombreproductos: []
     };
   },
   methods: {
@@ -4784,6 +4794,30 @@ __webpack_require__.r(__webpack_exports__);
         me.ventas = respuesta.ventas; //cargamos los datos del chart
 
         me.loadVentas();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getProductosMasVendidos: function getProductosMasVendidos() {
+      var me = this;
+      var url = '/dashboard';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.productosMasVendidos = respuesta.TotalProductosVendidos; //cargamos los datos del chart
+
+        me.loadProductoMasVendidos();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getProductos: function getProductos() {
+      var me = this;
+      var url = '/dashboard';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.productos = respuesta.totallPorProductos; //cargamos los datos del chart
+
+        me.loadProducto();
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4949,11 +4983,77 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       });
+    },
+    loadProductoMasVendidos: function loadProductoMasVendidos() {
+      var me = this;
+      var mes_venta = '';
+      me.productosMasVendidos.map(function (x) {
+        console.log(x.nombre);
+        me.varproductosMasVendidos.push(x.nombre);
+        me.TotalproductosMasVendidos.push(x.Dinero);
+      });
+      me.varproductosMasVendidoss = document.getElementById('productosMasVendido').getContext('2d');
+      me.charproductosMasVendidos = new Chart(me.varproductosMasVendidoss, {
+        type: 'bar',
+        data: {
+          labels: me.varproductosMasVendidos,
+          datasets: [{
+            label: 'Productos mas vendidos',
+            data: me.TotalproductosMasVendidos,
+            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    },
+    loadProducto: function loadProducto() {
+      var me = this;
+      var mes_venta = '';
+      me.productos.map(function (x) {
+        console.log(x.total);
+        me.nombreproductos.push(x.nombre);
+        me.totalproductos.push(x.total);
+      });
+      me.varproductos = document.getElementById('productoTotal').getContext('2d');
+      me.charproductos = new Chart(me.varproductos, {
+        type: 'bar',
+        data: {
+          labels: me.nombreproductos,
+          datasets: [{
+            label: 'Productos mas vendidos',
+            data: me.totalproductos,
+            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
     }
   },
   mounted: function mounted() {
     this.getIngresos();
     this.getVentas();
+    this.getProductosMasVendidos();
+    this.getProductos();
   }
 });
 
@@ -55719,7 +55819,7 @@ var staticRenderFns = [
               _c("div", { staticClass: "col-md-6" }, [
                 _c("div", { staticClass: "card card-chart" }, [
                   _c("div", { staticClass: "card-header" }, [
-                    _c("h4", [_vm._v("Ingresos por meses")])
+                    _c("h4", [_vm._v("Compras por meses")])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
@@ -55757,17 +55857,17 @@ var staticRenderFns = [
               _c("div", { staticClass: "col-md-6" }, [
                 _c("div", { staticClass: "card card-chart" }, [
                   _c("div", { staticClass: "card-header" }, [
-                    _c("h4", [_vm._v("Los 10 productos más vendidos del mes")])
+                    _c("h4", [_vm._v("Venta total por producto")])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
                     _c("div", { staticClass: "ct-chart" }, [
-                      _c("canvas", { attrs: { id: "ingresos" } })
+                      _c("canvas", { attrs: { id: "productosMasVendido" } })
                     ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-footer" }, [
-                    _c("p", [_vm._v("Compras de los últimos meses.")])
+                    _c("p", [_vm._v("Venta total por producto")])
                   ])
                 ])
               ]),
@@ -55775,17 +55875,17 @@ var staticRenderFns = [
               _c("div", { staticClass: "col-md-6" }, [
                 _c("div", { staticClass: "card card-chart" }, [
                   _c("div", { staticClass: "card-header" }, [
-                    _c("h4", [_vm._v("Ventas por dia")])
+                    _c("h4", [_vm._v("Productos vendidos")])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
                     _c("div", { staticClass: "ct-chart" }, [
-                      _c("canvas", { attrs: { id: "ventas" } })
+                      _c("canvas", { attrs: { id: "productoTotal" } })
                     ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-footer" }, [
-                    _c("p", [_vm._v("Ventas de los últimos meses.")])
+                    _c("p", [_vm._v("Productos vendidos.")])
                   ])
                 ])
               ])

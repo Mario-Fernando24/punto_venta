@@ -26,6 +26,8 @@ class DetalleVenta extends Model
         
     }
 
+   
+
     public $timestamps=false;
 
 }
