@@ -28,6 +28,13 @@
 
     Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 
 
+
+
+
+
+
+
+
         //middleware para los usuario rol almacenero
         Route::group(['middleware' => ['Almacenero']], function () {
                 //controller categories
@@ -69,6 +76,13 @@
 
 
 
+
+
+
+
+
+          
+
         //middleware para los usuario rol almacenero
         Route::group(['middleware' => ['Vendedor']], function () {
                 
@@ -93,7 +107,6 @@
             Route::post('registrar', 'VentaController@store');
             Route::put('anularVenta', 'VentaController@anularVenta');
 
- 
         });
 
         
@@ -102,12 +115,21 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
      Route::group(['middleware' => ['Administrador']], function () {
 
         Route::get('/main', function () {
             return view('contenido/contenido');
         })->name('main');
-
 
          //controller categories
          Route::prefix('categoria')->group(function() {
@@ -209,8 +231,6 @@
             Route::get('imprimircerrarCaja','CajaController@imprimircerrarCaja');
             Route::get('informeCaja','CajaController@informeCaja');
             Route::get('detalleinformeCajaImpresa','CajaController@detalleinformeCajaImpresa');
-
-            
         });
 
 
@@ -232,6 +252,12 @@
             Route::post('updateImage', 'perfilController@updateImage');    
             Route::post('register', 'perfilController@register');    
 
+        });
+
+        
+        Route::prefix('anuladas')->group(function() {
+            Route::get('VentasAnuladas', 'FacturasAnuladas@VentasAnuladas');  
+            Route::get('ComprasAnuladas', 'FacturasAnuladas@ComprasAnuladas');  
         });
 
         

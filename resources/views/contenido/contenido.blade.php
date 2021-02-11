@@ -62,6 +62,12 @@
                     <Credito></Credito>
                     </template>
 
+                    <template v-if="menu==16">
+                    <Anuladas></Anuladas>
+                    </template>
+
+
+
                     <template v-if="menu==11">
                     <h1>aYUDA aYUDA aYUDA</H1>
                     </template>

@@ -22,9 +22,6 @@ class IngresoController extends Controller
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
-
-
-
          if($buscar==''){
             $ingreso = Ingreso::with('usuario','proveedor','proveedoress','persona')->orderBy('id', 'DESC')->paginate(10);
 

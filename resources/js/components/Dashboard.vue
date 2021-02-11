@@ -14,7 +14,7 @@
                     <div class="col-md-6">
                         <div class="card card-chart">
                             <div class="card-header">
-                                <h4>Ingresos</h4>
+                                <h4>Ingresos por meses</h4>
                             </div>
                             <div class="card-content">
                                 <div class="ct-chart">
@@ -30,7 +30,7 @@
                     <div class="col-md-6">
                         <div class="card card-chart">
                             <div class="card-header">
-                                <h4>Ventas</h4>
+                                <h4>Ventas por meses</h4>
                             </div>
                             <div class="card-content">
                                 <div class="ct-chart">
@@ -44,6 +44,45 @@
                         </div>
                     </div>
                 </div>
+
+
+
+                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h4>Los 10 productos más vendidos del mes</h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="ct-chart">
+                                    <canvas id="ingresos">                                                
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p>Compras de los últimos meses.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h4>Ventas por dia</h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="ct-chart">
+                                    <canvas id="ventas">                                                
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p>Ventas de los últimos meses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
             </div>
         </div>
     </div>

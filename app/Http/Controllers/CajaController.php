@@ -18,15 +18,11 @@ class CajaController extends Controller
 {
 
     public function index(Request $request)
-    {
-        
+    {        
         if(!$request->ajax()){  return redirect('/');}
 
-
-    
         $listaCaja = Caja::with('apertura_vendedor')->orderBy('idcaja', 'DESC')->paginate(10);
       
-
        return [
         'pagination' => [
             //numero total de registro

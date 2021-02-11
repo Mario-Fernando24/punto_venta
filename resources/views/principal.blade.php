@@ -69,7 +69,9 @@
                     <div class="dropdown-header text-center">
                         <strong>Cuenta</strong>
                     </div>
+                    @if(Auth::user()->idrol=='1')
                     <a @click="menu=15" class="dropdown-item" href="#"><i class="fa fa-user"></i> Perfil</a>
+                    @endif
                     <a class="dropdown-item" href="{{ url('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     ><i class="fa fa-lock"></i> Cerrar sesión</a>
