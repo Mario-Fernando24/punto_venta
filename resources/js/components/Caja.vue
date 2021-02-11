@@ -22,10 +22,6 @@
                             <i class="icon-doc"></i>&nbsp;Cierre de caja
                         </button>
                         
-
-
-
-
                     </div>
                     <div class="card-body">
                         <div class="form-group row">

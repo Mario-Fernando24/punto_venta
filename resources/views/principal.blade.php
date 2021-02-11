@@ -34,10 +34,10 @@
         </button>
         <ul class="nav navbar-nav d-md-down-none">
             <li class="nav-item px-3">
-                <a class="nav-link" href="#">Escritorio</a>
+                <a class="nav-link" @click="menu=0">Escritorio</a>
             </li>
             <li class="nav-item px-3">
-                <a class="nav-link" href="#">Configuraciones</a>
+                <a class="nav-link" @click="menu=15">Configuraciones</a>
             </li>
         </ul>
         <ul class="nav navbar-nav ml-auto">

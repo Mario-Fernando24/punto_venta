@@ -37,18 +37,12 @@ class DashboardController extends Controller
         ->get();
 
 
-      //  $DetalleVenta=DB::table('detalle_ventas as d')
-      //  ->join('articulos as art','art.id','=','d.id_articulo')
-      //  ->select('art.id','d.cantidad','art.nombre',DB::raw('sum(d.precio) as Dinero'))
-       // DB::raw('SUM(d.precio) as total')
-       // ->groupBy('art.nombre')
-      // ->get();
-      
-
        
       $TotalProductosVendidos = DB::table('detalle_ventas as d')
        ->join('articulos as art','art.id','=','d.id_articulo')
+       ->join('ventas as v','v.id','=','d.id_venta')
       ->select(DB::raw('sum(d.precio) as Dinero'),'d.id_articulo','art.nombre')
+      ->where('v.estado','registrado')
       ->groupBy('d.id_articulo')
       ->orderBy('Dinero', 'desc')
       ->get();
@@ -56,13 +50,14 @@ class DashboardController extends Controller
 
       $totallPorProductos = DB::table('detalle_ventas as d')
        ->join('articulos as art','art.id','=','d.id_articulo')
+       ->join('ventas as v','v.id','=','d.id_venta')
       ->select(DB::raw('sum(d.cantidad) as total'),'d.id_articulo','art.nombre')
+      ->where('v.estado','registrado')
       ->groupBy('d.id_articulo')
       ->orderBy('total', 'desc')
       ->get();
 
 
- 
         return ['ingresos'=>$ingresos,'ventas'=>$ventas,'anio'=>$anio,'TotalProductosVendidos'=>$TotalProductosVendidos,'totallPorProductos'=>$totallPorProductos];      
  
     }

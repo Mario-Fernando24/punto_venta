@@ -16,11 +16,10 @@ Vue.component('Ingreso', require('./components/Ingreso.vue').default);
 Vue.component('Venta', require('./components/Venta.vue').default);
 Vue.component('Dashboard', require('./components/Dashboard.vue').default);
 Vue.component('Caja', require('./components/Caja.vue').default);
-
 Vue.component('Egreso', require('./components/DocumentoCaja/Egreso.vue').default);
 Vue.component('Credito', require('./components/DocumentoCaja/Creditos.vue').default);
-
 Vue.component('Anuladas', require('./components/Anuladas/FacturasAnuladas.vue').default);
+Vue.component('Ajusteinventario', require('./components/DocumentoCaja/AjusteInventario.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
