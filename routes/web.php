@@ -260,6 +260,10 @@
             Route::get('ComprasAnuladas', 'FacturasAnuladas@ComprasAnuladas');  
         });
 
+        Route::prefix('ajusteInventario')->group(function() {
+            Route::get('index', 'Ajuste\AjusteDeInventario@index');  
+        });
+
         
 
         
