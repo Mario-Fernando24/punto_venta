@@ -12,7 +12,7 @@ class AjusteInventario extends Model
     protected $fillable = [
         'id',
         'id_usuario',
-        'id_anulo_venta',
+        'id_anulo_ajuste',
         'id_apertura_caja_usuario',
         'tipo_ajuste',
         'motivo',

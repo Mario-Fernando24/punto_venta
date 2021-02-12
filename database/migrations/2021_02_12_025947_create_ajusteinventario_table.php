@@ -16,7 +16,7 @@ class CreateAjusteinventarioTable extends Migration
         Schema::create('ajusteinventario', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('id_usuario');
-            $table->unsignedBigInteger('id_anulo_venta')->nullable();
+            $table->unsignedBigInteger('id_anulo_ajuste')->nullable();
             $table->unsignedBigInteger('id_apertura_caja_usuario')->nullable();
             $table->string('tipo_ajuste')->nullable();
             $table->string('motivo')->nullable();
@@ -27,7 +27,7 @@ class CreateAjusteinventarioTable extends Migration
 
 
             $table->foreign('id_usuario')->references('id')->on('users'); 
-            $table->foreign('id_anulo_venta')->references('id')->on('users');
+            $table->foreign('id_anulo_ajuste')->references('id')->on('users');
             $table->foreign('id_apertura_caja_usuario')->references('idcaja')->on('caja');
         });
     }
