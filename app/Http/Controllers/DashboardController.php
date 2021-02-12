@@ -45,6 +45,7 @@ class DashboardController extends Controller
       ->where('v.estado','registrado')
       ->groupBy('d.id_articulo')
       ->orderBy('Dinero', 'desc')
+      ->take(5)
       ->get();
 
 
@@ -55,6 +56,7 @@ class DashboardController extends Controller
       ->where('v.estado','registrado')
       ->groupBy('d.id_articulo')
       ->orderBy('total', 'desc')
+      ->take(5)
       ->get();
 
 

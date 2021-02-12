@@ -51,7 +51,7 @@
                     <div class="col-md-6">
                         <div class="card card-chart">
                             <div class="card-header">
-                                <h4>Venta total por producto</h4>
+                                <h4>Los 5 productos más vendidos</h4>
                             </div>
                             <div class="card-content">
                                 <div class="ct-chart">
@@ -60,14 +60,14 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <p>Venta total por producto</p>
+                                <p>Los 5 productos más vendidos</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="card card-chart">
                             <div class="card-header">
-                                <h4>Productos vendidos</h4>
+                                <h4>Los 5 productos más vendidos por unid</h4>
                             </div>
                             <div class="card-content">
                                 <div class="ct-chart">
@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <p>Productos vendidos.</p>
+                                <p>Los 5 productos más vendidos por unid.</p>
                             </div>
                         </div>
                     </div>

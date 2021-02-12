@@ -22,7 +22,133 @@
                     </div>
 
                     <div class="card-body">
-                      
+
+
+
+
+
+                                
+                              <div class="form-group row">
+                                    <div class="col-sm-6">
+                                    <label class="col-md-6 form-control-label" for="email-input">Tipo de ajuste</label>
+                                       <h4 v-text="tipo_ajuste"></h4>
+                                    </div>
+
+                                    
+                                    <div class="col-sm-6">
+                                      <label class="col-md-6 form-control-label" for="email-input">Fecha</label>    
+                                            <p v-text="currentHour+'     '+currentDay"></p>  
+                                    </div>
+                               </div>
+
+
+                              <div class="form-group row">
+                                    <div class="col-sm-12">
+                                    <label class="col-md-12 form-control-label" for="email-input">Motivo</label>
+                                        <input type="text"  class="form-control" placeholder="Motivo...">
+                                    </div>
+
+                                </div>
+
+
+
+
+                      <!--show article-->
+                          <div class="form-group row border">
+                           <div class="table-responsive col-md-12">
+                                 <table class="table table-bordered table-striped table-sm">
+                                    
+                                     <thead>
+                                         <tr>
+
+                                            <th>Opciones</th>
+                                            <th>Articulo</th>
+                                            <th>Precio venta</th>
+                                            <th>Existencia</th>
+                                            <th v-if="tipoAccionButton==1">Entra</th>
+                                            <th v-if="tipoAccionButton==2">Sale</th>
+                                            <th>Quedan</th>
+
+                                            
+
+                                            <th>Subtotal</th>
+
+                                         </tr>
+                                     </thead>
+                                     <tbody v-if="arrayDetalleVenta.length">
+
+                                         <tr v-for="(detalle,index) in arrayDetalleVenta" :key="detalle.id">
+                                            <th>
+                                                <button @click="eliminarDetalle(index)" type="button" class="btn btn-danger btn-sm">
+                                                    <i class="icon-close"></i>
+                                                </button>
+                                            </th>
+
+                                            <th v-text="detalle.articulo"></th>
+                                            <th v-text="detalle.precio"></th>
+                                            <th v-text="detalle.stock"></th>
+
+                                            <td>
+                                                <span v-if="tipoAccionButton==1" class="validaridArticulo"></span>
+                                                <span class="validaridArticulo" v-if="tipoAccionButton==2" v-show="detalle.cantidad>detalle.stock">Stock {{ detalle.stock }}</span>
+                                                <input v-model="detalle.cantidad" type="number"  class="form-control">
+                                            </td>
+
+                                            <td v-if="tipoAccionButton==1" v-text="(detalle.stock+detalle.cantidad)"></td>
+                                            <td v-if="tipoAccionButton==2" v-text="(detalle.stock-detalle.cantidad)"></td>
+
+
+
+
+                                            <td>
+                                                {{ Intl.NumberFormat().format(detalle.cantidad*detalle.precio)  }}
+                                            </td>
+
+
+                                         </tr>
+
+
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Subtotal:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calculadorTotal-((calculadorTotal*impuesto)/100)))}}</td>
+                                         </tr>
+
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Impuesto:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format(((calculadorTotal*impuesto)/100))}}</td>
+                                         </tr>
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Total Neto:</strong></td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calculadorTotal))}}</td>
+                                         </tr>
+
+                
+                                     </tbody>
+
+                                 <tbody v-else>
+                                   <tr>
+                                       <th colspan="8">
+                                         No hay articulos agregados
+                                       </th>
+                                   </tr>
+                                 </tbody>
+
+                                 
+                                 </table>
+                           </div>
+
+                        <div class="form-group row" v-if="arrayDetalleVenta.length">
+                           <div class="col-md-12">
+                              <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-success" @click="AjusteInventarioEntra()">Entran al inventario</button>
+                              <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-danger" @click="AjusteInventarioSale()">Salen al inventario</button>
+
+                           </div>
+                        </div>
+
+                       </div>
                         
                     </div>
                 </div>
@@ -107,8 +233,6 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button"  class="btn btn-primary" @click="registrarVenta()">Guardar</button>
-
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -143,6 +267,18 @@
             activeClass: 'active',
             errorClass: 'modal-dialog modal-danger modal-lg',
             errorBotton: 'btn btn-success btn-sm',
+            tipoAccionButton : 0,
+
+
+            arrayDetalleVenta:[],
+            idarticulo:0,
+            articulo:'',
+            cantidad: 0,
+            stock: 0,
+            precio:0,
+            impuesto:18,
+            tipo_ajuste:'no ha escogido',
+
 
 
            pagination : {
@@ -173,6 +309,22 @@
         },
 
          computed :{
+       
+            currentDay() {
+            let curr = new Date();
+            return `${curr.getDay()}/${
+                curr.getMonth() + 1
+            }/${curr.getFullYear()}`;
+            },
+            currentHour() {
+            let curr = new Date();
+            let hour = curr.getHours();
+            let isPm = hour >= 12 ? true : false;
+            hour = hour > 12 ? hour - 12 : hour;
+            return `${hour < 10 ? "0" : ""}${hour}:${
+                curr.getMinutes() < 10 ? "0" : ""
+            }${curr.getMinutes()} ${isPm ? "pm" : "am"}`;
+            },
            
                        //calcular la pagina actual
             isActived : function(){
@@ -198,6 +350,17 @@
                 }
                 return pagesArray;  
             },
+            calculadorTotal : function(){
+                var resultado=0.0;
+                var aux=0.0;
+
+                for(var i=0; i<this.arrayDetalleVenta.length; i++){
+                  aux+=this.arrayDetalleVenta[i].precio*this.arrayDetalleVenta[i].cantidad;
+                  resultado+=aux;
+                  aux=0.0;
+                }
+                return resultado;
+            },
 
         },
         methods: {
@@ -214,6 +377,8 @@
                                 this.activeClass= 'active';
                                 this.errorClass= 'modal-dialog modal-success modal-lg';
                                 this.errorBotton= 'btn btn-success btn-sm';
+                                this.tipoAccionButton=1;
+                                this.tipo_ajuste='entra al inventario';
 
                               break;
                              } 
@@ -225,6 +390,9 @@
                                this.activeClass= 'active';
                                this.errorClass= 'modal-dialog modal-danger modal-lg';
                                this.errorBotton= 'btn btn-danger btn-sm';
+                               this.tipoAccionButton=2;
+                              this.tipo_ajuste='sale de inventario';
+
 
                              break;
                              }   
@@ -251,18 +419,83 @@
 
                  },
 
-            cambiarPagina(page, buscar, criterio){
-                let me = this;
-                //actualiza a la pagina actual
-                me.pagination.current_page = page;
-                //envia la peticion de listar esa pagina
-                me.listarArticulo(page, buscar, criterio);
-            },
+                 agregarDetallesModal(data=[]){
 
-            cerrarModal()
-            {
+                       if(this.encuentra(data['id'])){
+                             this.aux=0;
+                          Swal.fire(
+                            'Advertencia!',
+                            'este articulo ya esta agregado!', 
+                            'warning'
+                            )
+                         }else{
+                     //push para agregar valores al array
+                        this.arrayDetalleVenta.push({
+                        idarticulo:data['id'],
+                        articulo: data['nombre'],
+                        cantidad : 1,
+                        stock:data['stock'],
+                        precio: data['precio_venta'],
+                       });
+                      }
+
+                 },
+                 
+                 encuentra(id){
+                     let aux=0;
+                     for(var i=0; i<this.arrayDetalleVenta.length; i++){
+                         if(this.arrayDetalleVenta[i].idarticulo==id){
+                             this.aux=true;
+                         }
+                     }
+                     
+                     return this.aux; 
+                 },
+                  eliminarDetalle(index){
+                    this.arrayDetalleVenta.splice(index,1);
+                 },
+
+                cambiarPagina(page, buscar, criterio){
+                    let me = this;
+                    //actualiza a la pagina actual
+                    me.pagination.current_page = page;
+                    //envia la peticion de listar esa pagina
+                    me.listarArticulo(page, buscar, criterio);
+                },
+
+                cerrarModal()
+                {
                   this.modal=0;
-            }
+                },
+
+                vaciarVariables()
+                {
+                  this.tipoAccionButton = 0;
+                  this.arrayDetalleVenta=[];
+                  this.idarticulo=0;
+                  this.articulo='';
+                  this.cantidad= 0;
+                  this.stock= 0;
+                  this.precio=0;
+                  this.impuesto=18;
+                  this.tipo_ajuste='no ha escogido';
+                },
+
+                AjusteInventarioEntra()
+                {
+                  let me=this;
+                  me.vaciarVariables();
+
+                   console.log('Entra al inventario');
+
+                },
+                AjusteInventarioSale()
+                {
+
+                  let me=this;
+                  me.vaciarVariables();
+                   console.log('sale al inventario');
+                },
 
         },
         mounted() 
