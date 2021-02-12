@@ -3,10 +3,12 @@
 namespace App\ModelInventario;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class AjusteInventario extends Model
 {
-    protected $table = 'ventas';
+
+    protected $table = 'ajusteinventario';
     protected $primaryKey = 'id';
     
     protected $fillable = [

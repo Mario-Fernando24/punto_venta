@@ -3,11 +3,13 @@
 namespace App\ModelInventario;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Articulo;
+
 
 class DetalleAjusteInventario extends Model
 {
     
-    protected $table = 'detalle_ventas';
+    protected $table = 'detalleajusteinventario';
     protected $primaryKey = 'id';
     
     protected $fillable = [
