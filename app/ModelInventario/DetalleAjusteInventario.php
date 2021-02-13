@@ -22,6 +22,9 @@ class DetalleAjusteInventario extends Model
         'cantidad_quedan'
     ];
 
+
+    
+
     public function articulo_Detalle_Ajuste()
     {
         return $this->belongsTo(Articulo::class,'id_articulo','id');

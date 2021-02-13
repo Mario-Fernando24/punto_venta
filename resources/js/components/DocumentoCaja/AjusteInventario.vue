@@ -29,23 +29,31 @@
 
                                 
                               <div class="form-group row">
-                                    <div class="col-sm-6">
-                                    <label class="col-md-6 form-control-label" for="email-input">Tipo de ajuste</label>
+                                    <div class="col-sm-4">
+                                    <label class="col-md-4 form-control-label" for="email-input">Tipo de ajuste</label>
                                        <h4 v-text="tipo_ajuste"></h4>
                                     </div>
 
                                     
-                                    <div class="col-sm-6">
-                                      <label class="col-md-6 form-control-label" for="email-input">Fecha</label>    
+                                    <div class="col-sm-4">
+                                      <label class="col-md-4 form-control-label" for="email-input">Fecha</label>    
                                             <p v-text="currentHour+'     '+currentDay"></p>  
                                     </div>
+
+
+
+                                    <div class="col-md-4">
+                                        <label>Impuesto %<span  class="validaridArticulo"   v-show="impuesto==0">*</span></label>
+                                        <input type="text" class="form-control"  v-model="impuesto">
+                                    </div>
+
                                </div>
 
 
                               <div class="form-group row">
                                     <div class="col-sm-12">
                                     <label class="col-md-12 form-control-label" for="email-input">Motivo</label>
-                                        <input type="text"  class="form-control" placeholder="Motivo...">
+                                        <input type="text" v-model="motivo" class="form-control" placeholder="Motivo...">
                                     </div>
 
                                 </div>
@@ -60,7 +68,6 @@
                                     
                                      <thead>
                                          <tr>
-
                                             <th>Opciones</th>
                                             <th>Articulo</th>
                                             <th>Precio venta</th>
@@ -68,22 +75,18 @@
                                             <th v-if="tipoAccionButton==1">Entra</th>
                                             <th v-if="tipoAccionButton==2">Sale</th>
                                             <th>Quedan</th>
-
-                                            
-
                                             <th>Subtotal</th>
 
                                          </tr>
                                      </thead>
-                                     <tbody v-if="arrayDetalleVenta.length">
+                                     <tbody v-if="ArrayDetalleAjusteProductos.length">
 
-                                         <tr v-for="(detalle,index) in arrayDetalleVenta" :key="detalle.id">
+                                         <tr v-for="(detalle,index) in ArrayDetalleAjusteProductos" :key="detalle.id">
                                             <th>
                                                 <button @click="eliminarDetalle(index)" type="button" class="btn btn-danger btn-sm">
                                                     <i class="icon-close"></i>
                                                 </button>
                                             </th>
-
                                             <th v-text="detalle.articulo"></th>
                                             <th v-text="detalle.precio"></th>
                                             <th v-text="detalle.stock"></th>
@@ -94,14 +97,12 @@
                                                 <input v-model="detalle.cantidad" type="number"  class="form-control">
                                             </td>
 
-                                            <td v-if="tipoAccionButton==1" v-text="(detalle.stock+detalle.cantidad)"></td>
-                                            <td v-if="tipoAccionButton==2" v-text="(detalle.stock-detalle.cantidad)"></td>
-
-
+                                            <td v-if="tipoAccionButton==1" v-text="(detalle.stock+parseInt(detalle.cantidad))"></td>
+                                            <td v-if="tipoAccionButton==2" v-text="(detalle.stock-parseInt(detalle.cantidad))"></td>
 
 
                                             <td>
-                                                {{ Intl.NumberFormat().format(detalle.cantidad*detalle.precio)  }}
+                                                {{ Intl.NumberFormat().format(parseInt(detalle.cantidad)*detalle.precio)  }}
                                             </td>
 
 
@@ -109,20 +110,25 @@
 
 
 
-                                         <tr class="totalresultado" >
+
+
+                                         <tr class="totalresultado">
+                                             <td colspan="2" align="right"><strong></strong></td>
                                              <td colspan="4" align="right"><strong>Subtotal:</strong></td>
                                              <td colspan="2" >$ {{ Intl.NumberFormat().format((calculadorTotal-((calculadorTotal*impuesto)/100)))}}</td>
                                          </tr>
 
 
                                          <tr class="totalresultado" >
+                                             <td colspan="2" align="right"><strong></strong></td>
                                              <td colspan="4" align="right"><strong>Impuesto:</strong></td>
                                              <td colspan="2" >$ {{ Intl.NumberFormat().format(((calculadorTotal*impuesto)/100))}}</td>
                                          </tr>
 
                                          <tr class="totalresultado" >
+                                             <td colspan="2" align="right"><strong></strong></td>
                                              <td colspan="4" align="right"><strong>Total Neto:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((calculadorTotal))}}</td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format(( total=(calculadorTotal)))}}</td>
                                          </tr>
 
                 
@@ -140,7 +146,7 @@
                                  </table>
                            </div>
 
-                        <div class="form-group row" v-if="arrayDetalleVenta.length">
+                        <div class="form-group row" v-if="ArrayDetalleAjusteProductos.length">
                            <div class="col-md-12">
                               <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-success" @click="AjusteInventarioEntra()">Entran al inventario</button>
                               <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-danger" @click="AjusteInventarioSale()">Salen al inventario</button>
@@ -270,7 +276,7 @@
             tipoAccionButton : 0,
 
 
-            arrayDetalleVenta:[],
+            ArrayDetalleAjusteProductos:[],
             idarticulo:0,
             articulo:'',
             cantidad: 0,
@@ -278,6 +284,8 @@
             precio:0,
             impuesto:18,
             tipo_ajuste:'no ha escogido',
+
+            motivo:'',
 
 
 
@@ -354,8 +362,8 @@
                 var resultado=0.0;
                 var aux=0.0;
 
-                for(var i=0; i<this.arrayDetalleVenta.length; i++){
-                  aux+=this.arrayDetalleVenta[i].precio*this.arrayDetalleVenta[i].cantidad;
+                for(var i=0; i<this.ArrayDetalleAjusteProductos.length; i++){
+                  aux+=this.ArrayDetalleAjusteProductos[i].precio*this.ArrayDetalleAjusteProductos[i].cantidad;
                   resultado+=aux;
                   aux=0.0;
                 }
@@ -430,7 +438,7 @@
                             )
                          }else{
                      //push para agregar valores al array
-                        this.arrayDetalleVenta.push({
+                        this.ArrayDetalleAjusteProductos.push({
                         idarticulo:data['id'],
                         articulo: data['nombre'],
                         cantidad : 1,
@@ -443,16 +451,16 @@
                  
                  encuentra(id){
                      let aux=0;
-                     for(var i=0; i<this.arrayDetalleVenta.length; i++){
-                         if(this.arrayDetalleVenta[i].idarticulo==id){
+                     for(var i=0; i<this.ArrayDetalleAjusteProductos.length; i++){
+                         if(this.ArrayDetalleAjusteProductos[i].idarticulo==id){
                              this.aux=true;
                          }
                      }
                      
                      return this.aux; 
                  },
-                  eliminarDetalle(index){
-                    this.arrayDetalleVenta.splice(index,1);
+                 eliminarDetalle(index){
+                    this.ArrayDetalleAjusteProductos.splice(index,1);
                  },
 
                 cambiarPagina(page, buscar, criterio){
@@ -471,7 +479,7 @@
                 vaciarVariables()
                 {
                   this.tipoAccionButton = 0;
-                  this.arrayDetalleVenta=[];
+                  this.ArrayDetalleAjusteProductos=[];
                   this.idarticulo=0;
                   this.articulo='';
                   this.cantidad= 0;
@@ -481,14 +489,6 @@
                   this.tipo_ajuste='no ha escogido';
                 },
 
-                AjusteInventarioEntra()
-                {
-                  let me=this;
-                  me.vaciarVariables();
-
-                   console.log('Entra al inventario');
-
-                },
                 AjusteInventarioSale()
                 {
 
@@ -496,6 +496,31 @@
                   me.vaciarVariables();
                    console.log('sale al inventario');
                 },
+
+                AjusteInventarioEntra(){
+                    console.log('entra en la función');
+                    //  if(this.motivo){return ;}
+
+                        let me=this;
+                        axios.post('/inventario/ajusteInventarioEntra', {
+                            'motivo': this.motivo,
+                            'impuesto': this.impuesto,
+                            'total':this.total,
+                            'data':this.ArrayDetalleAjusteProductos,
+                        })
+                        .then(function (response) {
+                            console.log('entro a esta funcion');
+                           //  window.open('http://127.0.0.1:8000/ventas/pdfVenta/'+response.data.id+','+'_blank');
+                  //          me.listado= 1;
+                            me.vaciarVariables();
+                        //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                    //    me.listaVenta(1,'','num_comprobante_pago');
+                        }) 
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                  },
 
         },
         mounted() 

@@ -5,16 +5,22 @@ namespace App\Http\Controllers\Ajuste;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
 use App\ModelInventario\AjusteInventario;
+use App\ModelInventario\DetalleAjusteInventario;
 use App\Caja;
 
+use DB;
+use Carbon\Carbon;
 
 class AjusteDeInventario extends Controller
 {
-
     
     public function index(Request $request)
     {
+     //   $example=DetalleAjusteInventario::all();
+
+     //   return $example;
             
             if(!$request->ajax()){return redirect('/');}
             $buscar = $request->buscar;
@@ -45,21 +51,44 @@ class AjusteDeInventario extends Controller
 
 
     }
+
     public function ajusteInventarioEntra(Request $request)
     {
 
-        $cajaOpen = Caja::with('apertura_vendedor')
-        ->where('id_vendedor',\Auth::user()->id)->orderBy('idcaja', 'desc')->first();
+        $mytime=Carbon::now('America/Bogota');
+        $id_caja_users=DB::table('caja')
+        ->where('id_vendedor',\Auth::user()->id)
+        ->where('Cajaactual','abierto')->first();
+
+        try{
+
+                $addAjusteInventario = AjusteInventario::create([
+                    'id_usuario' => \Auth::user()->id,
+                    'id_apertura_caja_usuario' => $id_caja_users->idcaja,
+                    'tipo_ajuste' => 'ENTRA',
+                    'motivo' => $request->get('motivo'),
+                    'impuesto'=> (($request->get('total')*$request->get('impuesto'))/100),
+                    'total' => $request->get('total'),
+                    ]);
+
+                    //array de deatalle
+                   $detalles=$request->get('data'); 
 
 
-        $addAjusteInventario = AjusteInventario::create([
-            'id_usuario' => \Auth::user()->id,
-            'id_apertura_caja_usuario' => $cajaOpen->idcaja,
-            'tipo_ajuste' => $request->get('tipo_ajuste'),
-            'motivo' => $request->get('motivo'),
-            'impuesto' => $request->get('impuesto'),
-            'total' => $request->get('total'),
-            ]);
+                   $detallesss=DetalleAjusteInventario::create([
+                            'id_ajusteinventario' => 68,
+                            'id_articulo' => 6,
+                            'precio' => 1,
+                            'cantidad_existencia' => 1,
+                            'cantidad_entran' => 1,
+                            'cantidad_quedan' => 1,
+                        ]);
+                    
+
+
+        }catch (ModelNotFoundException $e) {
+            DB::rollBack();
+        }
 
     }
     public function ajusteInventarioSale(Request $request)
