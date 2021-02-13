@@ -893,7 +893,7 @@ import vSelect from "vue-select";
                     this.arrayDetalleVenta.splice(index,1);
                  },
 
-                 registrarVenta(){
+                registrarVenta(){
                         if(this.validarVenta()){
                             return ;
                         }

@@ -264,6 +264,11 @@
             Route::get('index', 'Ajuste\AjusteDeInventario@index');  
             Route::post('ajusteInventarioEntra', 'Ajuste\AjusteDeInventario@ajusteInventarioEntra');  
             Route::post('ajusteInventarioSale', 'Ajuste\AjusteDeInventario@ajusteInventarioSale');  
+
+            Route::get('getObjetoDetalleAjuste', 'Ajuste\AjusteDeInventario@getObjetoDetalleAjuste');
+            Route::get('getArrayDetalleAjuste', 'Ajuste\AjusteDeInventario@getArrayDetalleAjuste');
+
+
         });
 
         

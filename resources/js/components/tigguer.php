@@ -60,9 +60,7 @@ DELIMITER //
 CREATE TRIGGER triggerUpdateStockAjusteEntra AFTER INSERT ON detalleajusteinventario
  FOR EACH ROW BEGIN
   UPDATE articulos SET articulos.stock = articulos.stock+NEW.cantidad_entran
-    WHERE articulos.id = NEW.id_articulo;
-    WHERE 'ENTRA' = NEW.tipo_ajuste;
-
+  WHERE  'ENTRA' = NEW.tipo_ajuste AND articulos.id = NEW.id_articulo;
     END//
 DELIMITER ;
 
@@ -72,7 +70,6 @@ DELIMITER //
 CREATE TRIGGER triggerUpdateStockAjusteSale AFTER INSERT ON detalleajusteinventario
  FOR EACH ROW BEGIN
   UPDATE articulos SET articulos.stock = articulos.stock-NEW.cantidad_entran
-    WHERE articulos.id = NEW.id_articulo;
-    WHERE 'SALE' = NEW.tipo_ajuste;
+  WHERE  'SALE' = NEW.tipo_ajuste AND articulos.id = NEW.id_articulo;
     END//
 DELIMITER ;

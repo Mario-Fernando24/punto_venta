@@ -1,5 +1,6 @@
  <template>
     <main class="main">
+        <div v-if="show==1">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Escritorio</a></li>
@@ -17,6 +18,11 @@
 
                           <button @click="abrirModalProductos('ajuste','sale')" type="button"   class="btn btn-outline-danger">
                             <i class="icon-minus"></i>&nbsp;Sale
+                        </button>
+
+
+                        <button @click="abrirModalProductos('ajuste','cerrar')" type="button"   class="btn btn-outline-info">
+                            <i class="icon-arrow-left"></i>&nbsp;Atras
                         </button>
                         
                     </div>
@@ -256,18 +262,130 @@
 
 
 
-     
-        </main>
+        </div>
+
+
+
+        <div v-if="show==0">
+
+             <!-- Breadcrumb -->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Escritorio</a></li>
+            </ol>
+
+            <div class="container-fluid">
+                <!-- Ejemplo de tabla Listado -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Ajuste de inventario
+                      
+                        <button  type="button"  @click="abrirModalProductos('ajuste','entra')" class="btn btn-outline-success" >
+                            <i class="icon-plus"></i>&nbsp;Entra 
+                        </button>
+
+                          <button @click="abrirModalProductos('ajuste','sale')" type="button"   class="btn btn-outline-danger">
+                            <i class="icon-minus"></i>&nbsp;Sale
+                        </button>
+
+                        <button @click="abrirModalProductos('ajuste','cerrar')" type="button"   class="btn btn-outline-info">
+                            <i class="icon-arrow-left"></i>&nbsp;Atras
+                        </button>
+                        
+                    </div>
+                       <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <select class="form-control col-md-3" v-model="criterio">
+                                      <option value="id">Id</option>
+                                      <option value="motivo">Motivo</option>
+                                    </select>
+                                    <input type="text" v-model="buscar" @keyup.enter="listaAjusteInventario(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
+                                    <button type="submit" @click="listaAjusteInventario(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Caja</th>
+                                    <th>Usuario</th>
+                                    <th>Motivo</th>
+                                    <th>Impuesto</th>
+                                    <th>Total</th>
+                                    <th>T ajuste</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="ajuste in arrayAjusteInventario" :key="ajuste.id">
+
+                                        <td v-text="ajuste.id"></td>
+                                        <td v-text="ajuste.id_apertura_caja_usuario"></td>
+                                        <td v-text="ajuste.usuario_hizo_el_ajuste.usuario"></td>
+                                        <td v-text="ajuste.motivo"></td>
+                                        <td v-text="Intl.NumberFormat().format(ajuste.impuesto)"></td>
+                                        <td v-text="Intl.NumberFormat().format(ajuste.total)"></td>
+                                        <td v-if="ajuste.tipo_ajuste=='SALE'" class="badge badge-danger"><i class="icon-minus"></i> SALE</td>
+                                        <td v-if="ajuste.tipo_ajuste=='ENTRA'" class="badge badge-success"><i class="icon-plus"></i> ENTRA</td>
+
+                                        <td>
+                                        <button type="button" @click="verDetalleAjuste(ajuste.id)" class="btn btn-warning btn-sm" data-toggle="modal">
+                                          <i class="icon-eye"></i>
+                                        </button> &nbsp;
+                                        
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        
+                        <nav>
+                                <ul class="pagination">
+                                                                    <!--si la pagina actual > que 1-->
+                                <li class="page-item" v-if="pagination.current_page > 1 ">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
+                                </li>
+                                                                <!--iteramos la propiedad computada-->
+
+                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
+                                </li>
+                                <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Sig</a>
+                                </li>
+                            </ul>
+
+                        </nav>
+                    </div>
+
+                    <!---final del body-->
+
+                </div>
+            </div>        
+        </div>
+   
+    </main>
+
 </template>
 
+
+
+
 <script>
-//axios nos ayuda hacer peticiones http desde el navegador
     export default {
-        //dentro de la data colocamos las variables 
         data(){
           return {
+           show:0,
+
             modal : 0,
             tituloModal : '',
+
+            arrayAjusteInventario:[],
 
             ListararrayArticulo:[],
             activeClass: 'active',
@@ -305,12 +423,8 @@
             },
 
             offset : 3,
-            criterio : 'nombre',
+            criterio : 'id',
             buscar  : '',
-
-
-
-            
 
 
           }
@@ -372,7 +486,33 @@
 
         },
         methods: {
-            abrirModalProductos(modelo, accion){
+
+            listaAjusteInventario(page, buscar, criterio){
+              
+                 let me=this;
+                  var url= '/inventario/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                  axios.get(url).then(function (response) {
+                    var respuesta = response.data;
+                    //todo lo que retorne esta funcion se almacene en este array
+                    me.arrayAjusteInventario = respuesta.ajuste.data;
+
+                    me.pagination = respuesta.pagination;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+              },
+
+            verDetalleAjuste(id){
+                    
+               console.log('prueba'+id);
+
+
+            },
+
+
+             abrirModalProductos(modelo, accion){
                   switch(modelo){
                       case "ajuste":
                      {
@@ -380,6 +520,8 @@
                             
                              case 'entra':
                             {
+                                this.show=1;
+
                                 this.modal=1;
                                 this.tituloModal='Seleccione los producto que entran al inventario';
                                 this.activeClass= 'active';
@@ -393,6 +535,7 @@
                              case 'sale':
                             {
                                // console.log(data);
+                               this.show=1;
                                this.modal=1;
                                this.tituloModal='Seleccione los producto que salen del inventario';
                                this.activeClass= 'active';
@@ -404,6 +547,10 @@
 
                              break;
                              }   
+                             case 'cerrar':
+                            {
+                               this.vaciarVariables();
+                            }
                                  
                          } 
                       }
@@ -468,7 +615,7 @@
                     //actualiza a la pagina actual
                     me.pagination.current_page = page;
                     //envia la peticion de listar esa pagina
-                    me.listarArticulo(page, buscar, criterio);
+                    me.listaAjusteInventario(page, buscar, criterio);
                 },
 
                 cerrarModal()
@@ -487,6 +634,11 @@
                   this.precio=0;
                   this.impuesto=18;
                   this.tipo_ajuste='no ha escogido';
+                  this.show=0;
+                  this.listaAjusteInventario(1,this.buscar,this.criterio);  
+                  this.motivo='';
+
+
                 },
 
                 AjusteInventarioSale()
@@ -562,6 +714,7 @@
         },
         mounted() 
         {
+           this.listaAjusteInventario(1,this.buscar,this.criterio);  
         }
     }
 </script>

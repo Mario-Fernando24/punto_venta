@@ -26,7 +26,7 @@ class AjusteDeInventario extends Controller
             if($buscar==''){
                 $ajuste = AjusteInventario::with('usuario_hizo_el_ajuste','usuario_anulo_el_ajuste')->orderBy('id', 'DESC')->paginate(10);
             }else{
-                $ajuste = AjusteInventario::with('usuario_hizo_el_ajuste','usuario_anulo_el_ajuste')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('idegreso', 'desc')->paginate(10);
+                $ajuste = AjusteInventario::with('usuario_hizo_el_ajuste','usuario_anulo_el_ajuste')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
             }
             
             if(!empty($ajuste)){
@@ -147,6 +147,33 @@ class AjusteDeInventario extends Controller
         }
 
     }
+
+    public function getObjetoDetalleAjuste(Request $request)
+    {
+      
+       if(!$request->ajax()){return redirect('/'); }
+
+        $id = $request->id;
+        $ObjetoDetalleAjuste = AjusteInventario::with('usuario_hizo_el_ajuste','usuario_anulo_el_ajuste')
+        ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
+
+        return response()->json([ 'status' => 'ok','ObjetoDetalleAjuste'=>$ObjetoDetalleAjuste], 200);
+  
+    }
+
+
+    public function getArrayDetalleAjuste(Request $request)
+    {
+
+        // if(!$request->ajax()){return redirect('/'); }
+
+         $id = $request->id;
+        $DetalleAjuste = DetalleAjusteInventario::with('articulo_Detalle_Ajuste')
+        ->where('id_ajusteinventario',$id)->orderBy('id', 'ASC')->get();
+        
+        return response()->json([ 'status' => 'ok','DetalleAjuste'=>$DetalleAjuste], 200);
+      
+      }
 
 
 }
