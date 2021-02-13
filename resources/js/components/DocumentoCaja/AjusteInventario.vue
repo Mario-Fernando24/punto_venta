@@ -487,7 +487,7 @@
         },
         methods: {
 
-            listaAjusteInventario(page, buscar, criterio){
+             listaAjusteInventario(page, buscar, criterio){
               
                  let me=this;
                   var url= '/inventario/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -504,15 +504,38 @@
 
               },
 
-            verDetalleAjuste(id){
+              verDetalleAjuste(id){
                     
-               console.log('prueba'+id);
+                  let me=this;
+                  var TemporalObj=[];
+                  var url= '/inventario/getObjetoDetalleAjuste?id=' +id;
+                  axios.get(url).then(function (response) {
+                    var respuesta = response.data;
+                   console.log(respuesta);
 
 
-            },
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
 
 
-             abrirModalProductos(modelo, accion){
+                var urldetalle= '/inventario/getArrayDetalleAjuste?id=' +id;
+                  axios.get(urldetalle).then(function (response) {
+
+                    console.log(response.data);
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+
+
+              },
+
+
+               abrirModalProductos(modelo, accion){
                   switch(modelo){
                       case "ajuste":
                      {
@@ -556,7 +579,7 @@
                       }
                   }
 
-              },
+               },
 
 
               listarArticulo(buscar, criterio){

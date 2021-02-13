@@ -5552,7 +5552,21 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     verDetalleAjuste: function verDetalleAjuste(id) {
-      console.log('prueba' + id);
+      var me = this;
+      var TemporalObj = [];
+      var url = '/inventario/getObjetoDetalleAjuste?id=' + id;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        console.log(respuesta);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      var urldetalle = '/inventario/getArrayDetalleAjuste?id=' + id;
+      axios.get(urldetalle).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     abrirModalProductos: function abrirModalProductos(modelo, accion) {
       switch (modelo) {

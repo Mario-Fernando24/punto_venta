@@ -168,10 +168,10 @@ class AjusteDeInventario extends Controller
         // if(!$request->ajax()){return redirect('/'); }
 
          $id = $request->id;
-        $DetalleAjuste = DetalleAjusteInventario::with('articulo_Detalle_Ajuste')
+        $DetalleAjusteArray = DetalleAjusteInventario::with('articulo_Detalle_Ajuste')
         ->where('id_ajusteinventario',$id)->orderBy('id', 'ASC')->get();
         
-        return response()->json([ 'status' => 'ok','DetalleAjuste'=>$DetalleAjuste], 200);
+        return response()->json([ 'status' => 'ok','DetalleAjusteArray'=>$DetalleAjusteArray], 200);
       
       }
 
