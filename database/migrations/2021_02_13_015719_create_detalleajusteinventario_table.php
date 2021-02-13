@@ -15,12 +15,15 @@ class CreateDetalleajusteinventarioTable extends Migration
     {
         Schema::create('detalleajusteinventario', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_ajusteinventario');
-            $table->unsignedBigInteger('id_articulo');
-            $table->decimal('precio',11,2);
-            $table->integer('cantidad_existencia');
-            $table->integer('cantidad_entran');
-            $table->integer('cantidad_quedan');
+            $table->unsignedBigInteger('id_ajusteinventario')->nullable();
+            $table->unsignedBigInteger('id_articulo')->nullable();
+            $table->string('tipo_ajuste')->nullable();
+            $table->decimal('precio',11,2)->nullable();
+            $table->integer('cantidad_existencia')->nullable();
+            $table->integer('cantidad_entran')->nullable();
+            $table->integer('cantidad_quedan')->nullable();
+            $table->timestamps();
+
 
             $table->foreign('id_ajusteinventario')->references('id')->on('ajusteinventario'); 
             $table->foreign('id_articulo')->references('id')->on('articulos'); 

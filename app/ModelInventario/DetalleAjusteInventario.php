@@ -16,6 +16,7 @@ class DetalleAjusteInventario extends Model
         'id',
         'id_ajusteinventario',
         'id_articulo',
+        'tipo_ajuste',
         'precio',
         'cantidad_existencia',
         'cantidad_entran',

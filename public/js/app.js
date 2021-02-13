@@ -5521,9 +5521,27 @@ __webpack_require__.r(__webpack_exports__);
       this.tipo_ajuste = 'no ha escogido';
     },
     AjusteInventarioSale: function AjusteInventarioSale() {
+      //  if(this.motivo){return ;}
       var me = this;
-      me.vaciarVariables();
-      console.log('sale al inventario');
+      axios.post('/inventario/ajusteInventarioSale', {
+        'motivo': this.motivo,
+        'impuesto': this.impuesto,
+        'total': this.total,
+        'data': this.ArrayDetalleAjusteProductos
+      }).then(function (response) {
+        var respuesta = response.data;
+
+        if (respuesta.status == 'ok') {
+          me.vaciarVariables();
+          Swal.fire('Exitoso (-)', 'Ajuste de inventario  Descontado correctamenta', 'success');
+        } //  window.open('http://127.0.0.1:8000/ventas/pdfVenta/'+response.data.id+','+'_blank');
+        //          me.listado= 1;
+        //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+        //    me.listaVenta(1,'','num_comprobante_pago');
+
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     AjusteInventarioEntra: function AjusteInventarioEntra() {
       console.log('entra en la función'); //  if(this.motivo){return ;}
@@ -5535,11 +5553,16 @@ __webpack_require__.r(__webpack_exports__);
         'total': this.total,
         'data': this.ArrayDetalleAjusteProductos
       }).then(function (response) {
-        console.log('entro a esta funcion'); //  window.open('http://127.0.0.1:8000/ventas/pdfVenta/'+response.data.id+','+'_blank');
-        //          me.listado= 1;
+        var respuesta = response.data;
 
-        me.vaciarVariables(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+        if (respuesta.status == 'ok') {
+          me.vaciarVariables();
+          Swal.fire('Exitoso (+)?', 'Ajuste de inventario  Ingresado correctamenta', 'success');
+        } //  window.open('http://127.0.0.1:8000/ventas/pdfVenta/'+response.data.id+','+'_blank');
+        //          me.listado= 1;
+        //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
         //    me.listaVenta(1,'','num_comprobante_pago');
+
       })["catch"](function (error) {
         console.log(error);
       });
@@ -56868,7 +56891,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Salen al inventario")]
+                          [_vm._v("Salen del inventario")]
                         )
                       : _vm._e()
                   ])

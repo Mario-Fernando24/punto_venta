@@ -52,3 +52,27 @@ CREATE TRIGGER triggerAnularStockVenta AFTER UPDATE ON ventas
          SET a.stock=a.stock+dv.cantidad;
     END//
 DELIMITER ;
+
+
+
+//ajuste de inventario productos entran al inventario (+)
+DELIMITER //
+CREATE TRIGGER triggerUpdateStockAjusteEntra AFTER INSERT ON detalleajusteinventario
+ FOR EACH ROW BEGIN
+  UPDATE articulos SET articulos.stock = articulos.stock+NEW.cantidad_entran
+    WHERE articulos.id = NEW.id_articulo;
+    WHERE 'ENTRA' = NEW.tipo_ajuste;
+
+    END//
+DELIMITER ;
+
+
+//ajuste de inventario productos SALE al inventario (-)
+DELIMITER //
+CREATE TRIGGER triggerUpdateStockAjusteSale AFTER INSERT ON detalleajusteinventario
+ FOR EACH ROW BEGIN
+  UPDATE articulos SET articulos.stock = articulos.stock-NEW.cantidad_entran
+    WHERE articulos.id = NEW.id_articulo;
+    WHERE 'SALE' = NEW.tipo_ajuste;
+    END//
+DELIMITER ;

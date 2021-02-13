@@ -149,7 +149,7 @@
                         <div class="form-group row" v-if="ArrayDetalleAjusteProductos.length">
                            <div class="col-md-12">
                               <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-success" @click="AjusteInventarioEntra()">Entran al inventario</button>
-                              <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-danger" @click="AjusteInventarioSale()">Salen al inventario</button>
+                              <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-danger" @click="AjusteInventarioSale()">Salen del inventario</button>
 
                            </div>
                         </div>
@@ -491,10 +491,37 @@
 
                 AjusteInventarioSale()
                 {
+                    //  if(this.motivo){return ;}
 
-                  let me=this;
-                  me.vaciarVariables();
-                   console.log('sale al inventario');
+                        let me=this;
+                        axios.post('/inventario/ajusteInventarioSale', {
+                            'motivo': this.motivo,
+                            'impuesto': this.impuesto,
+                            'total':this.total,
+                            'data':this.ArrayDetalleAjusteProductos,
+                        })
+                        .then(function (response) {
+
+
+                         var respuesta=response.data;
+                        if(respuesta.status=='ok'){
+                            me.vaciarVariables();
+
+                            Swal.fire(
+                            'Exitoso (-)',
+                            'Ajuste de inventario  Descontado correctamenta',
+                            'success'
+                            )
+                    }
+                           //  window.open('http://127.0.0.1:8000/ventas/pdfVenta/'+response.data.id+','+'_blank');
+                           //          me.listado= 1;
+                           //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                           //    me.listaVenta(1,'','num_comprobante_pago');
+                        }) 
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
                 },
 
                 AjusteInventarioEntra(){
@@ -509,12 +536,22 @@
                             'data':this.ArrayDetalleAjusteProductos,
                         })
                         .then(function (response) {
-                            console.log('entro a esta funcion');
-                           //  window.open('http://127.0.0.1:8000/ventas/pdfVenta/'+response.data.id+','+'_blank');
-                  //          me.listado= 1;
+
+
+                         var respuesta=response.data;
+                        if(respuesta.status=='ok'){
                             me.vaciarVariables();
-                        //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    //    me.listaVenta(1,'','num_comprobante_pago');
+
+                            Swal.fire(
+                            'Exitoso (+)?',
+                            'Ajuste de inventario  Ingresado correctamenta',
+                            'success'
+                            )
+                    }
+                           //  window.open('http://127.0.0.1:8000/ventas/pdfVenta/'+response.data.id+','+'_blank');
+                           //          me.listado= 1;
+                           //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                           //    me.listaVenta(1,'','num_comprobante_pago');
                         }) 
                         .catch(function (error) {
                             console.log(error);

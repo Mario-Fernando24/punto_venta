@@ -18,9 +18,6 @@ class AjusteDeInventario extends Controller
     
     public function index(Request $request)
     {
-     //   $example=DetalleAjusteInventario::all();
-
-     //   return $example;
             
             if(!$request->ajax()){return redirect('/');}
             $buscar = $request->buscar;
@@ -74,16 +71,29 @@ class AjusteDeInventario extends Controller
                     //array de deatalle
                    $detalles=$request->get('data'); 
 
-
-                   $detallesss=DetalleAjusteInventario::create([
-                            'id_ajusteinventario' => 68,
-                            'id_articulo' => 6,
-                            'precio' => 1,
-                            'cantidad_existencia' => 1,
-                            'cantidad_entran' => 1,
-                            'cantidad_quedan' => 1,
+                    foreach($detalles as $ep=>$det)
+                    {
+                        $ajusteDetalles=DetalleAjusteInventario::create([
+                            'id_ajusteinventario' => $addAjusteInventario->id,
+                            'id_articulo' => $det['idarticulo'],
+                            'tipo_ajuste'=>'ENTRA',
+                            'precio' => $det['precio'],
+                            'cantidad_existencia' => $det['stock'],
+                            'cantidad_entran' => $det['cantidad'],
+                            'cantidad_quedan' => $det['stock']+$det['cantidad'],
                         ]);
+                    }
+
                     
+
+
+
+                    if(!empty($ajusteDetalles)){
+                    return response()->json([ 'status' => 'ok',], 200);
+                    }else{
+                    return response()->json([ 'status' => 'error',], 401);
+                    }
+
 
 
         }catch (ModelNotFoundException $e) {
@@ -93,6 +103,48 @@ class AjusteDeInventario extends Controller
     }
     public function ajusteInventarioSale(Request $request)
     {
+        $mytime=Carbon::now('America/Bogota');
+        $id_caja_users=DB::table('caja')
+        ->where('id_vendedor',\Auth::user()->id)
+        ->where('Cajaactual','abierto')->first();
+
+        try{
+
+                $addAjusteInventario = AjusteInventario::create([
+                    'id_usuario' => \Auth::user()->id,
+                    'id_apertura_caja_usuario' => $id_caja_users->idcaja,
+                    'tipo_ajuste' => 'SALE',
+                    'motivo' => $request->get('motivo'),
+                    'impuesto'=> (($request->get('total')*$request->get('impuesto'))/100),
+                    'total' => $request->get('total'),
+                    ]);
+
+                    //array de deatalle
+                   $detalles=$request->get('data'); 
+
+                    foreach($detalles as $ep=>$det)
+                    {
+                        $ajusteDetalles=DetalleAjusteInventario::create([
+                            'id_ajusteinventario' => $addAjusteInventario->id,
+                            'id_articulo' => $det['idarticulo'],
+                            'tipo_ajuste'=>'SALE',
+                            'precio' => $det['precio'],
+                            'cantidad_existencia' => $det['stock'],
+                            'cantidad_entran' => $det['cantidad'],
+                            'cantidad_quedan' =>$det['stock']-$det['cantidad'],
+                        ]);
+                    }
+                    if(!empty($ajusteDetalles)){
+                    return response()->json([ 'status' => 'ok',], 200);
+                    }else{
+                    return response()->json([ 'status' => 'error',], 401);
+                    }
+
+
+
+        }catch (ModelNotFoundException $e) {
+            DB::rollBack();
+        }
 
     }
 

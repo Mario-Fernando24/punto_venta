@@ -263,6 +263,7 @@
         Route::prefix('inventario')->group(function() {
             Route::get('index', 'Ajuste\AjusteDeInventario@index');  
             Route::post('ajusteInventarioEntra', 'Ajuste\AjusteDeInventario@ajusteInventarioEntra');  
+            Route::post('ajusteInventarioSale', 'Ajuste\AjusteDeInventario@ajusteInventarioSale');  
         });
 
         
