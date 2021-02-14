@@ -119,13 +119,13 @@ class VentaController extends Controller
     public function getArrayDetalleVenta(Request $request)
     {
 
-      // if(!$request->ajax()){return redirect('/'); }
+         if(!$request->ajax()){return redirect('/'); }
 
-        $id = $request->id;
+         $id = $request->id;
         $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
         ->where('id_venta',$id)->orderBy('id', 'ASC')->get();
 
-        return ['ArrayDetalleVenta' => $ArrayDetalleVenta];  
+         return ['ArrayDetalleVenta' => $ArrayDetalleVenta];  
       
       }
 

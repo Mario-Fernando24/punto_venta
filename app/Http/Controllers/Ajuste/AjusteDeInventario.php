@@ -155,7 +155,7 @@ class AjusteDeInventario extends Controller
 
         $id = $request->id;
         $ObjetoDetalleAjuste = AjusteInventario::with('usuario_hizo_el_ajuste','usuario_anulo_el_ajuste')
-        ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
+        ->where('id',$id)->orderBy('id', 'DESC')->first();
 
         return response()->json([ 'status' => 'ok','ObjetoDetalleAjuste'=>$ObjetoDetalleAjuste], 200);
   

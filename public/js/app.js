@@ -5442,13 +5442,123 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       show: 0,
+      showDetalle: 0,
       modal: 0,
       tituloModal: '',
       arrayAjusteInventario: [],
+      objetoAjusteDetalle: '',
+      arrayAjusteDetalle: [],
       ListararrayArticulo: [],
       activeClass: 'active',
       errorClass: 'modal-dialog modal-danger modal-lg',
@@ -5558,11 +5668,15 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         console.log(respuesta);
+        me.showDetalle = 1;
+        me.show = 2;
+        me.objetoAjusteDetalle = respuesta.ObjetoDetalleAjuste;
       })["catch"](function (error) {
         console.log(error);
       });
       var urldetalle = '/inventario/getArrayDetalleAjuste?id=' + id;
       axios.get(urldetalle).then(function (response) {
+        me.arrayAjusteDetalle = response.data.DetalleAjusteArray;
         console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
@@ -5674,6 +5788,9 @@ __webpack_require__.r(__webpack_exports__);
       this.show = 0;
       this.listaAjusteInventario(1, this.buscar, this.criterio);
       this.motivo = '';
+      this.showDetalle = 0;
+      this.objetoAjusteDetalle = '';
+      this.arrayAjusteDetalle = [];
     },
     AjusteInventarioSale: function AjusteInventarioSale() {
       //  if(this.motivo){return ;}
@@ -57746,7 +57863,248 @@ var render = function() {
             ])
           ])
         ])
-      : _vm._e()
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", [
+      _vm.showDetalle == 1
+        ? _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "form-group row border" }, [
+              _c("div", { staticClass: "col-md-3" }, [
+                _c("label", { staticClass: "text-negrilla" }, [_vm._v("ID")]),
+                _vm._v(" "),
+                _c("p", {
+                  domProps: { textContent: _vm._s(_vm.objetoAjusteDetalle.id) }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-3" }, [
+                _c("label", { staticClass: "text-negrilla" }, [
+                  _vm._v("Usuario")
+                ]),
+                _vm._v(" "),
+                _c("p", {
+                  domProps: {
+                    textContent: _vm._s(
+                      _vm.objetoAjusteDetalle.usuario_hizo_el_ajuste.usuario
+                    )
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-3" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { staticClass: "text-negrilla" }, [
+                    _vm._v("Caja")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    domProps: {
+                      textContent: _vm._s(
+                        _vm.objetoAjusteDetalle.id_apertura_caja_usuario
+                      )
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-3" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { staticClass: "text-negrilla" }, [
+                    _vm._v("Fecha")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    domProps: {
+                      textContent: _vm._s(_vm.objetoAjusteDetalle.created_at)
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { staticClass: "text-negrilla" }, [
+                    _vm._v("Tipo ajuste")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    domProps: {
+                      textContent: _vm._s(_vm.objetoAjusteDetalle.tipo_ajuste)
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-8" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { staticClass: "text-negrilla" }, [
+                    _vm._v("Motivo")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    domProps: {
+                      textContent: _vm._s(_vm.objetoAjusteDetalle.motivo)
+                    }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row border" }, [
+              _c("div", { staticClass: "table-responsive col-md-12" }, [
+                _c(
+                  "table",
+                  {
+                    staticClass: "table table-bordered table-striped table-sm"
+                  },
+                  [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", [_vm._v("Id")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Nombre")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Cantidad")]),
+                        _vm._v(" "),
+                        _vm.objetoAjusteDetalle.tipo_ajuste == "ENTRA"
+                          ? _c("th", [_vm._v("Entra(+)")])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.objetoAjusteDetalle.tipo_ajuste == "SALE"
+                          ? _c("th", [_vm._v("Sale(-)")])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Quedan")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Precio")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      [
+                        _vm._l(_vm.arrayAjusteDetalle, function(detalleAjust) {
+                          return _c("tr", { key: detalleAjust.id }, [
+                            _c("th", {
+                              domProps: { textContent: _vm._s(detalleAjust.id) }
+                            }),
+                            _vm._v(" "),
+                            _c("th", {
+                              domProps: {
+                                textContent: _vm._s(
+                                  detalleAjust.articulo__detalle__ajuste.nombre
+                                )
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("th", {
+                              domProps: {
+                                textContent: _vm._s(
+                                  detalleAjust.cantidad_existencia
+                                )
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("th", {
+                              domProps: {
+                                textContent: _vm._s(
+                                  detalleAjust.cantidad_entran
+                                )
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("th", {
+                              domProps: {
+                                textContent: _vm._s(
+                                  detalleAjust.cantidad_quedan
+                                )
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("th", {
+                              domProps: {
+                                textContent: _vm._s(detalleAjust.precio)
+                              }
+                            })
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("tr", { staticClass: "totalresultado" }, [
+                          _vm._m(11),
+                          _vm._v(" "),
+                          _c("td", { attrs: { colspan: "2" } }, [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  Intl.NumberFormat().format(
+                                    _vm.objetoAjusteDetalle.total -
+                                      _vm.objetoAjusteDetalle.impuesto
+                                  )
+                                ) +
+                                " "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", { staticClass: "totalresultado" }, [
+                          _vm._m(12),
+                          _vm._v(" "),
+                          _c("td", { attrs: { colspan: "2" } }, [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  Intl.NumberFormat().format(
+                                    _vm.objetoAjusteDetalle.impuesto
+                                  )
+                                ) +
+                                " "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", { staticClass: "totalresultado" }, [
+                          _vm._m(13),
+                          _vm._v(" "),
+                          _c("td", { attrs: { colspan: "2" } }, [
+                            _vm._v(
+                              "$" +
+                                _vm._s(
+                                  Intl.NumberFormat().format(
+                                    _vm.objetoAjusteDetalle.total
+                                  )
+                                ) +
+                                " "
+                            )
+                          ])
+                        ])
+                      ],
+                      2
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.abrirModalProductos("ajuste", "cerrar")
+                        }
+                      }
+                    },
+                    [_vm._v("Cerrar")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        : _vm._e()
+    ])
   ])
 }
 var staticRenderFns = [
@@ -57868,6 +58226,30 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Opciones")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+      _c("strong", [_vm._v("Subtotal:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+      _c("strong", [_vm._v("Impuesto:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+      _c("strong", [_vm._v("Total Neto:")])
     ])
   }
 ]

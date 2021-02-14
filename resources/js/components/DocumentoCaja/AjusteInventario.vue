@@ -368,6 +368,113 @@
                 </div>
             </div>        
         </div>
+
+
+        <div>
+            <div v-if="showDetalle==1" class="card-body">
+                           
+                            <div class="form-group row border">
+                                <div class="col-md-3">
+                                    <label class="text-negrilla">ID</label>
+                                    <p v-text="objetoAjusteDetalle.id"></p>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="text-negrilla">Usuario</label>
+                                    <p v-text="objetoAjusteDetalle.usuario_hizo_el_ajuste.usuario"></p>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="text-negrilla">Caja</label>
+                                        <p v-text="objetoAjusteDetalle.id_apertura_caja_usuario"></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="text-negrilla">Fecha</label>
+                                        <p v-text="objetoAjusteDetalle.created_at"></p>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="text-negrilla">Tipo ajuste</label>
+                                        <p v-text="objetoAjusteDetalle.tipo_ajuste"></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="text-negrilla">Motivo</label>
+                                        <p v-text="objetoAjusteDetalle.motivo"></p>
+                                    </div>
+                                </div>
+
+                         </div>
+
+                    <!--show article  -->
+                        <div class="form-group row border">
+                           <div class="table-responsive col-md-12">
+                                 <table class="table table-bordered table-striped table-sm">
+                                    
+                                     <thead>
+                                         <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>Cantidad</th>
+                                            <th v-if="objetoAjusteDetalle.tipo_ajuste=='ENTRA'">Entra(+)</th>
+                                            <th v-if="objetoAjusteDetalle.tipo_ajuste=='SALE'">Sale(-)</th>
+                                            <th>Quedan</th>
+                                            <th>Precio</th>
+
+
+                                         </tr>
+                                     </thead>
+                                    <tbody>
+
+                                            <tr v-for="detalleAjust in arrayAjusteDetalle" :key="detalleAjust.id">
+                                          
+                                            <th v-text="detalleAjust.id"></th>
+                                            <th v-text="detalleAjust.articulo__detalle__ajuste.nombre"></th>
+                                            <th v-text="detalleAjust.cantidad_existencia"></th>
+                                            <th v-text="detalleAjust.cantidad_entran"></th>
+                                            <th v-text="detalleAjust.cantidad_quedan"></th>
+                                            <th v-text="detalleAjust.precio"></th>
+
+                                         </tr>
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Subtotal:</strong></td>
+                                             <td colspan="2">${{ Intl.NumberFormat().format(objetoAjusteDetalle.total-objetoAjusteDetalle.impuesto) }} </td> 
+                                         </tr>
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Impuesto:</strong></td>
+                                              <td colspan="2">${{ Intl.NumberFormat().format( objetoAjusteDetalle.impuesto) }} </td>
+                                         </tr>
+
+                                         <tr class="totalresultado" >
+                                             <td colspan="4" align="right"><strong>Total Neto:</strong></td>
+                                             <td colspan="2" >${{ Intl.NumberFormat().format(objetoAjusteDetalle.total) }} </td> 
+                                         </tr>
+
+
+                                     </tbody>
+                                 </table>
+                           </div>
+
+                        <div class="form-group row">
+                           <div class="col-md-12">
+                               <button type="button"  @click="abrirModalProductos('ajuste','cerrar')"  class="btn btn-secondary">Cerrar</button>
+                           </div>
+                        </div>
+
+                            </div>
+            </div>
+        </div>    
    
     </main>
 
@@ -381,11 +488,16 @@
         data(){
           return {
            show:0,
+           showDetalle:0,
 
             modal : 0,
             tituloModal : '',
 
             arrayAjusteInventario:[],
+
+
+            objetoAjusteDetalle:'',
+            arrayAjusteDetalle:[],
 
             ListararrayArticulo:[],
             activeClass: 'active',
@@ -404,9 +516,6 @@
             tipo_ajuste:'no ha escogido',
 
             motivo:'',
-
-
-
            pagination : {
                 //numero total de registro
                 'total' : 0,
@@ -511,18 +620,20 @@
                   var url= '/inventario/getObjetoDetalleAjuste?id=' +id;
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
-                   console.log(respuesta);
-
-
+                    console.log(respuesta);
+                    me.showDetalle=1;
+                    me.show=2;
+                     me.objetoAjusteDetalle=respuesta.ObjetoDetalleAjuste;
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
 
 
-                var urldetalle= '/inventario/getArrayDetalleAjuste?id=' +id;
+                  var urldetalle= '/inventario/getArrayDetalleAjuste?id=' +id;
                   axios.get(urldetalle).then(function (response) {
 
+                     me.arrayAjusteDetalle=response.data.DetalleAjusteArray;
                     console.log(response.data);
 
                     })
@@ -535,7 +646,7 @@
               },
 
 
-               abrirModalProductos(modelo, accion){
+                abrirModalProductos(modelo, accion){
                   switch(modelo){
                       case "ajuste":
                      {
@@ -579,10 +690,10 @@
                       }
                   }
 
-               },
+                },
 
 
-              listarArticulo(buscar, criterio){
+                 listarArticulo(buscar, criterio){
                  let me=this;
                   var url= '/ventas/ListarArticuloVenta?buscar=' + buscar + '&criterio=' + criterio;
                   axios.get(url).then(function (response) {
@@ -643,7 +754,7 @@
 
                 cerrarModal()
                 {
-                  this.modal=0;
+                this.modal=0;
                 },
 
                 vaciarVariables()
@@ -660,8 +771,9 @@
                   this.show=0;
                   this.listaAjusteInventario(1,this.buscar,this.criterio);  
                   this.motivo='';
-
-
+                  this.showDetalle=0;
+                  this.objetoAjusteDetalle='';
+                  this.arrayAjusteDetalle=[];
                 },
 
                 AjusteInventarioSale()
