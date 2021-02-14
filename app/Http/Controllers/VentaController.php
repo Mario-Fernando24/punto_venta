@@ -211,7 +211,8 @@ class VentaController extends Controller
       }
 
 
-       public function pdfVenta(Request $request, $id){
+       public function pdfVenta(Request $request, $id)
+       {
 
 
         $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
@@ -227,7 +228,7 @@ class VentaController extends Controller
         $pdf = PDF::loadView('pdf.ventas',compact('ObjetoDetalleVent','ArrayDetalleVenta','Perfil','image'));
         return $pdf->download('venta-'.$ObjetoDetalleVent->id.'-'.$mytime);   
       
-      }
+       }
 
 
 

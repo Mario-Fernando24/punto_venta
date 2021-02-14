@@ -1,17 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Ajuste;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-
 use App\ModelInventario\AjusteInventario;
 use App\ModelInventario\DetalleAjusteInventario;
 use App\Caja;
-
+use App\Perfil;
 use DB;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class AjusteDeInventario extends Controller
 {
@@ -173,7 +171,26 @@ class AjusteDeInventario extends Controller
         
         return response()->json([ 'status' => 'ok','DetalleAjusteArray'=>$DetalleAjusteArray], 200);
       
-      }
+    }
+
+    public function ajusteInventarioPdf($id)
+    {
+
+        $ObjetoDetalleAjuste = AjusteInventario::with('usuario_hizo_el_ajuste','usuario_anulo_el_ajuste')
+        ->where('id',$id)->orderBy('id', 'DESC')->first();
+
+        $DetalleAjusteArray = DetalleAjusteInventario::with('articulo_Detalle_Ajuste')
+        ->where('id_ajusteinventario',$id)->orderBy('id', 'ASC')->get();
+        
+        $mytime=Carbon::now('America/Bogota');
+
+        $Perfil = Perfil::with('GetUser')->first();
+        $image='img/company/'.$Perfil->image_perfil;
+        
+        $pdf = PDF::loadView('pdf.ajusteInventario',compact('ObjetoDetalleAjuste','DetalleAjusteArray','Perfil','image','mytime'));
+        return $pdf->download('AjusteInventario-'.$ObjetoDetalleAjuste->id.'-'.$mytime);   
+      
+    }
 
 
 }

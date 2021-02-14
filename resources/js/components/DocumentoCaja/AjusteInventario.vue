@@ -1,5 +1,7 @@
  <template>
     <main class="main">
+
+        <!--entra and sale productos del intario-->
         <div v-if="show==1">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
@@ -113,10 +115,6 @@
 
 
                                          </tr>
-
-
-
-
 
                                          <tr class="totalresultado">
                                              <td colspan="2" align="right"><strong></strong></td>
@@ -265,7 +263,7 @@
         </div>
 
 
-
+     <!--listar todos los ajuste con su pagination  -->
         <div v-if="show==0">
 
              <!-- Breadcrumb -->
@@ -337,6 +335,10 @@
                                         <button type="button" @click="verDetalleAjuste(ajuste.id)" class="btn btn-warning btn-sm" data-toggle="modal">
                                           <i class="icon-eye"></i>
                                         </button> &nbsp;
+
+                                        <button type="button" @click="descargarAjusteInventario(ajuste.id)" class="btn btn-info btn-sm">
+                                          <i class="icon-doc"></i>
+                                        </button> 
                                         
                                         </td>
                                 </tr>
@@ -371,6 +373,7 @@
 
 
         <div>
+            <!-- ver detalle de los ajustes -->
             <div v-if="showDetalle==1" class="card-body">
                            
                             <div class="form-group row border">
@@ -845,6 +848,11 @@
                         });
 
                   },
+
+                descargarAjusteInventario(id){
+                    window.open('http://127.0.0.1:8000/inventario/ajusteInventarioPdf/'+id+','+'_blank');
+
+                },  
 
         },
         mounted() 

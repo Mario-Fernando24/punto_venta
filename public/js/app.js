@@ -5549,6 +5549,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5838,6 +5841,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    descargarAjusteInventario: function descargarAjusteInventario(id) {
+      window.open('http://127.0.0.1:8000/inventario/ajusteInventarioPdf/' + id + ',' + '_blank');
     }
   },
   mounted: function mounted() {
@@ -57766,7 +57772,22 @@ var render = function() {
                                 [_c("i", { staticClass: "icon-eye" })]
                               ),
                               _vm._v(
-                                "  \n                                    \n                                    "
+                                "  \n\n                                    "
+                              ),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.descargarAjusteInventario(
+                                        ajuste.id
+                                      )
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "icon-doc" })]
                               )
                             ])
                           ])

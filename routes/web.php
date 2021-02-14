@@ -36,7 +36,8 @@
 
 
         //middleware para los usuario rol almacenero
-        Route::group(['middleware' => ['Almacenero']], function () {
+        Route::group(['middleware' => ['Almacenero']], function () 
+        {
                 //controller categories
                 Route::prefix('categoria')->group(function() {
                 Route::get('index', 'CategoriaController@index');
@@ -72,7 +73,7 @@
                 Route::put('desactivar', 'IngresoController@desactivar');
                 });
 
-          });//and middleware almacenero
+        });//and middleware almacenero
 
 
 
@@ -84,7 +85,8 @@
           
 
         //middleware para los usuario rol almacenero
-        Route::group(['middleware' => ['Vendedor']], function () {
+        Route::group(['middleware' => ['Vendedor']], function () 
+        {
                 
                //controller client
                 Route::prefix('cliente')->group(function() {
@@ -107,7 +109,7 @@
             Route::post('registrar', 'VentaController@store');
             Route::put('anularVenta', 'VentaController@anularVenta');
 
-        });
+          });
 
         
 
@@ -262,13 +264,13 @@
 
         Route::prefix('inventario')->group(function() {
             Route::get('index', 'Ajuste\AjusteDeInventario@index');  
+            Route::get('ajusteInventarioPdf/{id}', 'Ajuste\AjusteDeInventario@ajusteInventarioPdf');
+
             Route::post('ajusteInventarioEntra', 'Ajuste\AjusteDeInventario@ajusteInventarioEntra');  
             Route::post('ajusteInventarioSale', 'Ajuste\AjusteDeInventario@ajusteInventarioSale');  
 
             Route::get('getObjetoDetalleAjuste', 'Ajuste\AjusteDeInventario@getObjetoDetalleAjuste');
             Route::get('getArrayDetalleAjuste', 'Ajuste\AjusteDeInventario@getArrayDetalleAjuste');
-
-
         });
 
         
