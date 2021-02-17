@@ -20,6 +20,9 @@ Vue.component('Egreso', require('./components/DocumentoCaja/Egreso.vue').default
 Vue.component('Credito', require('./components/DocumentoCaja/Creditos.vue').default);
 Vue.component('Anuladas', require('./components/Anuladas/FacturasAnuladas.vue').default);
 Vue.component('Ajusteinventario', require('./components/DocumentoCaja/AjusteInventario.vue').default);
+Vue.component('Notificacion', require('./components/Notificacion.vue').default);
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,6 +33,7 @@ Vue.component('Ajusteinventario', require('./components/DocumentoCaja/AjusteInve
 const app = new Vue({
     el: '#app',
     data: {
-        menu: 0
+        menu: 0,
+       // notifications:'',
     }
 });

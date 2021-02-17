@@ -23,16 +23,10 @@
     //middleware para los usuario autenticados
    Route::group(['middleware' => ['auth']], function () {
 
+    Route::get('showNotificacion', 'IngresoController@showNotificacion');
     Route::get('dashboard', 'DashboardController');
 
-
     Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 
-
-
-
-
-
-
 
 
         //middleware para los usuario rol almacenero

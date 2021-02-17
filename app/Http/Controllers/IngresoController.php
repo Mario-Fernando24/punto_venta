@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ingreso;
+use App\Venta;
+
 use App\DetalleIngreso;
 use App\Articulo;
 use App\Categoria;
@@ -12,12 +14,33 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class IngresoController extends Controller
 {
+
+   public function showNotificacion()
+   {
+
+       //if(!$request->ajax()){return redirect('/');}
+            $fechaActual=date('Y-m-d');
+            $numIngresos = Ingreso::whereDate('created_at',$fechaActual)->count();
+            $numVentas = Venta::whereDate('created_at',$fechaActual)->count();
+
+
+            $arregloDatos= [
+                'ingresos' => [
+                  'numero'=> $numIngresos,
+                  'msj' => 'Compras'
+                ],
+                'ventas' => [
+                     'numero'=> $numVentas,
+                     'msj' => 'Ventas'
+                ]
+            ];
+            return response()->json(['status' => 'ok','arregloDatos' => $arregloDatos, ], 200);
+
+   }
     
     public function index(Request $request)
     {   
-         if(!$request->ajax()){
-        return redirect('/');
-        }
+         if(!$request->ajax()){return redirect('/');}
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;

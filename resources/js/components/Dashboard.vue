@@ -324,7 +324,7 @@
                 let me=this;
                 let mes_venta='';
                 me.productosMasVendidos.map(function(x){
-                    console.log(x.nombre);
+                   // console.log(x.nombre);
 
                     me.varproductosMasVendidos.push(x.nombre);
                     me.TotalproductosMasVendidos.push(x.Dinero);
@@ -375,7 +375,7 @@
                   let me=this;
                 let mes_venta='';
                 me.productos.map(function(x){
-                    console.log(x.total);
+                  //  console.log(x.total);
 
                     me.nombreproductos.push(x.nombre);
                     me.totalproductos.push(x.total);
