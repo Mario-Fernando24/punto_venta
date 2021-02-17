@@ -15,10 +15,8 @@ class ArticuloContoller extends Controller
     
     public function index(Request $request)
     {   
-        
-        if(!$request->ajax()){
-           return redirect('/');
-           }
+        if(!$request->ajax()){return redirect('/');}
+
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
@@ -50,11 +48,10 @@ class ArticuloContoller extends Controller
     }
 
 
-    //search article from code of barra
     public function buscarArticuloBarra(Request $request){
-       if(!$request->ajax()){
-           return redirect('/');
-      }
+       
+        if(!$request->ajax()){return redirect('/');}
+
            $filtro=$request->get('filtro');
            $buscarBarra=Articulo::where('codigo',$filtro)
            ->select('id','nombre','stock','precio_venta','condicion')->orderBy('nombre','asc')
@@ -65,6 +62,7 @@ class ArticuloContoller extends Controller
 
     public function validateCodeBarra(Request $request)
     {
+        if(!$request->ajax()){return redirect('/');}
 
         $codigo=$request->get('filtro');
         $buscarBarra=Articulo::where('codigo',$codigo)
@@ -82,9 +80,8 @@ class ArticuloContoller extends Controller
 
     public function store(Request $request)
     {
-       if(!$request->ajax()){
-        return redirect('/');
-       }
+        if(!$request->ajax()){return redirect('/');}
+
         $articulo = Articulo::create([
         'idcategoria' => $request->get('idcategoria'),
         'codigo' => $request->get('codigo'),
@@ -101,10 +98,7 @@ class ArticuloContoller extends Controller
 
     public function update(Request $request)
     {
-        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
-       if(!$request->ajax()){
-        return redirect('/');
-       }
+        if(!$request->ajax()){return redirect('/');}
 
         $articulo = Articulo::findOrFail($request->id);
         $articulo->idcategoria = $request->idcategoria;
@@ -120,10 +114,7 @@ class ArticuloContoller extends Controller
        //function para desactivar una categoria
     public function desactivar(Request $request)
     {
-        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
-       if(!$request->ajax()){
-        return redirect('/');
-       }
+        if(!$request->ajax()){return redirect('/');}
 
         $articulo = Articulo::findOrFail($request->id);
         $articulo->condicion='0';
@@ -134,10 +125,7 @@ class ArticuloContoller extends Controller
     //function para activar una categoria
     public function activar(Request $request)
     {
-        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
-       if(!$request->ajax()){
-        return redirect('/');
-       }
+        if(!$request->ajax()){return redirect('/');}
 
         $articulo = Articulo::findOrFail($request->id);
         $articulo->condicion='1';
@@ -146,6 +134,7 @@ class ArticuloContoller extends Controller
 
     public function ListarPdfInventario()
     {
+        
         $inventariopdf = Articulo::with('categoria')->orderBy('idcategoria', 'asc')->get();
         //cantidad de articulos que tenemos en nuestra entidad articulo 
         $cantidad=Articulo::count();

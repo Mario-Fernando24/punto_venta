@@ -45,7 +45,6 @@
             <Notificacion></Notificacion>
 
 
-
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <img src="/img/tenderpos.jpeg" class="img-avatar" alt="admin@bootstrapmaster.com">

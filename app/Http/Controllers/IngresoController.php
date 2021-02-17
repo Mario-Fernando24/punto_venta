@@ -15,10 +15,10 @@ use Barryvdh\DomPDF\Facade as PDF;
 class IngresoController extends Controller
 {
 
-   public function showNotificacion()
+   public function showNotificacion(Request $request)
    {
 
-       //if(!$request->ajax()){return redirect('/');}
+       if(!$request->ajax()){return redirect('/');}
             $fechaActual=date('Y-m-d');
             $numIngresos = Ingreso::whereDate('created_at',$fechaActual)->count();
             $numVentas = Venta::whereDate('created_at',$fechaActual)->count();
@@ -80,6 +80,7 @@ class IngresoController extends Controller
         return ['ObjetoDetalleIngreso' => $ObjetoDetalleIngreso];
   
     }
+
     public function getArrayDetalleIngreso(Request $request)
     {
 
@@ -96,9 +97,8 @@ class IngresoController extends Controller
     public function ListarArticuloIngreso(Request $request)
     {   
         
-        if(!$request->ajax()){
-           return redirect('/');
-           }
+        if(!$request->ajax()){return redirect('/');}
+
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
@@ -117,9 +117,8 @@ class IngresoController extends Controller
 
     public function store(Request $request)
     {
-       if(!$request->ajax()){
-        return redirect('/');
-       }
+      if(!$request->ajax()){return redirect('/');}
+
        $mytime=Carbon::now('America/Bogota');
 
        $id_caja_users=DB::table('caja')

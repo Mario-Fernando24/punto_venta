@@ -25,7 +25,6 @@
 
     Route::get('showNotificacion', 'IngresoController@showNotificacion');
     Route::get('dashboard', 'DashboardController');
-
     Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 
 
 
