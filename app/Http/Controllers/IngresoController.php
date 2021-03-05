@@ -18,7 +18,7 @@ class IngresoController extends Controller
    public function showNotificacion(Request $request)
    {
 
-       if(!$request->ajax()){return redirect('/');}
+      // if(!$request->ajax()){return redirect('/');}
             $fechaActual=date('Y-m-d');
             $numIngresos = Ingreso::whereDate('created_at',$fechaActual)->count();
             $numVentas = Venta::whereDate('created_at',$fechaActual)->count();
