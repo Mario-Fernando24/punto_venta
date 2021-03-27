@@ -32,10 +32,7 @@
                     <div class="card-body">
 
 
-
-
-
-                                
+ 
                               <div class="form-group row">
                                     <div class="col-sm-4">
                                     <label class="col-md-4 form-control-label" for="email-input">Tipo de ajuste</label>
