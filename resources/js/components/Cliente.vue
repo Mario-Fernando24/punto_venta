@@ -34,6 +34,7 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Nombre</th>
                                     <th>Tip doc</th>
                                     <th>Numero</th>
@@ -46,7 +47,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="persona in arrayPersona" :key="persona.id">
-                                   
+                                        <td v-text="persona.id"></td>
                                         <td v-text="persona.nombre"></td>
                                         <td v-text="persona.tipo_documento"></td>
                                         <td v-text="persona.num_documento"></td>

@@ -32,7 +32,7 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opciones</th>
+                                    <th>#</th>
                                     <th>Nombre - Razon social</th>
                                     <th>Tip doc</th>
                                     <th>Numero</th>
@@ -41,16 +41,15 @@
                                     <th>Email</th>
                                     <th>Contacto</th>
                                     <th>Telefono</th>
+                                    <th>Opciones</th>
+
 
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="proveedor in arrayProveedor" :key="proveedor.id">
-                                    <td>
-                                        <button type="button" @click="abrirModal('proveedor', 'actualizar',proveedor)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
-                                          <i class="icon-pencil"></i>
-                                        </button> &nbsp;
-                                        </td>
+                                     
+                                        <td v-text="proveedor.id"></td>
                                         <td v-text="proveedor.persona.nombre"></td>
                                         <td v-text="proveedor.persona.tipo_documento"></td>
                                         <td v-text="proveedor.persona.num_documento"></td>
@@ -59,6 +58,12 @@
                                         <td v-text="proveedor.persona.email"></td>
                                         <td v-text="proveedor.contacto"></td>
                                         <td v-text="proveedor.telefono_contacto"></td>
+
+                                     <td>
+                                        <button type="button" @click="abrirModal('proveedor', 'actualizar',proveedor)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
+                                          <i class="icon-pencil"></i>
+                                        </button> &nbsp;
+                                    </td>    
                                        
                                 </tr>
                                 </tbody>

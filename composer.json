@@ -12,6 +12,7 @@
         "barryvdh/laravel-dompdf": "^0.8.7",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.18.35",
+        "s-ichikawa/laravel-sendgrid-driver": "^2.1",
         "laravel/tinker": "^2.0",
         "tymon/jwt-auth": "^1.0"
     },

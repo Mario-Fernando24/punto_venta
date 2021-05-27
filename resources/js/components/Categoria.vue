@@ -35,6 +35,7 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Estado</th>
@@ -44,6 +45,7 @@
                             <tbody>
                                 <tr v-for="categoria in arrayCategoria" :key="categoria.id">
                                     
+                                        <td v-text="categoria.id"></td>
                                         <td v-text="categoria.nombre"></td>
                                         <td v-text="categoria.descripcion"></td>
 
@@ -354,7 +356,7 @@
                 })
            },
            cargarPdfCategoria(){
-              window.open('http://54.237.93.88/categoria/ListarPdfCategoria','_blank');
+              window.open('/categoria/ListarPdfCategoria','_blank');
            },
 
 

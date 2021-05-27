@@ -3647,7 +3647,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log('id' + idarque);
       console.log('idusers' + idusers);
       var me = this;
-      var url = 'http://127.0.0.1:8000/caja/detalleinformeCajaImpresa?idcaja=' + idarque + '&idvendedor=' + idusers;
+      var url = '/caja/detalleinformeCajaImpresa?idcaja=' + idarque + '&idvendedor=' + idusers;
       window.open(url);
     },
     //Metodo de cambiar pagina recibe un parametro de page "numero de la pagina que queremos mostrar"
@@ -3706,7 +3706,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     cargarPdfCategoria: function cargarPdfCategoria() {
-      window.open('http://127.0.0.1:8000/categoria/ListarPdfCategoria', '_blank');
+      window.open('/categoria/ListarPdfCategoria', '_blank');
     },
     //methods validar las categoria
     validarCategoria: function validarCategoria() {
@@ -3784,7 +3784,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.isConfirmed) {
           _this.cerrarModal();
 
-          var url = 'http://127.0.0.1:8000/caja/informeCaja';
+          var url = '/caja/informeCaja';
           window.open(url);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire('Cancelado', '', 'error');
@@ -3818,7 +3818,7 @@ __webpack_require__.r(__webpack_exports__);
           }).then(function (result) {
             if (result.isConfirmed) {
               //pasar al otro componente
-              var url = 'http://127.0.0.1:8000/caja/imprimircerrarCaja';
+              var url = '/caja/imprimircerrarCaja';
               window.open(url);
             } else if (result.dismiss === Swal.DismissReason.cancel) {
               swalWithBootstrapButtons.fire('Cancelado', '', 'error');
@@ -3848,6 +3848,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -4171,7 +4173,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     cargarPdfCategoria: function cargarPdfCategoria() {
-      window.open('http://54.237.93.88/categoria/ListarPdfCategoria', '_blank');
+      window.open('/categoria/ListarPdfCategoria', '_blank');
     },
     //Metodo para activar la categoria
     activarCategoria: function activarCategoria(id) {
@@ -4278,6 +4280,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -7676,7 +7679,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.errorIngreso;
     },
     descargaringreso: function descargaringreso(id) {
-      window.open('http://127.0.0.1:8000/ingresos/pdfIngreso/' + id + ',' + '_blank');
+      window.open('/ingresos/pdfIngreso/' + id + ',' + '_blank');
     },
     mostrarDetalle: function mostrarDetalle() {
       this.vaciarvariable();
@@ -8310,6 +8313,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9171,6 +9179,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -10642,7 +10651,7 @@ __webpack_require__.r(__webpack_exports__);
         'data': this.arrayDetalleVenta
       }).then(function (response) {
         console.log('entro a esta funcion');
-        window.open('http://127.0.0.1:8000/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
+        window.open('/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
         me.listado = 1;
         me.vaciarvariable(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
@@ -10764,7 +10773,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     descargarventa: function descargarventa(id) {
-      window.open('http://127.0.0.1:8000/ventas/pdfVenta/' + id + ',' + '_blank');
+      window.open('/ventas/pdfVenta/' + id + ',' + '_blank');
     },
     //metodo para cerrar el modal
     cerrarModal: function cerrarModal() {
@@ -56367,6 +56376,10 @@ var render = function() {
                   _vm._l(_vm.arrayCategoria, function(categoria) {
                     return _c("tr", { key: categoria.id }, [
                       _c("td", {
+                        domProps: { textContent: _vm._s(categoria.id) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
                         domProps: { textContent: _vm._s(categoria.nombre) }
                       }),
                       _vm._v(" "),
@@ -56788,6 +56801,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", [_vm._v("Descripción")]),
@@ -56956,6 +56971,10 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.arrayPersona, function(persona) {
                     return _c("tr", { key: persona.id }, [
+                      _c("td", {
+                        domProps: { textContent: _vm._s(persona.id) }
+                      }),
+                      _vm._v(" "),
                       _c("td", {
                         domProps: { textContent: _vm._s(persona.nombre) }
                       }),
@@ -57491,6 +57510,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", [_vm._v("Tip doc")]),
@@ -63843,26 +63864,9 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.arrayProveedor, function(proveedor) {
                     return _c("tr", { key: proveedor.id }, [
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-outline-warning btn-sm",
-                            attrs: { type: "button", "data-toggle": "modal" },
-                            on: {
-                              click: function($event) {
-                                return _vm.abrirModal(
-                                  "proveedor",
-                                  "actualizar",
-                                  proveedor
-                                )
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "icon-pencil" })]
-                        ),
-                        _vm._v("  \n                                        ")
-                      ]),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(proveedor.id) }
+                      }),
                       _vm._v(" "),
                       _c("td", {
                         domProps: {
@@ -63908,7 +63912,28 @@ var render = function() {
                         domProps: {
                           textContent: _vm._s(proveedor.telefono_contacto)
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-warning btn-sm",
+                            attrs: { type: "button", "data-toggle": "modal" },
+                            on: {
+                              click: function($event) {
+                                return _vm.abrirModal(
+                                  "proveedor",
+                                  "actualizar",
+                                  proveedor
+                                )
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "icon-pencil" })]
+                        ),
+                        _vm._v("  \n                                    ")
+                      ])
                     ])
                   }),
                   0
@@ -64473,7 +64498,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Opciones")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nombre - Razon social")]),
         _vm._v(" "),
@@ -64489,7 +64514,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Contacto")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Telefono")])
+        _c("th", [_vm._v("Telefono")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")])
       ])
     ])
   }
@@ -65420,16 +65447,16 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Nombre")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Nombre")]
+                        ),
+                        _vm._v(" "),
                         !_vm.nombre
                           ? _c("span", { staticClass: "color" }, [
                               _vm._v("Requerido(*)")
@@ -65461,16 +65488,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Tipo documento")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Tipo documento")]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "select",
                           {
@@ -65517,16 +65544,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Num documento")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Num documento")]
+                        ),
+                        _vm._v(" "),
                         !_vm.num_documento
                           ? _c("span", { staticClass: "color" }, [
                               _vm._v("Requerido(*)")
@@ -65561,16 +65588,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Direccion")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Direccion")]
+                        ),
+                        _vm._v(" "),
                         !_vm.direccion
                           ? _c("span", { staticClass: "color" }, [
                               _vm._v("Requerido(*)")
@@ -65602,16 +65629,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Telefono")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Telefono")]
+                        ),
+                        _vm._v(" "),
                         !_vm.telefono
                           ? _c("span", { staticClass: "color" }, [
                               _vm._v("Requerido(*)")
@@ -65643,16 +65670,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Email")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Email")]
+                        ),
+                        _vm._v(" "),
                         !_vm.email
                           ? _c("span", { staticClass: "color" }, [
                               _vm._v("Requerido(*)")
@@ -65684,16 +65711,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Rol(*)")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Rol(*)")]
+                        ),
+                        _vm._v(" "),
                         !_vm.idRol
                           ? _c("span", { staticClass: "color" }, [
                               _vm._v("Requerido(*)")
@@ -65749,16 +65776,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("usuario(*)")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("usuario(*)")]
+                        ),
+                        _vm._v(" "),
                         !_vm.usuario
                           ? _c("span", { staticClass: "color" }, [
                               _vm._v("Requerido(*)")
@@ -65790,16 +65817,16 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Password")]
-                      ),
-                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-3 form-control-label",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Password")]
+                        ),
+                        _vm._v(" "),
                         !_vm.password
                           ? _c("span", { staticClass: "color" }, [
                               _vm._v("Requerido(*)")

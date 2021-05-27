@@ -852,7 +852,7 @@
                   console.log('idusers'+idusers);
 
                   let me=this;
-                  var url= 'http://127.0.0.1:8000/caja/detalleinformeCajaImpresa?idcaja=' + idarque + '&idvendedor=' + idusers;
+                  var url= '/caja/detalleinformeCajaImpresa?idcaja=' + idarque + '&idvendedor=' + idusers;
                     window.open(url);
 
               },
@@ -937,7 +937,7 @@
 
 
                 cargarPdfCategoria(){
-                    window.open('http://127.0.0.1:8000/categoria/ListarPdfCategoria','_blank');
+                    window.open('/categoria/ListarPdfCategoria','_blank');
                 },
 
 
@@ -1029,7 +1029,7 @@
                 }).then((result) => {
                 if (result.isConfirmed) {
                    this.cerrarModal();
-                  var url= 'http://127.0.0.1:8000/caja/informeCaja';
+                  var url= '/caja/informeCaja';
                   window.open(url);
 
                 } else if (
@@ -1083,7 +1083,7 @@
                                 //pasar al otro componente
 
 
-                                var url= 'http://127.0.0.1:8000/caja/imprimircerrarCaja';
+                                var url= '/caja/imprimircerrarCaja';
                                 window.open(url);
 
 

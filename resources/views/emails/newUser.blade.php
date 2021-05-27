@@ -11,7 +11,7 @@
 <div class="p-x-8">
 <p class="text-black">Has creado un usuario para  <span class="f-w-bold">Facturar en TenderPos</span> <span>, haz click en el siguiente boton:</span></p>
 
-<p class="text-black">Usuario:  <span class="f-w-bold"><b>{{ $usuario }}</b><br></span> Password: <span><b> {{ $password}}</b></span></p>
+<p class="text-black">Usuario:  <span class="f-w-bold"><b>prueba</b><br></span> Password: <span><b> prueba</b></span></p>
 <div class="text-center p-y-10"><a class="btn" href="#" 
 target="R9RbDF2ac_uyR8sTEq1eeXl" rel="noopener noreferrer">Click</a></div>
 <p class="p-t-5 text-black">Si no has siuo tú, omite este mensaje, tu cuenta está segura.</p>

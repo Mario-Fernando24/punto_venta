@@ -127,8 +127,9 @@
                         <div class="modal-bod">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
+                                                                        <div class="col-md-9">
+
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
-                                    <div class="col-md-9">
                                         <span class="color" v-if="!nombre">Requerido(*)</span>
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
                                     </div>
@@ -136,8 +137,8 @@
 
 
                                  <div class="form-group row">
+                                   <div class="col-md-9">
                                     <label class="col-md-3 form-control-label" for="text-input">Tipo documento</label>
-                                    <div class="col-md-9">
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="CC">Cedula</option>
                                             <option value="TI">Tarjeta de Identida</option>
@@ -148,16 +149,16 @@
 
 
                                  <div class="form-group row">
+                                  <div class="col-md-9">       
                                     <label class="col-md-3 form-control-label" for="text-input">Num documento</label>
-                                    <div class="col-md-9">
                                         <span class="color" v-if="!num_documento">Requerido(*)</span>
                                         <input type="number" v-model="num_documento" class="form-control" placeholder="Numero de documento">
                                     </div>
                                 </div>
 
                                  <div class="form-group row">
+                                  <div class="col-md-9">
                                     <label class="col-md-3 form-control-label" for="text-input">Direccion</label>
-                                    <div class="col-md-9">
                                         <span class="color" v-if="!direccion">Requerido(*)</span>
                                         <input type="text" v-model="direccion" class="form-control" placeholder="Dirección...">
                                     </div>
@@ -165,8 +166,8 @@
 
 
                                  <div class="form-group row">
+                                  <div class="col-md-9">
                                     <label class="col-md-3 form-control-label" for="text-input">Telefono</label>
-                                    <div class="col-md-9">
                                          <span class="color" v-if="!telefono">Requerido(*)</span>
                                         <input type="text" v-model="telefono" class="form-control" placeholder="Telefono...">
                                     </div>
@@ -174,8 +175,8 @@
 
 
                                  <div class="form-group row">
+                                  <div class="col-md-9">        
                                     <label class="col-md-3 form-control-label" for="text-input">Email</label>
-                                    <div class="col-md-9">
                                         <span class="color" v-if="!email">Requerido(*)</span>
                                         <input type="text" v-model="email" class="form-control" placeholder="Email...">
                                     </div>
@@ -183,8 +184,8 @@
 
 
                                 <div class="form-group row">
+                                 <div class="col-md-9">     
                                     <label class="col-md-3 form-control-label" for="text-input">Rol(*)</label>
-                                    <div class="col-md-9">
                                         <span class="color" v-if="!idRol">Requerido(*)</span>
                                         <select class="form-control" v-model="idRol">
                                             <option value="0">Seleccione un rol</option>
@@ -196,8 +197,8 @@
 
 
                                 <div class="form-group row">
+                                  <div class="col-md-9">
                                     <label class="col-md-3 form-control-label" for="text-input">usuario(*)</label>
-                                    <div class="col-md-9">
                                         <span class="color" v-if="!usuario">Requerido(*)</span>
                                         <input type="text" v-model="usuario" class="form-control" placeholder="usuario...">
                                     </div>
@@ -205,8 +206,8 @@
 
 
                                 <div class="form-group row">
+                                  <div class="col-md-9">    
                                     <label class="col-md-3 form-control-label" for="text-input">Password</label>
-                                    <div class="col-md-9">
                  
 
 
