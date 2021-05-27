@@ -2481,6 +2481,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 //importamos vueBarcod
  //axios nos ayuda hacer peticiones http desde el navegador
 
@@ -2729,7 +2736,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     cargarPdfInventario: function cargarPdfInventario() {
-      window.open('http://54.237.93.88/articulo/ListarPdfInventario', '_blank');
+      window.open('/articulo/ListarPdfInventario', '_blank');
     },
     //methods validar las categoria
     validarArticulo: function validarArticulo() {
@@ -3993,6 +4000,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4267,6 +4278,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -5561,9 +5573,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5855,7 +5864,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     descargarAjusteInventario: function descargarAjusteInventario(id) {
-      window.open('http://127.0.0.1:8000/inventario/ajusteInventarioPdf/' + id + ',' + '_blank');
+      window.open('/inventario/ajusteInventarioPdf/' + id + ',' + '_blank');
     }
   },
   mounted: function mounted() {
@@ -9162,6 +9171,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -15283,7 +15301,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n", ""]);
 
 // exports
 
@@ -15302,7 +15320,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute!important;\n    background-color: #3c29297a;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n", ""]);
 
 // exports
 
@@ -15340,7 +15358,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n\n\n", ""]);
 
 // exports
 
@@ -15454,7 +15472,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n\n\n\n", ""]);
 
 // exports
 
@@ -15492,7 +15510,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n        width: 100% !important;\n        position: absolute!important;\n}\n.mostrar{\n        display: list-item !important;\n        opacity: 1 !important;\n        position: absolute!important;\n        background-color: #3c29297a;\n}\n.div-error{\n        display: flex;\n        justify-content: center;\n}\n.text-error{\n        color: red !important;\n        font-weight: bold;\n}\n.text-negrita{\n        color: black !important;\n        font-weight: bold;\n}\n.moda{\n        display: block !important; /* I added this to see the modal, you don't need this */\n}\n    /* Important part */\n.modal-dialo{\n        overflow-y: initial !important\n}\n.modal-bod{\n        height: 60vh;\n        overflow-y: auto;\n        margin: 10px 30px 10px 30px\n}\n.color{\n      color:red;\n}\n", ""]);
 
 // exports
 
@@ -15511,7 +15529,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 600;\n}\n.negritatitle{\n      font-weight: 500;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 600;\n}\n.negritatitle{\n      font-weight: 500;\n}\n", ""]);
 
 // exports
 
@@ -53253,73 +53271,6 @@ var render = function() {
                       "tr",
                       { key: articulo.id },
                       [
-                        _c(
-                          "td",
-                          [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-outline-warning btn-sm",
-                                attrs: {
-                                  type: "button",
-                                  "data-toggle": "modal"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.abrirModal(
-                                      "articulo",
-                                      "actualizar",
-                                      articulo
-                                    )
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "icon-pencil" })]
-                            ),
-                            _vm._v(
-                              "  \n                                        "
-                            ),
-                            articulo.condicion
-                              ? [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-outline-danger btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.desactivarArticulo(
-                                            articulo.id
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "icon-trash" })]
-                                  )
-                                ]
-                              : [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-outline-success btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.activarArticulo(
-                                            articulo.id
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "icon-check" })]
-                                  )
-                                ]
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
                         _c("td", {
                           domProps: { textContent: _vm._s(articulo.codigo) }
                         }),
@@ -53398,7 +53349,74 @@ var render = function() {
                                   [_vm._v("Desactivado")]
                                 )
                               ])
-                        ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-outline-warning btn-sm",
+                                attrs: {
+                                  type: "button",
+                                  "data-toggle": "modal"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.abrirModal(
+                                      "articulo",
+                                      "actualizar",
+                                      articulo
+                                    )
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "icon-pencil" })]
+                            ),
+                            _vm._v(
+                              "  \n                                        "
+                            ),
+                            articulo.condicion
+                              ? [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-outline-danger btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.desactivarArticulo(
+                                            articulo.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "icon-trash" })]
+                                  )
+                                ]
+                              : [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-outline-success btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.activarArticulo(
+                                            articulo.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "icon-check" })]
+                                  )
+                                ]
+                          ],
+                          2
+                        )
                       ],
                       2
                     )
@@ -53512,7 +53530,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-primary modal-lg",
+            staticClass: "modal-dialo modal-primary modal-lg",
             attrs: { role: "document" }
           },
           [
@@ -53542,7 +53560,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "modal-bod" }, [
                 _c(
                   "form",
                   {
@@ -53931,8 +53949,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Opciones")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Codigo")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
@@ -53945,7 +53961,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Descripción")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Estado")])
+        _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")])
       ])
     ])
   }
@@ -54308,7 +54326,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-primary modal-lg",
+            staticClass: "modal-dialo modal-primary modal-lg",
             attrs: { role: "document" }
           },
           [
@@ -54338,7 +54356,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "modal-bod" }, [
                 _c(
                   "form",
                   {
@@ -55037,7 +55055,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-primary modal-lg",
+            staticClass: "modal-dialo modal-primary modal-lg",
             attrs: { role: "document" }
           },
           [
@@ -55067,7 +55085,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "modal-bod" }, [
                 _c(
                   "form",
                   {
@@ -55764,7 +55782,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-warning modal-lg",
+            staticClass: "modal-dialo modal-primary modal-lg",
             attrs: { role: "document" }
           },
           [
@@ -55794,7 +55812,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "modal-bod" }, [
                 _c(
                   "form",
                   {
@@ -56348,6 +56366,32 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.arrayCategoria, function(categoria) {
                     return _c("tr", { key: categoria.id }, [
+                      _c("td", {
+                        domProps: { textContent: _vm._s(categoria.nombre) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(categoria.descripcion) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", [
+                        categoria.condicion == 1
+                          ? _c("div", [
+                              _c(
+                                "span",
+                                { staticClass: "badge badge-success" },
+                                [_vm._v("Activo")]
+                              )
+                            ])
+                          : _c("div", [
+                              _c(
+                                "span",
+                                { staticClass: "badge badge-danger" },
+                                [_vm._v("Desactivado")]
+                              )
+                            ])
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "td",
                         [
@@ -56410,33 +56454,7 @@ var render = function() {
                               ]
                         ],
                         2
-                      ),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(categoria.nombre) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(categoria.descripcion) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", [
-                        categoria.condicion == 1
-                          ? _c("div", [
-                              _c(
-                                "span",
-                                { staticClass: "badge badge-success" },
-                                [_vm._v("Activo")]
-                              )
-                            ])
-                          : _c("div", [
-                              _c(
-                                "span",
-                                { staticClass: "badge badge-danger" },
-                                [_vm._v("Desactivado")]
-                              )
-                            ])
-                      ])
+                      )
                     ])
                   }),
                   0
@@ -56770,13 +56788,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Opciones")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", [_vm._v("Descripción")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Estado")])
+        _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")])
       ])
     ])
   }
@@ -56938,27 +56956,6 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.arrayPersona, function(persona) {
                     return _c("tr", { key: persona.id }, [
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-outline-warning btn-sm",
-                            attrs: { type: "button", "data-toggle": "modal" },
-                            on: {
-                              click: function($event) {
-                                return _vm.abrirModal(
-                                  "persona",
-                                  "actualizar",
-                                  persona
-                                )
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "icon-pencil" })]
-                        ),
-                        _vm._v("  \n                                        ")
-                      ]),
-                      _vm._v(" "),
                       _c("td", {
                         domProps: { textContent: _vm._s(persona.nombre) }
                       }),
@@ -56983,7 +56980,28 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", {
                         domProps: { textContent: _vm._s(persona.email) }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-warning btn-sm",
+                            attrs: { type: "button", "data-toggle": "modal" },
+                            on: {
+                              click: function($event) {
+                                return _vm.abrirModal(
+                                  "persona",
+                                  "actualizar",
+                                  persona
+                                )
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "icon-pencil" })]
+                        ),
+                        _vm._v("  \n                                    ")
+                      ])
                     ])
                   }),
                   0
@@ -57095,7 +57113,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-primary modal-lg",
+            staticClass: "modal-dialo modal-primary modal-lg",
             attrs: { role: "document" }
           },
           [
@@ -57125,7 +57143,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "modal-bod" }, [
                 _c(
                   "form",
                   {
@@ -57473,8 +57491,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Opciones")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", [_vm._v("Tip doc")]),
@@ -57485,7 +57501,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Telefono")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Email")])
+        _c("th", [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")])
       ])
     ])
   }
@@ -64002,7 +64020,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-primary modal-lg",
+            staticClass: "modal-dialo modal-primary modal-lg",
             attrs: { role: "document" }
           },
           [
@@ -64032,7 +64050,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "modal-bod" }, [
                 _c(
                   "form",
                   {
@@ -65359,7 +65377,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-primary modal-lg",
+            staticClass: "modal-dialo modal-primary modal-lg",
             attrs: { role: "document" }
           },
           [
@@ -65389,7 +65407,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "modal-bod" }, [
                 _c(
                   "form",
                   {
@@ -65800,6 +65818,8 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               attrs: {
+                                "aria-label": "Recipient's username",
+                                "aria-describedby": "basic-addon2",
                                 placeholder: "Password de acceso...",
                                 type: "checkbox"
                               },
@@ -65843,6 +65863,8 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               attrs: {
+                                "aria-label": "Recipient's username",
+                                "aria-describedby": "basic-addon2",
                                 placeholder: "Password de acceso...",
                                 type: "radio"
                               },
@@ -65864,6 +65886,8 @@ var render = function() {
                               ],
                               staticClass: "form-control",
                               attrs: {
+                                "aria-label": "Recipient's username",
+                                "aria-describedby": "basic-addon2",
                                 placeholder: "Password de acceso...",
                                 type: _vm.type
                               },
@@ -67562,7 +67586,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-primary modal-lg",
+            staticClass: "modal-dialo modal-primary modal-lg",
             attrs: { role: "document" }
           },
           [
@@ -67592,7 +67616,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "modal-bod" }, [
                 _c("div", { staticClass: "form-group row" }, [
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("div", { staticClass: "input-group" }, [

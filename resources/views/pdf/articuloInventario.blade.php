@@ -14,7 +14,7 @@
             font-weight: normal;
             line-height: 1.5;
             color: #151b1e;           
-        }
+        }s
         .table {
             display: table;
             width: 100%;
@@ -114,7 +114,9 @@
         </table>
     </div>
     <div class="izquierda">
-        <p><strong>Total de registros: </strong>{{$cantidad}}</p>
+        <p><strong>Total de registros: </strong>{{$cantidad}}<br>
+        <p><strong>Total venta todos los articulos: </strong>{{$cantidad}}<br>
+        <strong>Impreso por: </strong>{{Auth::user()->usuario}}</p>
     </div>    
 </body>
 </html>

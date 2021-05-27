@@ -753,6 +753,8 @@ import vSelect from "vue-select";
                 //envia la peticion de listar esa pagina
                 me.listarIngreso(page, buscar, criterio);
                },
+
+               
                 selectProveedor(search,loading){
                //  console.log(loading);                    
                 let me=this;

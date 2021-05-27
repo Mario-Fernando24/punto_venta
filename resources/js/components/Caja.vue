@@ -112,7 +112,7 @@
 
             <!--inicio abrir del modal agregar/actualizar-->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div   class="modal-dialog modal-primary modal-lg" role="document">
+                <div class="modal-dialo modal-primary modal-lg"  role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
@@ -120,7 +120,7 @@
                               <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-bod">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
 
                         <div class="form-group col border">
@@ -334,7 +334,7 @@
 
             <!--Inicio del modal para cerrar caja-->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modalcerrar}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div   class="modal-dialog modal-primary modal-lg" role="document">
+                <div class="modal-dialo modal-primary modal-lg"  role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
@@ -342,7 +342,7 @@
                               <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-bod">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
 
                         <div class="form-group col border">
@@ -560,7 +560,7 @@
 
             <!--Inicio del modal agregar/actualizar-->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modalactual}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-warning modal-lg" role="document">
+                <div class="modal-dialo modal-primary modal-lg"  role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
@@ -568,7 +568,7 @@
                               <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-bod">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
 
                         <div class="form-group col border">
@@ -1120,23 +1120,40 @@
 
 
 <style>
-.modal-content{
-    width: 100% !important;
-    position: absolute!important;
-}
-  .mostrar{
-      display: list-item !important;
-      opacity: 1 !important;
-      position: absolute!important;
-      background-color: #3c29297a;
-  }
 
-  .div-error{
-     display: flex;
-     justify-content: center;
-  }
-  .text-error{
-    color: red !important;
-    font-weight: bold;
-  }
+    .modal-content{
+        width: 100% !important;
+        position: absolute!important;
+    }
+    .mostrar{
+        display: list-item !important;
+        opacity: 1 !important;
+        position: absolute!important;
+        background-color: #3c29297a;
+    }
+    .div-error{
+        display: flex;
+        justify-content: center;
+    }
+    .text-error{
+        color: red !important;
+        font-weight: bold;
+    }
+    .text-negrita{
+        color: black !important;
+        font-weight: bold;
+    }
+  
+    .moda{
+        display: block !important; /* I added this to see the modal, you don't need this */
+    }
+    /* Important part */
+    .modal-dialo{
+        overflow-y: initial !important
+    }
+    .modal-bod{
+        height: 60vh;
+        overflow-y: auto;
+        margin: 10px 30px 10px 30px
+    }
 </style>

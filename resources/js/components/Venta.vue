@@ -490,7 +490,7 @@
                 <!-- Fin ejemplo de tabla Listado -->
             <!--Inicio del modal agregar/actualizar -->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-primary modal-lg" role="document">
+                <div class="modal-dialo modal-primary modal-lg"  role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
@@ -498,7 +498,7 @@
                               <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-bod">
 
 
 
@@ -1167,6 +1167,8 @@ import vSelect from "vue-select";
 
 
 <style>
+
+
 .modal-content{
     width: 100% !important;
     position: absolute!important;
@@ -1185,6 +1187,27 @@ import vSelect from "vue-select";
     color: red !important;
     font-weight: bold;
   }
+   .text-negrita{
+    color: black !important;
+    font-weight: bold;
+  }
+  
+  .moda{
+    display: block !important; /* I added this to see the modal, you don't need this */
+}
+/* Important part */
+.modal-dialo{
+    overflow-y: initial !important
+}
+.modal-bod{
+    height: 60vh;
+    overflow-y: auto;
+    margin: 10px 30px 10px 30px
+}
+
+
+
+
   .color{
       color:red;
   }

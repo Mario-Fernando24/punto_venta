@@ -39,35 +39,22 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opciones</th>
                                     <th>Codigo</th>
                                     <th>Nombre</th>
                                     <th>Categoria</th>
                                     <th>Pre Venta</th>
                                     <th>Stock</th>
                                     <th>Descripción</th>
-                                    <th>Estado</th>
+                                    <th>Estado</th>                                
+                                    <th>Opciones</th>
+
+
                                 </tr>
                             </thead>
                             <tbody>
 
                                 <tr v-for="articulo in arrayArticulo" :key="articulo.id">
-                                    <td>
-                                        <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
-                                          <i class="icon-pencil"></i>
-                                        </button> &nbsp;
-                                        <template v-if="articulo.condicion"> 
-                                        <button type="button"  class="btn btn-outline-danger btn-sm" @click="desactivarArticulo(articulo.id)">
-                                          <i class="icon-trash"></i>
-                                        </button>
-                                        </template>
-                                         <template v-else> 
-                                        <button type="button"  class="btn btn-outline-success btn-sm" @click="activarArticulo(articulo.id)">
-                                          <i class="icon-check"></i>
-                                        </button>
-                                        </template>
-
-                                        </td>
+                                    
                                         <td v-text="articulo.codigo"></td>
                                         <td v-text="articulo.nombre"></td>
                                         <td v-text="articulo.categoria.nombre"></td>
@@ -97,6 +84,26 @@
                                         <span class="badge badge-danger">Desactivado</span>
                                         </div>
                                     </td>
+
+
+                                    <td>
+                                        <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
+                                          <i class="icon-pencil"></i>
+                                        </button> &nbsp;
+                                        <template v-if="articulo.condicion"> 
+                                        <button type="button"  class="btn btn-outline-danger btn-sm" @click="desactivarArticulo(articulo.id)">
+                                          <i class="icon-trash"></i>
+                                        </button>
+                                        </template>
+                                         <template v-else> 
+                                        <button type="button"  class="btn btn-outline-success btn-sm" @click="activarArticulo(articulo.id)">
+                                          <i class="icon-check"></i>
+                                        </button>
+                                        </template>
+
+                                        </td>
+
+
                                 </tr>
 
                                 </tbody>
@@ -127,7 +134,7 @@
             </div>
             <!--Inicio del modal agregar/actualizar-->
             <div class="modal fade"  tabindex="-1" :class="{'mostrar':modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-primary modal-lg" role="document">
+                <div class="modal-dialo modal-primary modal-lg"  role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" v-text="tituloModal"></h4>
@@ -135,7 +142,7 @@
                               <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-bod">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
 
                             <div class="form-group row">
@@ -541,7 +548,7 @@ import VueBarcode from 'vue-barcode';
            },
 
            cargarPdfInventario(){
-              window.open('http://54.237.93.88/articulo/ListarPdfInventario','_blank');
+              window.open('/articulo/ListarPdfInventario','_blank');
            },
            
 
@@ -627,6 +634,8 @@ import VueBarcode from 'vue-barcode';
 
 
 <style>
+
+
 .modal-content{
     width: 100% !important;
     position: absolute!important;
@@ -637,7 +646,6 @@ import VueBarcode from 'vue-barcode';
       position: absolute!important;
       background-color: #3c29297a;
   }
-
   .div-error{
      display: flex;
      justify-content: center;
@@ -646,4 +654,21 @@ import VueBarcode from 'vue-barcode';
     color: red !important;
     font-weight: bold;
   }
+   .text-negrita{
+    color: black !important;
+    font-weight: bold;
+  }
+  
+  .moda{
+    display: block !important; /* I added this to see the modal, you don't need this */
+}
+/* Important part */
+.modal-dialo{
+    overflow-y: initial !important
+}
+.modal-bod{
+    height: 60vh;
+    overflow-y: auto;
+    margin: 10px 30px 10px 30px
+}
 </style>

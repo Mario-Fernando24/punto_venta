@@ -35,14 +35,29 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opciones</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Estado</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="categoria in arrayCategoria" :key="categoria.id">
+                                    
+                                        <td v-text="categoria.nombre"></td>
+                                        <td v-text="categoria.descripcion"></td>
+
+                                    <td>
+                                        <div v-if="categoria.condicion==1">
+                                        <span class="badge badge-success">Activo</span>
+                                        </div>
+
+                                        <div v-else>
+                                        <span class="badge badge-danger">Desactivado</span>
+                                        </div>
+                                    </td>
+
+
                                     <td>
                                         <button type="button" @click="abrirModal('categoria', 'actualizar',categoria)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
@@ -59,20 +74,9 @@
                                         </button>
                                         </template>
 
-                                        </td>
-
-                                        <td v-text="categoria.nombre"></td>
-                                        <td v-text="categoria.descripcion"></td>
-
-                                        <td>
-                                        <div v-if="categoria.condicion==1">
-                                        <span class="badge badge-success">Activo</span>
-                                        </div>
-
-                                        <div v-else>
-                                        <span class="badge badge-danger">Desactivado</span>
-                                        </div>
                                     </td>
+
+
                                 </tr>
                                 </tbody>
                         </table>

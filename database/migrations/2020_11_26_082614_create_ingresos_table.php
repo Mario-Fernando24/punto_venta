@@ -26,7 +26,6 @@ class CreateIngresosTable extends Migration
             $table->decimal('impuesto',11,2);
             $table->decimal('total',11,2);
             $table->string('estado',50)->nullable();
-
             $table->timestamps();
 
 

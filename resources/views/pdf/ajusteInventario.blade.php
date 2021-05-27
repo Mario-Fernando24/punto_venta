@@ -136,14 +136,9 @@
             
                 <div class="col-md-4">
                    <p><b>#</b> {{ $ObjetoDetalleAjuste->id }} &nbsp;&nbsp; <b>USUARIO: </b>&nbsp;&nbsp;{{ $ObjetoDetalleAjuste->usuario_hizo_el_ajuste->usuario }}</p>
-                </div>
-
-
-                <div class="col-md-4">
+                
                     <p><b>CAJA: </b> {{ $ObjetoDetalleAjuste->id_apertura_caja_usuario }} &nbsp;&nbsp;<b>FECHA: </b> &nbsp;&nbsp;{{ $ObjetoDetalleAjuste->created_at }}</p>
-                </div>
-
-                <div class="col-md-4">
+                
                     <p><b>MOTIVO: </b> &nbsp;&nbsp;{{ $ObjetoDetalleAjuste->motivo }}</p>
                 </div>
 
