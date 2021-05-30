@@ -127,18 +127,15 @@
                         <div class="modal-bod">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                                                        <div class="col-md-9">
-
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
-                                        <span class="color" v-if="!nombre">Requerido(*)</span>
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
+                               <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Nombre</label>
+                                        <span class="color" v-if="!nombre">*</span>
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre completo...">
                                     </div>
-                                </div>
+                               
 
-
-                                 <div class="form-group row">
-                                   <div class="col-md-9">
-                                    <label class="col-md-3 form-control-label" for="text-input">Tipo documento</label>
+                                   <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Tipo documento</label>
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="CC">Cedula</option>
                                             <option value="TI">Tarjeta de Identida</option>
@@ -149,72 +146,67 @@
 
 
                                  <div class="form-group row">
-                                  <div class="col-md-9">       
-                                    <label class="col-md-3 form-control-label" for="text-input">Num documento</label>
-                                        <span class="color" v-if="!num_documento">Requerido(*)</span>
+                                  <div class="col-md-6">       
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Num documento</label>
+                                        <span class="color" v-if="!num_documento">*</span>
                                         <input type="number" v-model="num_documento" class="form-control" placeholder="Numero de documento">
                                     </div>
-                                </div>
+                                
 
-                                 <div class="form-group row">
-                                  <div class="col-md-9">
-                                    <label class="col-md-3 form-control-label" for="text-input">Direccion</label>
-                                        <span class="color" v-if="!direccion">Requerido(*)</span>
+                                  <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Direccion</label>
+                                        <span class="color" v-if="!direccion">*</span>
                                         <input type="text" v-model="direccion" class="form-control" placeholder="Dirección...">
                                     </div>
                                 </div>
 
 
                                  <div class="form-group row">
-                                  <div class="col-md-9">
-                                    <label class="col-md-3 form-control-label" for="text-input">Telefono</label>
-                                         <span class="color" v-if="!telefono">Requerido(*)</span>
+                                  <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Telefono</label>
+                                         <span class="color" v-if="!telefono">*</span>
                                         <input type="text" v-model="telefono" class="form-control" placeholder="Telefono...">
                                     </div>
-                                </div>
 
 
-                                 <div class="form-group row">
-                                  <div class="col-md-9">        
-                                    <label class="col-md-3 form-control-label" for="text-input">Email</label>
-                                        <span class="color" v-if="!email">Requerido(*)</span>
+                                  <div class="col-md-6">        
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Email</label>
+                                        <span class="color" v-if="!email">*</span>
                                         <input type="text" v-model="email" class="form-control" placeholder="Email...">
                                     </div>
                                 </div>
 
 
                                 <div class="form-group row">
-                                 <div class="col-md-9">     
-                                    <label class="col-md-3 form-control-label" for="text-input">Rol(*)</label>
-                                        <span class="color" v-if="!idRol">Requerido(*)</span>
+                                 <div class="col-md-6">     
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Rol</label>
+                                        <span class="color" v-if="!idRol">*</span>
                                         <select class="form-control" v-model="idRol">
                                             <option value="0">Seleccione un rol</option>
                                             <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre"></option>
                                         </select>
 
                                     </div>
-                                </div>
+                            
 
-
-                                <div class="form-group row">
-                                  <div class="col-md-9">
-                                    <label class="col-md-3 form-control-label" for="text-input">usuario(*)</label>
-                                        <span class="color" v-if="!usuario">Requerido(*)</span>
+                                  <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">usuario</label>
+                                        <span class="color" v-if="!usuario">*</span>
                                         <input type="text" v-model="usuario" class="form-control" placeholder="usuario...">
                                     </div>
                                 </div>
 
 
                                 <div class="form-group row">
-                                  <div class="col-md-9">    
-                                    <label class="col-md-3 form-control-label" for="text-input">Password</label>
+                                  <div class="col-md-12">    
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Contraseña</label>
                  
 
 
-                                        <span class="color" v-if="!password">Requerido(*)</span>
+                                        <span class="color" v-if="!password">*</span>
 
                                         
-                                        <input :type="type" v-model="password" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder="Password de acceso...">
+                                        <input :type="type" v-model="password" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder="Contraseña de acceso...">
                                        
                                        
                                          <a class="btn btn-success" @click="showPassword">{{ btnText }} <span :class="icono"></span></a>

@@ -2488,6 +2488,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importamos vueBarcod
  //axios nos ayuda hacer peticiones http desde el navegador
 
@@ -2532,7 +2583,8 @@ __webpack_require__.r(__webpack_exports__);
       offset: 3,
       criterio: 'nombre',
       arrayCategoria: [],
-      buscar: ''
+      buscar: '',
+      modalImagen: 0
     };
   },
   components: {
@@ -2661,6 +2713,36 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    //==================editar imagenes==========================//
+    onEditarImagen: function onEditarImagen(e) {
+      console.log(e.target.files[0]);
+      this.editarProductImag = e.target.files[0];
+    },
+    editarProductImagen: function editarProductImagen(e) {
+      var me = this;
+      e.preventDefault();
+      var currentObj = this;
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+      var formData = new FormData();
+      formData.append('editarProductImagen', this.editarProductImag);
+      formData.append('producto_id', this.producto_id);
+      axios.post('/productos/editarImagen', formData, config).then(function (response) {
+        if (response.data.status) {
+          me.editarProductImag = '';
+          me.list_product(1, '', 'nombre');
+          me.cerrarModal();
+          Swal.fire('Exitoso?', 'Imagen editada correctamente', 'success');
+        }
+
+        currentObj.success = response.data.success;
+      })["catch"](function (error) {
+        currentObj.output = error;
+      });
+    },
     //Metodo para desactivar la categoria
     desactivarArticulo: function desactivarArticulo(id) {
       var _this = this;
@@ -2752,6 +2834,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //metodo para cerrar el modal
     cerrarModal: function cerrarModal() {
+      this.modalImagen = 0;
       this.modal = 0;
       this.tituloModal = '';
       this.idcategoria = 0;
@@ -2800,6 +2883,16 @@ __webpack_require__.r(__webpack_exports__);
                   this.stock = data['stock'];
                   this.precio_venta = data['precio_venta'];
                   this.descripcion = data['descripcion'];
+                  break;
+                }
+
+              case 'editarImagen':
+                {
+                  this.modalImagen = 1;
+                  this.tituloModal = 'Editar imagen';
+                  this.tipoAccionButton = 3;
+                  this.articulo_id = data['id'];
+                  console.log('editarImagen' + data['id']);
                   break;
                 }
             }
@@ -4006,6 +4099,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4280,14 +4374,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -8502,16 +8588,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -9179,14 +9255,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -10366,6 +10434,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -10434,7 +10563,11 @@ __webpack_require__.r(__webpack_exports__);
       estadovali: '',
       fecha_ven_anulada: '',
       //validar caja open
-      validar_caja: ''
+      validar_caja: '',
+      ticket: 0,
+      id_ticket: 0,
+      usuarioFacturador: '',
+      usuario_cliente: ''
     };
   },
   components: {
@@ -10484,6 +10617,17 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return resultado;
+    },
+    currentDay: function currentDay() {
+      var curr = new Date();
+      return "".concat(curr.getDay(), "/").concat(curr.getMonth() + 1, "/").concat(curr.getFullYear());
+    },
+    currentHour: function currentHour() {
+      var curr = new Date();
+      var hour = curr.getHours();
+      var isPm = hour >= 12 ? true : false;
+      hour = hour > 12 ? hour - 12 : hour;
+      return "".concat(hour < 10 ? "0" : "").concat(hour, ":").concat(curr.getMinutes() < 10 ? "0" : "").concat(curr.getMinutes(), " ").concat(isPm ? "pm" : "am");
     },
     calculadorTotalDetalle: function calculadorTotalDetalle() {
       var resultado = 0.0;
@@ -10650,12 +10794,42 @@ __webpack_require__.r(__webpack_exports__);
         'total': this.total,
         'data': this.arrayDetalleVenta
       }).then(function (response) {
-        console.log('entro a esta funcion');
-        window.open('/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
-        me.listado = 1;
-        me.vaciarvariable(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+        console.log(response.data);
+        me.id_ticket = response.data.id;
+        me.usuarioFacturador = response.data.usuarioss;
+        me.usuario_cliente = response.data.usuario_cliente;
+        var swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+          title: 'Imprimir ?',
+          text: "¿ Que tipo de formato de factura desea ?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Normal',
+          cancelButtonText: 'Ticket',
+          reverseButtons: true
+        }).then(function (result) {
+          if (result.isConfirmed) {
+            window.open('/ventas/pdfVenta/' + response.data.id + ',' + '_blank');
+            me.listado = 1;
+            me.vaciarvariable(); // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
-        me.listaVenta(1, '', 'num_comprobante_pago');
+            me.listaVenta(1, '', 'num_comprobante_pago');
+          } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel) {
+            me.ticket = 1;
+            me.listado = 1; // me.vaciarvariable();
+            // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+
+            me.listaVenta(1, '', 'num_comprobante_pago');
+          }
+        });
       })["catch"](function (error) {
         console.log(error);
       });
@@ -10774,6 +10948,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     descargarventa: function descargarventa(id) {
       window.open('/ventas/pdfVenta/' + id + ',' + '_blank');
+    },
+    imprimir: function imprimir() {
+      this.ticket = 0;
+      window.print();
     },
     //metodo para cerrar el modal
     cerrarModal: function cerrarModal() {
@@ -15348,7 +15526,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n  \n", ""]);
 
 // exports
 
@@ -15443,7 +15621,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 500;\n}\n.negritatitle{\n      font-weight: 500;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 500;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n\n  \n", ""]);
 
 // exports
 
@@ -15538,7 +15716,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 600;\n}\n.negritatitle{\n      font-weight: 500;\n}\n", ""]);
+exports.push([module.i, "\n.modal-contentt{\n    width: 50% !important;\n    position: absolute!important;\n}\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 600;\n}\n.negritatitle{\n      font-weight: 500;\n}\n* {\n    font-size: 14px;\n  font-family: Arial, Helvetica, sans-serif;\n}\ntd,\nth,\ntr,\ntable {\n    border-top: 1px solid black;\n    border-collapse: collapse;\n}\ntd.producto,\nth.producto {\n    width: 75px;\n    max-width: 75px;\n}\ntd.cantidad,\nth.cantidad {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\ntd.precio,\nth.precio {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\n.centrado {\n    text-align: center;\n    align-content: center;\n}\n.ticket {\n    width: 155px;\n    max-width: 155px;\n}\nimg {\n    max-width: inherit;\n    width: inherit;\n}\n@media print {\n.oculto-impresion,\n    .oculto-impresion * {\n        display: none !important;\n}\n}\n\n\n\n", ""]);
 
 // exports
 
@@ -53366,6 +53544,29 @@ var render = function() {
                             _c(
                               "button",
                               {
+                                staticClass: "btn btn-outline-success btn-sm",
+                                attrs: {
+                                  type: "button",
+                                  "data-toggle": "modal"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.abrirModal(
+                                      "articulo",
+                                      "editarImagen",
+                                      articulo
+                                    )
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "icon-picture" })]
+                            ),
+                            _vm._v(
+                              "  \n\n                                        "
+                            ),
+                            _c(
+                              "button",
+                              {
                                 staticClass: "btn btn-outline-warning btn-sm",
                                 attrs: {
                                   type: "button",
@@ -53582,16 +53783,17 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Categoria")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Categoria")]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "select",
                           {
@@ -53637,23 +53839,22 @@ var render = function() {
                           ],
                           2
                         )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Codigo")]
-                      ),
+                      ]),
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "col-md-9" },
+                        { staticClass: "col-md-6" },
                         [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "col-md-3 form-control-label text-negrita",
+                              attrs: { for: "text-input" }
+                            },
+                            [_vm._v("Codigo")]
+                          ),
+                          _vm._v(" "),
                           _vm.validarcode
                             ? _c("span", { staticClass: "color" }, [
                                 _vm._v("El codigo de barra ya existe(*)")
@@ -53708,16 +53909,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Nombre")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Nombre")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -53739,20 +53941,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Precio de venta")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Precio de venta")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -53763,7 +53964,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "number", placeholder: "Precio..." },
+                          attrs: {
+                            type: "number",
+                            disabled: "",
+                            placeholder: "Precio..."
+                          },
                           domProps: { value: _vm.precio_venta },
                           on: {
                             input: function($event) {
@@ -53778,16 +53983,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Stock")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Stock")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -53813,20 +54019,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Descripción")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Descripción")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -53938,6 +54143,111 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        class: { mostrar: _vm.modalImagen },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary modal-lg",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  domProps: { textContent: _vm._s(_vm.tituloModal) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  attrs: { enctype: "multipart/form-data" },
+                  on: { submit: _vm.editarProductImagen }
+                },
+                [
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "col-md-12 " }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-12 form-control-label text-negrita ",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Imagen Articulo")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: { type: "file", accept: "image/*" },
+                          on: { change: _vm.onEditarImagen }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(2)
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.cerrarModal()
+                          }
+                        }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c("button", { staticClass: "btn btn-outline-primary" }, [
+                      _vm._v("Actualizar")
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -53974,6 +54284,22 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Opciones")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "descripcion" }, [
+      _c("br"),
+      _c("b", [
+        _vm._v("Limite de 3 MB  imagen"),
+        _c("br"),
+        _vm._v(
+          "\n                                        Tipos permitidos: jpeg, png, jpg, svg; "
+        )
+      ]),
+      _c("br")
     ])
   }
 ]
@@ -56622,16 +56948,17 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Nombre")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Nombre")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -56660,16 +56987,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "email-input" }
-                        },
-                        [_vm._v("Descripción")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Descripción")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -57175,16 +57503,17 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Nombre")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Nombre")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -57206,20 +57535,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Tipo documento")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Tipo documento")]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "select",
                           {
@@ -57266,16 +57594,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Num documento")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Num documento")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -57300,20 +57629,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Direccion")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Direccion")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -57339,16 +57667,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Telefono")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Telefono")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -57370,20 +57699,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Email")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Email")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -62016,7 +62344,7 @@ var render = function() {
                       _c("div", { staticClass: "card-body" }, [
                         _c("div", { staticClass: "form-group row border" }, [
                           _c("div", { staticClass: "col-md-2" }, [
-                            _c("label", { staticClass: "negritatitle" }, [
+                            _c("label", { staticClass: "text-negrita" }, [
                               _vm._v("ID")
                             ]),
                             _vm._v(" "),
@@ -62026,7 +62354,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-3" }, [
-                            _c("label", { staticClass: "negritatitle" }, [
+                            _c("label", { staticClass: "text-negrita" }, [
                               _vm._v("Fecha Ingreso")
                             ]),
                             _vm._v(" "),
@@ -62037,7 +62365,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-4" }, [
                             _c("div", { staticClass: "form-group" }, [
-                              _c("label", { staticClass: "negritatitle" }, [
+                              _c("label", { staticClass: "text-negrita" }, [
                                 _vm._v("Proveedor")
                               ]),
                               _vm._v(" "),
@@ -62048,7 +62376,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-3" }, [
-                            _c("label", { staticClass: "negritatitle" }, [
+                            _c("label", { staticClass: "text-negrita" }, [
                               _vm._v("Impuesto %")
                             ]),
                             _vm._v(" "),
@@ -62059,7 +62387,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-3" }, [
                             _c("div", { staticClass: "form-group" }, [
-                              _c("label", { staticClass: "negritatitle" }, [
+                              _c("label", { staticClass: "text-negrita" }, [
                                 _vm._v("Tipo Comprobante")
                               ]),
                               _vm._v(" "),
@@ -62073,7 +62401,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-3" }, [
                             _c("div", { staticClass: "form-group" }, [
-                              _c("label", { staticClass: "negritatitle" }, [
+                              _c("label", { staticClass: "text-negrita" }, [
                                 _vm._v("Serie Comprobante")
                               ]),
                               _vm._v(" "),
@@ -62087,7 +62415,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-3" }, [
                             _c("div", { staticClass: "form-group" }, [
-                              _c("label", { staticClass: "negritatitle" }, [
+                              _c("label", { staticClass: "text-negrita" }, [
                                 _vm._v("Num Comprobante")
                               ]),
                               _vm._v(" "),
@@ -64088,16 +64416,17 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Nombre - Razón social")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Nombre - Razón social")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -64119,20 +64448,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Tipo documento")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Tipo documento")]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "select",
                           {
@@ -64179,16 +64507,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Num documento")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Num documento")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -64213,20 +64542,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Direccion")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Direccion")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -64252,16 +64580,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Telefono")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Telefono")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -64283,20 +64612,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Email")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Email")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -64322,16 +64650,17 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Contacto")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Contacto")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -64353,20 +64682,19 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "col-md-3 form-control-label",
-                          attrs: { for: "text-input" }
-                        },
-                        [_vm._v("Telefono de contacto")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Telefono de contacto")]
+                        ),
+                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -65447,20 +65775,19 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
                           [_vm._v("Nombre")]
                         ),
                         _vm._v(" "),
                         !_vm.nombre
-                          ? _c("span", { staticClass: "color" }, [
-                              _vm._v("Requerido(*)")
-                            ])
+                          ? _c("span", { staticClass: "color" }, [_vm._v("*")])
                           : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
@@ -65473,7 +65800,10 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Nombre..." },
+                          attrs: {
+                            type: "text",
+                            placeholder: "Nombre completo..."
+                          },
                           domProps: { value: _vm.nombre },
                           on: {
                             input: function($event) {
@@ -65484,15 +65814,14 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
                           [_vm._v("Tipo documento")]
@@ -65544,20 +65873,19 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
                           [_vm._v("Num documento")]
                         ),
                         _vm._v(" "),
                         !_vm.num_documento
-                          ? _c("span", { staticClass: "color" }, [
-                              _vm._v("Requerido(*)")
-                            ])
+                          ? _c("span", { staticClass: "color" }, [_vm._v("*")])
                           : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
@@ -65584,24 +65912,21 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
                           [_vm._v("Direccion")]
                         ),
                         _vm._v(" "),
                         !_vm.direccion
-                          ? _c("span", { staticClass: "color" }, [
-                              _vm._v("Requerido(*)")
-                            ])
+                          ? _c("span", { staticClass: "color" }, [_vm._v("*")])
                           : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
@@ -65629,20 +65954,19 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
                           [_vm._v("Telefono")]
                         ),
                         _vm._v(" "),
                         !_vm.telefono
-                          ? _c("span", { staticClass: "color" }, [
-                              _vm._v("Requerido(*)")
-                            ])
+                          ? _c("span", { staticClass: "color" }, [_vm._v("*")])
                           : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
@@ -65666,24 +65990,21 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
                           [_vm._v("Email")]
                         ),
                         _vm._v(" "),
                         !_vm.email
-                          ? _c("span", { staticClass: "color" }, [
-                              _vm._v("Requerido(*)")
-                            ])
+                          ? _c("span", { staticClass: "color" }, [_vm._v("*")])
                           : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
@@ -65711,20 +66032,19 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("Rol(*)")]
+                          [_vm._v("Rol")]
                         ),
                         _vm._v(" "),
                         !_vm.idRol
-                          ? _c("span", { staticClass: "color" }, [
-                              _vm._v("Requerido(*)")
-                            ])
+                          ? _c("span", { staticClass: "color" }, [_vm._v("*")])
                           : _vm._e(),
                         _vm._v(" "),
                         _c(
@@ -65772,24 +66092,21 @@ var render = function() {
                           ],
                           2
                         )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("usuario(*)")]
+                          [_vm._v("usuario")]
                         ),
                         _vm._v(" "),
                         !_vm.usuario
-                          ? _c("span", { staticClass: "color" }, [
-                              _vm._v("Requerido(*)")
-                            ])
+                          ? _c("span", { staticClass: "color" }, [_vm._v("*")])
                           : _vm._e(),
                         _vm._v(" "),
                         _c("input", {
@@ -65817,20 +66134,19 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-9" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
                         _c(
                           "label",
                           {
-                            staticClass: "col-md-3 form-control-label",
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("Password")]
+                          [_vm._v("Contraseña")]
                         ),
                         _vm._v(" "),
                         !_vm.password
-                          ? _c("span", { staticClass: "color" }, [
-                              _vm._v("Requerido(*)")
-                            ])
+                          ? _c("span", { staticClass: "color" }, [_vm._v("*")])
                           : _vm._e(),
                         _vm._v(" "),
                         _vm.type === "checkbox"
@@ -65847,7 +66163,7 @@ var render = function() {
                               attrs: {
                                 "aria-label": "Recipient's username",
                                 "aria-describedby": "basic-addon2",
-                                placeholder: "Password de acceso...",
+                                placeholder: "Contraseña de acceso...",
                                 type: "checkbox"
                               },
                               domProps: {
@@ -65892,7 +66208,7 @@ var render = function() {
                               attrs: {
                                 "aria-label": "Recipient's username",
                                 "aria-describedby": "basic-addon2",
-                                placeholder: "Password de acceso...",
+                                placeholder: "Contraseña de acceso...",
                                 type: "radio"
                               },
                               domProps: { checked: _vm._q(_vm.password, null) },
@@ -65915,7 +66231,7 @@ var render = function() {
                               attrs: {
                                 "aria-label": "Recipient's username",
                                 "aria-describedby": "basic-addon2",
-                                placeholder: "Password de acceso...",
+                                placeholder: "Contraseña de acceso...",
                                 type: _vm.type
                               },
                               domProps: { value: _vm.password },
@@ -67881,6 +68197,128 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        class: { mostrar: _vm.ticket },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-bod" }, [
+                _c("div", { staticClass: "ticket" }, [
+                  _c("img", {
+                    attrs: {
+                      src:
+                        "https://scontent.feoh3-1.fna.fbcdn.net/v/t1.6435-9/98599758_126177892408081_8683052137267068928_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=09cbfe&_nc_eui2=AeHJQMxg5Q2KsuPD5BS13Uohw7w4_ZcZ0drDvDj9lxnR2mHjqTp8rPZOMQDQl2wK_WY&_nc_ohc=yB6q9QXIPioAX-rtX2k&_nc_ht=scontent.feoh3-1.fna&oh=be3ea278b454619bb45c687acda5bac8&oe=60DA5B49",
+                      alt: "Logotipo"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "centrado",
+                    domProps: { textContent: _vm._s("# " + _vm.id_ticket) }
+                  }),
+                  _c("p", {
+                    domProps: {
+                      textContent: _vm._s(
+                        "facturador  " +
+                          _vm.usuarioFacturador +
+                          " \ncliente  " +
+                          _vm.usuario_cliente.usuario +
+                          " \n " +
+                          _vm.currentDay +
+                          " " +
+                          _vm.currentHour
+                      )
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("table", [
+                    _vm._m(14),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.arrayDetalleVenta, function(det) {
+                        return _c("tr", { key: det.id }, [
+                          _c("td", {
+                            staticClass: "cantidad",
+                            domProps: { textContent: _vm._s(det.cantidad) }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            staticClass: "producto",
+                            domProps: { textContent: _vm._s(det.articulo) }
+                          }),
+                          _vm._v(" "),
+                          _c("td", {
+                            staticClass: "precio",
+                            domProps: { textContent: _vm._s(det.precio) }
+                          })
+                        ])
+                      }),
+                      0
+                    )
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    {
+                      staticClass: "centrado",
+                      domProps: {
+                        textContent: _vm._s(
+                          "Total  $" +
+                            Intl.NumberFormat().format(_vm.total) +
+                            "\n" +
+                            _vm.tipo_comprobante +
+                            "   " +
+                            _vm.forma_pago +
+                            "\n¡GRACIAS POR SU COMPRA!"
+                        )
+                      }
+                    },
+                    [_c("br"), _vm._v("tenderpos.xyz")]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "oculto-impresion",
+                    on: {
+                      click: function($event) {
+                        return _vm.imprimir()
+                      }
+                    }
+                  },
+                  [_vm._v("Imprimir")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -68065,6 +68503,20 @@ var staticRenderFns = [
         _c("th", [_vm._v("Stock")]),
         _vm._v(" "),
         _c("th", [_vm._v("Estado")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "cantidad" }, [_vm._v("Cant")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "producto" }, [_vm._v("Art")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "precio" }, [_vm._v("$")])
       ])
     ])
   }

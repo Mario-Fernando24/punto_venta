@@ -106,16 +106,13 @@
                         <div class="modal-bod">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre - Razón social</label>
-                                    <div class="col-md-9">
+                                   <div class="col-md-6">  
+                                       <label class="col-md-3 form-control-label text-negrita" for="text-input">Nombre - Razón social</label>
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
                                     </div>
-                                </div>
-
-
-                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Tipo documento</label>
-                                    <div class="col-md-9">
+                                
+                                   <div class="col-md-6">
+                                       <label class="col-md-3 form-control-label text-negrita" for="text-input">Tipo documento</label>
                                         <select v-model="tipo_documento" class="form-control">
                                             <option value="CC">Cedula</option>
                                             <option value="TI">Tarjeta de Identida</option>
@@ -125,48 +122,41 @@
                                 </div>
 
 
-                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Num documento</label>
-                                    <div class="col-md-9">
+                                <div class="form-group row">
+                                  <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Num documento</label>
                                         <input type="number" v-model="num_documento" class="form-control" placeholder="Numero de documento">
                                     </div>
-                                </div>
 
-                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Direccion</label>
-                                    <div class="col-md-9">
+                                  <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Direccion</label>
                                         <input type="text" v-model="direccion" class="form-control" placeholder="Dirección...">
                                     </div>
                                 </div>
 
 
                                  <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Telefono</label>
-                                    <div class="col-md-9">
+                                   <div class="col-md-6">    
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Telefono</label>
                                         <input type="text" v-model="telefono" class="form-control" placeholder="Telefono...">
                                     </div>
-                                </div>
 
-
-                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Email</label>
-                                    <div class="col-md-9">
+                                   <div class="col-md-6">
+                                     <label class="col-md-3 form-control-label text-negrita" for="text-input">Email</label>
                                         <input type="text" v-model="email" class="form-control" placeholder="Email...">
                                     </div>
                                 </div>
 
 
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Contacto</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-6">
+                                       <label class="col-md-3 form-control-label text-negrita" for="text-input">Contacto</label>
                                         <input type="text" v-model="contacto" class="form-control" placeholder="contacto...">
                                     </div>
-                                </div>
+                                
 
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Telefono de contacto</label>
-                                    <div class="col-md-9">
+                                   <div class="col-md-6">
+                                        <label class="col-md-3 form-control-label text-negrita" for="text-input">Telefono de contacto</label>
                                         <input type="text" v-model="telefono_contacto" class="form-control" placeholder="Telefono de contacto...">
                                     </div>
                                 </div>

@@ -120,14 +120,15 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-12">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Nombre</label>
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de categoría">
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-12">
+                                        <label class="col-md-3 form-control-label text-negrita" for="email-input">Descripción</label>
                                         <input type="email" v-model="descripcion" class="form-control" placeholder="Descripción...">
                                     </div>
                                 </div>
@@ -497,4 +498,10 @@
     color: red !important;
     font-weight: bold;
   }
+
+  .text-negrita{
+    color: black !important;
+    font-weight: bold;
+  }
+  
 </style>

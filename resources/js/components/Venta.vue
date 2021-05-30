@@ -571,6 +571,67 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
+
+
+
+
+
+                    <!--inicio modal imprimir ticken-->
+
+              <div class="modal fade"  tabindex="-1" :class="{'mostrar':ticket}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary"  role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        </div>                
+                        <div class="modal-bod">
+
+                                    <div class="ticket">
+                                        <img
+                                            src="https://scontent.feoh3-1.fna.fbcdn.net/v/t1.6435-9/98599758_126177892408081_8683052137267068928_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=09cbfe&_nc_eui2=AeHJQMxg5Q2KsuPD5BS13Uohw7w4_ZcZ0drDvDj9lxnR2mHjqTp8rPZOMQDQl2wK_WY&_nc_ohc=yB6q9QXIPioAX-rtX2k&_nc_ht=scontent.feoh3-1.fna&oh=be3ea278b454619bb45c687acda5bac8&oe=60DA5B49"
+                                            alt="Logotipo">
+                                        <p class="centrado" v-text="'# '+id_ticket">  
+                                        <p v-text="'facturador  '+usuarioFacturador+ ' \ncliente  '+usuario_cliente.usuario+' \n '+currentDay+' '+ currentHour"></p>      
+                                            
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="cantidad">Cant</th>
+                                                    <th class="producto">Art</th>
+                                                    <th class="precio">$</th>
+                                                </tr>
+                                            </thead>
+                                            
+                                            <tbody>
+                                                <tr v-for="det in arrayDetalleVenta" :key="det.id">
+                                                    <td class="cantidad" v-text="det.cantidad"></td>
+                                                    <td class="producto" v-text="det.articulo"></td>
+                                                    <td class="precio" v-text="det.precio"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table><br>
+
+                                        <p class="centrado" v-text="'Total  $'+Intl.NumberFormat().format((total)) +'\n'+tipo_comprobante+'   '+forma_pago+'\n¡GRACIAS POR SU COMPRA!'">
+                                            <br>tenderpos.xyz</p>
+                                    </div>
+                        </div>   
+
+                        <div class="modal-footer">
+                            <button class="oculto-impresion" @click="imprimir()" >Imprimir</button>
+
+                            <!-- <button   class="btn btn-outline-primary" >Imprimir</button> -->
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div> 
+
+            <!--final modal imprimir ticken -->
+
+
+
+
         </main>
 </template>
 
@@ -647,6 +708,10 @@ import vSelect from "vue-select";
 
              //validar caja open
              validar_caja:'',
+             ticket:0,
+             id_ticket:0,
+             usuarioFacturador:'',
+             usuario_cliente:'',
           }
         },
          components: {
@@ -690,6 +755,24 @@ import vSelect from "vue-select";
                 return resultado;
             },
 
+
+
+                    currentDay() {
+                    let curr = new Date();
+                    return `${curr.getDay()}/${
+                        curr.getMonth() + 1
+                    }/${curr.getFullYear()}`;
+                },
+                currentHour() {
+                    let curr = new Date();
+                    let hour = curr.getHours();
+                    let isPm = hour >= 12 ? true : false;
+                    hour = hour > 12 ? hour - 12 : hour;
+                    return `${hour < 10 ? "0" : ""}${hour}:${
+                        curr.getMinutes() < 10 ? "0" : ""
+                    }${curr.getMinutes()} ${isPm ? "pm" : "am"}`;
+                },
+
             
            
 
@@ -701,6 +784,8 @@ import vSelect from "vue-select";
                 }
                 return resultado;
             },
+
+
             
         },
         //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
@@ -909,16 +994,52 @@ import vSelect from "vue-select";
                             'data':this.arrayDetalleVenta,
 
                             
-                            
-                            
                         })
                         .then(function (response) {
-                            console.log('entro a esta funcion');
-                             window.open('/ventas/pdfVenta/'+response.data.id+','+'_blank');
-                            me.listado= 1;
-                            me.vaciarvariable();
-                        //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                        me.listaVenta(1,'','num_comprobante_pago');
+
+
+                            console.log(response.data);
+                             me.id_ticket=response.data.id;
+                             me.usuarioFacturador=response.data.usuarioss;
+                             me.usuario_cliente=response.data.usuario_cliente;
+                            const swalWithBootstrapButtons = Swal.mixin({
+                                    customClass: {
+                                        confirmButton: 'btn btn-success',
+                                        cancelButton: 'btn btn-danger'
+                                    },
+                                    buttonsStyling: false
+                                    })
+
+                                    swalWithBootstrapButtons.fire({
+                                    title: 'Imprimir ?',
+                                    text: "¿ Que tipo de formato de factura desea ?",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Normal',
+                                    cancelButtonText: 'Ticket',
+                                    reverseButtons: true
+                                    }).then((result) => {
+                                    if (result.isConfirmed) {
+                                      
+                                    window.open('/ventas/pdfVenta/'+response.data.id+','+'_blank');
+                                    me.listado= 1;
+                                    me.vaciarvariable();
+                                     // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                                     me.listaVenta(1,'','num_comprobante_pago');
+
+                                    } else if (
+                                        /* Read more about handling dismissals below */
+                                        result.dismiss === Swal.DismissReason.cancel
+                                    ) {
+                                        me.ticket=1;
+                                        me.listado= 1;
+                                        // me.vaciarvariable();
+                                        // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                                       me.listaVenta(1,'','num_comprobante_pago');
+
+                                    }
+                                    })
+                       
                         }) 
                         .catch(function (error) {
                             console.log(error);
@@ -1091,6 +1212,14 @@ import vSelect from "vue-select";
 
                 },
 
+
+                imprimir() {
+                    this.ticket=0;
+                     window.print();
+                },
+
+ 
+
                 //metodo para cerrar el modal
                 cerrarModal(){
                     this.modal=0;
@@ -1122,6 +1251,8 @@ import vSelect from "vue-select";
                         console.log(error);
                     });
                 },
+
+
 
                 ShowModalAperturaCaja(){
                const swalWithBootstrapButtons = Swal.mixin({
@@ -1168,6 +1299,11 @@ import vSelect from "vue-select";
 
 <style>
 
+
+.modal-contentt{
+    width: 50% !important;
+    position: absolute!important;
+}
 
 .modal-content{
     width: 100% !important;
@@ -1226,4 +1362,63 @@ import vSelect from "vue-select";
   .negritatitle{
       font-weight: 500;
   }
+
+* {
+    font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+td,
+th,
+tr,
+table {
+    border-top: 1px solid black;
+    border-collapse: collapse;
+}
+
+td.producto,
+th.producto {
+    width: 75px;
+    max-width: 75px;
+}
+
+td.cantidad,
+th.cantidad {
+    width: 40px;
+    max-width: 40px;
+    word-break: break-all;
+}
+
+td.precio,
+th.precio {
+    width: 40px;
+    max-width: 40px;
+    word-break: break-all;
+}
+
+.centrado {
+    text-align: center;
+    align-content: center;
+}
+
+.ticket {
+    width: 155px;
+    max-width: 155px;
+}
+
+img {
+    max-width: inherit;
+    width: inherit;
+}
+
+
+@media print {
+    .oculto-impresion,
+    .oculto-impresion * {
+        display: none !important;
+    }
+}
+
+
+
 </style>

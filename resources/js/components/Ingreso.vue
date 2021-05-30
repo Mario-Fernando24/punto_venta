@@ -368,18 +368,18 @@
                             <div class="form-group row border">
 
                                 <div class="col-md-2">
-                                    <label class="negritatitle">ID</label>
+                                    <label class="text-negrita">ID</label>
                                     <p v-text="idingreso"></p>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label class="negritatitle">Fecha Ingreso</label>
+                                    <label class="text-negrita">Fecha Ingreso</label>
                                     <p v-text="fecha_hora"></p>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                    <label class="negritatitle">Proveedor</label>
+                                    <label class="text-negrita">Proveedor</label>
                                     <p v-text="proveedor"></p>
                                     </div>
                                 </div>
@@ -387,13 +387,13 @@
                                 
 
                                 <div class="col-md-3">
-                                    <label class="negritatitle">Impuesto %</label>
+                                    <label class="text-negrita">Impuesto %</label>
                                     <p v-text="impuesto"></p>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group"> 
-                                        <label class="negritatitle">Tipo Comprobante</label>
+                                        <label class="text-negrita">Tipo Comprobante</label>
                                           <p v-text="tipo_comprobante"></p>
                                     </div>
                                 </div>
@@ -401,7 +401,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group"> 
-                                        <label class="negritatitle">Serie Comprobante</label>
+                                        <label class="text-negrita">Serie Comprobante</label>
                                         <p v-text="serie_comprobante"></p>
                                     </div>
                                 </div>
@@ -409,7 +409,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group"> 
-                                        <label class="negritatitle">Num Comprobante</label>
+                                        <label class="text-negrita">Num Comprobante</label>
                                         <p v-text="num_comprobante"></p>
                                     </div>
                                 </div>
@@ -1131,6 +1131,10 @@ import vSelect from "vue-select";
     color: red !important;
     font-weight: bold;
   }
+   .text-negrita{
+    color: black !important;
+    font-weight: bold;
+  }
   .color{
       color:red;
   }
@@ -1146,7 +1150,11 @@ import vSelect from "vue-select";
       color: red;
       font-weight: 500;
   }
-  .negritatitle{
-      font-weight: 500;
+
+.text-negrita{
+    color: black !important;
+    font-weight: bold;
   }
+
+  
 </style>

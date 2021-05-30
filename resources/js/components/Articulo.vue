@@ -87,6 +87,10 @@
 
 
                                     <td>
+                                        <button type="button" @click="abrirModal('articulo', 'editarImagen',articulo)"    class="btn btn-outline-success btn-sm" data-toggle="modal">
+                                          <i class="icon-picture"></i>
+                                        </button> &nbsp;
+
                                         <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
@@ -146,19 +150,16 @@
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
 
                             <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Categoria</label>
-                                    <div class="col-md-9">
+                                <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Categoria</label>
                                         <select class="form-control" v-model="idcategoria" >
                                             <option value="0">seleccione</option>
                                             <option v-for="categoria in  arrayCategoria" :key="categoria.id" :value="categoria.id" v-text="categoria.nombre"></option>
                                         </select>
                                     </div>
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Codigo</label>
-                                    <div class="col-md-9">
+                                
+                               <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Codigo</label>
                                      <span class="color" v-if="validarcode">El codigo de barra ya existe(*)</span>
                                         <input type="text" v-on:keyup="validateCodigoBarra()" v-model="codigo" class="form-control" placeholder="codigo de barra">
                                     <barcode :value="codigo" :options="{ format: 'EAN-13' }">
@@ -173,32 +174,26 @@
                                 <!--colocar max 15 caracter codigo de barra-->
 
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
-                                    <div class="col-md-9">
+                                  <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Nombre</label>
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
                                     </div>
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Precio de venta</label>
-                                    <div class="col-md-9">
-                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="Precio...">
+                                
+                                 <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Precio de venta</label>
+                                        <input type="number" disabled v-model="precio_venta" class="form-control" placeholder="Precio...">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Stock</label>
-                                    <div class="col-md-9">
+                                  <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="text-input">Stock</label>
                                         <input disabled type="number" v-model="stock" class="form-control" placeholder="Stock...">
                                     </div>
-                                </div>
 
 
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Descripción</label>
-                                    <div class="col-md-9">
+                                 <div class="col-md-6">
+                                    <label class="col-md-3 form-control-label text-negrita" for="email-input">Descripción</label>
                                         <input type="email" v-model="descripcion" class="form-control" placeholder="Descripción...">
                                     </div>
                                 </div>
@@ -221,8 +216,64 @@
                     </div>
                     <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
+                <!-- /.modal-dialog -->   
+
             </div>
+
+
+
+
+
+
+
+
+
+        <!--inicio modal editar imagen-->
+
+
+              <div class="modal fade"  tabindex="-1" :class="{'mostrar':modalImagen}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg"  role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="tituloModal"></h4>
+                            <button type="button" class="close" @click="cerrarModal()"  aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+
+
+                        <form  @submit="editarProductImagen" enctype="multipart/form-data">
+                        
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                    <div class="col-md-12 ">
+                                       <label class="col-md-12 form-control-label text-negrita " for="text-input">Imagen Articulo</label>
+                                    <input type="file" class="form-control" accept="image/*"   v-on:change="onEditarImagen"/>
+                                    <div class="descripcion">
+                                        <br><b>Limite de 3 MB  imagen<br>
+                                        Tipos permitidos: jpeg, png, jpg, svg; </b><br>
+                                    </div>
+                                    </div>
+                            </div>
+                        </div>   
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
+                            <button   class="btn btn-outline-primary" >Actualizar</button>
+
+                        </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div> 
+
+            <!--final modal editar imagen-->
+
+
+
+
      
         </main>
 </template>
@@ -277,6 +328,8 @@ import VueBarcode from 'vue-barcode';
             criterio : 'nombre',
             arrayCategoria:[],
             buscar  : '',
+            modalImagen: 0,
+
 
           }
         },
@@ -443,6 +496,52 @@ import VueBarcode from 'vue-barcode';
                 });
 
               },
+
+
+
+
+
+
+                   //==================editar imagenes==========================//
+        onEditarImagen(e){
+            console.log(e.target.files[0]);
+          this.editarProductImag = e.target.files[0];
+        },
+      editarProductImagen(e){
+     
+        let me=this;
+          e.preventDefault();
+          let currentObj = this;
+          const config = {
+              headers: { 'content-type': 'multipart/form-data' }
+          }
+          let formData = new FormData();
+          formData.append('editarProductImagen', this.editarProductImag);
+          formData.append('producto_id', this.producto_id);
+          axios.post('/productos/editarImagen', formData, config)
+          .then(function (response) {
+            if(response.data.status){
+                me.editarProductImag='';
+            me.list_product(1,'','nombre');
+            me.cerrarModal();
+              Swal.fire(
+                'Exitoso?',
+                'Imagen editada correctamente',
+                'success'
+                )
+            }
+              currentObj.success = response.data.success; 
+          })
+          .catch(function (error) {
+              currentObj.output = error;
+          });
+    },    
+
+
+
+
+
+
            //Metodo para desactivar la categoria
            desactivarArticulo(id){
                const swalWithBootstrapButtons = Swal.mixin({
@@ -567,6 +666,7 @@ import VueBarcode from 'vue-barcode';
 
            //metodo para cerrar el modal
             cerrarModal(){
+                this.modalImagen=0;
                 this.modal=0;
                 this.tituloModal='';
                 this.idcategoria =0;
@@ -617,6 +717,18 @@ import VueBarcode from 'vue-barcode';
                                this.descripcion=data['descripcion'];
                              break;
                              }   
+
+                                case 'editarImagen':
+                              {
+                                                                  this.modalImagen=1;
+                                this.tituloModal='Editar imagen';
+                                this.tipoAccionButton=3;
+                                this.articulo_id=data['id'];
+                                console.log('editarImagen'+data['id']);
+
+                                break;
+                             }   
+
                                  
                          } 
                       }

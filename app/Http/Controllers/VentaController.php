@@ -6,6 +6,7 @@ use App\DetalleVenta;
 use App\Articulo;
 use App\Persona;
 use App\Caja;
+use App\User;
 use App\Credito;
 use App\Perfil;
 use DB;
@@ -187,7 +188,24 @@ class VentaController extends Controller
                 ]);
             }
 
-            return ['id' => $venta->id];
+
+
+
+
+             $usuarioss=\Auth::user()->usuario;
+            // $id_ventass=$venta->id
+             $usuario_cliente = User::findOrFail($request->get('idcliente'));
+
+
+            // return response()->json([
+            //   'status' => true,
+            //   'usuarioss' => $usuarioss,
+            //   'id_ventass' => $id_ventass,
+            //   'usuario_cliente' => $usuario_cliente
+            // ], 200);
+            
+            
+            return ['id' => $venta->id,'usuarioss'=>$usuarioss,'usuario_cliente'=>$usuario_cliente];
 
 
 
