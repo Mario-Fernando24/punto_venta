@@ -610,7 +610,7 @@
                                             </tbody>
                                         </table><br>
 
-                                        <p class="centrado" v-text="'Total  $'+Intl.NumberFormat().format((total)) +'\n'+tipo_comprobante+'   '+forma_pago+'\n¡GRACIAS POR SU COMPRA!'">
+                                        <p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   '+forma_pago+' \n ¡GRACIAS POR SU COMPRA!'">
                                             <br>tenderpos.xyz</p>
                                     </div>
                         </div>   

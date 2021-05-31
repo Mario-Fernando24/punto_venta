@@ -53,6 +53,9 @@ class ClienteController extends Controller
         'direccion' => $request->get('direccion'),
         'telefono' => $request->get('telefono'),
         'email' => $request->get('email'),
+        'latitud' => $request->get('latitud'),
+        'longitud' => $request->get('longitud'),
+
         ]);
     }
 

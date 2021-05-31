@@ -144,6 +144,37 @@
                                     </div>
                                 </div>
 
+
+
+
+                                             <div class="form-group row">
+                                                <div class="col-md-12">
+
+                                                      <GmapMap
+                                                        :center="center"
+                                                        :zoom="18"
+                                                        map-style-id="roadmap"
+                                                        :options="mapOptions"
+                                                        style="width: 170vmin; height: 50vmin"
+                                                        ref="mapRef"
+                                                        @click="handleMapClick"
+                                                    >
+                                                        <GmapMarker
+                                                        :position="marker.position"
+                                                        :clickable="true"
+                                                        :draggable="true"
+                                                        @drag="handleMarkerDrag"
+                                                        @click="panToMarker"
+                                                        />
+                                                    </GmapMap>
+                                                    <!-- <button class="btn btn-outline-danger btn-sm" @click="geolocate">Buscar mi ubicacion</button> -->
+
+                                                    <!-- <p>Selected Position: {{ marker.position }}</p> -->
+                                                </div>   
+                                             </div>
+
+
+
                                 <div v-show="errorPersona==1" class="form-group row div-error">
                                     <div class="text-center text-error">
                                         <div v-for="error in errorMensajePersonaArray" :key="error" v-text="error">
@@ -174,6 +205,15 @@
         //dentro de la data colocamos las variables 
         data(){
           return {
+
+
+
+        marker: { position: { lat: 10, lng: 10 } },
+        center: { lat: 10, lng: 10 },
+
+        mapOptions: {
+        disableDefaultUI: true,
+        },
             //cual es la categoria que quiero edit 
             persona_id :0,
             nombre : '',
@@ -208,6 +248,10 @@
             offset : 3,
             criterio : 'nombre',
             buscar  : '',
+
+
+
+
           }
         },
 
@@ -244,6 +288,40 @@
 
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
         methods: {
+
+
+                            //detects location from browser
+                    geolocate() {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        this.marker.position = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        };
+
+                        this.panToMarker();
+                    });
+                    },
+
+                    //sets the position of marker when dragged
+                    handleMarkerDrag(e) {
+                    this.marker.position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+                    },
+
+                    //Moves the map view port to marker
+                    panToMarker() {
+                    this.$refs.mapRef.panTo(this.marker.position);
+                    this.$refs.mapRef.setZoom(18);
+                    },
+
+                    //Moves the marker to click position on the map
+                    handleMapClick(e) {
+                    this.marker.position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+                    console.log(e);
+                    },
+
+
+
+
               
           listarPersona(page, buscar, criterio){
               
@@ -285,6 +363,9 @@
                     'direccion': this.direccion,
                     'telefono': this.telefono,
                     'email':this.email,
+                    'latitud': this.marker.position.lat,  
+                    'longitud': this.marker.position.lng,   
+
                 })
                 .then(function (response) {
                     me.cerrarModal();
@@ -400,7 +481,9 @@
         },
         mounted() {
        //hacemos referencia a nuestro metodo  listarCategoria
-      this.listarPersona(1,this.buscar,this.criterio);     
+      this.listarPersona(1,this.buscar,this.criterio); 
+      this.geolocate();
+    
          }
     }
 </script>

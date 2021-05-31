@@ -30,6 +30,17 @@ Vue.component('Notificacion', require('./components/Notificacion.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+ import * as VueGoogleMaps from "vue2-google-maps";
+
+ Vue.use(VueGoogleMaps, {
+    load: {
+      key: "AIzaSyDW_p10NjPm2ru42ZNu_Oj-UgdV1BVcZuc",
+    },
+    installComponents: true,
+  });
+  
+
 const app = new Vue({
     el: '#app',
     data: {
