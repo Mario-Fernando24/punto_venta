@@ -2539,6 +2539,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importamos vueBarcod
  //axios nos ayuda hacer peticiones http desde el navegador
 
@@ -2729,12 +2740,13 @@ __webpack_require__.r(__webpack_exports__);
       };
       var formData = new FormData();
       formData.append('editarProductImagen', this.editarProductImag);
-      formData.append('producto_id', this.producto_id);
-      axios.post('/productos/editarImagen', formData, config).then(function (response) {
+      formData.append('articulo_id', this.articulo_id);
+      axios.post('/articulo/editarImagen', formData, config).then(function (response) {
         if (response.data.status) {
           me.editarProductImag = '';
-          me.list_product(1, '', 'nombre');
-          me.cerrarModal();
+          me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+
+          me.listarArticulo(1, '', 'nombre');
           Swal.fire('Exitoso?', 'Imagen editada correctamente', 'success');
         }
 
@@ -4374,6 +4386,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -53979,6 +53992,27 @@ var render = function() {
                               ])
                         ]),
                         _vm._v(" "),
+                        articulo.avatar == "" ||
+                        articulo.avatar == null ||
+                        articulo.avatar == "no-image.png" ||
+                        articulo.avatar == ""
+                          ? _c("td", [
+                              _c("img", {
+                                staticClass: "rounded-circle",
+                                staticStyle: { height: "60px", width: "80px" },
+                                attrs: { src: "img/no-image.png" }
+                              })
+                            ])
+                          : _c("td", [
+                              _c("img", {
+                                staticClass: "rounded-circle",
+                                staticStyle: { height: "60px", width: "80px" },
+                                attrs: {
+                                  src: "/img/productos/" + articulo.avatar
+                                }
+                              })
+                            ]),
+                        _vm._v(" "),
                         _c(
                           "td",
                           [
@@ -54722,6 +54756,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Descripción")]),
         _vm._v(" "),
         _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Avatar")]),
         _vm._v(" "),
         _c("th", [_vm._v("Opciones")])
       ])

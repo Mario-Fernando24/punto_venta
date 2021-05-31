@@ -59,7 +59,7 @@
                 también te aportará la opción de poder controlar tu inventario en tiempo real.
                  De esta forma, evitas hacer un conteo manual o tener que trasladarte físicamente a tu 
                  almacén para conocer la cantidad de productos disponibles.</p>
-                <a href="" target="_blank" class="btn btn-primary active mt-3">Appestrategico</a>
+                <a href="" target="_blank" class="btn btn-primary active mt-3">subliowen</a>
               </div>
             </div>
           </div>

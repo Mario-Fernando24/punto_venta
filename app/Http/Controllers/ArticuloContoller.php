@@ -8,6 +8,7 @@ use App\Categoria;
 use Barryvdh\DomPDF\Facade as PDF;
 use DB;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class ArticuloContoller extends Controller
@@ -110,6 +111,34 @@ class ArticuloContoller extends Controller
         $articulo->condicion = '1';
         $articulo->save();
     }
+
+
+    public function editarImagen(Request $request)
+    {
+
+        try 
+       {
+                   $hora=Carbon::now('America/Bogota');
+                   $hora = str_replace(":", "-", $hora);
+                if ($request->hasFile('editarProductImagen')) {      
+                    $file=$request->file('editarProductImagen');
+                    $file->move(base_path().'/public/img/productos',str_replace(" ", "_",$hora.$file->getClientOriginalName()));
+                    $imageName= str_replace(" ", "_",$hora.$file->getClientOriginalName());
+                    $products = Articulo::findOrFail($request->get('articulo_id'));
+                    $products->avatar =$imageName; 
+                    $products->update();
+                return response()->json([ 'status' => true,], 200);
+                 }else{
+                   $imageName='no-image.png';
+                    return response()->json([ 'status' => false,], 200);
+                }
+        } catch (\Exception $exception) {
+            return response()->json([$exception->getMessage()], 401);
+        }    
+
+
+    }
+
 
        //function para desactivar una categoria
     public function desactivar(Request $request)

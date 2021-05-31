@@ -54,6 +54,7 @@
                                         <td v-text="persona.direccion"></td>
                                         <td v-text="persona.telefono"></td>
                                         <td v-text="persona.email"></td>
+                                        
 
                                     <td>
                                         <button type="button" @click="abrirModal('persona', 'actualizar',persona)" class="btn btn-outline-warning btn-sm" data-toggle="modal">

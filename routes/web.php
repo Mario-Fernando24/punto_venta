@@ -48,6 +48,8 @@
                 Route::put('actualizar', 'ArticuloContoller@update');
                 Route::put('desactivar', 'ArticuloContoller@desactivar');
                 Route::put('activar', 'ArticuloContoller@activar');
+                Route::post('editarImagen', 'ArticuloContoller@editarImagen');
+
                 });
 
                 //controller proveedor
@@ -150,6 +152,7 @@
             Route::put('activar', 'ArticuloContoller@activar');
             Route::get('ListarPdfInventario', 'ArticuloContoller@ListarPdfInventario');
             Route::get('validateCodeBarra', 'ArticuloContoller@validateCodeBarra');
+            Route::post('editarImagen', 'ArticuloContoller@editarImagen');
 
             
 

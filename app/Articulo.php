@@ -20,6 +20,7 @@ class Articulo extends Model
         'stock',
         'descripcion',
         'condicion',
+        'avatar'
     ];
     //1 articulor pertenece a una categoria
     public function categoria(){

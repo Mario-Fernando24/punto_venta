@@ -26,7 +26,7 @@ target="R9RbDF2ac_uyR8sTEq1eeXl" rel="noopener noreferrer">Click</a></div>
 </div>
 </div>
 <div class="container">
-<div class="f-s-10 text-grey text-center p-t-15"><span>© 2020 Appestrategico Colombia. All rights reserved.</span></div>
+<div class="f-s-10 text-grey text-center p-t-15"><span>© 2020 subliowen Colombia. All rights reserved.</span></div>
 </div>
 </div>
 </body></html>

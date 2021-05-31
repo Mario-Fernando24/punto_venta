@@ -45,7 +45,8 @@
                                     <th>Pre Venta</th>
                                     <th>Stock</th>
                                     <th>Descripción</th>
-                                    <th>Estado</th>                                
+                                    <th>Estado</th>     
+                                    <th>Avatar</th>                                
                                     <th>Opciones</th>
 
 
@@ -68,6 +69,8 @@
                                         <td><span class="badge bg-danger" v-text="articulo.stock"></span></td>
                                         </template>
 
+
+
                                         <template v-if="articulo.stock>5">
                                         <td v-text="articulo.stock"></td>
                                         </template>
@@ -84,6 +87,14 @@
                                         <span class="badge badge-danger">Desactivado</span>
                                         </div>
                                     </td>
+
+                                    <td v-if="articulo.avatar=='' || articulo.avatar==null || articulo.avatar=='no-image.png' || articulo.avatar=='' ">
+                                        <img style="height: 60px; width: 80px"  src="img/no-image.png" class="rounded-circle">                
+                                        </td>
+                                        <td v-else>
+                                        <img style="height: 60px; width: 80px"  :src="'/img/productos/' + articulo.avatar" class="rounded-circle">                
+                                    </td>
+
 
 
                                     <td>
@@ -517,13 +528,14 @@ import VueBarcode from 'vue-barcode';
           }
           let formData = new FormData();
           formData.append('editarProductImagen', this.editarProductImag);
-          formData.append('producto_id', this.producto_id);
-          axios.post('/productos/editarImagen', formData, config)
+          formData.append('articulo_id', this.articulo_id);
+          axios.post('/articulo/editarImagen', formData, config)
           .then(function (response) {
             if(response.data.status){
                 me.editarProductImag='';
-            me.list_product(1,'','nombre');
-            me.cerrarModal();
+                    me.cerrarModal();
+                    //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                    me.listarArticulo(1,'','nombre');
               Swal.fire(
                 'Exitoso?',
                 'Imagen editada correctamente',
