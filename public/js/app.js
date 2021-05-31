@@ -4575,6 +4575,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4789,6 +4799,9 @@ __webpack_require__.r(__webpack_exports__);
       this.email = '';
       this.errorMensajePersonaArray = [];
       this.errorPersona = 0;
+    },
+    openMap: function openMap(data) {
+      window.open('https://www.google.com/maps/search/?api=1&query=' + data.latitud + ',' + data.longitud);
     },
     //recibe tres paramatro el nombre del modelo "categoria",  accion "registrar o actualizar", el objeto "" 
     abrirModal: function abrirModal(modelo, accion) {
@@ -57757,26 +57770,61 @@ var render = function() {
                         domProps: { textContent: _vm._s(persona.email) }
                       }),
                       _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-outline-warning btn-sm",
-                            attrs: { type: "button", "data-toggle": "modal" },
-                            on: {
-                              click: function($event) {
-                                return _vm.abrirModal(
-                                  "persona",
-                                  "actualizar",
-                                  persona
-                                )
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-warning btn-sm",
+                              attrs: { type: "button", "data-toggle": "modal" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.abrirModal(
+                                    "persona",
+                                    "actualizar",
+                                    persona
+                                  )
+                                }
                               }
-                            }
-                          },
-                          [_c("i", { staticClass: "icon-pencil" })]
-                        ),
-                        _vm._v("  \n                                    ")
-                      ])
+                            },
+                            [_c("i", { staticClass: "icon-pencil" })]
+                          ),
+                          _vm._v(
+                            "  \n                                        "
+                          ),
+                          persona.latitud != null
+                            ? [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-danger btn-sm",
+                                    attrs: {
+                                      type: "button",
+                                      "data-toggle": "modal"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openMap(persona)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "icon-map" })]
+                                ),
+                                _vm._v(
+                                  "  \n                                        "
+                                )
+                              ]
+                            : [
+                                _vm._m(2, true),
+                                _vm._v(
+                                  "  \n                                        "
+                                )
+                              ]
+                        ],
+                        2
+                      )
                     ])
                   }),
                   0
@@ -58179,7 +58227,7 @@ var render = function() {
                               },
                               attrs: {
                                 center: _vm.center,
-                                zoom: 18,
+                                zoom: 16,
                                 "map-style-id": "roadmap",
                                 options: _vm.mapOptions
                               },
@@ -58324,6 +58372,19 @@ var staticRenderFns = [
         _c("th", [_vm._v("Opciones")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-outline-success btn-sm",
+        attrs: { type: "button", "data-toggle": "modal" }
+      },
+      [_c("i", { staticClass: "icon-map" })]
+    )
   }
 ]
 render._withStripped = true

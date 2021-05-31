@@ -59,6 +59,16 @@
                                         <button type="button" @click="abrirModal('persona', 'actualizar',persona)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
+                                        <template v-if="persona.latitud!=null">
+                                        <button  type="button" @click="openMap(persona)" class="btn btn-outline-danger btn-sm" data-toggle="modal">
+                                          <i class="icon-map"></i>
+                                        </button> &nbsp;
+                                        </template>
+                                        <template v-else>
+                                        <button  type="button"  class="btn btn-outline-success btn-sm" data-toggle="modal">
+                                          <i class="icon-map"></i>
+                                        </button> &nbsp;
+                                        </template>
                                     </td>
 
                                         
@@ -152,7 +162,7 @@
 
                                                       <GmapMap
                                                         :center="center"
-                                                        :zoom="18"
+                                                        :zoom="16"
                                                         map-style-id="roadmap"
                                                         :options="mapOptions"
                                                         style="width: 170vmin; height: 50vmin"
@@ -437,6 +447,11 @@
                 this.errorMensajePersonaArray = [];
                 this.errorPersona = 0;
 
+              },
+
+              openMap(data)
+              {
+                 window.open('https://www.google.com/maps/search/?api=1&query='+data.latitud+','+data.longitud);
               },
 
 
