@@ -85,6 +85,7 @@ class ProveedorController extends Controller
             'direccion' => $request->get('direccion'),
             'telefono' => $request->get('telefono'),
             'email' => $request->get('email'),
+            'fechaNacimiento' => $request-get('fechaNacimiento'),
             ]);
 
              $proveedor = Proveedor::create([
@@ -123,6 +124,7 @@ class ProveedorController extends Controller
         $persona->direccion = $request->direccion;
         $persona->telefono = $request->telefono;
         $persona->email = $request->email;
+        $persona->fechaNacimiento = $request->fechaNacimiento;
         $persona->update();
         
 

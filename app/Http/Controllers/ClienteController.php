@@ -55,6 +55,8 @@ class ClienteController extends Controller
         'email' => $request->get('email'),
         'latitud' => $request->get('latitud'),
         'longitud' => $request->get('longitud'),
+        'longitud' => $request->get('longitud'),
+        'fechaNacimiento' => $request->get('fechaNacimiento'),
 
         ]);
     }
@@ -80,6 +82,7 @@ class ClienteController extends Controller
         $persona->direccion = $request->direccion;
         $persona->telefono = $request->telefono;
         $persona->email = $request->email;
+        $persona->fechaNacimiento = $request->fechaNacimiento;
         $persona->save();
     }
 

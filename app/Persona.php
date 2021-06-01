@@ -18,7 +18,8 @@ class Persona extends Model
         'telefono',
         'email',
         'latitud',
-        'longitud'
+        'longitud',
+        'fechaNacimiento',
     ];
 
     //una persona esta relacionada de forma directa con un solo proveedor

@@ -131,15 +131,22 @@
 
 
                                  <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <label class="col-md-3 form-control-label text-negrita" for="text-input">Num documento</label>
+                                    <div class="col-md-4">
+                                        <label class="col-md-3 form-control-label text-negrita" for="text-input">documento</label>
                                         <input type="number" v-model="num_documento" class="form-control" placeholder="Numero de documento">
                                     </div>
 
-                                    <div class="col-md-6">   
+                                    <div class="col-md-4">   
                                        <label class="col-md-3 form-control-label text-negrita" for="text-input">Direccion</label>
                                         <input type="text" v-model="direccion" class="form-control" placeholder="Dirección...">
                                     </div>
+
+
+                                    <div class="col-md-4">   
+                                       <label class="col-md-3 form-control-label text-negrita" for="text-input">Nacimiento</label>
+                                        <input type="date" v-model="nacimiento" class="form-control" placeholder="Dirección...">
+                                    </div>
+
                                 </div>
 
 
@@ -233,6 +240,7 @@
             direccion: '',
             telefono:'',
             email: '',
+            nacimiento:'',
             //la data que regresa nuestro metodo listarCategoria se almacene en esta array
             arrayPersona:[],
             modal : 0,
@@ -375,7 +383,8 @@
                     'telefono': this.telefono,
                     'email':this.email,
                     'latitud': this.marker.position.lat,  
-                    'longitud': this.marker.position.lng,   
+                    'longitud': this.marker.position.lng,  
+                    'fechaNacimiento': this.nacimiento, 
 
                 })
                 .then(function (response) {
@@ -404,7 +413,9 @@
                     'direccion': this.direccion,
                     'telefono': this.telefono,
                     'email': this.email,
-                    'id' :this.persona_id      
+                    'fechaNacimiento': this.nacimiento,
+                    'id' :this.persona_id    
+                        
                 })
                 .then(function (response) {
                     me.cerrarModal();
@@ -485,6 +496,7 @@
                                this.direccion=data['direccion'];
                                this.telefono=data['telefono'];
                                this.email=data['email'];
+                               this.nacimiento=data['fechaNacimiento'];
 
                              break;
                              }   

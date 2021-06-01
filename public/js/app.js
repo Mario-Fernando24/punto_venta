@@ -4598,6 +4598,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -4624,6 +4631,7 @@ __webpack_require__.r(__webpack_exports__);
       direccion: '',
       telefono: '',
       email: '',
+      nacimiento: '',
       //la data que regresa nuestro metodo listarCategoria se almacene en esta array
       arrayPersona: [],
       modal: 0,
@@ -4755,7 +4763,8 @@ __webpack_require__.r(__webpack_exports__);
         'telefono': this.telefono,
         'email': this.email,
         'latitud': this.marker.position.lat,
-        'longitud': this.marker.position.lng
+        'longitud': this.marker.position.lng,
+        'fechaNacimiento': this.nacimiento
       }).then(function (response) {
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
@@ -4778,6 +4787,7 @@ __webpack_require__.r(__webpack_exports__);
         'direccion': this.direccion,
         'telefono': this.telefono,
         'email': this.email,
+        'fechaNacimiento': this.nacimiento,
         'id': this.persona_id
       }).then(function (response) {
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
@@ -4847,6 +4857,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.direccion = data['direccion'];
                   this.telefono = data['telefono'];
                   this.email = data['email'];
+                  this.nacimiento = data['fechaNacimiento'];
                   break;
                 }
             }
@@ -58105,7 +58116,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "col-md-4" }, [
                         _c(
                           "label",
                           {
@@ -58113,7 +58124,7 @@ var render = function() {
                               "col-md-3 form-control-label text-negrita",
                             attrs: { for: "text-input" }
                           },
-                          [_vm._v("Num documento")]
+                          [_vm._v("documento")]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -58142,7 +58153,7 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "col-md-4" }, [
                         _c(
                           "label",
                           {
@@ -58171,6 +58182,40 @@ var render = function() {
                                 return
                               }
                               _vm.direccion = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass:
+                              "col-md-3 form-control-label text-negrita",
+                            attrs: { for: "text-input" }
+                          },
+                          [_vm._v("Nacimiento")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nacimiento,
+                              expression: "nacimiento"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date", placeholder: "Dirección..." },
+                          domProps: { value: _vm.nacimiento },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nacimiento = $event.target.value
                             }
                           }
                         })

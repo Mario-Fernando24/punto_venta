@@ -67,8 +67,9 @@ class UserController extends Controller
             'direccion' => $request->get('direccion'),
             'telefono' => $request->get('telefono'),
             'email' => $request->get('email'),
-            ]);
+            'fechaNacimiento' => $request->get('fechaNacimiento'),
 
+            ]);
             
 
             User::create([
