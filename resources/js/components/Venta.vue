@@ -590,7 +590,7 @@
                                             src="https://scontent.feoh3-1.fna.fbcdn.net/v/t1.6435-9/98599758_126177892408081_8683052137267068928_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=09cbfe&_nc_eui2=AeHJQMxg5Q2KsuPD5BS13Uohw7w4_ZcZ0drDvDj9lxnR2mHjqTp8rPZOMQDQl2wK_WY&_nc_ohc=yB6q9QXIPioAX-rtX2k&_nc_ht=scontent.feoh3-1.fna&oh=be3ea278b454619bb45c687acda5bac8&oe=60DA5B49"
                                             alt="Logotipo">
                                         <p class="centrado" v-text="'# '+id_ticket">  
-                                        <p v-text="'facturador  '+usuarioFacturador+ ' \ncliente  '+usuario_cliente.usuario+' \n '+currentDay+' '+ currentHour"></p>      
+                                        <p v-text="'facturador  '+usuarioFacturador+ ' \ncliente  '+usuario_cliente+' \n '+currentDay+' '+ currentHour"></p>      
                                             
                                         <table>
                                             <thead>
@@ -616,10 +616,8 @@
                         </div>   
 
                         <div class="modal-footer">
+                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
                             <button class="oculto-impresion" @click="imprimir()" >Imprimir</button>
-
-                            <!-- <button   class="btn btn-outline-primary" >Imprimir</button> -->
-
                         </div>
 
                     </div>
@@ -836,6 +834,7 @@ import vSelect from "vue-select";
                     let me = this;
                         me.loading = true;
                         me.idcliente = val1.id;
+                        me.usuario_cliente=val1.email;
                   },
 
 
@@ -998,10 +997,9 @@ import vSelect from "vue-select";
                         .then(function (response) {
 
 
-                            console.log(response.data);
+                            console.log(response.data.usuarioss);
                              me.id_ticket=response.data.id;
                              me.usuarioFacturador=response.data.usuarioss;
-                             me.usuario_cliente=response.data.usuario_cliente;
                             const swalWithBootstrapButtons = Swal.mixin({
                                     customClass: {
                                         confirmButton: 'btn btn-success',
@@ -1032,7 +1030,7 @@ import vSelect from "vue-select";
                                         result.dismiss === Swal.DismissReason.cancel
                                     ) {
                                         me.ticket=1;
-                                        me.listado= 1;
+                                        me.listado=1;
                                         // me.vaciarvariable();
                                         // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                                        me.listaVenta(1,'','num_comprobante_pago');
@@ -1209,7 +1207,6 @@ import vSelect from "vue-select";
 
                 descargarventa(id){
                     window.open('/ventas/pdfVenta/'+id+','+'_blank');
-
                 },
 
 
@@ -1218,10 +1215,9 @@ import vSelect from "vue-select";
                      window.print();
                 },
 
- 
-
                 //metodo para cerrar el modal
                 cerrarModal(){
+                      this.ticket=0;
                     this.modal=0;
                     this.tituloModal='';
                 },

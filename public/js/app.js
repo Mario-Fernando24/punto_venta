@@ -10599,8 +10599,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 //importo vselect
 
 
@@ -10785,6 +10783,7 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       me.loading = true;
       me.idcliente = val1.id;
+      me.usuario_cliente = val1.email;
     },
     listarArticulo: function listarArticulo(buscarArt, criterioArticulo) {
       var me = this;
@@ -10900,10 +10899,9 @@ __webpack_require__.r(__webpack_exports__);
         'total': this.total,
         'data': this.arrayDetalleVenta
       }).then(function (response) {
-        console.log(response.data);
+        console.log(response.data.usuarioss);
         me.id_ticket = response.data.id;
         me.usuarioFacturador = response.data.usuarioss;
-        me.usuario_cliente = response.data.usuario_cliente;
         var swalWithBootstrapButtons = Swal.mixin({
           customClass: {
             confirmButton: 'btn btn-success',
@@ -11061,6 +11059,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //metodo para cerrar el modal
     cerrarModal: function cerrarModal() {
+      this.ticket = 0;
       this.modal = 0;
       this.tituloModal = '';
     },
@@ -68809,7 +68808,7 @@ var render = function() {
                         "facturador  " +
                           _vm.usuarioFacturador +
                           " \ncliente  " +
-                          _vm.usuario_cliente.usuario +
+                          _vm.usuario_cliente +
                           " \n " +
                           _vm.currentDay +
                           " " +
@@ -68868,6 +68867,20 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [_vm._v("Cerrar")]
+                ),
+                _vm._v(" "),
                 _c(
                   "button",
                   {

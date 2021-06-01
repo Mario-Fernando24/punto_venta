@@ -139,6 +139,7 @@ class VentaController extends Controller
 
     public function store(Request $request)
     {
+
      //  if(!$request->ajax()){
      //   return redirect('/');
      //  }
@@ -191,21 +192,10 @@ class VentaController extends Controller
 
 
 
-
-             $usuarioss=\Auth::user()->usuario;
-            // $id_ventass=$venta->id
-             $usuario_cliente = User::findOrFail($request->get('idcliente'));
-
-
-            // return response()->json([
-            //   'status' => true,
-            //   'usuarioss' => $usuarioss,
-            //   'id_ventass' => $id_ventass,
-            //   'usuario_cliente' => $usuario_cliente
-            // ], 200);
-            
-            
-            return ['id' => $venta->id,'usuarioss'=>$usuarioss,'usuario_cliente'=>$usuario_cliente];
+            $user = auth()->user();
+            $usuarioss=$user->usuario;
+             
+            return ['id' => $venta->id,'usuarioss'=>$usuarioss];
 
 
 
