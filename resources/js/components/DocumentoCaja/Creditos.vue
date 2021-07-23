@@ -43,7 +43,7 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Id venta</th>
+                                    <th>#</th>
                                     <th>Cliente</th>
                                     <th>Deuda</th>
                                     <th>estado</th>

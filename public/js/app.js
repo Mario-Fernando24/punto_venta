@@ -6755,6 +6755,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -9984,8 +9991,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
 //
 //
 //
@@ -60901,7 +60906,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Id venta")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Cliente")]),
         _vm._v(" "),
@@ -61164,56 +61169,9 @@ var render = function() {
                       "tbody",
                       _vm._l(_vm.arraEgreso, function(egreso) {
                         return _c("tr", { key: egreso.id }, [
-                          _c(
-                            "td",
-                            [
-                              egreso.estado
-                                ? [
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "btn btn-outline-danger btn-sm",
-                                        attrs: { type: "button" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.AnularDocumentoDeCaja(
-                                              egreso.idegreso,
-                                              egreso.tipo_egreso
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [_c("i", { staticClass: "icon-trash" })]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "btn btn-outline-primary btn-sm",
-                                        attrs: {
-                                          type: "button",
-                                          "data-toggle": "modal"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.descargarEgreso(
-                                              egreso.idegreso
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [_c("i", { staticClass: "icon-doc" })]
-                                    ),
-                                    _vm._v(
-                                      "  \n\n                                    "
-                                    )
-                                  ]
-                                : void 0
-                            ],
-                            2
-                          ),
+                          _c("td", {
+                            domProps: { textContent: _vm._s(egreso.idegreso) }
+                          }),
                           _vm._v(" "),
                           _c("td", {
                             domProps: {
@@ -61255,7 +61213,62 @@ var render = function() {
                                     [_vm._v("Anulado")]
                                   )
                                 ])
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              egreso.estado
+                                ? [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-outline-danger btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.AnularDocumentoDeCaja(
+                                              egreso.idegreso,
+                                              egreso.tipo_egreso
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "icon-trash" })]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-outline-warning btn-sm",
+                                        attrs: {
+                                          type: "button",
+                                          "data-toggle": "modal"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.descargarEgreso(
+                                              egreso.idegreso
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "icon-cloud-download"
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(
+                                      "  \n\n                                    "
+                                    )
+                                  ]
+                                : void 0
+                            ],
+                            2
+                          )
                         ])
                       }),
                       0
@@ -61634,7 +61647,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Opción")]),
+        _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Tipo")]),
         _vm._v(" "),
@@ -61644,7 +61657,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Usuario")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Estado")])
+        _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opción")])
       ])
     ])
   }
@@ -68855,11 +68870,7 @@ var render = function() {
               _c("div", { staticClass: "modal-bod" }, [
                 _c("div", { staticClass: "ticket" }, [
                   _c("img", {
-                    attrs: {
-                      src:
-                        "https://scontent.feoh3-1.fna.fbcdn.net/v/t1.6435-9/98599758_126177892408081_8683052137267068928_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=09cbfe&_nc_eui2=AeHJQMxg5Q2KsuPD5BS13Uohw7w4_ZcZ0drDvDj9lxnR2mHjqTp8rPZOMQDQl2wK_WY&_nc_ohc=yB6q9QXIPioAX-rtX2k&_nc_ht=scontent.feoh3-1.fna&oh=be3ea278b454619bb45c687acda5bac8&oe=60DA5B49",
-                      alt: "Logotipo"
-                    }
+                    attrs: { src: "https://ibb.co/Xk2NsBD", alt: "Logotipo" }
                   }),
                   _vm._v(" "),
                   _c("p", {

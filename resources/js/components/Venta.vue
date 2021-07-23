@@ -586,9 +586,7 @@
                         <div class="modal-bod">
 
                                     <div class="ticket">
-                                        <img
-                                            src="https://scontent.feoh3-1.fna.fbcdn.net/v/t1.6435-9/98599758_126177892408081_8683052137267068928_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=09cbfe&_nc_eui2=AeHJQMxg5Q2KsuPD5BS13Uohw7w4_ZcZ0drDvDj9lxnR2mHjqTp8rPZOMQDQl2wK_WY&_nc_ohc=yB6q9QXIPioAX-rtX2k&_nc_ht=scontent.feoh3-1.fna&oh=be3ea278b454619bb45c687acda5bac8&oe=60DA5B49"
-                                            alt="Logotipo">
+                                        <img src="https://ibb.co/Xk2NsBD" alt="Logotipo">
                                         <p class="centrado" v-text="'# '+id_ticket">  
                                         <p v-text="'facturador  '+usuarioFacturador+ ' \ncliente  '+usuario_cliente+' \n '+currentDay+' '+ currentHour"></p>      
                                             

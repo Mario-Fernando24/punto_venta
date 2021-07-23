@@ -46,35 +46,20 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opción</th>
+                                    <th>#</th>
                                     <th>Tipo</th>
                                     <th>Valor</th>
                                     <th>Motivo</th>
                                     <th>Usuario</th>
                                     <th>Estado</th>
+                                    <th>Opción</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="egreso in arraEgreso" :key="egreso.id">
-                                    <td>
-                                        
-                                        <template v-if="egreso.estado"> 
-                                        <button @click="AnularDocumentoDeCaja(egreso.idegreso, egreso.tipo_egreso)" type="button"  class="btn btn-outline-danger btn-sm" >
-                                          <i class="icon-trash"></i>
-                                        </button>
-
-
-                                         <button type="button" @click="descargarEgreso(egreso.idegreso)" class="btn btn-outline-primary btn-sm" data-toggle="modal">
-                                          <i class="icon-doc"></i> 
-                                        </button> &nbsp;
-
-                                        </template>
-                                         <template v-else> 
-                                       
-                                        </template>
-
-                                        </td>
-
+                                    
+                                        <td v-text="egreso.idegreso"></td>
                                         <td v-text="egreso.tipo_egreso"></td>
                                         <td v-text="egreso.valor_egreso"></td>
                                         <td v-text="egreso.motivo_egreso"></td>
@@ -82,7 +67,7 @@
 
 
 
-                                        <td>
+                                    <td>
 
 
                                         <div v-if="egreso.estado==1">
@@ -93,6 +78,28 @@
                                         <span class="badge badge-danger">Anulado</span>
                                         </div>
                                     </td>
+
+
+                                    <td>
+                                        
+                                        <template v-if="egreso.estado"> 
+                                        <button @click="AnularDocumentoDeCaja(egreso.idegreso, egreso.tipo_egreso)" type="button"  class="btn btn-outline-danger btn-sm" >
+                                          <i class="icon-trash"></i>
+                                        </button>
+
+
+                                         <button type="button" @click="descargarEgreso(egreso.idegreso)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
+                                          <i class="icon-cloud-download"></i> 
+                                        </button> &nbsp;
+
+                                        </template>
+                                         <template v-else> 
+                                       
+                                        </template>
+
+                                    </td>
+
+
                                 </tr>
                                 </tbody>
                         </table>

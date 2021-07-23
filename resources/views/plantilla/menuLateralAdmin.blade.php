@@ -97,7 +97,7 @@
                                 <a class="nav-link" href="#"><i class="icon-chart"></i> Facturas Anuladas</a>
                             </li>
 
-                            
+<!--                             
                             
                             <li  class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-chart"></i>Historial por cliente</a>
@@ -108,7 +108,7 @@
                             </li>
                             <li  class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-chart"></i>Historial de venta por categoria</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
 
