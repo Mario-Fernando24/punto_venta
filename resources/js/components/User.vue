@@ -31,7 +31,6 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opciones</th>
                                     <th>Nombre</th>
                                     <th>Tip doc</th>
                                     <th>Numero</th>
@@ -41,31 +40,14 @@
                                     <th>usuario</th>
                                     <th>Rol</th>
                                     <th>Estado</th>
+                                    <th>Opciones</th>
 
 
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="usuario in arrayUsuario" :key="usuario.id">
-                                    <td>
-                                        <button type="button" @click="abrirModal('usuario', 'actualizar',usuario)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
-                                          <i class="icon-pencil"></i>
-                                        </button> &nbsp;
-
-
-                                        <template v-if="usuario.condicion"> 
-                                        <button type="button"  class="btn btn-outline-danger btn-sm" @click="desactivarUsuario(usuario.id)">
-                                          <i class="icon-trash"></i>
-                                        </button>
-                                        </template>
-                                         <template v-else> 
-                                        <button type="button"  class="btn btn-outline-success btn-sm" @click="activarUsuario(usuario.id)">
-                                          <i class="icon-check"></i>
-                                        </button>
-                                        </template>
-
-
-                                        </td>
+                                   
                                         <td v-text="usuario.personas.nombre"></td>
                                         <td v-text="usuario.personas.tipo_documento"></td>
                                         <td v-text="usuario.personas.num_documento"></td>
@@ -83,6 +65,28 @@
                                         <div v-else>
                                         <span class="badge badge-danger">Desactivado</span>
                                         </div>
+                                        </td>
+
+
+                                         <td>
+                                        <button type="button" @click="abrirModal('usuario', 'actualizar',usuario)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
+                                          <i class="icon-pencil"></i>
+                                        </button> &nbsp;
+
+
+                                        <template v-if="usuario.condicion"> 
+                                            <button type="button"  class="btn btn-outline-danger btn-sm" @click="desactivarUsuario(usuario.id)">
+                                            <i class="icon-trash"></i>
+                                            </button>
+                                        </template>
+
+                                        <template v-else> 
+                                            <button type="button"  class="btn btn-outline-success btn-sm" @click="activarUsuario(usuario.id)">
+                                            <i class="icon-check"></i>
+                                            </button>
+                                        </template>
+
+
                                         </td>
 
                                         

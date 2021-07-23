@@ -164,6 +164,12 @@
                 </table>
             </div>
         </section>
+
+
+        <p>firma</p><br>
+
+        _________________________________<br>{{ $mytime }}
+
         
         
         <footer>

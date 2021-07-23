@@ -114,7 +114,7 @@ class EgresoController extends Controller
         $Perfil = Perfil::with('GetUser')->first();
         $image='img/company/'.$Perfil->image_perfil;
         
-        $pdf = PDF::loadView('pdf.egresoimprimir',compact('egreso','Perfil','image'));
+        $pdf = PDF::loadView('pdf.egresoimprimir',compact('egreso','Perfil','image','mytime'));
         return $pdf->download('EGRESO-'.$egreso->id.'-'.$mytime);   
       
        }
