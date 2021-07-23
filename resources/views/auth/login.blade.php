@@ -3,7 +3,7 @@
 @section('login')
 
 <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md-5">
         <div class="card-group mb-0">
           <div class="card p-4">
           <form class="form-horizontal was-validated" method="POST" action="{{ url('login') }}">
@@ -11,7 +11,9 @@
  
             <div class="card-body">
               <br>
-              <h2>TenderPos Control</h2>
+              <div align="center">
+              <img src="img/tenderpos.jpeg" heigt="130px" width="250px" class="col-xs-12"></p>
+             </div>
               <br>
               <div class="input-group mb-3 @error('usuario') is-invalid @enderror">
                 <span class="input-group-addon"><i class="icon-user"></i></span>
@@ -51,16 +53,16 @@
             </div>
             </form>
           </div>
-          <div class="card text-white bg-grey py-5 d-md-down-none" style="width:44%">
+          <!-- <div class="card text-white bg-grey py-5 d-md-down-none" style="width:44%">
             <div class="card-body text-center">
               <div>
                 <h2> TenderPos</h2>
                 <img src="img/tenderpos.jpeg" heigt="130px" width="250px" class="col-xs-12"></p>
 
-                <!-- <a href="" target="_blank" class="btn btn-primary active mt-3">TenderPos</a> -->
+                 <a href="" target="_blank" class="btn btn-primary active mt-3">TenderPos</a> 
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
