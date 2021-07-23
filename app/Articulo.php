@@ -28,6 +28,11 @@ class Articulo extends Model
 
     }
 
+    public function comprashas(){
+        return $this->belongsTo(DetalleIngreso::class,'id','idarticulo');
+
+    }
+
 
     
 }

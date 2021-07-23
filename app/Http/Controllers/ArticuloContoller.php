@@ -164,7 +164,8 @@ class ArticuloContoller extends Controller
     public function ListarPdfInventario()
     {
         
-        $inventariopdf = Articulo::with('categoria')->orderBy('idcategoria', 'asc')->get();
+        $inventariopdf = Articulo::with('categoria','comprashas')->orderBy('idcategoria', 'asc')->get();
+
         //cantidad de articulos que tenemos en nuestra entidad articulo 
         $cantidad=Articulo::count();
 

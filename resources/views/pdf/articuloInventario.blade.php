@@ -92,30 +92,56 @@
                     <th>Código</th>
                     <th>Nombre</th>
                     <th>Categoría</th>
-                    <th>Precio Venta</th>
+                    <th>Precio compra</th>
+                    <th>Precio venta</th>
                     <th>Stock</th>
                     <th>Descripción</th>
                     <th>Estado</th>
                 </tr>
             </thead>
+
+                @php
+                   $acumuladorventa=0;
+                   $acumuladorcompra=0;
+
+                @endphp
             <tbody>
                 @foreach ($inventariopdf as $a)
                 <tr>
+                @php
+                   $acumuladorventa+=$a->comprashas->precio*$a->stock;
+                   $acumuladorcompra+=$a->comprashas->preciocompra*$a->stock;
+
+                @endphp
+
                     <td>{{$a->codigo}}</td>
                     <td>{{$a->nombre}}</td>
                     <td>{{$a->categoria->nombre}}</td>
-                    <td>{{$a->precio_venta}}</td>
+                    <td>{{$a->comprashas->preciocompra}}</td>
+                    <td>{{$a->comprashas->precio}}</td>
+
+                    @if($a->stock>=1)
                     <td>{{$a->stock}}</td>
+                    @elseif($a->stock==0)
+                    <td style="color:red">{{$a->stock}}</td>
+                    @endif
                     <td>{{$a->descripcion}}</td>
                     <td>{{$a->condicion?'Activo':'Desactivado'}}</td>
                 </tr>
+
+
+                
+
                 @endforeach                                
             </tbody>
         </table>
     </div>
     <div class="izquierda">
-        <p><strong>Total de registros: </strong>{{$cantidad}}<br>
-        <p><strong>Total venta todos los articulos: </strong>{{$cantidad}}<br>
+        <p><strong># de registros: </strong>{{$cantidad}}
+        <p><strong>compra $</strong> {{ number_format($acumuladorcompra)  }}   <br>
+        <p><strong>venta $</strong> {{ number_format($acumuladorventa)  }}   <br>
+        <p><strong>Ganancias</strong> {{ number_format($acumuladorventa-$acumuladorcompra)  }}   <br>
+
         <strong>Impreso por: </strong>{{Auth::user()->usuario}}</p>
     </div>    
 </body>
