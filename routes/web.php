@@ -238,6 +238,8 @@
             Route::post('registerDocumentoCaja', 'EgresoController@registerDocumentoCaja');
             Route::get('ValidateOpenCaja', 'EgresoController@ValidateOpenCaja'); 
             Route::put('AnularDocumentoCaja', 'EgresoController@AnularDocumentoCaja');
+            Route::get('pdfEgreso/{id}', 'EgresoController@pdfEgreso');
+
         });
 
         Route::prefix('credito')->group(function() {

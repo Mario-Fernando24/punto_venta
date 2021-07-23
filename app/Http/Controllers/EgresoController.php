@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 use App\Egreso;
 use App\Caja;
+use App\Perfil;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class EgresoController extends Controller
 {
@@ -98,6 +100,23 @@ class EgresoController extends Controller
             'message' => "remove exit",
            ], 200);
 
+       }
+
+
+       public function pdfEgreso(Request $request, $id)
+       {
+
+
+        $egreso = Egreso::findOrFail($request->id);
+
+        $mytime=Carbon::now('America/Bogota');
+
+        $Perfil = Perfil::with('GetUser')->first();
+        $image='img/company/'.$Perfil->image_perfil;
+        
+        $pdf = PDF::loadView('pdf.egresoimprimir',compact('egreso','Perfil','image'));
+        return $pdf->download('EGRESO-'.$egreso->id.'-'.$mytime);   
+      
        }
    
 

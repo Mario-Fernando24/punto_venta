@@ -129,9 +129,6 @@
                     <td>{{$a->condicion?'Activo':'Desactivado'}}</td>
                 </tr>
 
-
-                
-
                 @endforeach                                
             </tbody>
         </table>
@@ -141,7 +138,6 @@
         <p><strong>compra $</strong> {{ number_format($acumuladorcompra)  }}   <br>
         <p><strong>venta $</strong> {{ number_format($acumuladorventa)  }}   <br>
         <p><strong>Ganancias</strong> {{ number_format($acumuladorventa-$acumuladorcompra)  }}   <br>
-
         <strong>Impreso por: </strong>{{Auth::user()->usuario}}</p>
     </div>    
 </body>

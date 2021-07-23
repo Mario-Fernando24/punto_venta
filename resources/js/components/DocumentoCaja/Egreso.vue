@@ -62,11 +62,15 @@
                                         <button @click="AnularDocumentoDeCaja(egreso.idegreso, egreso.tipo_egreso)" type="button"  class="btn btn-outline-danger btn-sm" >
                                           <i class="icon-trash"></i>
                                         </button>
+
+
+                                         <button type="button" @click="descargarEgreso(egreso.idegreso)" class="btn btn-outline-primary btn-sm" data-toggle="modal">
+                                          <i class="icon-doc"></i> 
+                                        </button> &nbsp;
+
                                         </template>
                                          <template v-else> 
-                                        <button type="button"  class="btn btn-outline-success btn-sm" >
-                                          <i class="icon-check"></i>
-                                        </button>
+                                       
                                         </template>
 
                                         </td>
@@ -79,12 +83,14 @@
 
 
                                         <td>
+
+
                                         <div v-if="egreso.estado==1">
                                         <span class="badge badge-success">Activo</span>
                                         </div>
 
                                         <div v-else>
-                                        <span class="badge badge-danger">Desactivado</span>
+                                        <span class="badge badge-danger">Anulado</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -376,6 +382,12 @@
                 });
 
               },
+
+
+              descargarEgreso(id){
+
+                    window.open('/egreso/pdfEgreso/'+id+','+'_blank');
+                },
 
             validarEgreso(){
                 this.errorEgreso=0;

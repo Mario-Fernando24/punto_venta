@@ -6749,6 +6749,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6905,6 +6911,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    descargarEgreso: function descargarEgreso(id) {
+      window.open('/egreso/pdfEgreso/' + id + ',' + '_blank');
     },
     validarEgreso: function validarEgreso() {
       this.errorEgreso = 0;
@@ -61176,9 +61185,32 @@ var render = function() {
                                         }
                                       },
                                       [_c("i", { staticClass: "icon-trash" })]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-outline-primary btn-sm",
+                                        attrs: {
+                                          type: "button",
+                                          "data-toggle": "modal"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.descargarEgreso(
+                                              egreso.idegreso
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "icon-doc" })]
+                                    ),
+                                    _vm._v(
+                                      "  \n\n                                    "
                                     )
                                   ]
-                                : [_vm._m(3, true)]
+                                : void 0
                             ],
                             2
                           ),
@@ -61220,7 +61252,7 @@ var render = function() {
                                   _c(
                                     "span",
                                     { staticClass: "badge badge-danger" },
-                                    [_vm._v("Desactivado")]
+                                    [_vm._v("Anulado")]
                                   )
                                 ])
                           ])
@@ -61615,19 +61647,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Estado")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-outline-success btn-sm",
-        attrs: { type: "button" }
-      },
-      [_c("i", { staticClass: "icon-check" })]
-    )
   }
 ]
 render._withStripped = true

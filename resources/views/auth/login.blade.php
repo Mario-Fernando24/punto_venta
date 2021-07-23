@@ -40,7 +40,6 @@
                </span>
              @endif
 
-
               <div class="row">
                 <div class="col-12">
                   <input type="submit" value="Acceder" class="btn  btn-outline-primary btn-block">
