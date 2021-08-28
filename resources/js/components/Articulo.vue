@@ -105,7 +105,7 @@
                                         <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
-                                        <template v-if="articulo.condicion"> 
+                                        <template v-if="articulo.condicion==1"> 
                                         <button type="button"  class="btn btn-outline-danger btn-sm" @click="desactivarArticulo(articulo.id)">
                                           <i class="icon-trash"></i>
                                         </button>

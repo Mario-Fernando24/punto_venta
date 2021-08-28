@@ -72,10 +72,13 @@ class ProveedorController extends Controller
 
     public function store(Request $request)
     {
+
        //validar seguridad por HTTP si la peticion que se envia es diferente a una peticion ajax
        if(!$request->ajax()){
         return redirect('/');
        }
+
+       
 
        try {
         $persona = Persona::create([
@@ -85,7 +88,7 @@ class ProveedorController extends Controller
             'direccion' => $request->get('direccion'),
             'telefono' => $request->get('telefono'),
             'email' => $request->get('email'),
-            'fechaNacimiento' => $request-get('fechaNacimiento'),
+            // 'fechaNacimiento' => $request-get('fechaNacimiento'),
             ]);
 
              $proveedor = Proveedor::create([
@@ -93,6 +96,11 @@ class ProveedorController extends Controller
             'contacto' => $request->get('contacto'),
             'telefono_contacto' => $request->get('telefono_contacto'),
             ]);
+
+            return response()->json([
+                     'status' => true],
+                       200);
+  
 
       } catch (ModelNotFoundException $e) {
         DB::rollBack();

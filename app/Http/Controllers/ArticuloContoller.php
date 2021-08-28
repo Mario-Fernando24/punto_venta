@@ -163,14 +163,18 @@ class ArticuloContoller extends Controller
 
     public function ListarPdfInventario()
     {
+
         
         $inventariopdf = Articulo::with('categoria','comprashas')->orderBy('idcategoria', 'asc')->get();
+
 
         //cantidad de articulos que tenemos en nuestra entidad articulo 
         $cantidad=Articulo::count();
 
+
         $pdf = PDF::loadView('pdf.articuloInventario',['inventariopdf'=>$inventariopdf,'cantidad'=>$cantidad]);
         $mytime=Carbon::now('America/Bogota');
+
 
         return $pdf->download('inventario_articulos-'.$mytime);  
 

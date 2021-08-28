@@ -108,17 +108,27 @@
             <tbody>
                 @foreach ($inventariopdf as $a)
                 <tr>
-                @php
-                   $acumuladorventa+=$a->comprashas->precio*$a->stock;
-                   $acumuladorcompra+=$a->comprashas->preciocompra*$a->stock;
-
-                @endphp
+              
+                        @if($a->comprashas!=null)
+                        @php
+                        
+                                $acumuladorventa+=$a->comprashas->precio*$a->stock;
+                                $acumuladorcompra+=$a->comprashas->preciocompra*$a->stock;
+                        @endphp
+                        @endif
+                    
 
                     <td>{{$a->codigo}}</td>
                     <td>{{$a->nombre}}</td>
                     <td>{{$a->categoria->nombre}}</td>
+                    @if($a->comprashas!=null)
                     <td>{{$a->comprashas->preciocompra}}</td>
                     <td>{{$a->comprashas->precio}}</td>
+                    @else
+                    <td>No Ingresado</td>
+                    <td>No Ingresado</td>
+
+                    @endif
 
                     @if($a->stock>=1)
                     <td>{{$a->stock}}</td>

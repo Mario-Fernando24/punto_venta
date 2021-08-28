@@ -292,10 +292,13 @@
 
           //Metodo registrar categoria
           registrarProveedor(){
+             
 
                   if(this.validarArticulo()){
                       return ;
                   }
+
+
                   let me=this;
                   axios.post('/proveedor/registrar', {
                     'nombre':  this.nombre,
