@@ -23,6 +23,7 @@ class CreateIngresosTable extends Migration
             $table->string('serie_comprobante',50)->nullable();
             $table->string('num_comprobante',50)->nullable();
             $table->dateTime('fecha_hora')->nullable();
+            $table->string('forma_pago',50)->nullable();
             $table->decimal('impuesto',11,2);
             $table->decimal('total',11,2);
             $table->string('estado',50)->nullable();

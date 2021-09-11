@@ -7642,6 +7642,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -7998,6 +8005,7 @@ __webpack_require__.r(__webpack_exports__);
         me.serie_comprobante = TemporalObj[0]['serie_comprobante'];
         me.num_comprobante = TemporalObj[0]['num_comprobante'];
         me.total = TemporalObj[0]['total'];
+        me.forma_pago = TemporalObj[0]['forma_pago'];
         me.fecha_hora = TemporalObj[0]['created_at'];
         me.idingreso = TemporalObj[0]['id'];
         me.nombreAnulaIngreso = TemporalObj[0]['usuario_anulo_ingreso']['usuario'];
@@ -62017,14 +62025,6 @@ var render = function() {
                                     _c("td", {
                                       domProps: {
                                         textContent: _vm._s(
-                                          ingreso.serie_comprobante
-                                        )
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("td", {
-                                      domProps: {
-                                        textContent: _vm._s(
                                           ingreso.num_comprobante
                                         )
                                       }
@@ -62045,6 +62045,12 @@ var render = function() {
                                     _c("td", {
                                       domProps: {
                                         textContent: _vm._s(ingreso.impuesto)
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("td", {
+                                      domProps: {
+                                        textContent: _vm._s(ingreso.forma_pago)
                                       }
                                     }),
                                     _vm._v(" "),
@@ -63388,6 +63394,20 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { staticClass: "text-negrita" }, [
+                                _vm._v("F pago")
+                              ]),
+                              _vm._v(" "),
+                              _c("p", {
+                                domProps: {
+                                  textContent: _vm._s(_vm.forma_pago)
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _vm.estadovaling == "anulado"
                             ? _c("div", { staticClass: "col-md-3" }, [
                                 _c(
@@ -63970,8 +63990,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Tipo comprobante")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Serie Comprobante")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Num Comprobante")]),
         _vm._v(" "),
         _c("th", [_vm._v("Fecha")]),
@@ -63979,6 +63997,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Total")]),
         _vm._v(" "),
         _c("th", [_vm._v("Impuesto")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("F. pago")]),
         _vm._v(" "),
         _c("th", [_vm._v("Estado")]),
         _vm._v(" "),

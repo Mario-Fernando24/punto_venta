@@ -53,11 +53,11 @@
                                                 <th>Usuario</th>
                                                 <th>Proveedor</th>
                                                 <th>Tipo comprobante</th>
-                                                <th>Serie Comprobante</th>
                                                 <th>Num Comprobante</th>
                                                 <th>Fecha</th>
                                                 <th>Total</th>
                                                 <th>Impuesto</th>
+                                                <th>F. pago</th>
                                                 <th>Estado</th>
                                                 <th>Opciones</th>
 
@@ -73,11 +73,11 @@
                                                     <td v-text="ingreso.persona.nombre"></td>
                                                     <td v-text="ingreso.proveedoress.nombre"></td>
                                                     <td v-text="ingreso.tipo_comprobante"></td>
-                                                    <td v-text="ingreso.serie_comprobante"></td>
                                                     <td v-text="ingreso.num_comprobante"></td>
                                                     <td v-text="ingreso.fecha_hora"></td>
                                                     <td v-text="ingreso.total"></td>
                                                     <td v-text="ingreso.impuesto"></td>
+                                                    <td v-text="ingreso.forma_pago"></td>
 
 
                                                     <td>
@@ -481,6 +481,13 @@
                                     <div class="form-group"> 
                                         <label class="text-negrita">Num Comprobante</label>
                                         <p v-text="num_comprobante"></p>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-3">
+                                    <div class="form-group"> 
+                                        <label class="text-negrita">F pago</label>
+                                        <p v-text="forma_pago"></p>
                                     </div>
                                 </div>
 
@@ -1050,6 +1057,7 @@ import vSelect from "vue-select";
                     me.serie_comprobante=TemporalObj[0]['serie_comprobante'];
                     me.num_comprobante=TemporalObj[0]['num_comprobante'];
                     me.total=TemporalObj[0]['total'];
+                    me.forma_pago=TemporalObj[0]['forma_pago'];
                     me.fecha_hora=TemporalObj[0]['created_at'];
                     me.idingreso=TemporalObj[0]['id'];
 

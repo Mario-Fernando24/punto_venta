@@ -156,12 +156,14 @@
                     <thead>
                         <tr id="fv">
                             <th>INGRESO LA COMPRA</th>
+                            <th>FORMA DE PAGO</th>
                             <th>FECHA</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>{{ $ObjetoDetalleIngreso->usuario->usuario }}</td>
+                            <td><B> {{ $ObjetoDetalleIngreso->forma_pago }} </B></td>
                             <td>{{ $ObjetoDetalleIngreso->created_at }}</td>
                         </tr>
                     </tbody>
