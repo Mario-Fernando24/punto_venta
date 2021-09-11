@@ -43,6 +43,14 @@
                             <li @click="menu=3" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-wallet"></i> Compras</a>
                             </li>
+                            
+
+                            <li @click="menu=30" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-notebook"></i>Ajuste de compra</a>
+                            </li>
+
+
+                            
                             <li @click="menu=4" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-notebook"></i> Proveedores</a>
                             </li>
@@ -71,7 +79,7 @@
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i>Documento de caja</a>
                         <ul class="nav-dropdown-items">
 
-                        <li @click="menu=9" class="nav-item">
+                            <li @click="menu=9" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-credit-card"></i>Egreso (-)</a>
                             </li>
 

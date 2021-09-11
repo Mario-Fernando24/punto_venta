@@ -344,16 +344,86 @@
                                    </tr>
                                  </tbody>
                                  </table>
+
+
+
+                       <div class="form-group row">
+                           <div class="col-md-6">
+
+                                <label class="col-md-8 form-control-label text-negrita">FORMA DE PAGO</label>
+
+                                    <div class="input-group">
+                                        <select class="form-control col-md-6 " v-model="forma_pago_compra">
+                                        <option value="EFECTIVO">EFECTIVO</option>
+                                        <option value="CREDITO">CREDITO</option>
+                                        <option value="EFECTIVO Y CREDITO">EFECTIVO Y CREDITO</option>
+                                        </select>
+                                        <button type="submit"  class="btn btn-success"><i class="fa fa-check"></i> </button>
+                                    </div>
                            </div>
 
+                           
 
-                        <div class="form-group row">
+                           <template v-if="forma_pago_compra=='EFECTIVO Y CREDITO' && total>0">
+                            <div class="col-md-3">
+                                <label class="col-md-8 form-control-label text-negrita">EFECTIVO</label>
+                                <input type="number"   v-model="formapagooo.efectivo"  class="form-control" placeholder="Efectivo $$$...">
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <label class="col-md-8 form-control-label text-negrita">CREDITO</label>
+                                <input type="number"   v-model="formapagooo.credito"  class="form-control" placeholder="Credito $$$...">
+                            </div>
+
+                            <br>
+
+
+                            <template v-if="(this.formapagooo.credito+this.formapagooo.efectivo)>this.calculadorTotal">
+                                <div class="alert alert-warning" role="alert">
+                                      <a class="alert-link">EL VALOR DE LAS FORMAS DE PAGO NO PUEDE SER MAYOR AL VALOR NETO </a>
+                                    </div>
+                            </template>
+
+
+                            <template v-if="(this.formapagooo.credito+this.formapagooo.efectivo)<this.calculadorTotal">
+                                <div class="alert alert-warning" role="alert">
+                                     <a class="alert-link">EL VALOR DE LAS FORMAS DE PAGO NO PUEDE SER MENOR  AL VALOR NETO</a>
+                                </div>                        
+                           </template>
+
+                            <template v-if="(this.formapagooo.credito+this.formapagooo.efectivo)==this.calculadorTotal">
+                                <div class="alert alert-success" role="alert">
+                                <a href="#" class="alert-link">EXCELENTE, REGISTRE LA COMPRA.</a>
+                                </div>
+                            </template>
+
+
+                     </template>    
+
+                            
+                        </div>
+
+
+
+
+                       <div class="form-group row">
                            <div class="col-md-12">
-                               <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">Cerrar</button>
-                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">Registrar Compra</button>
+                               <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">CERRAR</button>
+                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">REGISTRAR COMPRA</button>
 
                            </div>
                         </div>
+
+
+
+
+                    </div>
+
+
+
+                
+
                            </div>
                         </div>
                         </template>
@@ -484,7 +554,7 @@
 
                         <div class="form-group row">
                            <div class="col-md-12">
-                               <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">Cerrar</button>
+                               <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
                            </div>
                         </div>
 
@@ -508,12 +578,6 @@
                             </button>
                         </div>
                         <div class="modal-body">
-
-
-
-
-
-
 
 
                             <div class="form-group row">
@@ -612,6 +676,15 @@ import vSelect from "vue-select";
             subtotal: 0.0,
             fecha_hora:'',
             idingreso:'',
+            //forma de pago 
+            forma_pago_compra:'EFECTIVO',
+
+            formapagooo:{
+                efectivo:0,
+                credito:0,
+                valor:false,
+            },
+
             //variable para ver el listado
             listado: 1,
             //la data que regresa nuestro metodo listarIngreso se almacene en esta array
@@ -726,6 +799,11 @@ import vSelect from "vue-select";
                 }
                 return totalgan;
             },
+
+
+
+
+
         },
 //{{ Intl.NumberFormat().format((detalle.precio-detalle.preciocompra)*detalle.cantidad)  }}
      //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
@@ -903,6 +981,12 @@ import vSelect from "vue-select";
                             console.log(error);
                         });
                     },
+
+
+
+                   
+
+
                 vaciarvariable(){
                         this.idproveedor=0;
                         this.tipo_comprobante= 'FACTURA',
@@ -947,6 +1031,8 @@ import vSelect from "vue-select";
                     this.estadovaling='';
                     this.fecha_ing_anulada='';
                     this.listado=1;
+                    this.forma_pago_compra='EFECTIVO';
+
                 },
                 VerDetalleIngreso(id){
                     this.listado=2;
@@ -1038,6 +1124,8 @@ import vSelect from "vue-select";
                 cerrarModal(){
                     this.modal=0;
                     this.tituloModal='';
+                    this.forma_pago_compra='EFECTIVO';
+
                 },
                 //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
                 abrirModal(){   

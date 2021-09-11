@@ -78,6 +78,15 @@
                     </template>
 
 
+                    <template v-if="menu==30">
+                    <AjusteComprasss></AjusteComprasss>
+
+                    </template>
+
+
+            
+
+
 
                 @elseif(Auth::user()->idrol==2)
                 

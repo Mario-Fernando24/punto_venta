@@ -21,6 +21,7 @@ Vue.component('Credito', require('./components/DocumentoCaja/Creditos.vue').defa
 Vue.component('Anuladas', require('./components/Anuladas/FacturasAnuladas.vue').default);
 Vue.component('Ajusteinventario', require('./components/DocumentoCaja/AjusteInventario.vue').default);
 Vue.component('Notificacion', require('./components/Notificacion.vue').default);
+Vue.component('AjusteComprasss', require('./components/DocumentoCaja/HistorialCompras.vue').default);
 
 
 
