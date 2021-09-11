@@ -7949,6 +7949,7 @@ __webpack_require__.r(__webpack_exports__);
         'num_comprobante': this.num_comprobante,
         'impuesto': this.impuesto,
         'total': this.total,
+        'forma_pago_compra': this.forma_pago_compra,
         'data': this.arrayDetalleIngreso
       }).then(function (response) {
         console.log('entro a esta funcion');
@@ -63247,21 +63248,21 @@ var render = function() {
                                         _vm._v(" "),
                                         _c("br"),
                                         _vm._v(" "),
-                                        this.formapagooo.credito +
-                                          this.formapagooo.efectivo >
-                                        this.calculadorTotal
+                                        parseInt(this.formapagooo.credito) +
+                                          parseInt(this.formapagooo.efectivo) >
+                                        parseInt(this.calculadorTotal)
                                           ? [_vm._m(10)]
                                           : _vm._e(),
                                         _vm._v(" "),
-                                        this.formapagooo.credito +
-                                          this.formapagooo.efectivo <
-                                        this.calculadorTotal
+                                        parseInt(this.formapagooo.credito) +
+                                          parseInt(this.formapagooo.efectivo) <
+                                        parseInt(this.calculadorTotal)
                                           ? [_vm._m(11)]
                                           : _vm._e(),
                                         _vm._v(" "),
-                                        this.formapagooo.credito +
-                                          this.formapagooo.efectivo ==
-                                        this.calculadorTotal
+                                        parseInt(this.formapagooo.credito) +
+                                          parseInt(this.formapagooo.efectivo) ==
+                                        parseInt(this.calculadorTotal)
                                           ? [_vm._m(12)]
                                           : _vm._e()
                                       ]
@@ -84395,8 +84396,8 @@ Vue.component('Egreso', __webpack_require__(/*! ./components/DocumentoCaja/Egres
 Vue.component('Credito', __webpack_require__(/*! ./components/DocumentoCaja/Creditos.vue */ "./resources/js/components/DocumentoCaja/Creditos.vue")["default"]);
 Vue.component('Anuladas', __webpack_require__(/*! ./components/Anuladas/FacturasAnuladas.vue */ "./resources/js/components/Anuladas/FacturasAnuladas.vue")["default"]);
 Vue.component('Ajusteinventario', __webpack_require__(/*! ./components/DocumentoCaja/AjusteInventario.vue */ "./resources/js/components/DocumentoCaja/AjusteInventario.vue")["default"]);
-Vue.component('Notificacion', __webpack_require__(/*! ./components/Notificacion.vue */ "./resources/js/components/Notificacion.vue")["default"]);
 Vue.component('AjusteComprasss', __webpack_require__(/*! ./components/DocumentoCaja/HistorialCompras.vue */ "./resources/js/components/DocumentoCaja/HistorialCompras.vue")["default"]);
+Vue.component('Notificacion', __webpack_require__(/*! ./components/Notificacion.vue */ "./resources/js/components/Notificacion.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -145,6 +145,7 @@ class IngresoController extends Controller
             'num_comprobante' => $request->get('num_comprobante'),
             'fecha_hora' => $mytime->toDateString(),
             'impuesto' => $request->get('impuesto'),
+            'forma_pago'=> $request->get('forma_pago_compra'),
             'total' => $request->get('total'),
             'estado' => 'registrado',
           ]);

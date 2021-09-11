@@ -20,8 +20,8 @@ Vue.component('Egreso', require('./components/DocumentoCaja/Egreso.vue').default
 Vue.component('Credito', require('./components/DocumentoCaja/Creditos.vue').default);
 Vue.component('Anuladas', require('./components/Anuladas/FacturasAnuladas.vue').default);
 Vue.component('Ajusteinventario', require('./components/DocumentoCaja/AjusteInventario.vue').default);
-Vue.component('Notificacion', require('./components/Notificacion.vue').default);
 Vue.component('AjusteComprasss', require('./components/DocumentoCaja/HistorialCompras.vue').default);
+Vue.component('Notificacion', require('./components/Notificacion.vue').default);
 
 
 

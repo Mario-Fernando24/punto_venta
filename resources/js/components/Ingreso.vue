@@ -379,20 +379,20 @@
                             <br>
 
 
-                            <template v-if="(this.formapagooo.credito+this.formapagooo.efectivo)>this.calculadorTotal">
+                            <template v-if=" parseInt(this.formapagooo.credito)+parseInt(this.formapagooo.efectivo)>parseInt(this.calculadorTotal)">
                                 <div class="alert alert-warning" role="alert">
                                       <a class="alert-link">EL VALOR DE LAS FORMAS DE PAGO NO PUEDE SER MAYOR AL VALOR NETO </a>
                                     </div>
                             </template>
 
 
-                            <template v-if="(this.formapagooo.credito+this.formapagooo.efectivo)<this.calculadorTotal">
+                            <template v-if="parseInt(this.formapagooo.credito)+parseInt(this.formapagooo.efectivo)<parseInt(this.calculadorTotal)">
                                 <div class="alert alert-warning" role="alert">
                                      <a class="alert-link">EL VALOR DE LAS FORMAS DE PAGO NO PUEDE SER MENOR  AL VALOR NETO</a>
                                 </div>                        
                            </template>
 
-                            <template v-if="(this.formapagooo.credito+this.formapagooo.efectivo)==this.calculadorTotal">
+                            <template v-if="parseInt(this.formapagooo.credito)+parseInt(this.formapagooo.efectivo)==parseInt(this.calculadorTotal)">
                                 <div class="alert alert-success" role="alert">
                                 <a href="#" class="alert-link">EXCELENTE, REGISTRE LA COMPRA.</a>
                                 </div>
@@ -973,6 +973,7 @@ import vSelect from "vue-select";
                             'num_comprobante': this.num_comprobante,
                             'impuesto': this.impuesto,
                             'total':this.total,
+                            'forma_pago_compra':this.forma_pago_compra,
                             'data':this.arrayDetalleIngreso,
                             
                             
