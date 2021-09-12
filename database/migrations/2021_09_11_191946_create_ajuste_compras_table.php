@@ -17,11 +17,11 @@ class CreateAjusteComprasTable extends Migration
 
             $table->bigIncrements('id');
             $table->unsignedBigInteger('id_compra')->nullable();
-            $table->unsignedBigInteger('id_caja');
+            $table->unsignedBigInteger('id_caja')->nullable();
             $table->unsignedBigInteger('id_users')->nullable();
-            $table->decimal('efectivo',11,2);
-            $table->decimal('credito',11,2);
-            $table->decimal('abono',11,2);
+            $table->decimal('efectivo',11,2)->nullable();
+            $table->decimal('credito',11,2)->nullable();
+            $table->decimal('abono',11,2)->nullable();
             $table->boolean('estado')->default(1); 
             $table->timestamps();
 

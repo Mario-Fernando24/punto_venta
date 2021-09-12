@@ -733,7 +733,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-12">
                                     <label class="col-md-12 form-control-label text-negrita" for="text-input">Valor Abonar</label>
-                                        <input type="number" class="form-control" placeholder="$$$$$$">
+                                        <input type="number" v-model="abonoFormaPago" class="form-control" placeholder="$$$$$$">
                                     </div>
                                 </div>
 
@@ -753,17 +753,6 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -955,6 +944,7 @@ import vSelect from "vue-select";
             Arrayajuste_compra:[],
             objFormPago:'',
             modalFormPago:0,
+            abonoFormaPago:0,
 
 
           }
@@ -1419,19 +1409,20 @@ import vSelect from "vue-select";
            },
            cerrarModalforma(){
                 this.modalFormPago=0;
+                this.abonoFormaPago=0;
            },
 
            agregarformaPago(){
 
-               console.log('agregar forma de pago mario');
-
-
                 let me=this;
-                  axios.post('/ingreso/registrarAbonoCompra', {
-                    // 'nombre':  this.nombre,
-                    // 'descripcion': this.descripcion
+                  axios.post('/ingresos/registrarAbonoCompra', {
+                     'id_compra':  this.objFormPago.id,
+                     'id_caja': this.objFormPago.id_apertura_caja_usuario,
+                     'abono':  this.abonoFormaPago,
+
                 })
                 .then(function (response) {
+                    me.cerrarModalforma();
                     // me.cerrarModal();
                     // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     // me.listaCategoria(1,'','nombre');

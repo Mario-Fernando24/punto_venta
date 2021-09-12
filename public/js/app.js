@@ -7845,17 +7845,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //importo vselect
 
 
@@ -7933,7 +7922,8 @@ __webpack_require__.r(__webpack_exports__);
       arrayArticuloPago: [],
       Arrayajuste_compra: [],
       objFormPago: '',
-      modalFormPago: 0
+      modalFormPago: 0,
+      abonoFormaPago: 0
     };
   },
   components: {
@@ -8326,13 +8316,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     cerrarModalforma: function cerrarModalforma() {
       this.modalFormPago = 0;
+      this.abonoFormaPago = 0;
     },
     agregarformaPago: function agregarformaPago() {
-      console.log('agregar forma de pago mario');
       var me = this;
-      axios.post('/ingreso/registrarAbonoCompra', {// 'nombre':  this.nombre,
-        // 'descripcion': this.descripcion
-      }).then(function (response) {// me.cerrarModal();
+      axios.post('/ingresos/registrarAbonoCompra', {
+        'id_compra': this.objFormPago.id,
+        'id_caja': this.objFormPago.id_apertura_caja_usuario,
+        'abono': this.abonoFormaPago
+      }).then(function (response) {
+        me.cerrarModalforma(); // me.cerrarModal();
         // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
         // me.listaCategoria(1,'','nombre');
       })["catch"](function (error) {
@@ -64243,7 +64236,72 @@ var render = function() {
                                   )
                                 ]),
                                 _vm._v(" "),
-                                _vm._m(22),
+                                _c("div", { staticClass: "modal-body" }, [
+                                  _c(
+                                    "form",
+                                    {
+                                      staticClass: "form-horizontal",
+                                      attrs: {
+                                        action: "",
+                                        method: "post",
+                                        enctype: "multipart/form-data"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "form-group row" },
+                                        [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-12" },
+                                            [
+                                              _c(
+                                                "label",
+                                                {
+                                                  staticClass:
+                                                    "col-md-12 form-control-label text-negrita",
+                                                  attrs: { for: "text-input" }
+                                                },
+                                                [_vm._v("Valor Abonar")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.abonoFormaPago,
+                                                    expression: "abonoFormaPago"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "number",
+                                                  placeholder: "$$$$$$"
+                                                },
+                                                domProps: {
+                                                  value: _vm.abonoFormaPago
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.abonoFormaPago =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "modal-footer" }, [
                                   _c(
@@ -64448,7 +64506,7 @@ var render = function() {
                           "table table-bordered table-striped table-sm"
                       },
                       [
-                        _vm._m(23),
+                        _vm._m(22),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -64869,39 +64927,6 @@ var staticRenderFns = [
           attrs: { type: "button", title: "Descargar Detalle compra" }
         },
         [_c("i", { staticClass: "icon-doc" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-body" }, [
-      _c(
-        "form",
-        {
-          staticClass: "form-horizontal",
-          attrs: { action: "", method: "post", enctype: "multipart/form-data" }
-        },
-        [
-          _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "col-md-12 form-control-label text-negrita",
-                  attrs: { for: "text-input" }
-                },
-                [_vm._v("Valor Abonar")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "number", placeholder: "$$$$$$" }
-              })
-            ])
-          ])
-        ]
       )
     ])
   },

@@ -227,26 +227,17 @@ class IngresoController extends Controller
        }
 
 
-       public function registrarAbonoCompra(Request $request){
+       public function registrarAbonoCompra(Request $request)
+       {
 
-            $mmm=AjusteCompra::create([
-              'id_compra' => $request->get('id_compra'),,
-              'id_caja' => $request->get('id_caja'),,
-              'id_users' => $request->get('id_users'),,
-              'abono' => $request->get('abono'),,
+            AjusteCompra::create([
+              'id_compra' => $request->get('id_compra'),
+              'id_caja' => $request->get('id_caja'),
+              'id_users' => \Auth::user()->id,
+              'abono' => $request->get('abono'),
             ]);
 
-            if($mmm){
               return response()->json([ 'status' => true], 200);
-
-            }else{
-              return response()->json([ 'status' => false], 200);
-
-            }
-
-
-
-
        }
 
 }
