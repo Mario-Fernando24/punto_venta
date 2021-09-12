@@ -143,12 +143,14 @@
             </tbody>
         </table>
     </div>
+
     <div class="izquierda">
-        <p><strong># de registros: </strong>{{$cantidad}}
+        <p><strong># de registros: </strong>{{$cantidad}}<br>
         <p><strong>compra $</strong> {{ number_format($acumuladorcompra)  }}   <br>
         <p><strong>venta $</strong> {{ number_format($acumuladorventa)  }}   <br>
-        <p><strong>Ganancias</strong> {{ number_format($acumuladorventa-$acumuladorcompra)  }}   <br>
-        <strong>Impreso por: </strong>{{Auth::user()->usuario}}</p>
+        <p><strong>Ganancias: </strong> {{ number_format($acumuladorventa-$acumuladorcompra)  }}   <br>
+        <strong>Impreso: </strong>{{Auth::user()->usuario}}</p>
     </div>    
+    
 </body>
 </html>

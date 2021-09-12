@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ModelInventario\AjusteInventario;
+use App\ModelInventario\AjusteCompra;
 
 class Ingreso extends Model
 {
@@ -11,6 +13,7 @@ class Ingreso extends Model
     protected $primaryKey = 'id';
     
     protected $fillable = [
+        'id',
         'idproveedor',
         'idusuario',
         'id_anulo_ingreso',
@@ -51,6 +54,10 @@ class Ingreso extends Model
         return $this->belongsTo(User::class,'id_anulo_ingreso');
     }
 
+    public function AjusteCompra()
+    {
+        return $this->hasMany(AjusteCompra::class,'id_compra','id');
+    }
 
 }
 

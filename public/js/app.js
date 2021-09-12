@@ -7644,11 +7644,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 //importo vselect
 
 
@@ -62033,25 +62028,19 @@ var render = function() {
                                     _vm._v(" "),
                                     _c("td", {
                                       domProps: {
-                                        textContent: _vm._s(ingreso.fecha_hora)
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("td", {
-                                      domProps: {
                                         textContent: _vm._s(ingreso.total)
                                       }
                                     }),
                                     _vm._v(" "),
                                     _c("td", {
                                       domProps: {
-                                        textContent: _vm._s(ingreso.impuesto)
+                                        textContent: _vm._s(ingreso.forma_pago)
                                       }
                                     }),
                                     _vm._v(" "),
                                     _c("td", {
                                       domProps: {
-                                        textContent: _vm._s(ingreso.forma_pago)
+                                        textContent: _vm._s(ingreso.fecha_hora)
                                       }
                                     }),
                                     _vm._v(" "),
@@ -63991,17 +63980,15 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Tipo comprobante")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Num Comprobante")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Fecha")]),
+        _c("th", [_vm._v("# Comprobante")]),
         _vm._v(" "),
         _c("th", [_vm._v("Total")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Impuesto")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("F. pago")]),
+        _c("th", [_vm._v("Forma de pago")]),
         _vm._v(" "),
         _c("th", [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha")]),
         _vm._v(" "),
         _c("th", [_vm._v("Opciones")])
       ])

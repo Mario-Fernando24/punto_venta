@@ -57,7 +57,7 @@ class UserController extends Controller
        $usuario=$request->get('usuario');
        $password=$request->get('password');
 
-      //  Mail::to($request->get('email'))->queue(new NuevoUsuario($usuario,$password));
+        // Mail::to($request->get('email'))->queue(new NuevoUsuario($usuario,$password));
 
         
             $persona = Persona::create([

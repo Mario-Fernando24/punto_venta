@@ -53,16 +53,12 @@
                                                 <th>Usuario</th>
                                                 <th>Proveedor</th>
                                                 <th>Tipo comprobante</th>
-                                                <th>Num Comprobante</th>
-                                                <th>Fecha</th>
+                                                <th># Comprobante</th>
                                                 <th>Total</th>
-                                                <th>Impuesto</th>
-                                                <th>F. pago</th>
+                                                <th>Forma de pago</th>
                                                 <th>Estado</th>
+                                                <th>Fecha</th>
                                                 <th>Opciones</th>
-
-
-
 
                                             </tr>
                                         </thead>
@@ -74,10 +70,9 @@
                                                     <td v-text="ingreso.proveedoress.nombre"></td>
                                                     <td v-text="ingreso.tipo_comprobante"></td>
                                                     <td v-text="ingreso.num_comprobante"></td>
-                                                    <td v-text="ingreso.fecha_hora"></td>
                                                     <td v-text="ingreso.total"></td>
-                                                    <td v-text="ingreso.impuesto"></td>
                                                     <td v-text="ingreso.forma_pago"></td>
+                                                    <td v-text="ingreso.fecha_hora"></td>
 
 
                                                     <td>
