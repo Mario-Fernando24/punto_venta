@@ -581,11 +581,56 @@
             <template v-else-if="listado==3">
 
 
-                   <div class="card-body">
-                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-sm">
-                            <thead>
-                                <tr>
+
+
+
+
+
+                        <div class="form-group row border">
+
+                                <div class="col-md-2">
+                                    <label class="text-negrita">ID</label>
+                                    <p v-text="objFormPago.id"></p>
+                                </div>
+
+                                 <div class="col-md-4">
+                                    <label class="text-negrita">Forma Pago</label>
+                                    <p v-text="objFormPago.forma_pago"></p>
+                                </div>
+
+                                 <div class="col-md-3">
+                                    <label class="text-negrita">Tipo Comprobante</label>
+                                    <p v-text="objFormPago.tipo_comprobante"></p>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="text-negrita">Total</label>
+                                    <p v-text="objFormPago.total"></p>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <label class="text-negrita">Efectivo</label>
+                                    <p v-text="Arrayajuste_compra[0]['efectivo']"></p>
+                                </div>
+
+                                 <div class="col-md-6">
+                                    <label class="text-negrita">Credito</label>
+                                    <p v-text="Arrayajuste_compra[0]['credito']"></p>
+                                </div>
+                                
+                         </div>
+
+
+
+
+                   
+                <div class="form-group row border">
+                    <div class="table-responsive col-md-12">
+                            <table class="table table-bordered table-striped table-sm">
+                            
+                                <thead>
+                                    <tr>
                                     <th>#</th>
                                     <th>Articulo</th>
                                     <th>Precio Venta</th>
@@ -597,19 +642,69 @@
 
                             <tbody>
                                    <tr v-for="arrays in arrayArticuloPago" :key="arrays.id">
-
                                         <td v-text="arrays.id"></td>
                                         <td v-text="arrays.articulodetalle.nombre"></td>
                                         <td v-text="arrays.precio"></td>
                                         <td v-text="arrays.preciocompra"></td>
                                         <td v-text="(arrays.cantidad*arrays.preciocompra)"></td>
+                                    </tr>  
 
-                                    </tr>    
+
+                                      <tr class="totalresultado" >
+                                             <td colspan="6" align="right"><strong>Total:</strong></td>
+                                             <td colspan="2" v-text="objFormPago.total"></td>
+                                      </tr>
+
+
                            </tbody>
 
                         </table>
                     </div>
-                  </div>  
+                  </div> 
+
+
+
+
+
+
+
+
+
+            <ol class="breadcrumb">
+               <li class="breadcrumb-item"><a href="#">Detalle Pagos de compras</a></li>
+            </ol>
+
+
+                  <!--=============================================--> 
+
+                 <div class="form-group row border">
+                    <div class="table-responsive col-md-12">
+                            <table class="table table-bordered table-striped table-sm">
+                            
+                                <thead>
+                                    <tr>
+                                    <th>#</th>
+                                    <th># Caja</th>
+                                    <th>Abono</th>
+                                    <th>Fecha</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                   <tr v-for="arrays_ajuste in Arrayajuste_compra" :key="arrays_ajuste.id">
+                                        <td v-text="arrays_ajuste.id"></td>
+                                        <td v-text="arrays_ajuste.id_caja"></td>
+                                        <td v-text="arrays_ajuste.abono"></td>
+                                        <td v-text="arrays_ajuste.created_at"></td>
+                                    </tr>  
+
+                           </tbody>
+
+                        </table>
+                    </div>
+                  </div> 
+                  <!--=============================================--> 
 
 
             </template>
@@ -790,6 +885,9 @@ import vSelect from "vue-select";
             },
 
             arrayArticuloPago:[],
+            Arrayajuste_compra:[],
+            objFormPago:'',
+
 
           }
         },
@@ -1266,6 +1364,10 @@ import vSelect from "vue-select";
                      var respuesta=response.data;
                      console.log(respuesta.ObjetoDetalleAjuste);
                      me.arrayArticuloPago=respuesta.ObjetoDetalleAjuste.detalle_compra_articulos;
+                     me.Arrayajuste_compra=respuesta.ObjetoDetalleAjuste.ajuste_compra;
+                     me.objFormPago=respuesta.ObjetoDetalleAjuste;
+
+                     
 
                     //  detalle_compra_articulos
                     })

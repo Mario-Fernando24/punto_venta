@@ -7694,6 +7694,101 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -7768,7 +7863,9 @@ __webpack_require__.r(__webpack_exports__);
         credito: 0,
         valor: false
       },
-      arrayArticuloPago: []
+      arrayArticuloPago: [],
+      Arrayajuste_compra: [],
+      objFormPago: ''
     };
   },
   components: {
@@ -8174,7 +8271,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('ingresos/showComprasId?id=' + ingreso.id).then(function (response) {
         var respuesta = response.data;
         console.log(respuesta.ObjetoDetalleAjuste);
-        me.arrayArticuloPago = respuesta.ObjetoDetalleAjuste.detalle_compra_articulos; //  detalle_compra_articulos
+        me.arrayArticuloPago = respuesta.ObjetoDetalleAjuste.detalle_compra_articulos;
+        me.Arrayajuste_compra = respuesta.ObjetoDetalleAjuste.ajuste_compra;
+        me.objFormPago = respuesta.ObjetoDetalleAjuste; //  detalle_compra_articulos
       })["catch"](function (error) {
         console.log(error);
       });
@@ -63748,61 +63847,230 @@ var render = function() {
                     ]
                   : _vm.listado == 3
                   ? [
-                      _c("div", { staticClass: "card-body" }, [
-                        _c("div", { staticClass: "table-responsive" }, [
-                          _c(
-                            "table",
-                            {
-                              staticClass:
-                                "table table-bordered table-striped table-sm"
-                            },
-                            [
-                              _vm._m(18),
-                              _vm._v(" "),
-                              _c(
-                                "tbody",
-                                _vm._l(_vm.arrayArticuloPago, function(arrays) {
-                                  return _c("tr", { key: arrays.id }, [
-                                    _c("td", {
-                                      domProps: {
-                                        textContent: _vm._s(arrays.id)
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("td", {
-                                      domProps: {
-                                        textContent: _vm._s(
-                                          arrays.articulodetalle.nombre
-                                        )
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("td", {
-                                      domProps: {
-                                        textContent: _vm._s(arrays.precio)
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("td", {
-                                      domProps: {
-                                        textContent: _vm._s(arrays.preciocompra)
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("td", {
-                                      domProps: {
-                                        textContent: _vm._s(
-                                          arrays.cantidad * arrays.preciocompra
-                                        )
-                                      }
-                                    })
-                                  ])
-                                }),
-                                0
+                      _c("div", { staticClass: "form-group row border" }, [
+                        _c("div", { staticClass: "col-md-2" }, [
+                          _c("label", { staticClass: "text-negrita" }, [
+                            _vm._v("ID")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", {
+                            domProps: {
+                              textContent: _vm._s(_vm.objFormPago.id)
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-4" }, [
+                          _c("label", { staticClass: "text-negrita" }, [
+                            _vm._v("Forma Pago")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", {
+                            domProps: {
+                              textContent: _vm._s(_vm.objFormPago.forma_pago)
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-3" }, [
+                          _c("label", { staticClass: "text-negrita" }, [
+                            _vm._v("Tipo Comprobante")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", {
+                            domProps: {
+                              textContent: _vm._s(
+                                _vm.objFormPago.tipo_comprobante
                               )
-                            ]
-                          )
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-3" }, [
+                          _c("label", { staticClass: "text-negrita" }, [
+                            _vm._v("Total")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", {
+                            domProps: {
+                              textContent: _vm._s(_vm.objFormPago.total)
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("label", { staticClass: "text-negrita" }, [
+                            _vm._v("Efectivo")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", {
+                            domProps: {
+                              textContent: _vm._s(
+                                _vm.Arrayajuste_compra[0]["efectivo"]
+                              )
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("label", { staticClass: "text-negrita" }, [
+                            _vm._v("Credito")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", {
+                            domProps: {
+                              textContent: _vm._s(
+                                _vm.Arrayajuste_compra[0]["credito"]
+                              )
+                            }
+                          })
                         ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row border" }, [
+                        _c(
+                          "div",
+                          { staticClass: "table-responsive col-md-12" },
+                          [
+                            _c(
+                              "table",
+                              {
+                                staticClass:
+                                  "table table-bordered table-striped table-sm"
+                              },
+                              [
+                                _vm._m(18),
+                                _vm._v(" "),
+                                _c(
+                                  "tbody",
+                                  [
+                                    _vm._l(_vm.arrayArticuloPago, function(
+                                      arrays
+                                    ) {
+                                      return _c("tr", { key: arrays.id }, [
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(arrays.id)
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              arrays.articulodetalle.nombre
+                                            )
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(arrays.precio)
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              arrays.preciocompra
+                                            )
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              arrays.cantidad *
+                                                arrays.preciocompra
+                                            )
+                                          }
+                                        })
+                                      ])
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "tr",
+                                      { staticClass: "totalresultado" },
+                                      [
+                                        _vm._m(19),
+                                        _vm._v(" "),
+                                        _c("td", {
+                                          attrs: { colspan: "2" },
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              _vm.objFormPago.total
+                                            )
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ],
+                                  2
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(20),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row border" }, [
+                        _c(
+                          "div",
+                          { staticClass: "table-responsive col-md-12" },
+                          [
+                            _c(
+                              "table",
+                              {
+                                staticClass:
+                                  "table table-bordered table-striped table-sm"
+                              },
+                              [
+                                _vm._m(21),
+                                _vm._v(" "),
+                                _c(
+                                  "tbody",
+                                  _vm._l(_vm.Arrayajuste_compra, function(
+                                    arrays_ajuste
+                                  ) {
+                                    return _c("tr", { key: arrays_ajuste.id }, [
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(arrays_ajuste.id)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            arrays_ajuste.id_caja
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            arrays_ajuste.abono
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            arrays_ajuste.created_at
+                                          )
+                                        }
+                                      })
+                                    ])
+                                  }),
+                                  0
+                                )
+                              ]
+                            )
+                          ]
+                        )
                       ])
                     ]
                   : _vm._e()
@@ -63973,7 +64241,7 @@ var render = function() {
                           "table table-bordered table-striped table-sm"
                       },
                       [
-                        _vm._m(19),
+                        _vm._m(22),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -64351,6 +64619,40 @@ var staticRenderFns = [
         _c("th", [_vm._v("Precio Compra")]),
         _vm._v(" "),
         _c("th", [_vm._v("Total")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
+      _c("strong", [_vm._v("Total:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ol", { staticClass: "breadcrumb" }, [
+      _c("li", { staticClass: "breadcrumb-item" }, [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Detalle Pagos de compras")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("# Caja")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Abono")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha")])
       ])
     ])
   },
