@@ -66,6 +66,9 @@
                 Route::get('index', 'IngresoController@index');
                 Route::post('registrar', 'IngresoController@store');
                 Route::put('desactivar', 'IngresoController@desactivar');
+
+                Route::get('showComprasId', 'IngresoController@showComprasId');
+
                 });
 
         });//and middleware almacenero

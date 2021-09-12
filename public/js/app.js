@@ -7644,6 +7644,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -7666,13 +7716,6 @@ __webpack_require__.r(__webpack_exports__);
       subtotal: 0.0,
       fecha_hora: '',
       idingreso: '',
-      //forma de pago 
-      forma_pago_compra: 'EFECTIVO',
-      formapagooo: {
-        efectivo: 0,
-        credito: 0,
-        valor: false
-      },
       //variable para ver el listado
       listado: 1,
       //la data que regresa nuestro metodo listarIngreso se almacene en esta array
@@ -7717,7 +7760,15 @@ __webpack_require__.r(__webpack_exports__);
       validar_caja: '',
       nombreAnulaIngreso: '',
       estadovaling: '',
-      fecha_ing_anulada: ''
+      fecha_ing_anulada: '',
+      //forma de pago 
+      forma_pago_compra: 'EFECTIVO',
+      formapagooo: {
+        efectivo: 0,
+        credito: 0,
+        valor: false
+      },
+      arrayArticuloPago: []
     };
   },
   components: {
@@ -8032,7 +8083,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsStyling: false
       });
       swalWithBootstrapButtons.fire({
-        title: 'Estas seguro de Anular este Ingreso?',
+        title: 'Estas seguro de Anular esta compra?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -8046,7 +8097,7 @@ __webpack_require__.r(__webpack_exports__);
           }).then(function (response) {
             //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
             me.listarIngreso(1, '', 'num_comprobante');
-            swalWithBootstrapButtons.fire('Anulado', 'El Ingreso ha sido Anulado correctamente', 'success');
+            swalWithBootstrapButtons.fire('Anulado', 'La compra ha sido Anulado correctamente', 'success');
           })["catch"](function (error) {
             console.log(error);
           });
@@ -8103,6 +8154,29 @@ __webpack_require__.r(__webpack_exports__);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire('Cancelado', '', 'error');
         }
+      });
+    },
+    formaPago: function formaPago(ingreso) {
+      if (ingreso.estado == 'anulado') {
+        Swal.fire({
+          title: 'Esta compra esta anulada',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        });
+      }
+
+      this.listado = 3;
+      var me = this;
+      axios.get('ingresos/showComprasId?id=' + ingreso.id).then(function (response) {
+        var respuesta = response.data;
+        console.log(respuesta.ObjetoDetalleAjuste);
+        me.arrayArticuloPago = respuesta.ObjetoDetalleAjuste.detalle_compra_articulos; //  detalle_compra_articulos
+      })["catch"](function (error) {
+        console.log(error);
       });
     }
   },
@@ -61829,7 +61903,7 @@ var render = function() {
               [
                 _c("div", { staticClass: "card-header" }, [
                   _c("i", { staticClass: "fa fa-align-justify" }),
-                  _vm._v("Ingreso\n                            "),
+                  _vm._v("Compras\n                            "),
                   _c(
                     "button",
                     {
@@ -62038,12 +62112,6 @@ var render = function() {
                                       }
                                     }),
                                     _vm._v(" "),
-                                    _c("td", {
-                                      domProps: {
-                                        textContent: _vm._s(ingreso.fecha_hora)
-                                      }
-                                    }),
-                                    _vm._v(" "),
                                     _c("td", [
                                       ingreso.estado == "registrado"
                                         ? _c("div", [
@@ -62069,6 +62137,12 @@ var render = function() {
                                           ])
                                     ]),
                                     _vm._v(" "),
+                                    _c("td", {
+                                      domProps: {
+                                        textContent: _vm._s(ingreso.fecha_hora)
+                                      }
+                                    }),
+                                    _vm._v(" "),
                                     _c(
                                       "td",
                                       [
@@ -62077,7 +62151,10 @@ var render = function() {
                                           {
                                             staticClass:
                                               "btn btn-success btn-sm",
-                                            attrs: { type: "button" },
+                                            attrs: {
+                                              type: "button",
+                                              title: "Ver detalle de la compra"
+                                            },
                                             on: {
                                               click: function($event) {
                                                 return _vm.VerDetalleIngreso(
@@ -62093,7 +62170,10 @@ var render = function() {
                                           "button",
                                           {
                                             staticClass: "btn btn-info btn-sm",
-                                            attrs: { type: "button" },
+                                            attrs: {
+                                              type: "button",
+                                              title: "Descargar compra"
+                                            },
                                             on: {
                                               click: function($event) {
                                                 return _vm.descargaringreso(
@@ -62112,7 +62192,10 @@ var render = function() {
                                                 {
                                                   staticClass:
                                                     "btn btn-danger btn-sm",
-                                                  attrs: { type: "button" },
+                                                  attrs: {
+                                                    type: "button",
+                                                    title: "Anular compra"
+                                                  },
                                                   on: {
                                                     click: function($event) {
                                                       return _vm.anularIngreso(
@@ -62128,7 +62211,29 @@ var render = function() {
                                                 ]
                                               )
                                             ]
-                                          : _vm._e()
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-primary btn-sm",
+                                            attrs: {
+                                              type: "button",
+                                              title: "Forma de pago"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.formaPago(ingreso)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "icon-list"
+                                            })
+                                          ]
+                                        )
                                       ],
                                       2
                                     )
@@ -63641,6 +63746,65 @@ var render = function() {
                         ])
                       ])
                     ]
+                  : _vm.listado == 3
+                  ? [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c("div", { staticClass: "table-responsive" }, [
+                          _c(
+                            "table",
+                            {
+                              staticClass:
+                                "table table-bordered table-striped table-sm"
+                            },
+                            [
+                              _vm._m(18),
+                              _vm._v(" "),
+                              _c(
+                                "tbody",
+                                _vm._l(_vm.arrayArticuloPago, function(arrays) {
+                                  return _c("tr", { key: arrays.id }, [
+                                    _c("td", {
+                                      domProps: {
+                                        textContent: _vm._s(arrays.id)
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("td", {
+                                      domProps: {
+                                        textContent: _vm._s(
+                                          arrays.articulodetalle.nombre
+                                        )
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("td", {
+                                      domProps: {
+                                        textContent: _vm._s(arrays.precio)
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("td", {
+                                      domProps: {
+                                        textContent: _vm._s(arrays.preciocompra)
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("td", {
+                                      domProps: {
+                                        textContent: _vm._s(
+                                          arrays.cantidad * arrays.preciocompra
+                                        )
+                                      }
+                                    })
+                                  ])
+                                }),
+                                0
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ]
                   : _vm._e()
               ],
               2
@@ -63809,7 +63973,7 @@ var render = function() {
                           "table table-bordered table-striped table-sm"
                       },
                       [
-                        _vm._m(18),
+                        _vm._m(19),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -64170,6 +64334,24 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("td", { attrs: { colspan: "6", align: "right" } }, [
       _c("strong", [_vm._v("Total Ganancias:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Articulo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio Venta")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio Compra")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total")])
+      ])
     ])
   },
   function() {

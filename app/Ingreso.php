@@ -59,6 +59,11 @@ class Ingreso extends Model
         return $this->hasMany(AjusteCompra::class,'id_compra','id');
     }
 
+    public function detalleCompraArticulos()
+    {
+        return $this->hasMany(DetalleIngreso::class,'idingreso','id');
+    }
+
 }
 
 

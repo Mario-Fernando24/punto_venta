@@ -21,10 +21,14 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i>Ingreso
+                        <i class="fa fa-align-justify"></i>Compras
                             <button type="button" @click="mostrarDetalle()" class="btn btn-secondary btn-sm" data-toggle="modal">
                             <i class="icon-plus"></i>Nuevo
                              </button>
+
+
+
+
 
 
                     </div>
@@ -72,8 +76,6 @@
                                                     <td v-text="ingreso.num_comprobante"></td>
                                                     <td v-text="ingreso.total"></td>
                                                     <td v-text="ingreso.forma_pago"></td>
-                                                    <td v-text="ingreso.fecha_hora"></td>
-
 
                                                     <td>
                                                     <div v-if="ingreso.estado=='registrado'">
@@ -85,24 +87,33 @@
                                                     </div>
                                                     </td>
 
+                                                     <td v-text="ingreso.fecha_hora"></td>
 
                                                     <td>
 
-                                                    <button type="button" class="btn btn-success btn-sm" @click="VerDetalleIngreso(ingreso.id)">
+                                                    <button type="button" class="btn btn-success btn-sm" @click="VerDetalleIngreso(ingreso.id)" title="Ver detalle de la compra">
                                                     <i class="icon-eye"></i>
                                                     </button> 
 
 
-                                                    <button type="button" class="btn btn-info btn-sm" @click="descargaringreso(ingreso.id)">
+                                                    <button type="button" class="btn btn-info btn-sm" @click="descargaringreso(ingreso.id)" title="Descargar compra">
                                                     <i class="icon-doc"></i>
                                                     </button>
 
 
                                                     <template v-if="ingreso.estado=='registrado'"> 
-                                                    <button type="button"  class="btn btn-danger btn-sm" @click="anularIngreso(ingreso.id)">
+                                                    <button type="button"  class="btn btn-danger btn-sm" @click="anularIngreso(ingreso.id)" title="Anular compra">
                                                     <i class="icon-trash"></i>
                                                     </button>
                                                     </template>
+
+
+
+                                                    <button type="button" class="btn btn-primary btn-sm" @click="formaPago(ingreso)" title="Forma de pago">
+                                                    <i class="icon-list"></i>
+                                                    </button> 
+
+
                                                     </td>
 
                                                     
@@ -564,6 +575,45 @@
                         </div>
                     </template>
 
+
+
+
+            <template v-else-if="listado==3">
+
+
+                   <div class="card-body">
+                     <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Articulo</th>
+                                    <th>Precio Venta</th>
+                                    <th>Precio Compra</th>
+                                    <th>Total</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                   <tr v-for="arrays in arrayArticuloPago" :key="arrays.id">
+
+                                        <td v-text="arrays.id"></td>
+                                        <td v-text="arrays.articulodetalle.nombre"></td>
+                                        <td v-text="arrays.precio"></td>
+                                        <td v-text="arrays.preciocompra"></td>
+                                        <td v-text="(arrays.cantidad*arrays.preciocompra)"></td>
+
+                                    </tr>    
+                           </tbody>
+
+                        </table>
+                    </div>
+                  </div>  
+
+
+            </template>
+
                      <!-- final de los detalle de los ingresos-->
 
                     </div>
@@ -678,14 +728,6 @@ import vSelect from "vue-select";
             subtotal: 0.0,
             fecha_hora:'',
             idingreso:'',
-            //forma de pago 
-            forma_pago_compra:'EFECTIVO',
-
-            formapagooo:{
-                efectivo:0,
-                credito:0,
-                valor:false,
-            },
 
             //variable para ver el listado
             listado: 1,
@@ -735,6 +777,19 @@ import vSelect from "vue-select";
             nombreAnulaIngreso:'',
             estadovaling:'',
             fecha_ing_anulada:'',
+
+
+
+            //forma de pago 
+            forma_pago_compra:'EFECTIVO',
+
+            formapagooo:{
+                efectivo:0,
+                credito:0,
+                valor:false,
+            },
+
+            arrayArticuloPago:[],
 
           }
         },
@@ -1088,7 +1143,7 @@ import vSelect from "vue-select";
                         buttonsStyling: false
                         })
                         swalWithBootstrapButtons.fire({
-                        title: 'Estas seguro de Anular este Ingreso?',
+                        title: 'Estas seguro de Anular esta compra?',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'Aceptar',
@@ -1105,7 +1160,7 @@ import vSelect from "vue-select";
                         me.listarIngreso(1,'','num_comprobante');
                             swalWithBootstrapButtons.fire(
                             'Anulado',
-                            'El Ingreso ha sido Anulado correctamente',
+                            'La compra ha sido Anulado correctamente',
                             'success'
                             )
                         })
@@ -1190,6 +1245,34 @@ import vSelect from "vue-select";
                 }
                 })
            },
+
+
+           formaPago(ingreso){
+              
+              if(ingreso.estado=='anulado'){
+                    Swal.fire({
+                    title: 'Esta compra esta anulada',
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                    })
+              }
+                this.listado=3;  
+                    let me=this;
+                    axios.get('ingresos/showComprasId?id='+ingreso.id).then(function (response) {   
+                     var respuesta=response.data;
+                     console.log(respuesta.ObjetoDetalleAjuste);
+                     me.arrayArticuloPago=respuesta.ObjetoDetalleAjuste.detalle_compra_articulos;
+
+                    //  detalle_compra_articulos
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });             
+           }
 
 
 

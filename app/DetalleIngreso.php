@@ -27,6 +27,4 @@ class DetalleIngreso extends Model
         
     }
 
-
-
 }

@@ -214,6 +214,15 @@ class IngresoController extends Controller
         return $pdf->download('compra-'.$ObjetoDetalleIngreso->id.'-'.$mytime);   
       }
 
+       public function showComprasId(Request $request){
+
+        $showDeudaCompra = Ingreso::with('AjusteCompra','detalleCompraArticulos','detalleCompraArticulos.articulodetalle')
+        ->where('id',$request->get('id'),)->orderBy('id', 'DESC')->first();
+
+        return response()->json([ 'status' => 'ok','ObjetoDetalleAjuste'=>$showDeudaCompra], 200);
+
+       }
+
 }
 
 
