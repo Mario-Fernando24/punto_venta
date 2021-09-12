@@ -7789,6 +7789,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -8266,17 +8273,31 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
 
-      this.listado = 3;
-      var me = this;
-      axios.get('ingresos/showComprasId?id=' + ingreso.id).then(function (response) {
-        var respuesta = response.data;
-        console.log(respuesta.ObjetoDetalleAjuste);
-        me.arrayArticuloPago = respuesta.ObjetoDetalleAjuste.detalle_compra_articulos;
-        me.Arrayajuste_compra = respuesta.ObjetoDetalleAjuste.ajuste_compra;
-        me.objFormPago = respuesta.ObjetoDetalleAjuste; //  detalle_compra_articulos
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      if (ingreso.forma_pago == 'EFECTIVO') {
+        Swal.fire({
+          title: 'Esta compra fue en efectivo',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        });
+      }
+
+      if (ingreso.forma_pago != 'EFECTIVO') {
+        this.listado = 3;
+        var me = this;
+        axios.get('ingresos/showComprasId?id=' + ingreso.id).then(function (response) {
+          var respuesta = response.data;
+          console.log(respuesta.ObjetoDetalleAjuste);
+          me.arrayArticuloPago = respuesta.ObjetoDetalleAjuste.detalle_compra_articulos;
+          me.Arrayajuste_compra = respuesta.ObjetoDetalleAjuste.ajuste_compra;
+          me.objFormPago = respuesta.ObjetoDetalleAjuste; //  detalle_compra_articulos
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     }
   },
   mounted: function mounted() {
@@ -64062,7 +64083,9 @@ var render = function() {
                                             arrays_ajuste.created_at
                                           )
                                         }
-                                      })
+                                      }),
+                                      _vm._v(" "),
+                                      _vm._m(22, true)
                                     ])
                                   }),
                                   0
@@ -64071,7 +64094,16 @@ var render = function() {
                             )
                           ]
                         )
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn-outline-warning btn-block",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Desea Abonar la compra")]
+                      )
                     ]
                   : _vm._e()
               ],
@@ -64241,7 +64273,7 @@ var render = function() {
                           "table table-bordered table-striped table-sm"
                       },
                       [
-                        _vm._m(22),
+                        _vm._m(23),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -64652,8 +64684,25 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Abono")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Fecha")])
+        _c("th", [_vm._v("Fecha")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-info",
+          attrs: { type: "button", title: "Descargar Detalle compra" }
+        },
+        [_c("i", { staticClass: "icon-doc" })]
+      )
     ])
   },
   function() {

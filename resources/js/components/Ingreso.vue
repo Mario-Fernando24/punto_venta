@@ -687,6 +687,7 @@
                                     <th># Caja</th>
                                     <th>Abono</th>
                                     <th>Fecha</th>
+                                    <th>Opciones</th>
 
                                 </tr>
                             </thead>
@@ -697,6 +698,11 @@
                                         <td v-text="arrays_ajuste.id_caja"></td>
                                         <td v-text="arrays_ajuste.abono"></td>
                                         <td v-text="arrays_ajuste.created_at"></td>
+                                        <td>
+                                            <button type="button" class="btn btn-info" title="Descargar Detalle compra">
+                                                <i class="icon-doc"></i>
+                                            </button>
+                                        </td>
                                     </tr>  
 
                            </tbody>
@@ -706,6 +712,7 @@
                   </div> 
                   <!--=============================================--> 
 
+            <button type="button" class="btn-outline-warning btn-block">Desea Abonar la compra</button>
 
             </template>
 
@@ -1358,6 +1365,24 @@ import vSelect from "vue-select";
                     }
                     })
               }
+
+              if(ingreso.forma_pago=='EFECTIVO')
+              {
+                    Swal.fire({
+                    title: 'Esta compra fue en efectivo',
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                    })
+              }
+
+
+              if(ingreso.forma_pago!='EFECTIVO')
+              {
+
                 this.listado=3;  
                     let me=this;
                     axios.get('ingresos/showComprasId?id='+ingreso.id).then(function (response) {   
@@ -1373,7 +1398,8 @@ import vSelect from "vue-select";
                     })
                     .catch(function (error) {
                         console.log(error);
-                    });             
+                    });      
+                }       
            }
 
 
