@@ -581,15 +581,10 @@
             <template v-else-if="listado==3">
 
 
-
-
-
-
-
                         <div class="form-group row border">
 
                                 <div class="col-md-2">
-                                    <label class="text-negrita">ID</label>
+                                    <label class="text-negrita">#</label>
                                     <p v-text="objFormPago.id"></p>
                                 </div>
 
@@ -611,12 +606,12 @@
 
                                 <div class="col-md-6">
                                     <label class="text-negrita">Efectivo</label>
-                                    <p v-text="Arrayajuste_compra[0]['efectivo']"></p>
+                                    <br><span class="badge bg-success" v-text="Arrayajuste_compra[0]['efectivo']"></span>
                                 </div>
 
                                  <div class="col-md-6">
                                     <label class="text-negrita">Credito</label>
-                                    <p v-text="Arrayajuste_compra[0]['credito']"></p>
+                                    <br><span class="badge bg-danger" v-text="Arrayajuste_compra[0]['credito']"></span>
                                 </div>
                                 
                          </div>
@@ -650,15 +645,19 @@
                                     </tr>  
 
 
-                                      <tr class="totalresultado" >
-                                             <td colspan="6" align="right"><strong>Total:</strong></td>
-                                             <td colspan="2" v-text="objFormPago.total"></td>
-                                      </tr>
 
 
                            </tbody>
 
                         </table>
+
+
+
+                                      <div class="totalresultado" >
+                                             <td colspan="12" align="left"> Total:    <strong v-text="objFormPago.total"></strong></td>
+                                      </div>
+
+
                     </div>
                   </div> 
 
@@ -712,7 +711,68 @@
                   </div> 
                   <!--=============================================--> 
 
-            <button type="button" class="btn-outline-warning btn-block">Desea Abonar la compra</button>
+            <button type="button"  @click="openModalFormaPago()" class="btn-outline-warning btn-block">DESEA ABONAR EN LA COMPRA</button>
+
+
+
+
+   <!--Inicio del modal agregar/actualizar-->
+            <div class="modal fade"  tabindex="-1" :class="{'mostrar':modalFormPago}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Agregue el valor de abonar a esta compra</h4>
+                            <button type="button" class="close" @click="cerrarModalforma()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                  
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                    <label class="col-md-12 form-control-label text-negrita" for="text-input">Valor Abonar</label>
+                                        <input type="number" class="form-control" placeholder="$$$$$$">
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModalforma()">Cerrar</button>
+                            <button type="button"  class="btn btn-outline-primary" @click="agregarformaPago()">Guardar Abono</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             </template>
 
@@ -894,6 +954,7 @@ import vSelect from "vue-select";
             arrayArticuloPago:[],
             Arrayajuste_compra:[],
             objFormPago:'',
+            modalFormPago:0,
 
 
           }
@@ -1351,6 +1412,39 @@ import vSelect from "vue-select";
                 })
            },
 
+
+           openModalFormaPago()
+           {
+               this.modalFormPago=1;
+           },
+           cerrarModalforma(){
+                this.modalFormPago=0;
+           },
+
+           agregarformaPago(){
+
+               console.log('agregar forma de pago mario');
+
+
+                let me=this;
+                  axios.post('/ingreso/registrarAbonoCompra', {
+                    // 'nombre':  this.nombre,
+                    // 'descripcion': this.descripcion
+                })
+                .then(function (response) {
+                    // me.cerrarModal();
+                    // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                    // me.listaCategoria(1,'','nombre');
+                }) 
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+
+
+
+           },
 
            formaPago(ingreso){
               

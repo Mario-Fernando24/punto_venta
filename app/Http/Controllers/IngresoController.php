@@ -3,11 +3,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ingreso;
 use App\Venta;
-
 use App\DetalleIngreso;
 use App\Articulo;
 use App\Categoria;
 use App\Perfil;
+use App\ModelInventario\AjusteCompra;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -214,12 +214,38 @@ class IngresoController extends Controller
         return $pdf->download('compra-'.$ObjetoDetalleIngreso->id.'-'.$mytime);   
       }
 
+
+
+
        public function showComprasId(Request $request){
 
-        $showDeudaCompra = Ingreso::with('AjusteCompra','detalleCompraArticulos','detalleCompraArticulos.articulodetalle')
-        ->where('id',$request->get('id'),)->orderBy('id', 'DESC')->first();
+              $showDeudaCompra = Ingreso::with('AjusteCompra','detalleCompraArticulos','detalleCompraArticulos.articulodetalle')
+              ->where('id',$request->get('id'),)->orderBy('id', 'DESC')->first();
 
-        return response()->json([ 'status' => 'ok','ObjetoDetalleAjuste'=>$showDeudaCompra], 200);
+              return response()->json([ 'status' => 'ok','ObjetoDetalleAjuste'=>$showDeudaCompra], 200);
+
+       }
+
+
+       public function registrarAbonoCompra(Request $request){
+
+            $mmm=AjusteCompra::create([
+              'id_compra' => $request->get('id_compra'),,
+              'id_caja' => $request->get('id_caja'),,
+              'id_users' => $request->get('id_users'),,
+              'abono' => $request->get('abono'),,
+            ]);
+
+            if($mmm){
+              return response()->json([ 'status' => true], 200);
+
+            }else{
+              return response()->json([ 'status' => false], 200);
+
+            }
+
+
+
 
        }
 

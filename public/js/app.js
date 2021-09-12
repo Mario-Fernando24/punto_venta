@@ -7796,6 +7796,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -7872,7 +7932,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       arrayArticuloPago: [],
       Arrayajuste_compra: [],
-      objFormPago: ''
+      objFormPago: '',
+      modalFormPago: 0
     };
   },
   components: {
@@ -8258,6 +8319,24 @@ __webpack_require__.r(__webpack_exports__);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire('Cancelado', '', 'error');
         }
+      });
+    },
+    openModalFormaPago: function openModalFormaPago() {
+      this.modalFormPago = 1;
+    },
+    cerrarModalforma: function cerrarModalforma() {
+      this.modalFormPago = 0;
+    },
+    agregarformaPago: function agregarformaPago() {
+      console.log('agregar forma de pago mario');
+      var me = this;
+      axios.post('/ingreso/registrarAbonoCompra', {// 'nombre':  this.nombre,
+        // 'descripcion': this.descripcion
+      }).then(function (response) {// me.cerrarModal();
+        // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+        // me.listaCategoria(1,'','nombre');
+      })["catch"](function (error) {
+        console.log(error);
       });
     },
     formaPago: function formaPago(ingreso) {
@@ -63871,7 +63950,7 @@ var render = function() {
                       _c("div", { staticClass: "form-group row border" }, [
                         _c("div", { staticClass: "col-md-2" }, [
                           _c("label", { staticClass: "text-negrita" }, [
-                            _vm._v("ID")
+                            _vm._v("#")
                           ]),
                           _vm._v(" "),
                           _c("p", {
@@ -63924,7 +64003,9 @@ var render = function() {
                             _vm._v("Efectivo")
                           ]),
                           _vm._v(" "),
-                          _c("p", {
+                          _c("br"),
+                          _c("span", {
+                            staticClass: "badge bg-success",
                             domProps: {
                               textContent: _vm._s(
                                 _vm.Arrayajuste_compra[0]["efectivo"]
@@ -63938,7 +64019,9 @@ var render = function() {
                             _vm._v("Credito")
                           ]),
                           _vm._v(" "),
-                          _c("p", {
+                          _c("br"),
+                          _c("span", {
+                            staticClass: "badge bg-danger",
                             domProps: {
                               textContent: _vm._s(
                                 _vm.Arrayajuste_compra[0]["credito"]
@@ -63964,76 +64047,72 @@ var render = function() {
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
-                                  [
-                                    _vm._l(_vm.arrayArticuloPago, function(
-                                      arrays
-                                    ) {
-                                      return _c("tr", { key: arrays.id }, [
-                                        _c("td", {
-                                          domProps: {
-                                            textContent: _vm._s(arrays.id)
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("td", {
-                                          domProps: {
-                                            textContent: _vm._s(
-                                              arrays.articulodetalle.nombre
-                                            )
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("td", {
-                                          domProps: {
-                                            textContent: _vm._s(arrays.precio)
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("td", {
-                                          domProps: {
-                                            textContent: _vm._s(
+                                  _vm._l(_vm.arrayArticuloPago, function(
+                                    arrays
+                                  ) {
+                                    return _c("tr", { key: arrays.id }, [
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(arrays.id)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            arrays.articulodetalle.nombre
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(arrays.precio)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            arrays.preciocompra
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            arrays.cantidad *
                                               arrays.preciocompra
-                                            )
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("td", {
-                                          domProps: {
-                                            textContent: _vm._s(
-                                              arrays.cantidad *
-                                                arrays.preciocompra
-                                            )
-                                          }
-                                        })
-                                      ])
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "tr",
-                                      { staticClass: "totalresultado" },
-                                      [
-                                        _vm._m(19),
-                                        _vm._v(" "),
-                                        _c("td", {
-                                          attrs: { colspan: "2" },
-                                          domProps: {
-                                            textContent: _vm._s(
-                                              _vm.objFormPago.total
-                                            )
-                                          }
-                                        })
-                                      ]
-                                    )
-                                  ],
-                                  2
+                                          )
+                                        }
+                                      })
+                                    ])
+                                  }),
+                                  0
                                 )
                               ]
-                            )
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "totalresultado" }, [
+                              _c(
+                                "td",
+                                { attrs: { colspan: "12", align: "left" } },
+                                [
+                                  _vm._v(" Total:    "),
+                                  _c("strong", {
+                                    domProps: {
+                                      textContent: _vm._s(_vm.objFormPago.total)
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
                           ]
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(20),
+                      _vm._m(19),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group row border" }, [
                         _c(
@@ -64047,7 +64126,7 @@ var render = function() {
                                   "table table-bordered table-striped table-sm"
                               },
                               [
-                                _vm._m(21),
+                                _vm._m(20),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -64085,7 +64164,7 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
-                                      _vm._m(22, true)
+                                      _vm._m(21, true)
                                     ])
                                   }),
                                   0
@@ -64100,9 +64179,105 @@ var render = function() {
                         "button",
                         {
                           staticClass: "btn-outline-warning btn-block",
-                          attrs: { type: "button" }
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.openModalFormaPago()
+                            }
+                          }
                         },
-                        [_vm._v("Desea Abonar la compra")]
+                        [_vm._v("DESEA ABONAR EN LA COMPRA")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "modal fade",
+                          class: { mostrar: _vm.modalFormPago },
+                          staticStyle: { display: "none" },
+                          attrs: {
+                            tabindex: "-1",
+                            role: "dialog",
+                            "aria-labelledby": "myModalLabel",
+                            "aria-hidden": "true"
+                          }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "modal-dialog modal-primary modal-lg",
+                              attrs: { role: "document" }
+                            },
+                            [
+                              _c("div", { staticClass: "modal-content" }, [
+                                _c("div", { staticClass: "modal-header" }, [
+                                  _c("h4", { staticClass: "modal-title" }, [
+                                    _vm._v(
+                                      "Agregue el valor de abonar a esta compra"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "close",
+                                      attrs: {
+                                        type: "button",
+                                        "aria-label": "Close"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.cerrarModalforma()
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "span",
+                                        { attrs: { "aria-hidden": "true" } },
+                                        [_vm._v("×")]
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _vm._m(22),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "modal-footer" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-secondary",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.cerrarModalforma()
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Cerrar")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-outline-primary",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.agregarformaPago()
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Guardar Abono")]
+                                  )
+                                ])
+                              ])
+                            ]
+                          )
+                        ]
                       )
                     ]
                   : _vm._e()
@@ -64658,14 +64833,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "6", align: "right" } }, [
-      _c("strong", [_vm._v("Total:")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("ol", { staticClass: "breadcrumb" }, [
       _c("li", { staticClass: "breadcrumb-item" }, [
         _c("a", { attrs: { href: "#" } }, [_vm._v("Detalle Pagos de compras")])
@@ -64702,6 +64869,39 @@ var staticRenderFns = [
           attrs: { type: "button", title: "Descargar Detalle compra" }
         },
         [_c("i", { staticClass: "icon-doc" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c(
+        "form",
+        {
+          staticClass: "form-horizontal",
+          attrs: { action: "", method: "post", enctype: "multipart/form-data" }
+        },
+        [
+          _c("div", { staticClass: "form-group row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-md-12 form-control-label text-negrita",
+                  attrs: { for: "text-input" }
+                },
+                [_vm._v("Valor Abonar")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "number", placeholder: "$$$$$$" }
+              })
+            ])
+          ])
+        ]
       )
     ])
   },

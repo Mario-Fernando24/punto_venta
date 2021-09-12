@@ -68,6 +68,7 @@
                 Route::put('desactivar', 'IngresoController@desactivar');
 
                 Route::get('showComprasId', 'IngresoController@showComprasId');
+                Route::post('registrarAbonoCompra', 'IngresoController@registrarAbonoCompra');
 
                 });
 
