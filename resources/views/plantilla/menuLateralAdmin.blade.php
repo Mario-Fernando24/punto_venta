@@ -44,10 +44,10 @@
                                 <a class="nav-link" href="#"><i class="icon-wallet"></i> Compras</a>
                             </li>
                             
-
+<!-- 
                             <li @click="menu=30" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-notebook"></i>Ajuste de compra</a>
-                            </li>
+                            </li> -->
 
 
                             

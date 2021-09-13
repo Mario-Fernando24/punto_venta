@@ -7845,6 +7845,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -7923,7 +7935,8 @@ __webpack_require__.r(__webpack_exports__);
       Arrayajuste_compra: [],
       objFormPago: '',
       modalFormPago: 0,
-      abonoFormaPago: 0
+      abonoFormaPago: 0,
+      contAbono: 0
     };
   },
   components: {
@@ -8325,7 +8338,9 @@ __webpack_require__.r(__webpack_exports__);
         'id_caja': this.objFormPago.id_apertura_caja_usuario,
         'abono': this.abonoFormaPago
       }).then(function (response) {
-        me.cerrarModalforma(); // me.cerrarModal();
+        me.cerrarModalforma();
+        me.listado = 1;
+        me.contAbono = 0; // me.cerrarModal();
         // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
         // me.listaCategoria(1,'','nombre');
       })["catch"](function (error) {
@@ -8365,7 +8380,10 @@ __webpack_require__.r(__webpack_exports__);
           console.log(respuesta.ObjetoDetalleAjuste);
           me.arrayArticuloPago = respuesta.ObjetoDetalleAjuste.detalle_compra_articulos;
           me.Arrayajuste_compra = respuesta.ObjetoDetalleAjuste.ajuste_compra;
-          me.objFormPago = respuesta.ObjetoDetalleAjuste; //  detalle_compra_articulos
+          me.objFormPago = respuesta.ObjetoDetalleAjuste;
+          me.Arrayajuste_compra.map(function (x) {
+            me.contAbono += parseInt(x.abono);
+          }); //  detalle_compra_articulos
         })["catch"](function (error) {
           console.log(error);
         });
@@ -64001,7 +64019,9 @@ var render = function() {
                             staticClass: "badge bg-success",
                             domProps: {
                               textContent: _vm._s(
-                                _vm.Arrayajuste_compra[0]["efectivo"]
+                                Intl.NumberFormat().format(
+                                  _vm.Arrayajuste_compra[0]["efectivo"]
+                                )
                               )
                             }
                           })
@@ -64017,12 +64037,16 @@ var render = function() {
                             staticClass: "badge bg-danger",
                             domProps: {
                               textContent: _vm._s(
-                                _vm.Arrayajuste_compra[0]["credito"]
+                                Intl.NumberFormat().format(
+                                  _vm.Arrayajuste_compra[0]["credito"]
+                                )
                               )
                             }
                           })
                         ])
                       ]),
+                      _vm._v(" "),
+                      _vm._m(18),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group row border" }, [
                         _c(
@@ -64036,7 +64060,7 @@ var render = function() {
                                   "table table-bordered table-striped table-sm"
                               },
                               [
-                                _vm._m(18),
+                                _vm._m(19),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -64060,14 +64084,10 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", {
                                         domProps: {
-                                          textContent: _vm._s(arrays.precio)
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("td", {
-                                        domProps: {
                                           textContent: _vm._s(
-                                            arrays.preciocompra
+                                            Intl.NumberFormat().format(
+                                              arrays.precio
+                                            )
                                           )
                                         }
                                       }),
@@ -64075,8 +64095,20 @@ var render = function() {
                                       _c("td", {
                                         domProps: {
                                           textContent: _vm._s(
-                                            arrays.cantidad *
+                                            Intl.NumberFormat().format(
                                               arrays.preciocompra
+                                            )
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            Intl.NumberFormat().format(
+                                              arrays.cantidad *
+                                                arrays.preciocompra
+                                            )
                                           )
                                         }
                                       })
@@ -64087,25 +64119,38 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "totalresultado" }, [
-                              _c(
-                                "td",
-                                { attrs: { colspan: "12", align: "left" } },
-                                [
-                                  _vm._v(" Total:    "),
-                                  _c("strong", {
+                            _c(
+                              "table",
+                              {
+                                staticClass:
+                                  "table table-bordered table-striped table-sm totalresultado",
+                                attrs: {
+                                  BORDER: "5",
+                                  CELLPADDING: "10",
+                                  CELLSPACING: "10"
+                                }
+                              },
+                              [
+                                _c("tr", [
+                                  _vm._m(20),
+                                  _vm._v(" "),
+                                  _c("td", {
                                     domProps: {
-                                      textContent: _vm._s(_vm.objFormPago.total)
+                                      textContent: _vm._s(
+                                        Intl.NumberFormat().format(
+                                          _vm.objFormPago.total
+                                        )
+                                      )
                                     }
                                   })
-                                ]
-                              )
-                            ])
+                                ])
+                              ]
+                            )
                           ]
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(19),
+                      _vm._m(21),
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group row border" }, [
                         _c(
@@ -64119,7 +64164,7 @@ var render = function() {
                                   "table table-bordered table-striped table-sm"
                               },
                               [
-                                _vm._m(20),
+                                _vm._m(22),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -64144,7 +64189,9 @@ var render = function() {
                                       _c("td", {
                                         domProps: {
                                           textContent: _vm._s(
-                                            arrays_ajuste.abono
+                                            Intl.NumberFormat().format(
+                                              arrays_ajuste.abono
+                                            )
                                           )
                                         }
                                       }),
@@ -64157,30 +64204,104 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
-                                      _vm._m(21, true)
+                                      _vm._m(23, true)
                                     ])
                                   }),
                                   0
                                 )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "table",
+                              {
+                                staticClass:
+                                  "table table-bordered table-striped table-sm totalresultado",
+                                attrs: {
+                                  BORDER: "5",
+                                  CELLPADDING: "10",
+                                  CELLSPACING: "10"
+                                }
+                              },
+                              [
+                                _c("tr", [
+                                  _vm._m(24),
+                                  _vm._v(" "),
+                                  _c("td", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        Intl.NumberFormat().format(
+                                          _vm.Arrayajuste_compra[0]["credito"]
+                                        )
+                                      )
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _vm._m(25),
+                                  _vm._v(" "),
+                                  _c("td", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        Intl.NumberFormat().format(
+                                          _vm.contAbono
+                                        )
+                                      )
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                  _vm._m(26),
+                                  _vm._v(" "),
+                                  _c("td", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        Intl.NumberFormat().format(
+                                          _vm.Arrayajuste_compra[0]["credito"] -
+                                            _vm.contAbono
+                                        )
+                                      )
+                                    }
+                                  })
+                                ])
                               ]
                             )
                           ]
                         )
                       ]),
                       _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn-outline-warning btn-block",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.openModalFormaPago()
-                            }
-                          }
-                        },
-                        [_vm._v("DESEA ABONAR EN LA COMPRA")]
-                      ),
+                      Intl.NumberFormat().format(
+                        _vm.Arrayajuste_compra[0]["credito"] - _vm.contAbono
+                      ) == 0
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn-success btn-block",
+                              attrs: { type: "button" }
+                            },
+                            [_vm._v("PAGADO")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      parseInt(
+                        _vm.Arrayajuste_compra[0]["credito"] - _vm.contAbono
+                      ) > 0
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn-outline-warning btn-block",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.openModalFormaPago()
+                                }
+                              }
+                            },
+                            [_vm._v("DESEA ABONAR EN LA COMPRA")]
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -64230,7 +64351,7 @@ var render = function() {
                                       _c(
                                         "span",
                                         { attrs: { "aria-hidden": "true" } },
-                                        [_vm._v("×")]
+                                        [_vm._v("X")]
                                       )
                                     ]
                                   )
@@ -64506,7 +64627,7 @@ var render = function() {
                           "table table-bordered table-striped table-sm"
                       },
                       [
-                        _vm._m(22),
+                        _vm._m(27),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -64873,6 +64994,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("ol", { staticClass: "breadcrumb" }, [
+      _c("li", { staticClass: "breadcrumb-item" }, [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("Articulos de la compra")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("#")]),
@@ -64886,6 +65017,12 @@ var staticRenderFns = [
         _c("th", [_vm._v("Total")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("b", [_vm._v("Total:")])])
   },
   function() {
     var _vm = this
@@ -64929,6 +65066,24 @@ var staticRenderFns = [
         [_c("i", { staticClass: "icon-doc" })]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("b", [_vm._v("Credito: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("b", [_vm._v("Total Abonado: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("b", [_vm._v("Deuda: ")])])
   },
   function() {
     var _vm = this

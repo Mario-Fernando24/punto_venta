@@ -606,19 +606,21 @@
 
                                 <div class="col-md-6">
                                     <label class="text-negrita">Efectivo</label>
-                                    <br><span class="badge bg-success" v-text="Arrayajuste_compra[0]['efectivo']"></span>
+                                    <br><span class="badge bg-success" v-text="Intl.NumberFormat().format(Arrayajuste_compra[0]['efectivo'])"></span>
                                 </div>
 
                                  <div class="col-md-6">
                                     <label class="text-negrita">Credito</label>
-                                    <br><span class="badge bg-danger" v-text="Arrayajuste_compra[0]['credito']"></span>
+                                    <br><span class="badge bg-danger" v-text="Intl.NumberFormat().format(Arrayajuste_compra[0]['credito'])"></span>
                                 </div>
                                 
                          </div>
 
 
 
-
+            <ol class="breadcrumb">
+               <li class="breadcrumb-item"><a href="#">Articulos de la compra</a></li>
+            </ol>
                    
                 <div class="form-group row border">
                     <div class="table-responsive col-md-12">
@@ -639,9 +641,9 @@
                                    <tr v-for="arrays in arrayArticuloPago" :key="arrays.id">
                                         <td v-text="arrays.id"></td>
                                         <td v-text="arrays.articulodetalle.nombre"></td>
-                                        <td v-text="arrays.precio"></td>
-                                        <td v-text="arrays.preciocompra"></td>
-                                        <td v-text="(arrays.cantidad*arrays.preciocompra)"></td>
+                                        <td v-text="Intl.NumberFormat().format(arrays.precio)"></td>
+                                        <td v-text="Intl.NumberFormat().format(arrays.preciocompra)"></td>
+                                        <td v-text="Intl.NumberFormat().format(arrays.cantidad*arrays.preciocompra)"></td>
                                     </tr>  
 
 
@@ -653,10 +655,11 @@
 
 
 
-                                      <div class="totalresultado" >
-                                             <td colspan="12" align="left"> Total:    <strong v-text="objFormPago.total"></strong></td>
-                                      </div>
-
+                        <table class="table table-bordered table-striped table-sm totalresultado" BORDER=5 CELLPADDING=10 CELLSPACING=10>
+                            <tr>
+                                 <td><b>Total:</b> </td> <td v-text="Intl.NumberFormat().format(objFormPago.total)"></td>
+                            </tr>
+                        </table>
 
                     </div>
                   </div> 
@@ -695,7 +698,7 @@
                                    <tr v-for="arrays_ajuste in Arrayajuste_compra" :key="arrays_ajuste.id">
                                         <td v-text="arrays_ajuste.id"></td>
                                         <td v-text="arrays_ajuste.id_caja"></td>
-                                        <td v-text="arrays_ajuste.abono"></td>
+                                        <td v-text="Intl.NumberFormat().format(arrays_ajuste.abono)"></td>
                                         <td v-text="arrays_ajuste.created_at"></td>
                                         <td>
                                             <button type="button" class="btn btn-info" title="Descargar Detalle compra">
@@ -707,13 +710,29 @@
                            </tbody>
 
                         </table>
+
+                        <table class="table table-bordered table-striped table-sm totalresultado" BORDER=5 CELLPADDING=10 CELLSPACING=10>
+                            
+                            <tr>
+                                 <td><b>Credito: </b> </td> <td v-text="Intl.NumberFormat().format(Arrayajuste_compra[0]['credito'])"></td>
+                            </tr>
+                         
+                            <tr>
+                                 <td><b>Total Abonado: </b></td> <td v-text="Intl.NumberFormat().format(contAbono)"></td>
+                            </tr>
+
+                            <tr>
+                                 <td><b>Deuda: </b> </td> <td v-text="Intl.NumberFormat().format(Arrayajuste_compra[0]['credito']-contAbono)"></td>
+                            </tr>
+
+                        </table>
+
                     </div>
                   </div> 
                   <!--=============================================--> 
+            <button v-if="Intl.NumberFormat().format(Arrayajuste_compra[0]['credito']-contAbono)==0" type="button" class="btn-success btn-block">PAGADO</button>
 
-            <button type="button"  @click="openModalFormaPago()" class="btn-outline-warning btn-block">DESEA ABONAR EN LA COMPRA</button>
-
-
+            <button v-if="parseInt(Arrayajuste_compra[0]['credito']-contAbono)>0" type="button"  @click="openModalFormaPago()" class="btn-outline-warning btn-block">DESEA ABONAR EN LA COMPRA</button>
 
 
    <!--Inicio del modal agregar/actualizar-->
@@ -723,7 +742,7 @@
                         <div class="modal-header">
                             <h4 class="modal-title">Agregue el valor de abonar a esta compra</h4>
                             <button type="button" class="close" @click="cerrarModalforma()" aria-label="Close">
-                              <span aria-hidden="true">×</span>
+                              <span aria-hidden="true">X</span>
                             </button>
                         </div>
                         <div class="modal-body">
@@ -736,10 +755,6 @@
                                         <input type="number" v-model="abonoFormaPago" class="form-control" placeholder="$$$$$$">
                                     </div>
                                 </div>
-
-
-
-
 
                             </form>
                         </div>
@@ -839,13 +854,10 @@
                         </table>
                     </div>
                     
-
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
                             <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarIngreso()">Guardar</button>
-
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -945,6 +957,7 @@ import vSelect from "vue-select";
             objFormPago:'',
             modalFormPago:0,
             abonoFormaPago:0,
+            contAbono:0,
 
 
           }
@@ -1410,6 +1423,8 @@ import vSelect from "vue-select";
            cerrarModalforma(){
                 this.modalFormPago=0;
                 this.abonoFormaPago=0;
+
+
            },
 
            agregarformaPago(){
@@ -1423,6 +1438,8 @@ import vSelect from "vue-select";
                 })
                 .then(function (response) {
                     me.cerrarModalforma();
+                    me.listado=1;
+                    me.contAbono=0;
                     // me.cerrarModal();
                     // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     // me.listaCategoria(1,'','nombre');
@@ -1430,9 +1447,6 @@ import vSelect from "vue-select";
                 .catch(function (error) {
                     console.log(error);
                 });
-
-
-
 
 
            },
@@ -1476,6 +1490,11 @@ import vSelect from "vue-select";
                      me.arrayArticuloPago=respuesta.ObjetoDetalleAjuste.detalle_compra_articulos;
                      me.Arrayajuste_compra=respuesta.ObjetoDetalleAjuste.ajuste_compra;
                      me.objFormPago=respuesta.ObjetoDetalleAjuste;
+
+
+                      me.Arrayajuste_compra.map(function(x){
+                            me.contAbono+=parseInt(x.abono);
+                      });
 
                      
 
