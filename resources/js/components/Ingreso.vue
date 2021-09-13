@@ -1427,6 +1427,37 @@ import vSelect from "vue-select";
 
            },
 
+
+
+           agregarformaPagoPrimera(){
+
+                let me=this;
+                  axios.post('/ingresos/registrarAbonoCompraPrimera', {
+                     'id_compra':  this.objFormPago.id,
+                     'id_caja': this.objFormPago.id_apertura_caja_usuario,
+                    //  'id_users':this.id_users,
+                     'efectivo':this.efectivo,
+                     'credito': this.credito,
+                     'abono':  0,
+
+                })
+                .then(function (response) {
+                    // me.cerrarModalforma();
+                    // me.listado=1;
+                    me.contAbono=0;
+                    // me.cerrarModal();
+                    // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                    // me.listaCategoria(1,'','nombre');
+                }) 
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+           },
+
+           
+
            agregarformaPago(){
 
                 let me=this;
