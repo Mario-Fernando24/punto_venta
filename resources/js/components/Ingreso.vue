@@ -75,7 +75,21 @@
                                                     <td v-text="ingreso.tipo_comprobante"></td>
                                                     <td v-text="ingreso.num_comprobante"></td>
                                                     <td v-text="ingreso.total"></td>
-                                                    <td v-text="ingreso.forma_pago"></td>
+
+
+                                                    
+                                                    <td>
+
+                                                        <div v-if="ingreso.forma_pago=='EFECTIVO Y CREDITO' || ingreso.forma_pago=='CREDITO'">
+                                                        <span class="badge badge-danger" v-text="ingreso.forma_pago"></span>
+                                                        </div>
+
+
+                                                        <div v-else>
+                                                        <span v-text="ingreso.forma_pago"></span>
+                                                        </div>
+
+                                                    </td>
 
                                                     <td>
                                                     <div v-if="ingreso.estado=='registrado'">
@@ -357,7 +371,6 @@
                            <div class="col-md-6">
 
                                 <label class="col-md-8 form-control-label text-negrita">FORMA DE PAGO</label>
-
                                     <div class="input-group">
                                         <select class="form-control col-md-6 " v-model="forma_pago_compra">
                                         <option value="EFECTIVO">EFECTIVO</option>
@@ -688,6 +701,7 @@
                                     <th>#</th>
                                     <th># Caja</th>
                                     <th>Abono</th>
+                                    <th>Observación</th>
                                     <th>Fecha</th>
                                     <th>Opciones</th>
 
@@ -699,6 +713,7 @@
                                         <td v-text="arrays_ajuste.id"></td>
                                         <td v-text="arrays_ajuste.id_caja"></td>
                                         <td v-text="Intl.NumberFormat().format(arrays_ajuste.abono)"></td>
+                                        <td v-text="arrays_ajuste.observacionFormaPago"></td>
                                         <td v-text="arrays_ajuste.created_at"></td>
                                         <td>
                                             <button type="button" class="btn btn-info" title="Descargar Detalle compra">
@@ -732,7 +747,18 @@
                   <!--=============================================--> 
             <button v-if="Intl.NumberFormat().format(Arrayajuste_compra[0]['credito']-contAbono)==0" type="button" class="btn-success btn-block">PAGADO</button>
 
-            <button v-if="parseInt(Arrayajuste_compra[0]['credito']-contAbono)>0" type="button"  @click="openModalFormaPago()" class="btn-outline-warning btn-block">DESEA ABONAR EN LA COMPRA</button>
+
+
+
+
+        <div class="form-group row">
+            <div class="col-md-12">
+                <button v-if="parseInt(Arrayajuste_compra[0]['credito']-contAbono)>0" type="button"  @click="openModalFormaPago()" class="btn-outline-warning btn-block text-negrita">DESEA ABONAR EN LA COMPRA</button>
+                <button type="button" @click="ocultarDetalle  ()" class="btn-outline-danger btn-block text-negrita">CERRAR</button>
+            </div>
+        </div>  
+
+
 
 
    <!--Inicio del modal agregar/actualizar-->
@@ -754,6 +780,12 @@
                                     <label class="col-md-12 form-control-label text-negrita" for="text-input">Valor Abonar</label>
                                         <input type="number" v-model="abonoFormaPago" class="form-control" placeholder="$$$$$$">
                                     </div>
+
+                                    <div class="col-md-12">
+                                    <label class="col-md-12 form-control-label text-negrita" for="text-input">Observación</label>
+                                        <input type="text" v-model="observacionFormaPago" class="form-control" placeholder="Observación...">
+                                    </div>
+
                                 </div>
 
                             </form>
@@ -957,6 +989,7 @@ import vSelect from "vue-select";
             objFormPago:'',
             modalFormPago:0,
             abonoFormaPago:0,
+            observacionFormaPago:'',
             contAbono:0,
 
 
@@ -1185,6 +1218,22 @@ import vSelect from "vue-select";
                             return ;
                         }
                         let me=this;
+
+                        if(this.forma_pago_compra=='EFECTIVO Y CREDITO'){
+                             this.formapagooo.efectivo;
+                             this.formapagooo.credito;
+                        }
+                        if(this.forma_pago_compra=='EFECTIVO'){
+                             this.formapagooo.efectivo=this.total;
+                             this.formapagooo.credito=0;
+
+                        }
+
+                        if(this.forma_pago_compra=='CREDITO'){
+                             this.formapagooo.efectivo=0;
+                             this.formapagooo.credito=this.total;
+                        }
+
                         axios.post('/ingresos/registrar', {
                             'idproveedor':  this.idproveedor,
                             'tipo_comprobante': this.tipo_comprobante,
@@ -1193,6 +1242,8 @@ import vSelect from "vue-select";
                             'impuesto': this.impuesto,
                             'total':this.total,
                             'forma_pago_compra':this.forma_pago_compra,
+                            'efectivo': this.formapagooo.efectivo,
+                            'credito': this.formapagooo.credito,
                             'data':this.arrayDetalleIngreso,
                             
                             
@@ -1259,6 +1310,7 @@ import vSelect from "vue-select";
                     this.fecha_ing_anulada='';
                     this.listado=1;
                     this.forma_pago_compra='EFECTIVO';
+                    this.contAbono=0;
 
                 },
                 VerDetalleIngreso(id){
@@ -1423,40 +1475,11 @@ import vSelect from "vue-select";
            cerrarModalforma(){
                 this.modalFormPago=0;
                 this.abonoFormaPago=0;
+                this.observacionFormaPago='';
 
 
            },
 
-
-
-           agregarformaPagoPrimera(){
-
-                let me=this;
-                  axios.post('/ingresos/registrarAbonoCompraPrimera', {
-                     'id_compra':  this.objFormPago.id,
-                     'id_caja': this.objFormPago.id_apertura_caja_usuario,
-                    //  'id_users':this.id_users,
-                     'efectivo':this.efectivo,
-                     'credito': this.credito,
-                     'abono':  0,
-
-                })
-                .then(function (response) {
-                    // me.cerrarModalforma();
-                    // me.listado=1;
-                    me.contAbono=0;
-                    // me.cerrarModal();
-                    // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    // me.listaCategoria(1,'','nombre');
-                }) 
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-
-           },
-
-           
 
            agregarformaPago(){
 
@@ -1465,6 +1488,7 @@ import vSelect from "vue-select";
                      'id_compra':  this.objFormPago.id,
                      'id_caja': this.objFormPago.id_apertura_caja_usuario,
                      'abono':  this.abonoFormaPago,
+                     'observacionFormaPago': this.observacionFormaPago,
 
                 })
                 .then(function (response) {

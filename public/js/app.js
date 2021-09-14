@@ -7857,6 +7857,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -7936,6 +7968,7 @@ __webpack_require__.r(__webpack_exports__);
       objFormPago: '',
       modalFormPago: 0,
       abonoFormaPago: 0,
+      observacionFormaPago: '',
       contAbono: 0
     };
   },
@@ -8156,6 +8189,22 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
+
+      if (this.forma_pago_compra == 'EFECTIVO Y CREDITO') {
+        this.formapagooo.efectivo;
+        this.formapagooo.credito;
+      }
+
+      if (this.forma_pago_compra == 'EFECTIVO') {
+        this.formapagooo.efectivo = this.total;
+        this.formapagooo.credito = 0;
+      }
+
+      if (this.forma_pago_compra == 'CREDITO') {
+        this.formapagooo.efectivo = 0;
+        this.formapagooo.credito = this.total;
+      }
+
       axios.post('/ingresos/registrar', {
         'idproveedor': this.idproveedor,
         'tipo_comprobante': this.tipo_comprobante,
@@ -8164,6 +8213,8 @@ __webpack_require__.r(__webpack_exports__);
         'impuesto': this.impuesto,
         'total': this.total,
         'forma_pago_compra': this.forma_pago_compra,
+        'efectivo': this.formapagooo.efectivo,
+        'credito': this.formapagooo.credito,
         'data': this.arrayDetalleIngreso
       }).then(function (response) {
         console.log('entro a esta funcion');
@@ -8203,6 +8254,7 @@ __webpack_require__.r(__webpack_exports__);
       this.fecha_ing_anulada = '';
       this.listado = 1;
       this.forma_pago_compra = 'EFECTIVO';
+      this.contAbono = 0;
     },
     VerDetalleIngreso: function VerDetalleIngreso(id) {
       this.listado = 2; // obtener los datos del objeto
@@ -8330,13 +8382,15 @@ __webpack_require__.r(__webpack_exports__);
     cerrarModalforma: function cerrarModalforma() {
       this.modalFormPago = 0;
       this.abonoFormaPago = 0;
+      this.observacionFormaPago = '';
     },
     agregarformaPago: function agregarformaPago() {
       var me = this;
       axios.post('/ingresos/registrarAbonoCompra', {
         'id_compra': this.objFormPago.id,
         'id_caja': this.objFormPago.id_apertura_caja_usuario,
-        'abono': this.abonoFormaPago
+        'abono': this.abonoFormaPago,
+        'observacionFormaPago': this.observacionFormaPago
       }).then(function (response) {
         me.cerrarModalforma();
         me.listado = 1;
@@ -62316,11 +62370,30 @@ var render = function() {
                                       }
                                     }),
                                     _vm._v(" "),
-                                    _c("td", {
-                                      domProps: {
-                                        textContent: _vm._s(ingreso.forma_pago)
-                                      }
-                                    }),
+                                    _c("td", [
+                                      ingreso.forma_pago ==
+                                        "EFECTIVO Y CREDITO" ||
+                                      ingreso.forma_pago == "CREDITO"
+                                        ? _c("div", [
+                                            _c("span", {
+                                              staticClass: "badge badge-danger",
+                                              domProps: {
+                                                textContent: _vm._s(
+                                                  ingreso.forma_pago
+                                                )
+                                              }
+                                            })
+                                          ])
+                                        : _c("div", [
+                                            _c("span", {
+                                              domProps: {
+                                                textContent: _vm._s(
+                                                  ingreso.forma_pago
+                                                )
+                                              }
+                                            })
+                                          ])
+                                    ]),
                                     _vm._v(" "),
                                     _c("td", [
                                       ingreso.estado == "registrado"
@@ -64199,6 +64272,14 @@ var render = function() {
                                       _c("td", {
                                         domProps: {
                                           textContent: _vm._s(
+                                            arrays_ajuste.observacionFormaPago
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
+                                          textContent: _vm._s(
                                             arrays_ajuste.created_at
                                           )
                                         }
@@ -64285,23 +64366,43 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      parseInt(
-                        _vm.Arrayajuste_compra[0]["credito"] - _vm.contAbono
-                      ) > 0
-                        ? _c(
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          parseInt(
+                            _vm.Arrayajuste_compra[0]["credito"] - _vm.contAbono
+                          ) > 0
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn-outline-warning btn-block text-negrita",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.openModalFormaPago()
+                                    }
+                                  }
+                                },
+                                [_vm._v("DESEA ABONAR EN LA COMPRA")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
                             "button",
                             {
-                              staticClass: "btn-outline-warning btn-block",
+                              staticClass:
+                                "btn-outline-danger btn-block text-negrita",
                               attrs: { type: "button" },
                               on: {
                                 click: function($event) {
-                                  return _vm.openModalFormaPago()
+                                  _vm.ocultarDetalle()
                                 }
                               }
                             },
-                            [_vm._v("DESEA ABONAR EN LA COMPRA")]
+                            [_vm._v("CERRAR")]
                           )
-                        : _vm._e(),
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -64412,6 +64513,55 @@ var render = function() {
                                                       return
                                                     }
                                                     _vm.abonoFormaPago =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-12" },
+                                            [
+                                              _c(
+                                                "label",
+                                                {
+                                                  staticClass:
+                                                    "col-md-12 form-control-label text-negrita",
+                                                  attrs: { for: "text-input" }
+                                                },
+                                                [_vm._v("Observación")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.observacionFormaPago,
+                                                    expression:
+                                                      "observacionFormaPago"
+                                                  }
+                                                ],
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  type: "text",
+                                                  placeholder: "Observación..."
+                                                },
+                                                domProps: {
+                                                  value:
+                                                    _vm.observacionFormaPago
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.observacionFormaPago =
                                                       $event.target.value
                                                   }
                                                 }
@@ -65045,6 +65195,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("# Caja")]),
         _vm._v(" "),
         _c("th", [_vm._v("Abono")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Observación")]),
         _vm._v(" "),
         _c("th", [_vm._v("Fecha")]),
         _vm._v(" "),

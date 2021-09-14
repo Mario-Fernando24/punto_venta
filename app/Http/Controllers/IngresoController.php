@@ -132,8 +132,6 @@ class IngresoController extends Controller
 
        //pendiente validación si false consulta pasar parametro con laravel
 
-       
-
        try{
 
           $ingreso = Ingreso::create([
@@ -149,6 +147,17 @@ class IngresoController extends Controller
             'total' => $request->get('total'),
             'estado' => 'registrado',
           ]);
+
+
+          AjusteCompra::create([
+            'id_compra' => $ingreso->id,
+            'id_caja' => $ingreso->id_apertura_caja_usuario,
+            'id_users' => $ingreso->idusuario,
+            'credito'=> $request->get('credito'),
+            'efectivo'=> $request->get('efectivo'),
+            'abono' => 0,
+          ]);
+
 
             //array de deatalle
             $detalles=$request->data; 
@@ -173,7 +182,7 @@ class IngresoController extends Controller
               $update_price_articulo->update();
             }
 
-
+            //===============================================================//
             
 
       }catch (ModelNotFoundException $e) {
@@ -181,8 +190,6 @@ class IngresoController extends Controller
       }
 
     }
-
-
 
       //function para desactivar una user
       public function anularIngreso(Request $request)
@@ -235,9 +242,11 @@ class IngresoController extends Controller
               'id_caja' => $request->get('id_caja'),
               'id_users' => \Auth::user()->id,
               'abono' => $request->get('abono'),
+              'observacionFormaPago' => $request->get('observacionFormaPago'),
             ]);
 
-              return response()->json([ 'status' => true], 200);
+            return response()->json([ 'status' => true], 200);
+            
        }
 
 }

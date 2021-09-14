@@ -22,6 +22,7 @@ class CreateAjusteComprasTable extends Migration
             $table->decimal('efectivo',11,2)->nullable();
             $table->decimal('credito',11,2)->nullable();
             $table->decimal('abono',11,2)->nullable();
+            $table->string('observacionFormaPago',250) ->unique();
             $table->boolean('estado')->default(1); 
             $table->timestamps();
 

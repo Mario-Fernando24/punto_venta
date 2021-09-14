@@ -17,6 +17,7 @@ class AjusteCompra extends Model
         'efectivo',
         'credito',
         'abono',
+        'observacionFormaPago',
         'estado',
     ];
 }
