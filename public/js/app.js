@@ -8423,7 +8423,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      if (parseInt(this.abonoFormaPago) == 0 || parseInt(this.abonoFormaPago) == null || this.abonoFormaPago == '') {
+      if (parseInt(this.abonoFormaPago) == 0 || parseInt(this.abonoFormaPago) < 0 || parseInt(this.abonoFormaPago) == null || this.abonoFormaPago == '') {
         Swal.fire({
           position: 'top-end',
           icon: 'warning',

@@ -1254,7 +1254,7 @@ import vSelect from "vue-select";
                                  return ;
 
                              }
-                             
+
                         }
                         if(this.forma_pago_compra=='EFECTIVO'){
                              this.formapagooo.efectivo=this.total;
@@ -1525,8 +1525,10 @@ import vSelect from "vue-select";
                         })
                    return ;
                }
+
+               
             
-              if(parseInt(this.abonoFormaPago)==0 || parseInt(this.abonoFormaPago)==null || this.abonoFormaPago==''){
+              if(parseInt(this.abonoFormaPago)==0 || parseInt(this.abonoFormaPago)<0 || parseInt(this.abonoFormaPago)==null || this.abonoFormaPago==''){
                   Swal.fire({
                         position: 'top-end',
                         icon: 'warning',
