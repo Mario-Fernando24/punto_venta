@@ -39,8 +39,10 @@
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <select class="form-control col-md-3" v-model="criterio">
+                                        <option value="id">Id</option>
                                         <option value="num_comprobante">Num Comprobante</option>
                                         <option value="tipo_comprobante">Tipo Comprobante</option>
+                                        <option value="forma_pago">Forma Pago</option>
                                         <option value="fecha_hora">Fecha-Hora</option>
                                         </select>
                                         <input type="text" v-model="buscar" @keyup.enter="listarIngreso(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
@@ -617,17 +619,18 @@
                                 </div>
 
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label class="text-negrita">Efectivo</label>
                                     <br><span class="badge bg-success" v-text="Intl.NumberFormat().format(Arrayajuste_compra[0]['efectivo'])"></span>
                                 </div>
 
-                                 <div class="col-md-6">
+                                 <div class="col-md-4">
                                     <label class="text-negrita">Credito</label>
                                     <br><span class="badge bg-danger" v-text="Intl.NumberFormat().format(Arrayajuste_compra[0]['credito'])"></span>
                                 </div>
                                 
                          </div>
+
 
 
 
@@ -952,7 +955,7 @@ import vSelect from "vue-select";
                 'to' : 0,
             },
             offset : 3,
-            criterio : 'num_comprobante',
+            criterio : 'id',
             criterioArticulo:'nombre',
             buscar  : '',
             buscarArt:'',
@@ -1476,32 +1479,87 @@ import vSelect from "vue-select";
                 this.modalFormPago=0;
                 this.abonoFormaPago=0;
                 this.observacionFormaPago='';
-
-
            },
 
 
            agregarformaPago(){
+            
+              if(parseInt(this.abonoFormaPago)==0 || parseInt(this.abonoFormaPago)==null || this.abonoFormaPago==''){
+                  Swal.fire({
+                        position: 'top-end',
+                        icon: 'warning',
+                        title: 'Verificar el campo abonar',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
 
-                let me=this;
-                  axios.post('/ingresos/registrarAbonoCompra', {
-                     'id_compra':  this.objFormPago.id,
-                     'id_caja': this.objFormPago.id_apertura_caja_usuario,
-                     'abono':  this.abonoFormaPago,
-                     'observacionFormaPago': this.observacionFormaPago,
+                        return ;
 
-                })
-                .then(function (response) {
-                    me.cerrarModalforma();
-                    me.listado=1;
-                    me.contAbono=0;
-                    // me.cerrarModal();
-                    // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-                    // me.listaCategoria(1,'','nombre');
-                }) 
-                .catch(function (error) {
-                    console.log(error);
-                });
+              } 
+              
+
+
+
+               const swalWithBootstrapButtons = Swal.mixin({
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                                cancelButton: 'btn btn-danger'
+                            },
+                            buttonsStyling: false
+                            })
+
+                            swalWithBootstrapButtons.fire({
+                            title: 'Desea abonar?',
+                            text: "Se abonara en la cuenta por pagar de la compra!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Aceptar!',
+                            cancelButtonText: 'Cancelar!',
+                            reverseButtons: true
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+
+
+
+                                        let me=this;
+                                        axios.post('/ingresos/registrarAbonoCompra', {
+                                            'id_compra':  this.objFormPago.id,
+                                            'id_caja': this.objFormPago.id_apertura_caja_usuario,
+                                            'abono':  this.abonoFormaPago,
+                                            'observacionFormaPago': this.observacionFormaPago,
+
+                                        })
+                                        .then(function (response) {
+                                            me.cerrarModalforma();
+                                            me.listado=1;
+                                            me.contAbono=0;
+                                            // me.cerrarModal();
+                                            // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+                                            // me.listaCategoria(1,'','nombre');
+                                        }) 
+                                        .catch(function (error) {
+                                            console.log(error);
+                                        });
+
+
+
+                                swalWithBootstrapButtons.fire(
+                                'Excelente!',
+                                'El pago de la compra ha sido correctamente',
+                                'success'
+                                )
+                            } else if (
+                                /* Read more about handling dismissals below */
+                                result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                                swalWithBootstrapButtons.fire(
+                                'Cancelado',
+                                'No acepto abonar en la compra',
+                                'error'
+                                )
+                            }
+                            })
+
 
 
            },

@@ -7889,6 +7889,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 //importo vselect
 
 
@@ -7938,7 +7941,7 @@ __webpack_require__.r(__webpack_exports__);
         'to': 0
       },
       offset: 3,
-      criterio: 'num_comprobante',
+      criterio: 'id',
       criterioArticulo: 'nombre',
       buscar: '',
       buscarArt: '',
@@ -8385,20 +8388,57 @@ __webpack_require__.r(__webpack_exports__);
       this.observacionFormaPago = '';
     },
     agregarformaPago: function agregarformaPago() {
-      var me = this;
-      axios.post('/ingresos/registrarAbonoCompra', {
-        'id_compra': this.objFormPago.id,
-        'id_caja': this.objFormPago.id_apertura_caja_usuario,
-        'abono': this.abonoFormaPago,
-        'observacionFormaPago': this.observacionFormaPago
-      }).then(function (response) {
-        me.cerrarModalforma();
-        me.listado = 1;
-        me.contAbono = 0; // me.cerrarModal();
-        // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
-        // me.listaCategoria(1,'','nombre');
-      })["catch"](function (error) {
-        console.log(error);
+      var _this2 = this;
+
+      if (parseInt(this.abonoFormaPago) == 0 || parseInt(this.abonoFormaPago) == null || this.abonoFormaPago == '') {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'warning',
+          title: 'Verificar el campo abonar',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        return;
+      }
+
+      var swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      });
+      swalWithBootstrapButtons.fire({
+        title: 'Desea abonar?',
+        text: "Se abonara en la cuenta por pagar de la compra!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar!',
+        cancelButtonText: 'Cancelar!',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          var me = _this2;
+          axios.post('/ingresos/registrarAbonoCompra', {
+            'id_compra': _this2.objFormPago.id,
+            'id_caja': _this2.objFormPago.id_apertura_caja_usuario,
+            'abono': _this2.abonoFormaPago,
+            'observacionFormaPago': _this2.observacionFormaPago
+          }).then(function (response) {
+            me.cerrarModalforma();
+            me.listado = 1;
+            me.contAbono = 0; // me.cerrarModal();
+            // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
+            // me.listaCategoria(1,'','nombre');
+          })["catch"](function (error) {
+            console.log(error);
+          });
+          swalWithBootstrapButtons.fire('Excelente!', 'El pago de la compra ha sido correctamente', 'success');
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire('Cancelado', 'No acepto abonar en la compra', 'error');
+        }
       });
     },
     formaPago: function formaPago(ingreso) {
@@ -62224,6 +62264,10 @@ var render = function() {
                                   }
                                 },
                                 [
+                                  _c("option", { attrs: { value: "id" } }, [
+                                    _vm._v("Id")
+                                  ]),
+                                  _vm._v(" "),
                                   _c(
                                     "option",
                                     { attrs: { value: "num_comprobante" } },
@@ -62234,6 +62278,12 @@ var render = function() {
                                     "option",
                                     { attrs: { value: "tipo_comprobante" } },
                                     [_vm._v("Tipo Comprobante")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "forma_pago" } },
+                                    [_vm._v("Forma Pago")]
                                   ),
                                   _vm._v(" "),
                                   _c(
@@ -64082,7 +64132,7 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
+                        _c("div", { staticClass: "col-md-4" }, [
                           _c("label", { staticClass: "text-negrita" }, [
                             _vm._v("Efectivo")
                           ]),
@@ -64100,7 +64150,7 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
+                        _c("div", { staticClass: "col-md-4" }, [
                           _c("label", { staticClass: "text-negrita" }, [
                             _vm._v("Credito")
                           ]),
