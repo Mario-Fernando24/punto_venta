@@ -8390,6 +8390,17 @@ __webpack_require__.r(__webpack_exports__);
     agregarformaPago: function agregarformaPago() {
       var _this2 = this;
 
+      if (parseInt(this.abonoFormaPago) > this.Arrayajuste_compra[0]['credito'] - this.contAbono) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'warning',
+          title: 'Abono no puede ser mayor al monto que debe',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        return;
+      }
+
       if (parseInt(this.abonoFormaPago) == 0 || parseInt(this.abonoFormaPago) == null || this.abonoFormaPago == '') {
         Swal.fire({
           position: 'top-end',
