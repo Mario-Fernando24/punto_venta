@@ -615,7 +615,7 @@
 
                                 <div class="col-md-3">
                                     <label class="text-negrita">Total</label>
-                                    <p v-text="objFormPago.total"></p>
+                                    <p v-text="Intl.NumberFormat().format(objFormPago.total)"></p>
                                 </div>
 
 
@@ -1217,6 +1217,8 @@ import vSelect from "vue-select";
                  },
                 //Metodo registrar usuario
                 registrarIngreso(){
+
+
                         if(this.validarIngreso()){
                             return ;
                         }
@@ -1225,6 +1227,34 @@ import vSelect from "vue-select";
                         if(this.forma_pago_compra=='EFECTIVO Y CREDITO'){
                              this.formapagooo.efectivo;
                              this.formapagooo.credito;
+
+                             
+                             if((parseInt(this.formapagooo.efectivo)+parseInt(this.formapagooo.credito))>parseInt(this.total)){
+                                 Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'warning',
+                                        title: 'el valor  del campo efectivo o credito es mayor al total de la compra',
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                        })
+
+                                 return ;
+
+                             }
+
+                             if((parseInt(this.formapagooo.efectivo)+parseInt(this.formapagooo.credito))<parseInt(this.total)){
+                                 Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'warning',
+                                        title: 'el valor  del campo efectivo o credito es menor al total de la compra',
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                        })
+
+                                 return ;
+
+                             }
+                             
                         }
                         if(this.forma_pago_compra=='EFECTIVO'){
                              this.formapagooo.efectivo=this.total;
@@ -1489,9 +1519,9 @@ import vSelect from "vue-select";
                    Swal.fire({
                         position: 'top-end',
                         icon: 'warning',
-                        title: 'Abono no puede ser mayor al monto que debe',
+                        title: 'Abono no puede ser mayor al monto que debe $  '+Intl.NumberFormat().format(this.Arrayajuste_compra[0]['credito']-this.contAbono),
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000
                         })
                    return ;
                }
@@ -1502,7 +1532,7 @@ import vSelect from "vue-select";
                         icon: 'warning',
                         title: 'Verificar el campo abonar',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000
                         })
 
                         return ;

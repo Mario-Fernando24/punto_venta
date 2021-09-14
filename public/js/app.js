@@ -8196,6 +8196,28 @@ __webpack_require__.r(__webpack_exports__);
       if (this.forma_pago_compra == 'EFECTIVO Y CREDITO') {
         this.formapagooo.efectivo;
         this.formapagooo.credito;
+
+        if (parseInt(this.formapagooo.efectivo) + parseInt(this.formapagooo.credito) > parseInt(this.total)) {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: 'el valor  del campo efectivo o credito es mayor al total de la compra',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          return;
+        }
+
+        if (parseInt(this.formapagooo.efectivo) + parseInt(this.formapagooo.credito) < parseInt(this.total)) {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: 'el valor  del campo efectivo o credito es menor al total de la compra',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          return;
+        }
       }
 
       if (this.forma_pago_compra == 'EFECTIVO') {
@@ -8394,9 +8416,9 @@ __webpack_require__.r(__webpack_exports__);
         Swal.fire({
           position: 'top-end',
           icon: 'warning',
-          title: 'Abono no puede ser mayor al monto que debe',
+          title: 'Abono no puede ser mayor al monto que debe $  ' + Intl.NumberFormat().format(this.Arrayajuste_compra[0]['credito'] - this.contAbono),
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
         });
         return;
       }
@@ -8407,7 +8429,7 @@ __webpack_require__.r(__webpack_exports__);
           icon: 'warning',
           title: 'Verificar el campo abonar',
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
         });
         return;
       }
@@ -64138,7 +64160,11 @@ var render = function() {
                           _vm._v(" "),
                           _c("p", {
                             domProps: {
-                              textContent: _vm._s(_vm.objFormPago.total)
+                              textContent: _vm._s(
+                                Intl.NumberFormat().format(
+                                  _vm.objFormPago.total
+                                )
+                              )
                             }
                           })
                         ]),
