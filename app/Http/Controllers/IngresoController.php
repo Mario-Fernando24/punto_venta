@@ -8,6 +8,7 @@ use App\Articulo;
 use App\Categoria;
 use App\Perfil;
 use App\ModelInventario\AjusteCompra;
+use App\Caja;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -237,9 +238,13 @@ class IngresoController extends Controller
        public function registrarAbonoCompra(Request $request)
        {
 
+            $id_caja_users=DB::table('caja')
+            ->where('id_vendedor',\Auth::user()->id)
+            ->where('Cajaactual','abierto')->first();
+
             AjusteCompra::create([
               'id_compra' => $request->get('id_compra'),
-              'id_caja' => $request->get('id_caja'),
+              'id_caja' => $id_caja_users->idcaja,
               'id_users' => \Auth::user()->id,
               'abono' => $request->get('abono'),
               'observacionFormaPago' => $request->get('observacionFormaPago'),
