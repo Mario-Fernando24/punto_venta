@@ -7892,6 +7892,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //importo vselect
 
 
@@ -8473,6 +8475,9 @@ __webpack_require__.r(__webpack_exports__);
           swalWithBootstrapButtons.fire('Cancelado', 'No acepto abonar en la compra', 'error');
         }
       });
+    },
+    descargaComprobantePago: function descargaComprobantePago(arrays_ajuste) {
+      window.open('/ingresos/descargaComprobantePago?id=' + arrays_ajuste.id_compra + ',' + '_blank');
     },
     formaPago: function formaPago(ingreso) {
       if (ingreso.estado == 'anulado') {
@@ -64244,9 +64249,15 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", {
                                         domProps: {
+                                          textContent: _vm._s(arrays.cantidad)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("td", {
+                                        domProps: {
                                           textContent: _vm._s(
                                             Intl.NumberFormat().format(
-                                              arrays.precio
+                                              arrays.preciocompra
                                             )
                                           )
                                         }
@@ -64256,7 +64267,7 @@ var render = function() {
                                         domProps: {
                                           textContent: _vm._s(
                                             Intl.NumberFormat().format(
-                                              arrays.preciocompra
+                                              arrays.precio
                                             )
                                           )
                                         }
@@ -64372,7 +64383,26 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
-                                      _vm._m(23, true)
+                                      _c("td", [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-info",
+                                            attrs: {
+                                              type: "button",
+                                              title: "Descargar Detalle compra"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.descargaComprobantePago(
+                                                  arrays_ajuste
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_c("i", { staticClass: "icon-doc" })]
+                                        )
+                                      ])
                                     ])
                                   }),
                                   0
@@ -64393,7 +64423,7 @@ var render = function() {
                               },
                               [
                                 _c("tr", [
-                                  _vm._m(24),
+                                  _vm._m(23),
                                   _vm._v(" "),
                                   _c("td", {
                                     domProps: {
@@ -64407,7 +64437,7 @@ var render = function() {
                                 ]),
                                 _vm._v(" "),
                                 _c("tr", [
-                                  _vm._m(25),
+                                  _vm._m(24),
                                   _vm._v(" "),
                                   _c("td", {
                                     domProps: {
@@ -64421,7 +64451,7 @@ var render = function() {
                                 ]),
                                 _vm._v(" "),
                                 _c("tr", [
-                                  _vm._m(26),
+                                  _vm._m(25),
                                   _vm._v(" "),
                                   _c("td", {
                                     domProps: {
@@ -64864,7 +64894,7 @@ var render = function() {
                           "table table-bordered table-striped table-sm"
                       },
                       [
-                        _vm._m(27),
+                        _vm._m(26),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -65247,9 +65277,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Articulo")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Precio Venta")]),
+        _c("th", [_vm._v("Cantidad")]),
         _vm._v(" "),
         _c("th", [_vm._v("Precio Compra")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio Venta")]),
         _vm._v(" "),
         _c("th", [_vm._v("Total")])
       ])
@@ -65289,21 +65321,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Opciones")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-info",
-          attrs: { type: "button", title: "Descargar Detalle compra" }
-        },
-        [_c("i", { staticClass: "icon-doc" })]
-      )
     ])
   },
   function() {

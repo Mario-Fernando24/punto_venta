@@ -646,8 +646,9 @@
                                     <tr>
                                     <th>#</th>
                                     <th>Articulo</th>
-                                    <th>Precio Venta</th>
+                                    <th>Cantidad</th>
                                     <th>Precio Compra</th>
+                                    <th>Precio Venta</th>
                                     <th>Total</th>
 
                                 </tr>
@@ -657,8 +658,9 @@
                                    <tr v-for="arrays in arrayArticuloPago" :key="arrays.id">
                                         <td v-text="arrays.id"></td>
                                         <td v-text="arrays.articulodetalle.nombre"></td>
-                                        <td v-text="Intl.NumberFormat().format(arrays.precio)"></td>
+                                        <td v-text="arrays.cantidad"></td>
                                         <td v-text="Intl.NumberFormat().format(arrays.preciocompra)"></td>
+                                        <td v-text="Intl.NumberFormat().format(arrays.precio)"></td>
                                         <td v-text="Intl.NumberFormat().format(arrays.cantidad*arrays.preciocompra)"></td>
                                     </tr>  
 
@@ -719,7 +721,7 @@
                                         <td v-text="arrays_ajuste.observacionFormaPago"></td>
                                         <td v-text="arrays_ajuste.created_at"></td>
                                         <td>
-                                            <button type="button" class="btn btn-info" title="Descargar Detalle compra">
+                                            <button type="button" class="btn btn-info" @click="descargaComprobantePago(arrays_ajuste)"   title="Descargar Detalle compra">
                                                 <i class="icon-doc"></i>
                                             </button>
                                         </td>
@@ -1327,6 +1329,7 @@ import vSelect from "vue-select";
                 
                 descargaringreso(id)
                 {
+                    
                     window.open('/ingresos/pdfIngreso/'+id+','+'_blank');
 
                 },
@@ -1607,6 +1610,12 @@ import vSelect from "vue-select";
 
 
            },
+
+
+            descargaComprobantePago(arrays_ajuste){
+
+                   window.open('/ingresos/descargaComprobantePago?id='+arrays_ajuste.id_compra+','+'_blank');
+            },
 
            formaPago(ingreso){
               

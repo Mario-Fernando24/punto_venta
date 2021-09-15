@@ -9,6 +9,7 @@ use App\Categoria;
 use App\Perfil;
 use App\ModelInventario\AjusteCompra;
 use App\Caja;
+use App\Persona;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -252,6 +253,26 @@ class IngresoController extends Controller
 
             return response()->json([ 'status' => true], 200);
             
+       }
+
+
+
+       public function descargaComprobantePago(Request $request){
+
+              $Perfil = Perfil::with('GetUser')->first();
+              $mytime=Carbon::now('America/Bogota');
+
+              // $proveedoress = Persona::where('idproveedor',$resq->idproveedor)->first();
+              $showDeudaCompra = Ingreso::with('AjusteCompra','detalleCompraArticulos','detalleCompraArticulos.articulodetalle')
+              ->where('id',$request->get('id'))->orderBy('id', 'DESC')->first();
+
+              $arrayAbonooooo=AjusteCompra::where('id_compra',$showDeudaCompra->id)->get();
+              $proveedoress = Persona::findOrFail($showDeudaCompra->idproveedor);
+
+               $pdf = PDF::loadView('pdf.comprobantePago',compact('Perfil','proveedoress','arrayAbonooooo','showDeudaCompra','mytime'));
+        
+               return $pdf->download('comprobante de pago  -   '.$mytime);   
+      
        }
 
 }

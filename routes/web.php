@@ -69,6 +69,7 @@
 
                 Route::get('showComprasId', 'IngresoController@showComprasId');
                  Route::post('registrarAbonoCompra', 'IngresoController@registrarAbonoCompra');
+                 Route::get('descargaComprobantePago', 'IngresoController@descargaComprobantePago');
 
                 });
 
@@ -205,6 +206,10 @@
             Route::post('registrar', 'IngresoController@store');
             Route::put('anularIngreso', 'IngresoController@anularIngreso');
             Route::get('pdfIngreso/{id}', 'IngresoController@pdfIngreso');
+            Route::get('showComprasId', 'IngresoController@showComprasId');
+            Route::post('registrarAbonoCompra', 'IngresoController@registrarAbonoCompra');
+            Route::get('descargaComprobantePago', 'IngresoController@descargaComprobantePago');
+
 
         });
         
