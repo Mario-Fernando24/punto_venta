@@ -269,7 +269,16 @@ class IngresoController extends Controller
               $arrayAbonooooo=AjusteCompra::where('id_compra',$showDeudaCompra->id)->get();
               $proveedoress = Persona::findOrFail($showDeudaCompra->idproveedor);
 
-               $pdf = PDF::loadView('pdf.comprobantePago',compact('Perfil','proveedoress','arrayAbonooooo','showDeudaCompra','mytime'));
+              $ArrayDetalleIng = DetalleIngreso::with('articulodetalle')
+              ->where('idingreso',$request->get('id'))->orderBy('id', 'ASC')->get();
+
+              
+
+
+              // return $ArrayDetalleIng;
+      
+
+               $pdf = PDF::loadView('pdf.comprobantePago',compact('Perfil','proveedoress','arrayAbonooooo','showDeudaCompra','mytime','ArrayDetalleIng'));
         
                return $pdf->download('comprobante de pago  -   '.$mytime);   
       

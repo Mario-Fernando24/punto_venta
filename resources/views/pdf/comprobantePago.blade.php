@@ -189,8 +189,51 @@
                         </tr>
                     </tbody>
                 </table>
+                
+            </div>
+        </section>
 
-                <table id="pagooooooooooo">
+
+
+
+
+
+
+
+
+                <section>
+                    <div>
+                        <table id="facarticulo">
+                            <thead>
+                        <tr id="fa">
+                            <th>ID</th>
+                            <th>ARTICULO</th>
+                            <th>CANTIDAD</th>
+                            <th>PRECIO COMPRA</th>
+                            <th>PRECIO VENTA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                      @foreach($ArrayDetalleIng as $ArrayDetalleIng)
+
+                        <tr>
+                            <td>{{ $ArrayDetalleIng->articulodetalle->id }}</td>
+                            <td>{{ $ArrayDetalleIng->articulodetalle->nombre }}</td>
+                            <td>{{ $ArrayDetalleIng->cantidad }}</td>
+                            <td>{{ number_format(($ArrayDetalleIng->preciocompra),0,',','.') }}</td>
+                            <td>{{ number_format(($ArrayDetalleIng->precio),0,',','.') }}</td>
+
+                            
+
+                        </tr>
+                        @endforeach
+                    </tbody>
+            </table>
+
+
+
+            <table id="pagooooooooooo">
                     <thead>
                         <tr id="fv">
                             <th>EFECTIVO</th>
@@ -209,8 +252,18 @@
                         </tr>
                     </tbody>
                 </table>
+
+                
             </div>
-        </section>
+        </section>   
+
+
+
+
+
+
+
+        
         <br>
         <section>
             <div>
@@ -240,8 +293,8 @@
                         </tr>
                         @endforeach
                     </tbody>
-
-
+                    
+                    
                     <tfoot>
                         <tr>
                             <th></th>
