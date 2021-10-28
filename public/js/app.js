@@ -62167,53 +62167,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DocumentoCaja/HistorialCompras.vue?vue&type=template&id=7540e492&":
-/*!*********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DocumentoCaja/HistorialCompras.vue?vue&type=template&id=7540e492& ***!
-  \*********************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("main", { staticClass: "main" }, [
-      _c("ol", { staticClass: "breadcrumb" }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "#" } }, [_vm._v("Escritorio")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("h1", [_vm._v("mario fernando muñoz rivera")]),
-      _vm._v(" "),
-      _c("h1", [_vm._v("mario fernando muñoz rivera")]),
-      _vm._v(" "),
-      _c("h1", [_vm._v("mario fernando muñoz rivera")]),
-      _vm._v(" "),
-      _c("h1", [_vm._v("mario fernando muñoz rivera")]),
-      _vm._v(" "),
-      _c("h1", [_vm._v("mario fernando muñoz rivera")])
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Ingreso.vue?vue&type=template&id=73fe9b96&":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Ingreso.vue?vue&type=template&id=73fe9b96& ***!
@@ -85486,7 +85439,6 @@ var map = {
 	"./components/DocumentoCaja/AjusteInventario.vue": "./resources/js/components/DocumentoCaja/AjusteInventario.vue",
 	"./components/DocumentoCaja/Creditos.vue": "./resources/js/components/DocumentoCaja/Creditos.vue",
 	"./components/DocumentoCaja/Egreso.vue": "./resources/js/components/DocumentoCaja/Egreso.vue",
-	"./components/DocumentoCaja/HistorialCompras.vue": "./resources/js/components/DocumentoCaja/HistorialCompras.vue",
 	"./components/Ingreso.vue": "./resources/js/components/Ingreso.vue",
 	"./components/Notificacion.vue": "./resources/js/components/Notificacion.vue",
 	"./components/Perfil.vue": "./resources/js/components/Perfil.vue",
@@ -85552,7 +85504,6 @@ Vue.component('Egreso', __webpack_require__(/*! ./components/DocumentoCaja/Egres
 Vue.component('Credito', __webpack_require__(/*! ./components/DocumentoCaja/Creditos.vue */ "./resources/js/components/DocumentoCaja/Creditos.vue")["default"]);
 Vue.component('Anuladas', __webpack_require__(/*! ./components/Anuladas/FacturasAnuladas.vue */ "./resources/js/components/Anuladas/FacturasAnuladas.vue")["default"]);
 Vue.component('Ajusteinventario', __webpack_require__(/*! ./components/DocumentoCaja/AjusteInventario.vue */ "./resources/js/components/DocumentoCaja/AjusteInventario.vue")["default"]);
-Vue.component('AjusteComprasss', __webpack_require__(/*! ./components/DocumentoCaja/HistorialCompras.vue */ "./resources/js/components/DocumentoCaja/HistorialCompras.vue")["default"]);
 Vue.component('Notificacion', __webpack_require__(/*! ./components/Notificacion.vue */ "./resources/js/components/Notificacion.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -86382,59 +86333,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Egreso_vue_vue_type_template_id_0d397a3c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Egreso_vue_vue_type_template_id_0d397a3c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/DocumentoCaja/HistorialCompras.vue":
-/*!********************************************************************!*\
-  !*** ./resources/js/components/DocumentoCaja/HistorialCompras.vue ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _HistorialCompras_vue_vue_type_template_id_7540e492___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HistorialCompras.vue?vue&type=template&id=7540e492& */ "./resources/js/components/DocumentoCaja/HistorialCompras.vue?vue&type=template&id=7540e492&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-var script = {}
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
-  _HistorialCompras_vue_vue_type_template_id_7540e492___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _HistorialCompras_vue_vue_type_template_id_7540e492___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/DocumentoCaja/HistorialCompras.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/DocumentoCaja/HistorialCompras.vue?vue&type=template&id=7540e492&":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/components/DocumentoCaja/HistorialCompras.vue?vue&type=template&id=7540e492& ***!
-  \***************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_HistorialCompras_vue_vue_type_template_id_7540e492___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./HistorialCompras.vue?vue&type=template&id=7540e492& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DocumentoCaja/HistorialCompras.vue?vue&type=template&id=7540e492&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_HistorialCompras_vue_vue_type_template_id_7540e492___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_HistorialCompras_vue_vue_type_template_id_7540e492___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

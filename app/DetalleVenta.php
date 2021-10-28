@@ -23,7 +23,6 @@ class DetalleVenta extends Model
     public function articulo_Detalle_Venta()
     {
         return $this->belongsTo(Articulo::class,'id_articulo','id');
-        
     }
 
    
