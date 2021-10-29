@@ -8,7 +8,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i>Ventas
+                        <i class="fa fa-align-justify"></i>Facturas
                             <button type="button" @click="mostrarDetalle()" class="btn btn-secondary btn-sm" data-toggle="modal">
                             <i class="icon-plus"></i>Nuevo
                              </button>
@@ -179,30 +179,6 @@
 
 
 
-
-
-                                <div class="col-md-4">
-                                    <div class="form-group"> 
-                                        <label>Tipo Comprobante <span  class="validaridArticulo"   v-show="forma_pago==0">*</span></label>
-                                            <select class="form-control" v-model="forma_pago">
-                                                <option value="0">Seleccione</option>
-                                                <option value="efectivo">EFECTIVO</option>
-                                                <option value="datafono">DATAFONO</option>
-                                                <option value="credito">CREDITO</option>
-                                                <option value="transferencia">TRANSFERENCIA <b> (nequi, bancolombia, daviplata otros)</b></option>
-                                            </select>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="col-md-4" v-if="forma_pago=='datafono' || forma_pago=='transferencia'">
-                                    <div class="form-group"> 
-                                        <label>Num Comprobante<span  class="validaridArticulo"   v-show="num_comprobante_pago==0">*</span></label>
-                                        <input type="text" class="form-control"  v-model="num_comprobante_pago" placeholder="002-2, bancolombia, nequi etc">
-                                    </div>
-                                </div>
-
                                 <div class="col-md-12">
                                     <div v-show="errorVenta==1" class="form-group row div-error">
                                         <div class="text-center text-error">
@@ -326,7 +302,7 @@
                                          </tr>
 
                                          <tr class="totalresultado" >
-                                             <td colspan="4" align="right"><strong>Totasl Neto:</strong></td>
+                                             <td colspan="4" align="right"><strong>Total Neto:</strong></td>
                                              <td colspan="2" >$ {{ Intl.NumberFormat().format((total=(calculadorTotal)))}}</td>
                                          </tr>
 
@@ -343,13 +319,44 @@
 
                                  
                                  </table>
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group"> 
+                                        <label><b>Tipo pago </b><span  class="validaridArticulo"   v-show="forma_pago==0">*</span></label>
+                                            <select class="form-control" v-model="forma_pago">
+                                                <option value="0">Seleccione</option>
+                                                <option value="efectivo">EFECTIVO</option>
+                                                <option value="datafono">DATAFONO</option>
+                                                <option value="credito">CREDITO</option>
+                                                <option value="transferencia">TRANSFERENCIA <b> (nequi, bancolombia, daviplata otros)</b></option>
+
+                                            </select>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-md-4" v-if="forma_pago=='datafono' || forma_pago=='transferencia'">
+                                    <div class="form-group"> 
+                                        <label>Num Comprobante<span  class="validaridArticulo"   v-show="num_comprobante_pago==0">*</span></label>
+                                        <input type="text" class="form-control"  v-model="num_comprobante_pago" placeholder="002-2, bancolombia, nequi etc">
+                                    </div>
+                                </div>
+
+
                            </div>
+
+
+
 
 
                         <div class="form-group row">
                            <div class="col-md-12">
                                <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
-                              <button type="button" class="btn btn-outline-primary" @click="registrarVenta()">Guardar venta</button>
+                              <button type="button" class="btn btn-outline-primary" @click="modalFormaVenta()">Guardar factura</button>
                            </div>
                         </div>
 
@@ -501,7 +508,6 @@
                         <div class="modal-bod">
 
 
-
                             <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="input-group">
@@ -559,6 +565,8 @@
                     </div>
                     
 
+                    
+
 
                         </div>
                         <div class="modal-footer">
@@ -571,6 +579,79 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
+
+
+             <!--Inicio del modal agregar/actualizar -->
+            <div class="modal fade"  tabindex="-1" :class="{'mostrar':modalPago}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg"  role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Pagar factura</h4>
+                            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-bod">
+
+                        <h4 class="centrado validaridArticulo">TOTAL $ {{ Intl.NumberFormat().format((total=(calculadorTotal)))}}</h4>
+
+                       <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th scope="col">FORMA DE PAGO</th>
+                                <th scope="col">POR PAGAR</th>
+                                <th scope="col">DETALLE</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <th scope="row">EFECTIVO</th>
+                                <td ><input type="number" class="form-control" v-on:keyup="sincronada()"  v-model="formapagoventa.efectivo"></td>
+                                </tr>
+
+                                <tr>
+                                <th scope="row">CREDITO</th>
+                                <td ><input type="number" class="form-control" v-on:keyup="sincronada()" v-model="formapagoventa.credito"></td>
+                                </tr>
+
+
+                                <tr>
+                                <th scope="row">DATAFONO</th>
+                                <td ><input type="number" class="form-control" v-on:keyup="sincronada()" v-model="formapagoventa.datafono"></td>
+                                <td ><input type="text" class="form-control"></td>
+
+                                </tr>
+
+
+                                <tr>
+                                <th scope="row">TRANSFERENCIA</th>
+                                <td ><input type="number" class="form-control" v-on:keyup="sincronada()" v-model="formapagoventa.transferencia"></td>
+                                <td ><input type="text" class="form-control"></td>
+
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" @click="cerrarModal()" class="btn btn-secondary">Cerrar</button>
+                            <button type="button" class="btn btn-primary" @click="registrarVenta()">Guardar</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--  final modal  -->
+
+
+
 
 
 
@@ -613,6 +694,9 @@
                                     </div>
                         </div>   
 
+
+                        
+
                         <div class="modal-footer">
                              <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
                             <button class="oculto-impresion" @click="imprimir()" >Imprimir</button>
@@ -639,6 +723,8 @@ import vSelect from "vue-select";
         //dentro de la data colocamos las variables 
         data(){
           return {
+
+            modalPago:0,
             //cual es la usuario que quiero edit 
             ingreso_id :0,
             idcliente : 0,
@@ -667,6 +753,14 @@ import vSelect from "vue-select";
             tipoAccionButton : 0,
             errorVenta : 0,
             errorMensajearrayVenta : [],
+
+
+            formapagoventa:{
+                efectivo:0,
+                credito:0,
+                datafono:0,
+                transferencia:0
+            },
           
             pagination : {
                 //numero total de registro
@@ -910,7 +1004,7 @@ import vSelect from "vue-select";
 
                              }else{
      
-                            //push para agregar valores al array
+                               //push para agregar valores al array
                                 this.arrayDetalleVenta.push({
                                 idarticulo:this.idarticulo,
                                 articulo: this.articulo,
@@ -975,7 +1069,33 @@ import vSelect from "vue-select";
                     this.arrayDetalleVenta.splice(index,1);
                  },
 
+                 modalFormaVenta(){
+                     this.modalPago=1;
+                     this.formapagoventa.efectivo=this.total;
+                 },
+
+
+
+                 sincronada: function(){
+                     console.log('Mario Fernando Muñoz Rivera');
+                     console.log('*******>'+Intl.NumberFormat().format(this.total));
+                     console.log('==>'+(Intl.NumberFormat().format(this.formapagoventa.efectivo)+Intl.NumberFormat().format(this.formapagoventa.credito)+Intl.NumberFormat().format(this.formapagoventa.datafono)+Intl.NumberFormat().format(this.formapagoventa.transferencia)));
+                     console.log('Mario Fernando Muñoz Rivera');
+                     if(this.total==(this.formapagoventa.efectivo+this.formapagoventa.credito+this.formapagoventa.datafono+this.formapagoventa.transferencia))
+                     {
+                         console.log('EXCELENTE');
+                     }else{
+                        console.log('ERROR');
+                     }
+
+                 },
+
+
+
+
                 registrarVenta(){
+
+
                         if(this.validarVenta()){
                             return ;
                         }
@@ -1044,7 +1164,7 @@ import vSelect from "vue-select";
                   },
 
                 vaciarvariable(){
-
+ 
                         this.idcliente=0;
                         this.tipo_comprobante= 'FACTURA',
                         this.forma_pago = 'efectivo',
@@ -1215,9 +1335,10 @@ import vSelect from "vue-select";
 
                 //metodo para cerrar el modal
                 cerrarModal(){
-                      this.ticket=0;
+                    this.ticket=0;
                     this.modal=0;
                     this.tituloModal='';
+                    this.modalPago=0;
                 },
 
                 //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 

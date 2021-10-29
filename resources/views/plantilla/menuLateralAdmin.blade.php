@@ -24,7 +24,7 @@
 
                     
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-basket"></i> Venta</a>
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-basket"></i> Facturar</a>
                         <ul class="nav-dropdown-items">
                             <li @click="menu=5" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-basket-loaded"></i> Facturar</a>

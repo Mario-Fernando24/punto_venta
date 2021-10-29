@@ -9,6 +9,7 @@ use App\Caja;
 use App\User;
 use App\Credito;
 use App\Perfil;
+use App\ModelInventario\AjusteVenta;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
