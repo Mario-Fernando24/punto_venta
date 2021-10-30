@@ -47,6 +47,8 @@ class perfilController extends Controller
 
     public function register(Request $request)
     {
+
+
         if(!$request->ajax()){
             return redirect('/');
            }

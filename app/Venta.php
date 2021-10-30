@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ModelInventario\AjusteVenta;
 
 class Venta extends Model
 {
@@ -35,6 +36,11 @@ class Venta extends Model
 
     public function usuario_anulo_venta(){
         return $this->belongsTo(User::class,'id_anulo_venta');
+    }
+
+    public function formaspago(){
+        return $this->belongsTo(AjusteVenta::class,'id','id_venta');
+
     }
 
 }

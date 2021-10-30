@@ -26,10 +26,10 @@ class VentaController extends Controller
         $criterio = $request->criterio;
 
          if($buscar==''){
-            $venta = Venta::with('cliente_persona','usuario_hizola_venta')->orderBy('id', 'DESC')->paginate(10);
+            $venta = Venta::with('cliente_persona','usuario_hizola_venta','formaspago')->orderBy('id', 'DESC')->paginate(10);
 
          }else{ 
-            $venta = Venta::with('cliente_persona','usuario_hizola_venta')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+            $venta = Venta::with('cliente_persona','usuario_hizola_venta','formaspago')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
          }
 
 
@@ -232,13 +232,18 @@ class VentaController extends Controller
 
         $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
         ->where('id',$id)->orderBy('id', 'DESC')->first();
+
         
         $ArrayDetalleVenta = DetalleVenta::with('articulo_Detalle_Venta')
         ->where('id_venta',$id)->orderBy('id', 'ASC')->get(); 
+
+
         $mytime=Carbon::now('America/Bogota');
 
         $Perfil = Perfil::with('GetUser')->first();
+
         $image='img/company/'.$Perfil->image_perfil;
+
         
         $pdf = PDF::loadView('pdf.ventas',compact('ObjetoDetalleVent','ArrayDetalleVenta','Perfil','image'));
         return $pdf->download('venta-'.$ObjetoDetalleVent->id.'-'.$mytime);   

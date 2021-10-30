@@ -7,6 +7,7 @@ use App\DetalleIngreso;
 use App\Articulo;
 use App\Categoria;
 use App\Perfil;
+use App\ModelInventario\AjusteCompra;
 use App\Caja;
 use App\Persona;
 use DB;
@@ -97,9 +98,6 @@ class IngresoController extends Controller
 
     public function ListarArticuloIngreso(Request $request)
     {   
-
-      $mario=Articulo::get();
-      return $mario;
         
         if(!$request->ajax()){return redirect('/');}
 
@@ -121,8 +119,6 @@ class IngresoController extends Controller
 
     public function store(Request $request)
     {
-
-
       if(!$request->ajax()){return redirect('/');}
 
        $mytime=Carbon::now('America/Bogota');
@@ -137,7 +133,6 @@ class IngresoController extends Controller
        }
 
        //pendiente validación si false consulta pasar parametro con laravel
-
 
        try{
 
@@ -155,17 +150,15 @@ class IngresoController extends Controller
             'estado' => 'registrado',
           ]);
 
-          return $ingreso->id.' id '.$ingreso->id_apertura_caja_usuario.' a '$ingreso->idusuario;
 
-
-           AjusteCompra::create([
-              'id_compra' => $ingreso->id,
-              'id_caja' => $ingreso->id_apertura_caja_usuario,
-              'id_users' => $ingreso->idusuario,
-              'credito'=> $request->get('credito'),
-              'efectivo'=> $request->get('efectivo'),
-              'abono' => 0,
-           ]);
+          $boca = AjusteCompra::create([
+            'id_compra' => $ingreso->id,
+            'id_caja' => $ingreso->id_apertura_caja_usuario,
+            'id_users' => $ingreso->idusuario,
+            'credito'=> $request->get('credito'),
+            'efectivo'=> $request->get('efectivo'),
+            'abono' => 0,
+          ]);
 
 
             //array de deatalle
@@ -292,7 +285,3 @@ class IngresoController extends Controller
        }
 
 }
-
-
-
-

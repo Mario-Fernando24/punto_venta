@@ -1175,6 +1175,7 @@ import vSelect from "vue-select";
                                     reverseButtons: true
                                     }).then((result) => {
                                     if (result.isConfirmed) {
+                                        
                                       
                                     window.open('/ventas/pdfVenta/'+response.data.id+','+'_blank');
                                     me.listado= 1;
@@ -1205,17 +1206,18 @@ import vSelect from "vue-select";
                 vaciarvariable(){
  
                         this.idcliente=0;
-                        this.tipo_comprobante= 'FACTURA',
-                        this.forma_pago = 'efectivo',
-                        this.num_comprobante_pago= '',
-                        this.impuesto='',
-                        this.impuesto= 18,
-                        this.total= 0.0,
-                        this.idarticulo=0,
-                        this.articulo='',
-                        this.cantidad='',
-                        this.precio='',
+                        this.tipo_comprobante= 'FACTURA';
+                        this.forma_pago = 'efectivo';
+                        this.num_comprobante_pago= '';
+                        this.impuesto='';
+                        this.impuesto= 18;
+                        this.total= 0.0;
+                        this.idarticulo=0;
+                        this.articulo='';
+                        this.cantidad='';
+                        this.precio='';
                         this.arrayDetalleVenta=[];
+                        this.modalPago=0;
 
 
                  },

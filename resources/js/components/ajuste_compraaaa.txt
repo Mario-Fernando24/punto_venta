@@ -1,0 +1,36 @@
+CREATE TABLE `ajuste_compras` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_compra` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_caja` bigint(20) UNSIGNED NOT NULL,
+  `id_users` bigint(20) UNSIGNED DEFAULT NULL,
+  `efectivo` decimal(11,2) DEFAULT NULL,
+  `credito` decimal(11,2) DEFAULT NULL,
+  `abono` decimal(11,2) NOT NULL,
+  `observacionFormaPago` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+ALTER TABLE `ajuste_compras`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ajuste_compras_id_compra_foreign` (`id_compra`);
+
+ALTER TABLE `ajuste_compras`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+
+ALTER TABLE `ajuste_compras`
+  ADD CONSTRAINT `ajuste_compras_id_compra_foreign` FOREIGN KEY (`id_compra`) REFERENCES `ingresos` (`id`);
+
+
+
+
+
+
+
+===========================================================================================
+===========================================================================================
+===========================================================================================
+===========================================================================================
