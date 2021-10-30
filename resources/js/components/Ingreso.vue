@@ -431,7 +431,7 @@
                        <div class="form-group row">
                            <div class="col-md-12">
                                <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">CERRAR</button>
-                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">REGISTRAR COMPRA</button>
+                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">REGISTRAR COMPRAsss</button>
 
                            </div>
                         </div>
@@ -1221,6 +1221,8 @@ import vSelect from "vue-select";
                 registrarIngreso(){
 
 
+
+
                         if(this.validarIngreso()){
                             return ;
                         }
@@ -1268,6 +1270,8 @@ import vSelect from "vue-select";
                              this.formapagooo.efectivo=0;
                              this.formapagooo.credito=this.total;
                         }
+
+
 
                         axios.post('/ingresos/registrar', {
                             'idproveedor':  this.idproveedor,

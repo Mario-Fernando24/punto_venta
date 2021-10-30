@@ -15,9 +15,9 @@ class CreateAbonoCreditosTable extends Migration
     {
         Schema::create('abono_creditos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_Credito');
-            $table->unsignedBigInteger('idusers');
-            $table->unsignedBigInteger('id_caja');
+            $table->unsignedBigInteger('id_Credito')->nullable();
+            $table->unsignedBigInteger('idusers')->nullable();
+            $table->unsignedBigInteger('id_caja')->nullable();
             $table->decimal('montoAbonar',11,2)->nullable();
             $table->string('observacion',100)->nullable();
             $table->boolean('estado')->default(1);

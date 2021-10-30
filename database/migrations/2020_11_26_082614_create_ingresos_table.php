@@ -15,8 +15,8 @@ class CreateIngresosTable extends Migration
     {
         Schema::create('ingresos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('idproveedor');
-            $table->unsignedBigInteger('idusuario');
+            $table->unsignedBigInteger('idproveedor')->nullable();
+            $table->unsignedBigInteger('idusuario')->nullable();
             $table->unsignedBigInteger('id_anulo_ingreso')->nullable();
             $table->unsignedBigInteger('id_apertura_caja_usuario')->nullable();
             $table->string('tipo_comprobante',50)->nullable();

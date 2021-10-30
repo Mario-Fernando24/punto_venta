@@ -23,7 +23,8 @@ class CreateAjusteVentaTable extends Migration
             $table->decimal('credito',11,2)->nullable();
             $table->decimal('datafono',11,2)->nullable();
             $table->decimal('tranferencia',11,2)->nullable();
-            $table->string('observacionFormaPago',250) ->unique();
+            $table->string('datafonoobservacion',250) ->nullable();
+            $table->string('tranferenciaobservacion',250) ->nullable();
             $table->boolean('estado')->default(1); 
             $table->timestamps();
 

@@ -11205,6 +11205,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -11244,7 +11266,9 @@ __webpack_require__.r(__webpack_exports__);
         efectivo: 0,
         credito: 0,
         datafono: 0,
-        transferencia: 0
+        transferencia: 0,
+        datafonoobservacion: '',
+        tranferenciaobservacion: ''
       },
       pagination: {
         //numero total de registro
@@ -11498,22 +11522,23 @@ __webpack_require__.r(__webpack_exports__);
       this.arrayDetalleVenta.splice(index, 1);
     },
     modalFormaVenta: function modalFormaVenta() {
+      if (this.total == 0) {
+        Swal.fire('Advertencia!', 'No tiene articulos agregado', 'warning');
+        return;
+      }
+
       this.modalPago = 1;
       this.formapagoventa.efectivo = this.total;
     },
     sincronada: function sincronada() {
-      console.log('Mario Fernando Muñoz Rivera');
-      console.log('*******>' + Intl.NumberFormat().format(this.total));
-      console.log('==>' + (Intl.NumberFormat().format(this.formapagoventa.efectivo) + Intl.NumberFormat().format(this.formapagoventa.credito) + Intl.NumberFormat().format(this.formapagoventa.datafono) + Intl.NumberFormat().format(this.formapagoventa.transferencia)));
-      console.log('Mario Fernando Muñoz Rivera');
-
-      if (this.total == this.formapagoventa.efectivo + this.formapagoventa.credito + this.formapagoventa.datafono + this.formapagoventa.transferencia) {
-        console.log('EXCELENTE');
-      } else {
-        console.log('ERROR');
-      }
+      if (this.total == parseInt(this.formapagoventa.efectivo) + parseInt(this.formapagoventa.credito) + parseInt(this.formapagoventa.datafono) + parseInt(this.formapagoventa.transferencia)) {} else {}
     },
     registrarVenta: function registrarVenta() {
+      if (this.total != parseInt(this.formapagoventa.efectivo) + parseInt(this.formapagoventa.credito) + parseInt(this.formapagoventa.datafono) + parseInt(this.formapagoventa.transferencia)) {
+        Swal.fire('Advertencia!', 'EL VALOR A FACTURAR ES DIFERENTE', 'warning');
+        return;
+      }
+
       if (this.validarVenta()) {
         return;
       }
@@ -11526,7 +11551,8 @@ __webpack_require__.r(__webpack_exports__);
         'num_comprobante_pago': this.num_comprobante_pago,
         'impuesto': this.impuesto,
         'total': this.total,
-        'data': this.arrayDetalleVenta
+        'data': this.arrayDetalleVenta,
+        'formapagoajusteventa': this.formapagoventa
       }).then(function (response) {
         console.log(response.data.usuarioss);
         me.id_ticket = response.data.id;
@@ -63824,7 +63850,7 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [_vm._v("REGISTRAR COMPRA")]
+                                    [_vm._v("REGISTRAR COMPRAsss")]
                                   )
                                 ])
                               ])
@@ -68686,7 +68712,7 @@ var render = function() {
         [
           _c("div", { staticClass: "card-header" }, [
             _c("i", { staticClass: "fa fa-align-justify" }),
-            _vm._v("Facturas\n                            "),
+            _vm._v("FACTURAS\n                            "),
             _c(
               "button",
               {
@@ -70480,7 +70506,7 @@ var render = function() {
             _c("div", { staticClass: "modal-content" }, [
               _c("div", { staticClass: "modal-header" }, [
                 _c("h4", { staticClass: "modal-title" }, [
-                  _vm._v("Pagar factura")
+                  _vm._v("PAGAR FACTURA")
                 ]),
                 _vm._v(" "),
                 _c(
@@ -70628,7 +70654,38 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
-                      _vm._m(15)
+                      _vm.formapagoventa.datafono > 0
+                        ? _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.formapagoventa.datafonoobservacion,
+                                  expression:
+                                    "formapagoventa.datafonoobservacion"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text", placeholder: "# Bauche" },
+                              domProps: {
+                                value: _vm.formapagoventa.datafonoobservacion
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.formapagoventa,
+                                    "datafonoobservacion",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("tr", [
@@ -70667,9 +70724,124 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
-                      _vm._m(16)
+                      _vm.formapagoventa.transferencia > 0
+                        ? _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value:
+                                    _vm.formapagoventa.tranferenciaobservacion,
+                                  expression:
+                                    "formapagoventa.tranferenciaobservacion"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                placeholder: "# nequi, bancolombia etc"
+                              },
+                              domProps: {
+                                value:
+                                  _vm.formapagoventa.tranferenciaobservacion
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.formapagoventa,
+                                    "tranferenciaobservacion",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        : _vm._e()
                     ])
                   ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-header totalresultado" }, [
+                    _vm._v(
+                      "\n                                Total\n                            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card-body" },
+                    [
+                      _c("h5", {
+                        staticClass: "card-title",
+                        domProps: {
+                          textContent: _vm._s(
+                            Intl.NumberFormat().format(
+                              parseInt(this.formapagoventa.efectivo) +
+                                parseInt(this.formapagoventa.credito) +
+                                parseInt(this.formapagoventa.datafono) +
+                                parseInt(this.formapagoventa.transferencia)
+                            )
+                          )
+                        }
+                      }),
+                      _vm._v(" "),
+                      parseInt(this.formapagoventa.efectivo) +
+                        parseInt(this.formapagoventa.credito) +
+                        parseInt(this.formapagoventa.datafono) +
+                        parseInt(this.formapagoventa.transferencia) >
+                      this.total
+                        ? [
+                            _c(
+                              "p",
+                              { staticClass: "card-text validaridArticulo" },
+                              [
+                                _vm._v(
+                                  "EL VALOR A FACTURAR ES MAYOR AL VALOR DE LA VENTA"
+                                )
+                              ]
+                            )
+                          ]
+                        : _vm._e(),
+                      _vm._v(" "),
+                      parseInt(this.formapagoventa.efectivo) +
+                        parseInt(this.formapagoventa.credito) +
+                        parseInt(this.formapagoventa.datafono) +
+                        parseInt(this.formapagoventa.transferencia) <
+                      this.total
+                        ? [
+                            _c(
+                              "p",
+                              { staticClass: "card-text validaridArticulo" },
+                              [
+                                _vm._v(
+                                  "EL VALOR A FACTURAR ES MENOR AL VALOR DE LA VENTA"
+                                )
+                              ]
+                            )
+                          ]
+                        : _vm._e(),
+                      _vm._v(" "),
+                      parseInt(this.formapagoventa.efectivo) +
+                        parseInt(this.formapagoventa.credito) +
+                        parseInt(this.formapagoventa.datafono) +
+                        parseInt(this.formapagoventa.transferencia) ==
+                      this.total
+                        ? [
+                            _c(
+                              "p",
+                              { staticClass: "card-text totalresultado" },
+                              [_vm._v("GRABAR LA FACTURA")]
+                            )
+                          ]
+                        : _vm._e()
+                    ],
+                    2
+                  )
                 ])
               ]),
               _vm._v(" "),
@@ -70699,7 +70871,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Guardar")]
+                  [_vm._v("Grabar")]
                 )
               ])
             ])
@@ -70758,7 +70930,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("table", [
-                    _vm._m(17),
+                    _vm._m(15),
                     _vm._v(" "),
                     _c(
                       "tbody",
@@ -71037,22 +71209,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("DETALLE")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
     ])
   },
   function() {

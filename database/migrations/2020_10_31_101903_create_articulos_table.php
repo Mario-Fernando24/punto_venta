@@ -15,11 +15,11 @@ class CreateArticulosTable extends Migration
     {
         Schema::create('articulos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('idcategoria');
+            $table->unsignedBigInteger('idcategoria')->nullable();
             $table->string('codigo',100)->nullable();
             $table->string('nombre',100)->unique();
-            $table->decimal('precio_venta',11,2);
-            $table->integer('stock');
+            $table->decimal('precio_venta',11,2)->nullable();
+            $table->integer('stock')->nullable();
             $table->string('descripcion',255)->nullable();
             $table->boolean('condicion')->default(1); //default(1) es para que cuando se registre un registro en la base de dato contion sera 1 por defecto 
             $table->string('avatar',255)->nullable();

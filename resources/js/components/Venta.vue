@@ -8,7 +8,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i>Facturas
+                        <i class="fa fa-align-justify"></i>FACTURAS
                             <button type="button" @click="mostrarDetalle()" class="btn btn-secondary btn-sm" data-toggle="modal">
                             <i class="icon-plus"></i>Nuevo
                              </button>
@@ -586,7 +586,7 @@
                 <div class="modal-dialog modal-primary modal-lg"  role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Pagar factura</h4>
+                            <h4 class="modal-title">PAGAR FACTURA</h4>
                             <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
                               <span aria-hidden="true">×</span>
                             </button>
@@ -617,18 +617,18 @@
                                 </tr>
 
 
-                                <tr>
+                                <tr>              
+
                                 <th scope="row">DATAFONO</th>
                                 <td ><input type="number" class="form-control" v-on:keyup="sincronada()" v-model="formapagoventa.datafono"></td>
-                                <td ><input type="text" class="form-control"></td>
-
+                                <td  v-if="formapagoventa.datafono>0"><input  type="text" v-model="formapagoventa.datafonoobservacion" class="form-control"  placeholder="# Bauche"></td>
                                 </tr>
 
 
                                 <tr>
                                 <th scope="row">TRANSFERENCIA</th>
-                                <td ><input type="number" class="form-control" v-on:keyup="sincronada()" v-model="formapagoventa.transferencia"></td>
-                                <td ><input type="text" class="form-control"></td>
+                                <td ><input type="number" class="form-control" v-on:keyup="sincronada()" v-model="formapagoventa.transferencia" ></td>
+                                <td  v-if="formapagoventa.transferencia>0"><input type="text" v-model="formapagoventa.tranferenciaobservacion" class="form-control" placeholder="# nequi, bancolombia etc"></td>
 
                                 </tr>
 
@@ -637,10 +637,32 @@
                             </tbody>
                         </table>
 
+
+                        <div class="card">
+                            <div class="card-header totalresultado">
+                                Total
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" v-text="Intl.NumberFormat().format(parseInt(this.formapagoventa.efectivo)+parseInt(this.formapagoventa.credito)+parseInt(this.formapagoventa.datafono)+parseInt(this.formapagoventa.transferencia))"></h5>
+                                <template v-if="(parseInt(this.formapagoventa.efectivo)+parseInt(this.formapagoventa.credito)+parseInt(this.formapagoventa.datafono)+parseInt(this.formapagoventa.transferencia))>this.total">
+                                <p class="card-text validaridArticulo">EL VALOR A FACTURAR ES MAYOR AL VALOR DE LA VENTA</p>
+                                </template>
+                                <template v-if="(parseInt(this.formapagoventa.efectivo)+parseInt(this.formapagoventa.credito)+parseInt(this.formapagoventa.datafono)+parseInt(this.formapagoventa.transferencia))<this.total">
+                                <p class="card-text validaridArticulo">EL VALOR A FACTURAR ES MENOR AL VALOR DE LA VENTA</p>
+                                </template>
+
+                                <template v-if="(parseInt(this.formapagoventa.efectivo)+parseInt(this.formapagoventa.credito)+parseInt(this.formapagoventa.datafono)+parseInt(this.formapagoventa.transferencia))==this.total">
+                                <p class="card-text totalresultado">GRABAR LA FACTURA</p>
+                                </template>
+
+                            </div>
+                        </div>
+
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" @click="cerrarModal()" class="btn btn-secondary">Cerrar</button>
-                            <button type="button" class="btn btn-primary" @click="registrarVenta()">Guardar</button>
+                            <button  type="button" class="btn btn-primary" @click="registrarVenta()">Grabar</button>
 
                         </div>
                     </div>
@@ -719,6 +741,7 @@
 //importo vselect
 import "vue-select/dist/vue-select.css";
 import vSelect from "vue-select";
+
     export default {
         //dentro de la data colocamos las variables 
         data(){
@@ -759,7 +782,10 @@ import vSelect from "vue-select";
                 efectivo:0,
                 credito:0,
                 datafono:0,
-                transferencia:0
+                transferencia:0,
+                datafonoobservacion:'',
+                tranferenciaobservacion:'',
+
             },
           
             pagination : {
@@ -1070,6 +1096,14 @@ import vSelect from "vue-select";
                  },
 
                  modalFormaVenta(){
+                     if(this.total==0){
+                         Swal.fire(
+                            'Advertencia!',
+                            'No tiene articulos agregado', 
+                            'warning'
+                            )
+                         return ;
+                     }
                      this.modalPago=1;
                      this.formapagoventa.efectivo=this.total;
                  },
@@ -1077,24 +1111,28 @@ import vSelect from "vue-select";
 
 
                  sincronada: function(){
-                     console.log('Mario Fernando Muñoz Rivera');
-                     console.log('*******>'+Intl.NumberFormat().format(this.total));
-                     console.log('==>'+(Intl.NumberFormat().format(this.formapagoventa.efectivo)+Intl.NumberFormat().format(this.formapagoventa.credito)+Intl.NumberFormat().format(this.formapagoventa.datafono)+Intl.NumberFormat().format(this.formapagoventa.transferencia)));
-                     console.log('Mario Fernando Muñoz Rivera');
-                     if(this.total==(this.formapagoventa.efectivo+this.formapagoventa.credito+this.formapagoventa.datafono+this.formapagoventa.transferencia))
+                     if(this.total==(parseInt(this.formapagoventa.efectivo)+parseInt(this.formapagoventa.credito)+parseInt(this.formapagoventa.datafono)+parseInt(this.formapagoventa.transferencia)))
                      {
-                         console.log('EXCELENTE');
+                                 
                      }else{
-                        console.log('ERROR');
-                     }
-
+                            
+                      }
                  },
 
 
 
 
                 registrarVenta(){
-
+                    
+                     if(this.total!=(parseInt(this.formapagoventa.efectivo)+parseInt(this.formapagoventa.credito)+parseInt(this.formapagoventa.datafono)+parseInt(this.formapagoventa.transferencia)))
+                     {
+                         Swal.fire(
+                            'Advertencia!',
+                            'EL VALOR A FACTURAR ES DIFERENTE', 
+                            'warning'
+                            )
+                         return ;        
+                     }
 
                         if(this.validarVenta()){
                             return ;
@@ -1109,6 +1147,7 @@ import vSelect from "vue-select";
                             'impuesto': this.impuesto,
                             'total':this.total,
                             'data':this.arrayDetalleVenta,
+                            'formapagoajusteventa':this.formapagoventa
 
                             
                         })

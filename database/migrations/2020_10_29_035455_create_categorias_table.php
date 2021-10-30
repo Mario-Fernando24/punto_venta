@@ -15,7 +15,7 @@ class CreateCategoriasTable extends Migration
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre',50);
+            $table->string('nombre',50)->nullable();
             $table->string('descripcion',256)->nullable();
             $table->boolean('condicion')->default(1); //default(1) es para que cuando se registre un registro en la base de dato contion sera 1 por defecto 
             $table->timestamps();

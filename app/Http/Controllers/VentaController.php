@@ -133,17 +133,11 @@ class VentaController extends Controller
 
 
     
-    
-      
-
-
+  
 
     public function store(Request $request)
     {
 
-     //  if(!$request->ajax()){
-     //   return redirect('/');
-     //  }
        $mytime=Carbon::now('America/Bogota');
        
        $id_caja_users=DB::table('caja')
@@ -157,23 +151,37 @@ class VentaController extends Controller
             'id_usuario' => \Auth::user()->id,
             'id_apertura_caja_usuario'=>$id_caja_users->idcaja,
             'tipo_comprobante' => $request->get('tipo_comprobante'),
-            'forma_pago' => $request->get('forma_pago'),
+            // 'forma_pago' => $request->get('forma_pago'),
             'num_comprobante_pago' => $request->get('num_comprobante_pago'),
             'fecha_hora' => $mytime->toDateString(),
             'impuesto' => $request->get('impuesto'),
             'total' => $request->get('total'),
             'estado' => 'registrado',
           ]);
+          
 
 
-          if($request->get('forma_pago')=='credito')
+          if($request->formapagoajusteventa['credito']>0)
           {
             $credito = Credito::create([
               'idVenta' => $venta->id,
               'idCliente' => $request->get('idcliente'),
-              'deuda' => $request->get('total'),
+              'deuda' => $request->formapagoajusteventa['credito'],
             ]);
           }
+
+          
+          AjusteVenta::create([
+            'id_venta' => $venta->id,
+            'id_caja' => $id_caja_users->idcaja,
+            'id_users' =>\Auth::user()->id,
+             'efectivo' => $request->formapagoajusteventa['efectivo'],
+             'credito' => $request->formapagoajusteventa['credito'],
+             'datafono' => $request->formapagoajusteventa['datafono'],
+             'tranferencia' => $request->formapagoajusteventa['transferencia'],
+             'datafonoobservacion' => $request->formapagoajusteventa['datafonoobservacion'],
+             'tranferenciaobservacion' => $request->formapagoajusteventa['tranferenciaobservacion'],
+        ]);
 
             //array de deatalle
             $detalles=$request->data; 
@@ -189,8 +197,6 @@ class VentaController extends Controller
                     'descuento' => $det['descuento'],
                 ]);
             }
-
-
 
 
             $user = auth()->user();

@@ -12,7 +12,6 @@
 */        
   Route::get('/', 'Auth\LoginController@ShowLoginForm');
 
-
     //en este middleware entran los usuario invitado
     Route::group(['middleware' => ['guest']], function () {
         Route::get('/', 'Auth\LoginController@ShowLoginForm');

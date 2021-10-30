@@ -15,7 +15,7 @@ class CreateCajaTable extends Migration
     {
         Schema::create('caja', function (Blueprint $table) {
             $table->bigIncrements('idcaja');
-            $table->unsignedBigInteger('id_vendedor');
+            $table->unsignedBigInteger('id_vendedor')->nullable();
             $table->string('Cajainicial')->nullable();
             $table->string('Fecha',100)->nullable();
             $table->string('Cajaactual',100)->nullable();

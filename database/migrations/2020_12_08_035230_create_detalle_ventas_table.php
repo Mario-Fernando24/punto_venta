@@ -15,11 +15,11 @@ class CreateDetalleVentasTable extends Migration
     {
         Schema::create('detalle_ventas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_venta');
-            $table->unsignedBigInteger('id_articulo');
-            $table->integer('cantidad');
-            $table->decimal('precio',11,2);
-            $table->decimal('descuento',11,2);
+            $table->unsignedBigInteger('id_venta')->nullable();
+            $table->unsignedBigInteger('id_articulo')->nullable();
+            $table->integer('cantidad')->nullable();
+            $table->decimal('precio',11,2)->nullable();
+            $table->decimal('descuento',11,2)->nullable();
 
 
             $table->foreign('id_venta')->references('id')->on('ventas')

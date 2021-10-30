@@ -15,8 +15,8 @@ class CreateCreditosTable extends Migration
     {
         Schema::create('creditos', function (Blueprint $table) {
             $table->bigIncrements('idCredito');
-            $table->unsignedBigInteger('idVenta');
-            $table->unsignedBigInteger('idCliente');
+            $table->unsignedBigInteger('idVenta')->nullable();
+            $table->unsignedBigInteger('idCliente')->nullable();
             $table->decimal('deuda',11,2)->nullable();
             $table->string('observacion',100)->nullable();
             $table->boolean('estado')->default(0);

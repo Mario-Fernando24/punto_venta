@@ -18,8 +18,9 @@ class AjusteVenta extends Model
         'credito',
         'datafono',
         'tranferencia',
-        'abono',
-        'observacionFormaPago',
+        'datafonoobservacion',
+        'tranferenciaobservacion',
         'estado',
+
     ];
 }

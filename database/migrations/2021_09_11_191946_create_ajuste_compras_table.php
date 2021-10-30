@@ -27,9 +27,9 @@ class CreateAjusteComprasTable extends Migration
             $table->timestamps();
 
 
-            $table->foreign('id_compra')->references('id')->on('ingresos'); 
-            $table->foreign('id_caja')->references('idcaja')->on('caja');
-            $table->foreign('id_users')->references('id')->on('users');
+            // $table->foreign('id_compra')->references('id')->on('ingresos'); 
+            // $table->foreign('id_caja')->references('idcaja')->on('caja');
+            // $table->foreign('id_users')->references('id')->on('users');
 
         });
     }

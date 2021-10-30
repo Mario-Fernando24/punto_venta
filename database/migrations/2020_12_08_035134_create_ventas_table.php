@@ -15,8 +15,8 @@ class CreateVentasTable extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_cliente');
-            $table->unsignedBigInteger('id_usuario');
+            $table->unsignedBigInteger('id_cliente')->nullable();
+            $table->unsignedBigInteger('id_usuario')->nullable();
             $table->unsignedBigInteger('id_anulo_venta')->nullable();
             $table->unsignedBigInteger('id_apertura_caja_usuario')->nullable();
             
@@ -24,8 +24,8 @@ class CreateVentasTable extends Migration
             $table->string('forma_pago',50)->nullable();
             $table->string('num_comprobante_pago',50)->nullable();
             $table->dateTime('fecha_hora')->nullable();
-            $table->decimal('impuesto',11,2);
-            $table->decimal('total',11,2);
+            $table->decimal('impuesto',11,2)->nullable();
+            $table->decimal('total',11,2)->nullable();
             $table->string('estado',50)->nullable();  
             $table->timestamps();
 

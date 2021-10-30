@@ -15,13 +15,13 @@ class CreateAjusteinventarioTable extends Migration
     {
         Schema::create('ajusteinventario', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_usuario');
+            $table->unsignedBigInteger('id_usuario')->nullable();
             $table->unsignedBigInteger('id_anulo_ajuste')->nullable();
             $table->unsignedBigInteger('id_apertura_caja_usuario')->nullable();
             $table->string('tipo_ajuste')->nullable();
             $table->string('motivo')->nullable();
-            $table->decimal('impuesto',11,2);
-            $table->decimal('total',11,2);
+            $table->decimal('impuesto',11,2)->nullable();
+            $table->decimal('total',11,2)->nullable();
             $table->boolean('estado')->default(1); 
             $table->timestamps();
 
