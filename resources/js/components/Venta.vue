@@ -308,7 +308,7 @@
 
                                          <tr class="totalresultado" >
                                              <td colspan="4" align="right"><strong>Total Neto:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total=(calculadorTotal)))}}</td>
+                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total=(this.calculadorTotal)))}}</td>
                                          </tr>
 
                 
@@ -468,18 +468,19 @@
 
                                          <tr class="totalresultado" >
                                              <td colspan="4" align="right"><strong>Subtotal:</strong></td>
-                                             <td colspan="2">$ {{ Intl.NumberFormat().format((total) - ((total*impuesto )/100)   ) }}</td> 
+                                             <td colspan="2">$ {{ Intl.NumberFormat().format((parseInt(totalDetalleM)) - ((parseInt(totalDetalleM)*impuesto )/100)   ) }}</td> 
                                          </tr>
 
                                          <tr class="totalresultado" >
                                              <td colspan="4" align="right"><strong>Impuesto:</strong></td>
-                                              <td colspan="2">$ {{ Intl.NumberFormat().format(((total*impuesto )/100)) }}</td>
+                                              <td colspan="2">$ {{ Intl.NumberFormat().format(((parseInt(totalDetalleM)*impuesto )/100)) }}</td>
                                          </tr>
 
                                          <tr class="totalresultado" >
                                              <td colspan="4" align="right"><strong>Total Neto:</strong></td>
-                                             <td colspan="2" >$ {{ Intl.NumberFormat().format((total))}}</td> 
+                                             <td colspan="2" >$  {{ parseInt(totalDetalleM) }}</td> 
                                          </tr>
+                                         
 
 
                                      </tbody>
@@ -824,6 +825,7 @@ import vSelect from "vue-select";
             cantidad: 0,
             descuento:0,
             impu:0,
+            totalDetalleM:'',
             nombreAnulaVenta:'',
             estadovali:'',
             fecha_ven_anulada:'',
@@ -1285,17 +1287,22 @@ import vSelect from "vue-select";
                     var respuesta = response.data;
                     //todo lo que retorne esta funcion se almacene en este array
                     TemporalObj = respuesta.ObjetoDetalleVent;
-                      console.log(TemporalObj[0]['tipo_comprobante']);
+                      console.log('==========champeta========');
+                      console.log(TemporalObj[0]['total']);
+                      console.log('==========champeta========');
+
                       console.log('==================');
                       console.log(TemporalObj[0]['formaspago']);
                       console.log('==================');
                     me.arrayFormaPagoDetalle=TemporalObj[0]['formaspago'];
+
                     me.cliente=TemporalObj[0]['cliente_persona']['nombre'];
                     me.impuesto=TemporalObj[0]['impuesto'];
                     me.tipo_comprobante=TemporalObj[0]['tipo_comprobante'];
                     me.forma_pago=TemporalObj[0]['forma_pago'];
                     me.num_comprobante_pago=TemporalObj[0]['num_comprobante_pago'];
                     me.total=TemporalObj[0]['total'];
+                    me.totalDetalleM=TemporalObj[0]['total'];
                     me.fecha_hora=TemporalObj[0]['created_at'];
                     me.idventa=TemporalObj[0]['id'];
                     me.nombreAnulaVenta=TemporalObj[0]['usuario_anulo_venta']['usuario'];

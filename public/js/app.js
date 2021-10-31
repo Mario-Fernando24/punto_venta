@@ -11222,6 +11222,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 //importo vselect
 
 
@@ -11296,6 +11297,7 @@ __webpack_require__.r(__webpack_exports__);
       cantidad: 0,
       descuento: 0,
       impu: 0,
+      totalDetalleM: '',
       nombreAnulaVenta: '',
       estadovali: '',
       fecha_ven_anulada: '',
@@ -11650,7 +11652,9 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
 
         TemporalObj = respuesta.ObjetoDetalleVent;
-        console.log(TemporalObj[0]['tipo_comprobante']);
+        console.log('==========champeta========');
+        console.log(TemporalObj[0]['total']);
+        console.log('==========champeta========');
         console.log('==================');
         console.log(TemporalObj[0]['formaspago']);
         console.log('==================');
@@ -11661,6 +11665,7 @@ __webpack_require__.r(__webpack_exports__);
         me.forma_pago = TemporalObj[0]['forma_pago'];
         me.num_comprobante_pago = TemporalObj[0]['num_comprobante_pago'];
         me.total = TemporalObj[0]['total'];
+        me.totalDetalleM = TemporalObj[0]['total'];
         me.fecha_hora = TemporalObj[0]['created_at'];
         me.idventa = TemporalObj[0]['id'];
         me.nombreAnulaVenta = TemporalObj[0]['usuario_anulo_venta']['usuario'];
@@ -69857,7 +69862,7 @@ var render = function() {
                                         "$ " +
                                           _vm._s(
                                             Intl.NumberFormat().format(
-                                              (_vm.total = _vm.calculadorTotal)
+                                              (_vm.total = this.calculadorTotal)
                                             )
                                           )
                                       )
@@ -70122,8 +70127,10 @@ var render = function() {
                                     "$ " +
                                       _vm._s(
                                         Intl.NumberFormat().format(
-                                          _vm.total -
-                                            (_vm.total * _vm.impuesto) / 100
+                                          parseInt(_vm.totalDetalleM) -
+                                            (parseInt(_vm.totalDetalleM) *
+                                              _vm.impuesto) /
+                                              100
                                         )
                                       )
                                   )
@@ -70138,7 +70145,9 @@ var render = function() {
                                     "$ " +
                                       _vm._s(
                                         Intl.NumberFormat().format(
-                                          (_vm.total * _vm.impuesto) / 100
+                                          (parseInt(_vm.totalDetalleM) *
+                                            _vm.impuesto) /
+                                            100
                                         )
                                       )
                                   )
@@ -70150,10 +70159,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
-                                    "$ " +
-                                      _vm._s(
-                                        Intl.NumberFormat().format(_vm.total)
-                                      )
+                                    "$  " + _vm._s(parseInt(_vm.totalDetalleM))
                                   )
                                 ])
                               ])
