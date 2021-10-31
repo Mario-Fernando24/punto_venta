@@ -874,6 +874,7 @@ import vSelect from "vue-select";
                   resultado+=aux-this.arrayDetalleVenta[i].descuento;
                   aux=0.0;
                 }
+
                 return resultado;
             },
 

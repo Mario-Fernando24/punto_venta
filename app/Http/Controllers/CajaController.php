@@ -7,6 +7,7 @@ use App\Egreso;
 use App\DetalleVenta;
 use App\AbonoCredito;
 use App\Perfil;
+use App\ModelInventario\AjusteVenta;
 use DB;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -52,33 +53,34 @@ class CajaController extends Controller
         $cajaOpen = Caja::with('apertura_vendedor')
         ->where('id_vendedor',\Auth::user()->id)->orderBy('idcaja', 'desc')->first();
 
-
-        $Efectivo_de_Ventas = Venta::where('id_usuario', \Auth::user()->id)
-        ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-        ->where('estado','registrado')
-        ->where('forma_pago','efectivo')
-        ->get()->sum('total');
-
-
-        $transferencia_ventas = Venta::where('id_usuario', \Auth::user()->id)
-        ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-        ->where('estado','registrado')
-        ->where('forma_pago','transferencia')
-        ->get()->sum('total');
+        $Efectivo_de_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+        ->where('id_caja', $cajaOpen->idcaja)
+        ->where('estado',1)
+        ->where('efectivo','>',0)
+        ->get()->sum('efectivo');
 
 
-        $datafono_Ventas = Venta::where('id_usuario', \Auth::user()->id)
-        ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-        ->where('estado','registrado')
-        ->where('forma_pago','datafono')
-        ->get()->sum('total');
+        $transferencia_ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+        ->where('id_caja', $cajaOpen->idcaja)
+        ->where('estado',1)
+        ->where('tranferencia','>',0)
+        ->get()->sum('tranferencia');
 
 
-        $Credito = Venta::where('id_usuario', \Auth::user()->id)
-        ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-        ->where('estado','registrado')
-        ->where('forma_pago','credito')
-        ->get()->sum('total');
+
+        
+        $datafono_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+        ->where('id_caja', $cajaOpen->idcaja)
+        ->where('estado',1)
+        ->where('datafono','>',0)
+        ->get()->sum('datafono');
+
+
+        $Credito = AjusteVenta::where('id_users', \Auth::user()->id)
+        ->where('id_caja', $cajaOpen->idcaja)
+        ->where('estado',1)
+        ->where('credito','>',0)
+        ->get()->sum('credito');
 
 
 
@@ -215,59 +217,55 @@ class CajaController extends Controller
       //Ingreso end // =========================================
 
 
-      //Credito ================================================
-
-
-    
-      $Credito = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','credito')
-      ->get()->sum('total');
+      $Credito = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('credito','>',0)
+      ->get()->sum('credito');
 
       //end Credito ============================================
 
       //======== datafono and transferencia ====================
 
              
-      $Transferencia = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','transferencia')
+      $Transferencia = AjusteVenta::where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tranferencia','>',0)
       ->get();
 
 
-      $Datafono = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','datafono')
+
+      $Datafono = AjusteVenta::where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('datafono','>',0)
       ->get();
 
       //======================star 
 
-      $efectivo_de_Ventas = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','efectivo')
-      ->get()->sum('total');
+
+      $efectivo_de_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('efectivo','>',0)
+      ->get()->sum('efectivo');
 
 
-      $transferencia_ventas = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','transferencia')
-      ->get()->sum('total');
+      $transferencia_ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tranferencia','>',0)
+      ->get()->sum('tranferencia');
+
+      $datafono_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('datafono','>',0)
+      ->get()->sum('datafono');
 
 
-      $datafono_Ventas = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','datafono')
-      ->get()->sum('total');
 
 
-
-      // end
+      //=================== end ==============
 
       
       $IngresoAbonoCredito = AbonoCredito::where('idusers', \Auth::user()->id)
@@ -355,56 +353,48 @@ class CajaController extends Controller
 
       //Credito ================================================
 
+      $Credito = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('credito','>',0)
+      ->get()->sum('credito');
 
-    
-      $Credito = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','credito')
-      ->get()->sum('total');
 
       //end Credito ============================================
 
       //======== datafono and transferencia ====================
 
-             
-      $Transferencia = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','transferencia')
+      $Transferencia = AjusteVenta::where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tranferencia','>',0)
       ->get();
 
 
-      $Datafono = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','datafono')
+      $Datafono = AjusteVenta::where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('datafono','>',0)
       ->get();
 
       //======================star 
 
-      $efectivo_de_Ventas = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','efectivo')
-      ->get()->sum('total');
+      $efectivo_de_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('efectivo','>',0)
+      ->get()->sum('efectivo');
 
 
-      $transferencia_ventas = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','transferencia')
-      ->get()->sum('total');
+      $transferencia_ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tranferencia','>',0)
+      ->get()->sum('tranferencia');
 
-
-      $datafono_Ventas = Venta::where('id_usuario', \Auth::user()->id)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','datafono')
-      ->get()->sum('total');
-
-
-
+      $datafono_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('datafono','>',0)
+      ->get()->sum('datafono');
       // end
 
       
@@ -437,6 +427,7 @@ class CajaController extends Controller
 
     public function detalleinformeCajaImpresa(Request $request)
     {
+
         
 
       $cajaId=$request->idcaja;
@@ -493,53 +484,53 @@ class CajaController extends Controller
 
       //Credito ================================================
 
-
-    
-      $Credito = Venta::where('id_usuario', $vendedorId)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','credito')
-      ->get()->sum('total');
+      $Credito = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('credito','>',0)
+      ->get()->sum('credito');
 
       //end Credito ============================================
 
       //======== datafono and transferencia ====================
 
              
-      $Transferencia = Venta::where('id_usuario', $vendedorId)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','transferencia')
+      $Transferencia = AjusteVenta::where('id_users', $vendedorId)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tranferencia','>',0)
       ->get();
 
 
-      $Datafono = Venta::where('id_usuario', $vendedorId)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','datafono')
+
+      $Datafono = AjusteVenta::where('id_users', $vendedorId)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('datafono','>',0)
       ->get();
 
       //======================star 
 
-      $efectivo_de_Ventas = Venta::where('id_usuario', $vendedorId)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','efectivo')
-      ->get()->sum('total');
+
+      $efectivo_de_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('efectivo','>',0)
+      ->get()->sum('efectivo');
 
 
-      $transferencia_ventas = Venta::where('id_usuario', $vendedorId)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','transferencia')
-      ->get()->sum('total');
+      $transferencia_ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('tranferencia','>',0)
+      ->get()->sum('tranferencia');
 
+      $datafono_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
+      ->where('id_caja', $cajaOpen->idcaja)
+      ->where('estado',1)
+      ->where('datafono','>',0)
+      ->get()->sum('datafono');
 
-      $datafono_Ventas = Venta::where('id_usuario', $vendedorId)
-      ->where('id_apertura_caja_usuario', $cajaOpen->idcaja)
-      ->where('estado','registrado')
-      ->where('forma_pago','datafono')
-      ->get()->sum('total');
 
 
 

@@ -106,13 +106,11 @@ class VentaController extends Controller
     public function getObjetoDetalleVenta(Request $request)
     {
       
-      if(!$request->ajax()){return redirect('/'); }
-
+        if(!$request->ajax()){return redirect('/'); }
         $id = $request->id;
         $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta','formaspago')
         ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
 
- 
         return ['ObjetoDetalleVent' => $ObjetoDetalleVent];
   
     }
@@ -137,6 +135,7 @@ class VentaController extends Controller
 
     public function store(Request $request)
     {
+
 
        $mytime=Carbon::now('America/Bogota');
        
@@ -222,6 +221,11 @@ class VentaController extends Controller
           $venta->estado='anulado';
           $venta->id_anulo_venta=\Auth::user()->id;
           $venta->update();
+
+
+          $ajusteventa = AjusteVenta::where('id_venta',$request->get('id'))->first();
+          $ajusteventa->estado=0;
+          $ajusteventa->update();
       }
 
 

@@ -279,9 +279,9 @@
                     <tbody>
                     @foreach($Datafono as $dat)
                         <tr>
-                            <th>#{{ $dat->id }}</th>
-                            <th>{{ $dat->num_comprobante_pago }}</th>
-                            <th>{{ number_format($dat->total,0,',','.') }}</th>
+                            <th>#{{ $dat->id_venta }}</th>
+                            <th>{{ $dat->datafonoobservacion }}</th>
+                            <th>{{ number_format($dat->datafono,0,',','.') }}</th>
                             <th>{{ $dat->created_at }}</th>
                         </tr>
                     @endforeach  
@@ -305,9 +305,9 @@
                     <tbody>
                     @foreach($Transferencia as $tran)
                         <tr>
-                            <th>#{{ $tran->id }}</th>
-                            <th>{{ $tran->num_comprobante_pago }}</th>
-                            <th>{{ number_format($tran->total,0,',','.') }}</th>
+                            <th>#{{ $tran->id_venta }}</th>
+                            <th>{{ $dat->tranferenciaobservacion }}</th>
+                            <th>{{ number_format($dat->tranferencia,0,',','.') }}</th>
                             <th>{{ $tran->created_at }}</th>
                         </tr>
                     @endforeach        
