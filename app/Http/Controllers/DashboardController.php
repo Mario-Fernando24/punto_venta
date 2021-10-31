@@ -8,6 +8,7 @@ use App\DetalleIngreso;
 use App\Venta;
 use App\DetalleVenta;
 use App\Articulo;
+use App\Persona;
 use DB;
 use Carbon\Carbon;
 
@@ -63,5 +64,19 @@ class DashboardController extends Controller
         return ['ingresos'=>$ingresos,'ventas'=>$ventas,'anio'=>$anio,'TotalProductosVendidos'=>$TotalProductosVendidos,'totallPorProductos'=>$totallPorProductos];      
  
     }
+
+
+    public function HappyBirthday(){
+      $start =date("m");
+      $end = date("Y-m-t");
+      $data = Persona::whereMonth('fechaNacimiento', [$start])
+      ->orderBy('fechaNacimiento', 'desc')
+      ->get();
+      return $data;
+
+
+    }
+
+
 
 }
