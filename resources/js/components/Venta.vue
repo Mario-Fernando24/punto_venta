@@ -73,10 +73,15 @@
                                                     <td v-text="venta.usuario_hizola_venta.usuario"></td>
                                                     <td v-text="venta.cliente_persona.nombre"></td>
                                                     <td v-text="venta.tipo_comprobante"></td>
-                                                    <td v-text="venta.forma_pago"></td>
+                                                    <td>
+                                                      <span class="badge badge-info">Efectivo {{Intl.NumberFormat().format(venta.formaspago['efectivo'])}}</span>
+                                                      <span class="badge badge-primary">Credito {{Intl.NumberFormat().format(venta.formaspago['credito'])}}</span>
+                                                      <span class="badge badge-dark">Datafono {{Intl.NumberFormat().format(venta.formaspago['datafono'])}}</span>
+                                                      <span class="badge badge-secondary">Transferencia {{Intl.NumberFormat().format(venta.formaspago['tranferencia'])}}</span>
+                                                    </td>
                                                     <td v-text="venta.num_comprobante_pago_pago"></td>
                                                     <td v-text="venta.created_at"></td>
-                                                    <td v-text="venta.total"></td>
+                                                    <td v-text="Intl.NumberFormat().format(venta.total)"></td>
                                                     <td v-text="venta.impuesto"></td>
 
 
@@ -322,7 +327,7 @@
 
 
 
-                                <div class="col-md-4">
+                             <!--   <div class="col-md-4">
                                     <div class="form-group"> 
                                         <label><b>Tipo pago </b><span  class="validaridArticulo"   v-show="forma_pago==0">*</span></label>
                                             <select class="form-control" v-model="forma_pago">
@@ -344,7 +349,7 @@
                                         <label>Num Comprobante<span  class="validaridArticulo"   v-show="num_comprobante_pago==0">*</span></label>
                                         <input type="text" class="form-control"  v-model="num_comprobante_pago" placeholder="002-2, bancolombia, nequi etc">
                                     </div>
-                                </div>
+                                </div> -->
 
 
                            </div>
@@ -407,7 +412,8 @@
                                 <div class="col-md-3">
                                     <div class="form-group"> 
                                         <label class="negritatitle">Forma de pago</label>
-                                        <p v-text="forma_pago"></p>
+                                            <span class="badge badge-info">Efectivo {{Intl.NumberFormat().format(arrayFormaPagoDetalle.efectivo)}} Credito {{Intl.NumberFormat().format(arrayFormaPagoDetalle.credito)}} </span>
+                                            <span class="badge badge-secondary">Datafono {{Intl.NumberFormat().format(arrayFormaPagoDetalle.datafono)}} # {{ arrayFormaPagoDetalle.datafonoobservacion }}  --   Transferencia {{Intl.NumberFormat().format(arrayFormaPagoDetalle.tranferencia)}}  {{ arrayFormaPagoDetalle.tranferenciaobservacion }}</span>
                                     </div>
                                 </div>
 
@@ -787,7 +793,7 @@ import vSelect from "vue-select";
                 tranferenciaobservacion:'',
 
             },
-          
+          arrayFormaPagoDetalle:[],
             pagination : {
                 //numero total de registro
                 'total' : 0,
@@ -1279,7 +1285,10 @@ import vSelect from "vue-select";
                     //todo lo que retorne esta funcion se almacene en este array
                     TemporalObj = respuesta.ObjetoDetalleVent;
                       console.log(TemporalObj[0]['tipo_comprobante']);
-
+                      console.log('==================');
+                      console.log(TemporalObj[0]['formaspago']);
+                      console.log('==================');
+                    me.arrayFormaPagoDetalle=TemporalObj[0]['formaspago'];
                     me.cliente=TemporalObj[0]['cliente_persona']['nombre'];
                     me.impuesto=TemporalObj[0]['impuesto'];
                     me.tipo_comprobante=TemporalObj[0]['tipo_comprobante'];
@@ -1291,6 +1300,10 @@ import vSelect from "vue-select";
                     me.nombreAnulaVenta=TemporalObj[0]['usuario_anulo_venta']['usuario'];
                     me.estadovali=TemporalObj[0]['estado'];
                     me.fecha_ven_anulada=TemporalObj[0]['updated_at'];  
+
+                    console.log('========mario fernando =================================');
+                    console.log(TemporalObj[0]['formaspago']);
+                    console.log('=============mario fernando ============================');
 
 
 

@@ -20,6 +20,7 @@ class VentaController extends Controller
 {
     public function index(Request $request)
     {   
+
          if(!$request->ajax()){return redirect('/');}
 
         $buscar = $request->buscar;
@@ -31,7 +32,6 @@ class VentaController extends Controller
          }else{ 
             $venta = Venta::with('cliente_persona','usuario_hizola_venta','formaspago')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
          }
-
 
         return [
             'pagination' => [
@@ -109,7 +109,7 @@ class VentaController extends Controller
       if(!$request->ajax()){return redirect('/'); }
 
         $id = $request->id;
-        $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta')
+        $ObjetoDetalleVent = Venta::with('cliente_persona','usuario_hizola_venta','usuario_anulo_venta','formaspago')
         ->where('id',$id)->orderBy('id', 'DESC')->take(1)->get();
 
  
@@ -218,7 +218,6 @@ class VentaController extends Controller
          if(!$request->ajax()){
           return redirect('/');
          }
-  
           $venta = Venta::findOrFail($request->get('id'));
           $venta->estado='anulado';
           $venta->id_anulo_venta=\Auth::user()->id;

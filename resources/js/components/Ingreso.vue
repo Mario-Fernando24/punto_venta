@@ -25,12 +25,6 @@
                             <button type="button" @click="mostrarDetalle()" class="btn btn-secondary btn-sm" data-toggle="modal">
                             <i class="icon-plus"></i>Nuevo
                              </button>
-
-
-
-
-
-
                     </div>
                     <!--Listado-->
                     <template v-if="listado==1">
@@ -65,7 +59,6 @@
                                                 <th>Estado</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -81,7 +74,6 @@
 
                                                     
                                                     <td>
-
                                                         <div v-if="ingreso.forma_pago=='EFECTIVO Y CREDITO' || ingreso.forma_pago=='CREDITO'">
                                                         <span class="badge badge-danger" v-text="ingreso.forma_pago"></span>
                                                         </div>
@@ -124,16 +116,14 @@
                                                     </template>
 
 
-
+                                                    <template v-if="ingreso.estado=='registrado'"> 
                                                     <button type="button" class="btn btn-primary btn-sm" @click="formaPago(ingreso)" title="Forma de pago">
                                                     <i class="icon-list"></i>
                                                     </button> 
+                                                    </template>
 
 
-                                                    </td>
-
-                                                    
-                                                 
+                                                    </td>                                                 
                                             </tr>
                                             </tbody>
                                     </table>
@@ -1372,7 +1362,6 @@ import vSelect from "vue-select";
                     me.forma_pago=TemporalObj[0]['forma_pago'];
                     me.fecha_hora=TemporalObj[0]['created_at'];
                     me.idingreso=TemporalObj[0]['id'];
-
 
                     me.nombreAnulaIngreso=TemporalObj[0]['usuario_anulo_ingreso']['usuario'];
                     me.estadovaling=TemporalObj[0]['estado'];

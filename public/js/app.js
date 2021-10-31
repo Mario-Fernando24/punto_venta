@@ -7884,16 +7884,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //importo vselect
 
 
@@ -11227,6 +11217,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 //importo vselect
 
 
@@ -11270,6 +11266,7 @@ __webpack_require__.r(__webpack_exports__);
         datafonoobservacion: '',
         tranferenciaobservacion: ''
       },
+      arrayFormaPagoDetalle: [],
       pagination: {
         //numero total de registro
         'total': 0,
@@ -11655,6 +11652,10 @@ __webpack_require__.r(__webpack_exports__);
 
         TemporalObj = respuesta.ObjetoDetalleVent;
         console.log(TemporalObj[0]['tipo_comprobante']);
+        console.log('==================');
+        console.log(TemporalObj[0]['formaspago']);
+        console.log('==================');
+        me.arrayFormaPagoDetalle = TemporalObj[0]['formaspago'];
         me.cliente = TemporalObj[0]['cliente_persona']['nombre'];
         me.impuesto = TemporalObj[0]['impuesto'];
         me.tipo_comprobante = TemporalObj[0]['tipo_comprobante'];
@@ -11666,6 +11667,9 @@ __webpack_require__.r(__webpack_exports__);
         me.nombreAnulaVenta = TemporalObj[0]['usuario_anulo_venta']['usuario'];
         me.estadovali = TemporalObj[0]['estado'];
         me.fecha_ven_anulada = TemporalObj[0]['updated_at'];
+        console.log('========mario fernando =================================');
+        console.log(TemporalObj[0]['formaspago']);
+        console.log('=============mario fernando ============================');
       })["catch"](function (error) {
         console.log(error);
       }); // obtener los datos del array
@@ -62682,27 +62686,33 @@ var render = function() {
                                             ]
                                           : _vm._e(),
                                         _vm._v(" "),
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-primary btn-sm",
-                                            attrs: {
-                                              type: "button",
-                                              title: "Forma de pago"
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.formaPago(ingreso)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "icon-list"
-                                            })
-                                          ]
-                                        )
+                                        ingreso.estado == "registrado"
+                                          ? [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary btn-sm",
+                                                  attrs: {
+                                                    type: "button",
+                                                    title: "Forma de pago"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.formaPago(
+                                                        ingreso
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass: "icon-list"
+                                                  })
+                                                ]
+                                              )
+                                            ]
+                                          : _vm._e()
                                       ],
                                       2
                                     )
@@ -68890,11 +68900,67 @@ var render = function() {
                                 }
                               }),
                               _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(venta.forma_pago)
-                                }
-                              }),
+                              _c("td", [
+                                _c(
+                                  "span",
+                                  { staticClass: "badge badge-info" },
+                                  [
+                                    _vm._v(
+                                      "Efectivo " +
+                                        _vm._s(
+                                          Intl.NumberFormat().format(
+                                            venta.formaspago["efectivo"]
+                                          )
+                                        )
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  { staticClass: "badge badge-primary" },
+                                  [
+                                    _vm._v(
+                                      "Credito " +
+                                        _vm._s(
+                                          Intl.NumberFormat().format(
+                                            venta.formaspago["credito"]
+                                          )
+                                        )
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  { staticClass: "badge badge-dark" },
+                                  [
+                                    _vm._v(
+                                      "Datafono " +
+                                        _vm._s(
+                                          Intl.NumberFormat().format(
+                                            venta.formaspago["datafono"]
+                                          )
+                                        )
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  { staticClass: "badge badge-secondary" },
+                                  [
+                                    _vm._v(
+                                      "Transferencia " +
+                                        _vm._s(
+                                          Intl.NumberFormat().format(
+                                            venta.formaspago["tranferencia"]
+                                          )
+                                        )
+                                    )
+                                  ]
+                                )
+                              ]),
                               _vm._v(" "),
                               _c("td", {
                                 domProps: {
@@ -68911,7 +68977,11 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("td", {
-                                domProps: { textContent: _vm._s(venta.total) }
+                                domProps: {
+                                  textContent: _vm._s(
+                                    Intl.NumberFormat().format(venta.total)
+                                  )
+                                }
                               }),
                               _vm._v(" "),
                               _c("td", {
@@ -69799,132 +69869,7 @@ var render = function() {
                               )
                             : _c("tbody", [_vm._m(7)])
                         ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4" }, [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", [
-                            _c("b", [_vm._v("Tipo pago ")]),
-                            _c(
-                              "span",
-                              {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value: _vm.forma_pago == 0,
-                                    expression: "forma_pago==0"
-                                  }
-                                ],
-                                staticClass: "validaridArticulo"
-                              },
-                              [_vm._v("*")]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.forma_pago,
-                                  expression: "forma_pago"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.forma_pago = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                }
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { value: "0" } }, [
-                                _vm._v("Seleccione")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "efectivo" } }, [
-                                _vm._v("EFECTIVO")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "datafono" } }, [
-                                _vm._v("DATAFONO")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "credito" } }, [
-                                _vm._v("CREDITO")
-                              ]),
-                              _vm._v(" "),
-                              _vm._m(8)
-                            ]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _vm.forma_pago == "datafono" ||
-                      _vm.forma_pago == "transferencia"
-                        ? _c("div", { staticClass: "col-md-4" }, [
-                            _c("div", { staticClass: "form-group" }, [
-                              _c("label", [
-                                _vm._v("Num Comprobante"),
-                                _c(
-                                  "span",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "show",
-                                        rawName: "v-show",
-                                        value: _vm.num_comprobante_pago == 0,
-                                        expression: "num_comprobante_pago==0"
-                                      }
-                                    ],
-                                    staticClass: "validaridArticulo"
-                                  },
-                                  [_vm._v("*")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.num_comprobante_pago,
-                                    expression: "num_comprobante_pago"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  placeholder: "002-2, bancolombia, nequi etc"
-                                },
-                                domProps: { value: _vm.num_comprobante_pago },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.num_comprobante_pago =
-                                      $event.target.value
-                                  }
-                                }
-                              })
-                            ])
-                          ])
-                        : _vm._e()
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
@@ -70027,9 +69972,49 @@ var render = function() {
                           _vm._v("Forma de pago")
                         ]),
                         _vm._v(" "),
-                        _c("p", {
-                          domProps: { textContent: _vm._s(_vm.forma_pago) }
-                        })
+                        _c("span", { staticClass: "badge badge-info" }, [
+                          _vm._v(
+                            "Efectivo " +
+                              _vm._s(
+                                Intl.NumberFormat().format(
+                                  _vm.arrayFormaPagoDetalle.efectivo
+                                )
+                              ) +
+                              " Credito " +
+                              _vm._s(
+                                Intl.NumberFormat().format(
+                                  _vm.arrayFormaPagoDetalle.credito
+                                )
+                              ) +
+                              " "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "badge badge-secondary" }, [
+                          _vm._v(
+                            "Datafono " +
+                              _vm._s(
+                                Intl.NumberFormat().format(
+                                  _vm.arrayFormaPagoDetalle.datafono
+                                )
+                              ) +
+                              " # " +
+                              _vm._s(
+                                _vm.arrayFormaPagoDetalle.datafonoobservacion
+                              ) +
+                              "  --   Transferencia " +
+                              _vm._s(
+                                Intl.NumberFormat().format(
+                                  _vm.arrayFormaPagoDetalle.tranferencia
+                                )
+                              ) +
+                              "  " +
+                              _vm._s(
+                                _vm.arrayFormaPagoDetalle
+                                  .tranferenciaobservacion
+                              )
+                          )
+                        ])
                       ])
                     ]),
                     _vm._v(" "),
@@ -70078,7 +70063,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(9),
+                          _vm._m(8),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -70131,7 +70116,7 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(10),
+                                _vm._m(9),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -70147,7 +70132,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(11),
+                                _vm._m(10),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -70162,7 +70147,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(12),
+                                _vm._m(11),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -70366,7 +70351,7 @@ var render = function() {
                       staticClass: "table table-bordered table-striped table-sm"
                     },
                     [
-                      _vm._m(13),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -70552,7 +70537,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("table", { staticClass: "table table-bordered" }, [
-                  _vm._m(14),
+                  _vm._m(13),
                   _vm._v(" "),
                   _c("tbody", [
                     _c("tr", [
@@ -70941,7 +70926,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("table", [
-                    _vm._m(15),
+                    _vm._m(14),
                     _vm._v(" "),
                     _c(
                       "tbody",
@@ -71133,15 +71118,6 @@ var staticRenderFns = [
           "\n                                         No hay articulos agregados\n                                       "
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("option", { attrs: { value: "transferencia" } }, [
-      _vm._v("TRANSFERENCIA "),
-      _c("b", [_vm._v(" (nequi, bancolombia, daviplata otros)")])
     ])
   },
   function() {
