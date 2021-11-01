@@ -20,8 +20,6 @@ class VentaController extends Controller
 {
     public function index(Request $request)
     {   
-      $venta = Venta::with('cliente_persona','usuario_hizola_venta','formaspago')->orderBy('id', 'DESC')->paginate(10);
-      return $venta;
 
          if(!$request->ajax()){return redirect('/');}
 

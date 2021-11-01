@@ -81,6 +81,62 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+                 <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-chart">
+                            <div class="card-header" style="background-color:#20a8d8">
+                                <h4>cumpleaños de mis clientes</h4>
+                            </div>
+                            <div class="card-content">
+
+                            <div class="card" style="background-color:#6e6e3e" v-for="happy in happybirthday" :key="happy.id">
+                                
+                                <div class="card-body" >
+                                    <h5 class="card-title">{{ happy.nombre }}</h5>
+                                    <p class="card-text"> <b>Direccion </b> {{ happy.direccion }}  <b>   Cumpleaños </b> {{  happy.fechaNacimiento }} <b>  Felicitalo </b><a :href="`https://api.whatsapp.com/send?phone=57${happy.telefono}&text=En este dia le deseamos un feliz cumpleaños ${happy.nombre}`"  > <img src="http://assets.stickpng.com/images/580b57fcd9996e24bc43c543.png" style="width: 50px; height: 50px"  ></a></p>
+                                
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-primary">Estadisticas de compra</a>
+                                    <a href="mailto:tenderpos@tenderpos.co"><i class="fa fa-envelope" style="font-size:30px;color:#20a8d8;"></i></a>
+                                </div>
+
+                                </div>
+
+ 
+
+                            </div>
+                        </div>
+                    </div>
+                <!--     <div class="col-md-6">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h4>felicitalos</h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="ct-chart">
+                                    <canvas id="productoTotal">                                                
+                                    </canvas>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p>Los 5 productos más vendidos por unid.</p>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+
+
                 
 
             </div>
@@ -117,6 +173,9 @@
                 productos:[],
                 totalproductos:[],
                 nombreproductos:[],
+                happybirthday:[],
+                fechadia:'',
+
              
                 
             }
@@ -420,6 +479,20 @@
                     }
                 });
 
+            },
+
+
+            happy_birthday(){
+                 let me=this;
+                var url= '/HappyBirthday';
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data;
+                    me.happybirthday = respuesta.happyBirt;
+                    me.fechadia=respuesta.fechadia;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             }
         },
         mounted() {
@@ -427,6 +500,7 @@
             this.getVentas();
             this.getProductosMasVendidos();
             this.getProductos();
+            this.happy_birthday();
         }
     }
 </script>

@@ -4974,6 +4974,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4996,7 +5052,9 @@ __webpack_require__.r(__webpack_exports__);
       charproductos: null,
       productos: [],
       totalproductos: [],
-      nombreproductos: []
+      nombreproductos: [],
+      happybirthday: [],
+      fechadia: ''
     };
   },
   methods: {
@@ -5273,6 +5331,17 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       });
+    },
+    happy_birthday: function happy_birthday() {
+      var me = this;
+      var url = '/HappyBirthday';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.happybirthday = respuesta.happyBirt;
+        me.fechadia = respuesta.fechadia;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {
@@ -5280,6 +5349,7 @@ __webpack_require__.r(__webpack_exports__);
     this.getVentas();
     this.getProductosMasVendidos();
     this.getProductos();
+    this.happy_birthday();
   }
 });
 
@@ -59152,102 +59222,209 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("main", { staticClass: "main" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "car-body" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "card card-chart" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "card-content" },
+                  _vm._l(_vm.happybirthday, function(happy) {
+                    return _c(
+                      "div",
+                      {
+                        key: happy.id,
+                        staticClass: "card",
+                        staticStyle: { "background-color": "#6e6e3e" }
+                      },
+                      [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("h5", { staticClass: "card-title" }, [
+                            _vm._v(_vm._s(happy.nombre))
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "card-text" }, [
+                            _c("b", [_vm._v("Direccion ")]),
+                            _vm._v(" " + _vm._s(happy.direccion) + "  "),
+                            _c("b", [_vm._v("   Cumpleaños ")]),
+                            _vm._v(" " + _vm._s(happy.fechaNacimiento) + " "),
+                            _c("b", [_vm._v("  Felicitalo ")]),
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href:
+                                    "https://api.whatsapp.com/send?phone=57" +
+                                    happy.telefono +
+                                    "&text=En este dia le deseamos un feliz cumpleaños " +
+                                    happy.nombre
+                                }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: {
+                                    width: "50px",
+                                    height: "50px"
+                                  },
+                                  attrs: {
+                                    src:
+                                      "http://assets.stickpng.com/images/580b57fcd9996e24bc43c543.png"
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(4, true)
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("main", { staticClass: "main" }, [
-      _c("ol", { staticClass: "breadcrumb" }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "/" } }, [_vm._v("Escritorio")])
+    return _c("ol", { staticClass: "breadcrumb" }, [
+      _c("li", { staticClass: "breadcrumb-item" }, [
+        _c("a", { attrs: { href: "/" } }, [_vm._v("Escritorio")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "card card-chart" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", [_vm._v("Compras por meses")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "ct-chart" }, [
+              _c("canvas", { attrs: { id: "ingresos" } })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer" }, [
+            _c("p", [_vm._v("Compras de los últimos meses.")])
+          ])
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "container-fluid" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "card card-chart" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", [_vm._v("Ventas por meses")])
+          ]),
           _vm._v(" "),
-          _c("div", { staticClass: "car-body" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "card card-chart" }, [
-                  _c("div", { staticClass: "card-header" }, [
-                    _c("h4", [_vm._v("Compras por meses")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-content" }, [
-                    _c("div", { staticClass: "ct-chart" }, [
-                      _c("canvas", { attrs: { id: "ingresos" } })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-footer" }, [
-                    _c("p", [_vm._v("Compras de los últimos meses.")])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "card card-chart" }, [
-                  _c("div", { staticClass: "card-header" }, [
-                    _c("h4", [_vm._v("Ventas por meses")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-content" }, [
-                    _c("div", { staticClass: "ct-chart" }, [
-                      _c("canvas", { attrs: { id: "ventas" } })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-footer" }, [
-                    _c("p", [_vm._v("Ventas de los últimos meses.")])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "card card-chart" }, [
-                  _c("div", { staticClass: "card-header" }, [
-                    _c("h4", [_vm._v("Los 5 productos más vendidos")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-content" }, [
-                    _c("div", { staticClass: "ct-chart" }, [
-                      _c("canvas", { attrs: { id: "productosMasVendido" } })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-footer" }, [
-                    _c("p", [_vm._v("Los 5 productos más vendidos")])
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "card card-chart" }, [
-                  _c("div", { staticClass: "card-header" }, [
-                    _c("h4", [_vm._v("Los 5 productos más vendidos por unid")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-content" }, [
-                    _c("div", { staticClass: "ct-chart" }, [
-                      _c("canvas", { attrs: { id: "productoTotal" } })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-footer" }, [
-                    _c("p", [_vm._v("Los 5 productos más vendidos por unid.")])
-                  ])
-                ])
-              ])
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "ct-chart" }, [
+              _c("canvas", { attrs: { id: "ventas" } })
             ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer" }, [
+            _c("p", [_vm._v("Ventas de los últimos meses.")])
           ])
         ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "card card-chart" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", [_vm._v("Los 5 productos más vendidos")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "ct-chart" }, [
+              _c("canvas", { attrs: { id: "productosMasVendido" } })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer" }, [
+            _c("p", [_vm._v("Los 5 productos más vendidos")])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "card card-chart" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", [_vm._v("Los 5 productos más vendidos por unid")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "ct-chart" }, [
+              _c("canvas", { attrs: { id: "productoTotal" } })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer" }, [
+            _c("p", [_vm._v("Los 5 productos más vendidos por unid.")])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "card-header",
+        staticStyle: { "background-color": "#20a8d8" }
+      },
+      [_c("h4", [_vm._v("cumpleaños de mis clientes")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
+        _vm._v("Estadisticas de compra")
+      ]),
+      _vm._v(" "),
+      _c("a", { attrs: { href: "mailto:tenderpos@tenderpos.co" } }, [
+        _c("i", {
+          staticClass: "fa fa-envelope",
+          staticStyle: { "font-size": "30px", color: "#20a8d8" }
+        })
       ])
     ])
   }

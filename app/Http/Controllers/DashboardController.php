@@ -68,11 +68,17 @@ class DashboardController extends Controller
 
     public function HappyBirthday(){
       $start =date("m");
-      $end = date("Y-m-t");
-      $data = Persona::whereMonth('fechaNacimiento', [$start])
+      $parametrofecha =date("yy-m-d");
+
+      $happyBirthday = Persona::whereMonth('fechaNacimiento', [$start])
       ->orderBy('fechaNacimiento', 'desc')
       ->get();
-      return $data;
+
+      return response()->json([
+        'status' => true,
+        'happyBirt' => $happyBirthday,
+        'fechadia' => $parametrofecha
+      ], 200);
 
 
     }
