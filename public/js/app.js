@@ -54953,7 +54953,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "icon-doc" }),
-              _vm._v(" Descargar pdf\n                        ")
+              _vm._v(" Descargar inventario\n                        ")
             ]
           )
         ]),

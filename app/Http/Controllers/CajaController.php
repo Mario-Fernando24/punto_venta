@@ -428,8 +428,6 @@ class CajaController extends Controller
     public function detalleinformeCajaImpresa(Request $request)
     {
 
-        
-
       $cajaId=$request->idcaja;
       $vendedorId=$request->idvendedor;
 
@@ -438,6 +436,13 @@ class CajaController extends Controller
 
       $cajaOpen = Caja::with('apertura_vendedor')
       ->where('idcaja',$cajaId)->first();
+
+
+      $transferencia_ventas = AjusteVenta::where('id_caja', $cajaOpen->idcaja)
+      ->get()->sum('tranferencia');
+
+
+      return '';
 
 
 
