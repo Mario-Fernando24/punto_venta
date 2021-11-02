@@ -12,7 +12,7 @@
             <div class="card-body">
               <br>
               <div align="center">
-              <img src="img/tenderpos.jpeg" heigt="130px" width="250px" class="col-xs-12"></p>
+              <img src="img/tenderpos.png" heigt="130px" width="250px" class="col-xs-12"></p>
              </div>
               <br>
               <div class="input-group mb-3 @error('usuario') is-invalid @enderror">

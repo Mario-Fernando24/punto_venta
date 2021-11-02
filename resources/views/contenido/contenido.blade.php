@@ -84,6 +84,11 @@
                     </template>
 
 
+                <template v-if="menu==24">
+                <Caba></Caba>
+                </template>
+
+
             
 
 
@@ -110,6 +115,11 @@
                     <template v-if="menu==10">
                     <Credito></Credito>
                     </template>
+
+
+                <template v-if="menu==24">
+                <Caba></Caba>
+                </template>
 
 
 

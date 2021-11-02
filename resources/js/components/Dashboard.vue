@@ -94,7 +94,7 @@
                     <div class="col-md-12">
                         <div class="card card-chart">
                             <div class="card-header" style="background-color:#20a8d8">
-                                <h4>cumpleaños de mis clientes</h4>
+                                <h4>cumpleaños del mes</h4>
                             </div>
                             <div class="card-content">
 
@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <a href="#" class="btn btn-primary">Estadisticas de compra</a>
-                                    <a href="mailto:tenderpos@tenderpos.co"><i class="fa fa-envelope" style="font-size:30px;color:#20a8d8;"></i></a>
+                                    <a href="mailto:tenderpos@tenderpos.co"><i class="fa fa-envelope" style="font-size:35px;color:#20a8d8;"></i></a>
                                 </div>
 
                                 </div>

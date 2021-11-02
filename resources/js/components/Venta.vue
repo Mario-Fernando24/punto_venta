@@ -184,6 +184,19 @@
 
 
 
+                               <div class="col-md-4">
+                                    <div class="form-group"> 
+                                        <label><b>DISPONIBLE CABA</b><span  class="validaridArticulo"   v-show="forma_pago==0">*</span></label>
+                                            <select class="form-control" v-model="caba">
+                                                <option value="no">NO</option>
+                                                <option value="si">SI</option>
+
+                                            </select>
+                                    </div>
+                                </div>
+
+
+
                                 <div class="col-md-12">
                                     <div v-show="errorVenta==1" class="form-group row div-error">
                                         <div class="text-center text-error">
@@ -771,6 +784,7 @@ import vSelect from "vue-select";
             subtotal: 0.0,
             fecha_hora:'',
             idventa:'',
+            caba:'no',
             //variable para ver el listado
             listado: 1,
             //la data que regresa nuestro metodo listaVenta se almacene en esta array
@@ -1155,6 +1169,7 @@ import vSelect from "vue-select";
                             'num_comprobante_pago': this.num_comprobante_pago,
                             'impuesto': this.impuesto,
                             'total':this.total,
+                            'caba':this.caba,
                             'data':this.arrayDetalleVenta,
                             'formapagoajusteventa':this.formapagoventa
 

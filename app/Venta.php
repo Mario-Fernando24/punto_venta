@@ -23,6 +23,8 @@ class Venta extends Model
         'impuesto',
         'total',
         'estado',
+        'caba',
+        'fechaentregacaba',
     ];
 
      //una venta puede tener un cliente

@@ -75,14 +75,7 @@
 
         });//and middleware almacenero
 
-
-
-
-
-
-
-
-          
+  
 
         //middleware para los usuario rol almacenero
         Route::group(['middleware' => ['Vendedor']], function () 
@@ -109,6 +102,11 @@
             Route::post('registrar', 'VentaController@store');
             Route::put('anularVenta', 'VentaController@anularVenta');
 
+          });
+
+
+          Route::prefix('bodega')->group(function() {
+            Route::get('index', 'ControllerBodega@index');
           });
 
         
@@ -280,6 +278,13 @@
             Route::get('getObjetoDetalleAjuste', 'Ajuste\AjusteDeInventario@getObjetoDetalleAjuste');
             Route::get('getArrayDetalleAjuste', 'Ajuste\AjusteDeInventario@getArrayDetalleAjuste');
         });
+
+
+        Route::prefix('bodega')->group(function() {
+            Route::get('index', 'ControllerBodega@index');
+            Route::put('devolucioncaba', 'ControllerBodega@devolucioncaba');
+
+          });
 
         
 

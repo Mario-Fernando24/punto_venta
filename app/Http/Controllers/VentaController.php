@@ -156,9 +156,9 @@ class VentaController extends Controller
             'impuesto' => $request->get('impuesto'),
             'total' => $request->get('total'),
             'estado' => 'registrado',
+            'caba' => $request->get('caba'),
           ]);
           
-
 
           if($request->formapagoajusteventa['credito']>0)
           {

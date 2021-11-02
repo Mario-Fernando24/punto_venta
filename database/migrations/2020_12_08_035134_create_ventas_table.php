@@ -27,6 +27,8 @@ class CreateVentasTable extends Migration
             $table->decimal('impuesto',11,2)->nullable();
             $table->decimal('total',11,2)->nullable();
             $table->string('estado',50)->nullable();  
+            $table->string('caba',50)->nullable();  
+            $table->dateTime('fechaentregacaba')->nullable();
             $table->timestamps();
 
 

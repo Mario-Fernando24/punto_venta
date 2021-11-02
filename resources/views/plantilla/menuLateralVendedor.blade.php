@@ -69,6 +69,13 @@
                     </li>
 
 
+
+
+                    <li @click="menu=24" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-bag"></i> Pendientes Cabas</a>
+                            </li>
+
+
                 <!--    <li @click="menu=11" class="nav-item">
                         <a class="nav-link" href="#"><i class="icon-book-open"></i> Ayuda <span class="badge badge-danger">PDF</span></a>
                     </li>
