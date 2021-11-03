@@ -241,6 +241,7 @@ class VentaController extends Controller
         ->where('id_venta',$id)->orderBy('id', 'ASC')->get(); 
 
 
+
         $mytime=Carbon::now('America/Bogota');
 
         $Perfil = Perfil::with('GetUser')->first();

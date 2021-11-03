@@ -438,11 +438,6 @@ class CajaController extends Controller
       ->where('idcaja',$cajaId)->first();
 
 
-      $transferencia_ventas = AjusteVenta::where('id_caja', $cajaOpen->idcaja)
-      ->get()->sum('tranferencia');
-
-
-      return '';
 
 
 
@@ -483,7 +478,6 @@ class CajaController extends Controller
       ->where('tipo_egreso','gastoadmin')
       ->get()->sum('valor_egreso');
       
-
       //Ingreso end // =========================================
 
 
@@ -508,6 +502,7 @@ class CajaController extends Controller
 
 
 
+
       $Datafono = AjusteVenta::where('id_users', $vendedorId)
       ->where('id_caja', $cajaOpen->idcaja)
       ->where('estado',1)
@@ -529,6 +524,7 @@ class CajaController extends Controller
       ->where('estado',1)
       ->where('tranferencia','>',0)
       ->get()->sum('tranferencia');
+
 
       $datafono_Ventas = AjusteVenta::where('id_users', \Auth::user()->id)
       ->where('id_caja', $cajaOpen->idcaja)

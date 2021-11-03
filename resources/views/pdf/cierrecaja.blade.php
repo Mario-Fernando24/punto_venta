@@ -303,12 +303,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($Transferencia as $tran)
+                    @foreach($Transferencia as $trans)
                         <tr>
-                            <th>#{{ $tran->id_venta }}</th>
-                            <th>{{ $dat->tranferenciaobservacion }}</th>
-                            <th>{{ number_format($dat->tranferencia,0,',','.') }}</th>
-                            <th>{{ $tran->created_at }}</th>
+                            <th>#{{ $trans->id_venta }}</th>
+                            <th>{{ $trans->tranferenciaobservacion }}</th>
+                            <th>{{ $trans->tranferencia }}</th>
+                            <th>{{ $trans->created_at }}</th>
                         </tr>
                     @endforeach        
                     </tbody>

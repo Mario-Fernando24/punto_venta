@@ -1,0 +1,919 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.7
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost:8889
+-- Tiempo de generación: 03-11-2021 a las 18:02:49
+-- Versión del servidor: 5.7.32
+-- Versión de PHP: 7.4.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Base de datos: `pruebasistemaaa`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `abono_creditos`
+--
+
+CREATE TABLE `abono_creditos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_Credito` bigint(20) UNSIGNED DEFAULT NULL,
+  `idusers` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_caja` bigint(20) UNSIGNED DEFAULT NULL,
+  `montoAbonar` decimal(11,2) DEFAULT NULL,
+  `observacion` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ajusteinventario`
+--
+
+CREATE TABLE `ajusteinventario` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_usuario` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_anulo_ajuste` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_apertura_caja_usuario` bigint(20) UNSIGNED DEFAULT NULL,
+  `tipo_ajuste` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `motivo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `impuesto` decimal(11,2) DEFAULT NULL,
+  `total` decimal(11,2) DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ajuste_compras`
+--
+
+CREATE TABLE `ajuste_compras` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_compra` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_caja` bigint(20) UNSIGNED NOT NULL,
+  `id_users` bigint(20) UNSIGNED DEFAULT NULL,
+  `efectivo` decimal(11,2) DEFAULT NULL,
+  `credito` decimal(11,2) DEFAULT NULL,
+  `abono` decimal(11,2) NOT NULL,
+  `observacionFormaPago` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ajuste_venta`
+--
+
+CREATE TABLE `ajuste_venta` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_venta` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_caja` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_users` bigint(20) UNSIGNED DEFAULT NULL,
+  `efectivo` decimal(11,2) DEFAULT NULL,
+  `credito` decimal(11,2) DEFAULT NULL,
+  `datafono` decimal(11,2) DEFAULT NULL,
+  `tranferencia` decimal(11,2) DEFAULT NULL,
+  `datafonoobservacion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tranferenciaobservacion` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `articulos`
+--
+
+CREATE TABLE `articulos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idcategoria` bigint(20) UNSIGNED DEFAULT NULL,
+  `codigo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `precio_venta` decimal(11,2) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `descripcion` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `condicion` tinyint(1) NOT NULL DEFAULT '1',
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `caja`
+--
+
+CREATE TABLE `caja` (
+  `idcaja` bigint(20) UNSIGNED NOT NULL,
+  `id_vendedor` bigint(20) UNSIGNED DEFAULT NULL,
+  `Cajainicial` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Fecha` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Cajaactual` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `obs_apertura` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `obs_final` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dinero_inicial` json DEFAULT NULL,
+  `dinero_final` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE `categorias` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombre` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `descripcion` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `condicion` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `creditos`
+--
+
+CREATE TABLE `creditos` (
+  `idCredito` bigint(20) UNSIGNED NOT NULL,
+  `idVenta` bigint(20) UNSIGNED DEFAULT NULL,
+  `idCliente` bigint(20) UNSIGNED DEFAULT NULL,
+  `deuda` decimal(11,2) DEFAULT NULL,
+  `observacion` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalleajusteinventario`
+--
+
+CREATE TABLE `detalleajusteinventario` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_ajusteinventario` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_articulo` bigint(20) UNSIGNED DEFAULT NULL,
+  `tipo_ajuste` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `precio` decimal(11,2) DEFAULT NULL,
+  `cantidad_existencia` int(11) DEFAULT NULL,
+  `cantidad_entran` int(11) DEFAULT NULL,
+  `cantidad_quedan` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_ingresos`
+--
+
+CREATE TABLE `detalle_ingresos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idingreso` bigint(20) UNSIGNED DEFAULT NULL,
+  `idarticulo` bigint(20) UNSIGNED DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `precio` decimal(11,2) DEFAULT NULL,
+  `preciocompra` decimal(11,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_ventas`
+--
+
+CREATE TABLE `detalle_ventas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_venta` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_articulo` bigint(20) UNSIGNED DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `precio` decimal(11,2) DEFAULT NULL,
+  `descuento` decimal(11,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `egreso`
+--
+
+CREATE TABLE `egreso` (
+  `idegreso` bigint(20) UNSIGNED NOT NULL,
+  `id_caja` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_users` bigint(20) UNSIGNED DEFAULT NULL,
+  `tipo_egreso` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `valor_egreso` decimal(11,2) DEFAULT NULL,
+  `motivo_egreso` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `formapago`
+--
+
+CREATE TABLE `formapago` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombre` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `condicion` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `formapago`
+--
+
+INSERT INTO `formapago` (`id`, `nombre`, `condicion`, `created_at`, `updated_at`) VALUES
+(1, 'Efectivo', 1, NULL, NULL),
+(2, 'Credito y Efectivo', 1, NULL, NULL),
+(3, 'Credito', 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ingresos`
+--
+
+CREATE TABLE `ingresos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idproveedor` bigint(20) UNSIGNED DEFAULT NULL,
+  `idusuario` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_anulo_ingreso` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_apertura_caja_usuario` bigint(20) UNSIGNED DEFAULT NULL,
+  `tipo_comprobante` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `serie_comprobante` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `num_comprobante` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
+  `forma_pago` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `impuesto` decimal(11,2) NOT NULL,
+  `total` decimal(11,2) NOT NULL,
+  `estado` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_100000_create_password_resets_table', 1),
+(2, '2019_08_19_000000_create_failed_jobs_table', 1),
+(3, '2020_10_29_035455_create_categorias_table', 1),
+(4, '2020_10_31_101903_create_articulos_table', 1),
+(5, '2020_11_11_101433_create_persona_table', 1),
+(6, '2020_11_11_160316_create_proveedores_table', 1),
+(7, '2020_11_22_032416_create_roles_table', 1),
+(8, '2020_11_23_040000_create_users_table', 1),
+(9, '2020_11_23_0411010_create_caja_table', 1),
+(10, '2020_11_26_082614_create_ingresos_table', 1),
+(11, '2020_11_26_082645_create_detalle_ingresos_table', 1),
+(12, '2020_12_08_035134_create_ventas_table', 1),
+(13, '2020_12_08_035230_create_detalle_ventas_table', 1),
+(14, '2021_01_11_081525_create_egreso_table', 1),
+(15, '2021_01_13_081126_create_creditos_table', 1),
+(16, '2021_01_13_083931_create_abono_creditos_table', 1),
+(17, '2021_02_06_025159_create_perfil_table', 1),
+(18, '2021_02_12_025947_create_ajusteinventario_table', 1),
+(19, '2021_02_13_015719_create_detalleajusteinventario_table', 1),
+(20, '2021_08_28_144115_create_formapago_table', 1),
+(21, '2021_09_11_191946_create_ajuste_compras_table', 1),
+(22, '2021_10_27_230123_create_ajuste_venta_table', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `perfil`
+--
+
+CREATE TABLE `perfil` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_admin` bigint(20) UNSIGNED NOT NULL,
+  `nit` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `impuesto` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `razon_social` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `codigo_postal` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `propietario` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ciudad` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `correo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image_perfil` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `perfil`
+--
+
+INSERT INTO `perfil` (`id`, `id_admin`, `nit`, `impuesto`, `razon_social`, `codigo_postal`, `propietario`, `direccion`, `ciudad`, `telefono`, `correo`, `image_perfil`, `created_at`, `updated_at`) VALUES
+(1, 1, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `persona`
+--
+
+CREATE TABLE `persona` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo_documento` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `num_documento` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `latitud` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitud` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fechaNacimiento` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `persona`
+--
+
+INSERT INTO `persona` (`id`, `nombre`, `tipo_documento`, `num_documento`, `direccion`, `telefono`, `email`, `latitud`, `longitud`, `fechaNacimiento`, `created_at`, `updated_at`) VALUES
+(1, 'prueba', 'CC', '312312', 'C PRUEBA', '321312', 'prueba@gmail.com', NULL, NULL, '2021-11-11', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `proveedores`
+--
+
+CREATE TABLE `proveedores` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `contacto` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono_contacto` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombre` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `condicion` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `nombre`, `descripcion`, `condicion`) VALUES
+(1, 'Administrador', 'Administradores del area', 1),
+(2, 'Vendedor', 'Vendedor del area de venta', 1),
+(3, 'Almacenero', 'Amacenero del area de compra', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idrol` bigint(20) UNSIGNED NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `usuario` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `condicion` tinyint(1) NOT NULL DEFAULT '1',
+  `fechaNacimiento` date DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `idrol`, `email`, `usuario`, `email_verified_at`, `password`, `condicion`, `fechaNacimiento`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 1, 'prueba@gmail.com', 'prueba', '2021-11-03 18:01:42', '$2y$10$0vI2Q3JuKfDBvmNDYTi2BeVM/RI4mh4gdOV4MqFov8MBQBQK.FDRS', 1, '2021-11-10', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ventas`
+--
+
+CREATE TABLE `ventas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_cliente` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_usuario` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_anulo_venta` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_apertura_caja_usuario` bigint(20) UNSIGNED DEFAULT NULL,
+  `tipo_comprobante` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `forma_pago` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `num_comprobante_pago` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fecha_hora` datetime DEFAULT NULL,
+  `impuesto` decimal(11,2) DEFAULT NULL,
+  `total` decimal(11,2) DEFAULT NULL,
+  `estado` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `caba` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fechaentregacaba` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `abono_creditos`
+--
+ALTER TABLE `abono_creditos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `abono_creditos_id_credito_foreign` (`id_Credito`),
+  ADD KEY `abono_creditos_idusers_foreign` (`idusers`),
+  ADD KEY `abono_creditos_id_caja_foreign` (`id_caja`);
+
+--
+-- Indices de la tabla `ajusteinventario`
+--
+ALTER TABLE `ajusteinventario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ajusteinventario_id_usuario_foreign` (`id_usuario`),
+  ADD KEY `ajusteinventario_id_anulo_ajuste_foreign` (`id_anulo_ajuste`),
+  ADD KEY `ajusteinventario_id_apertura_caja_usuario_foreign` (`id_apertura_caja_usuario`);
+
+--
+-- Indices de la tabla `ajuste_compras`
+--
+ALTER TABLE `ajuste_compras`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ajuste_compras_id_compra_foreign` (`id_compra`);
+
+--
+-- Indices de la tabla `ajuste_venta`
+--
+ALTER TABLE `ajuste_venta`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ajuste_venta_id_venta_foreign` (`id_venta`),
+  ADD KEY `ajuste_venta_id_caja_foreign` (`id_caja`),
+  ADD KEY `ajuste_venta_id_users_foreign` (`id_users`);
+
+--
+-- Indices de la tabla `articulos`
+--
+ALTER TABLE `articulos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `articulos_nombre_unique` (`nombre`),
+  ADD KEY `articulos_idcategoria_foreign` (`idcategoria`);
+
+--
+-- Indices de la tabla `caja`
+--
+ALTER TABLE `caja`
+  ADD PRIMARY KEY (`idcaja`),
+  ADD KEY `caja_id_vendedor_foreign` (`id_vendedor`);
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `creditos`
+--
+ALTER TABLE `creditos`
+  ADD PRIMARY KEY (`idCredito`),
+  ADD KEY `creditos_idventa_foreign` (`idVenta`),
+  ADD KEY `creditos_idcliente_foreign` (`idCliente`);
+
+--
+-- Indices de la tabla `detalleajusteinventario`
+--
+ALTER TABLE `detalleajusteinventario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `detalleajusteinventario_id_ajusteinventario_foreign` (`id_ajusteinventario`),
+  ADD KEY `detalleajusteinventario_id_articulo_foreign` (`id_articulo`);
+
+--
+-- Indices de la tabla `detalle_ingresos`
+--
+ALTER TABLE `detalle_ingresos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `detalle_ingresos_idingreso_foreign` (`idingreso`),
+  ADD KEY `detalle_ingresos_idarticulo_foreign` (`idarticulo`);
+
+--
+-- Indices de la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `detalle_ventas_id_venta_foreign` (`id_venta`),
+  ADD KEY `detalle_ventas_id_articulo_foreign` (`id_articulo`);
+
+--
+-- Indices de la tabla `egreso`
+--
+ALTER TABLE `egreso`
+  ADD PRIMARY KEY (`idegreso`),
+  ADD KEY `egreso_id_caja_foreign` (`id_caja`),
+  ADD KEY `egreso_id_users_foreign` (`id_users`);
+
+--
+-- Indices de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `formapago`
+--
+ALTER TABLE `formapago`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `formapago_nombre_unique` (`nombre`);
+
+--
+-- Indices de la tabla `ingresos`
+--
+ALTER TABLE `ingresos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ingresos_idproveedor_foreign` (`idproveedor`),
+  ADD KEY `ingresos_idusuario_foreign` (`idusuario`),
+  ADD KEY `ingresos_id_anulo_ingreso_foreign` (`id_anulo_ingreso`),
+  ADD KEY `ingresos_id_apertura_caja_usuario_foreign` (`id_apertura_caja_usuario`);
+
+--
+-- Indices de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indices de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `perfil_id_admin_foreign` (`id_admin`);
+
+--
+-- Indices de la tabla `persona`
+--
+ALTER TABLE `persona`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `persona_nombre_unique` (`nombre`),
+  ADD UNIQUE KEY `persona_email_unique` (`email`);
+
+--
+-- Indices de la tabla `proveedores`
+--
+ALTER TABLE `proveedores`
+  ADD KEY `proveedores_id_foreign` (`id`);
+
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_nombre_unique` (`nombre`);
+
+--
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `users_usuario_unique` (`usuario`),
+  ADD KEY `users_id_foreign` (`id`),
+  ADD KEY `users_idrol_foreign` (`idrol`);
+
+--
+-- Indices de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ventas_id_cliente_foreign` (`id_cliente`),
+  ADD KEY `ventas_id_usuario_foreign` (`id_usuario`),
+  ADD KEY `ventas_id_anulo_venta_foreign` (`id_anulo_venta`),
+  ADD KEY `ventas_id_apertura_caja_usuario_foreign` (`id_apertura_caja_usuario`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `abono_creditos`
+--
+ALTER TABLE `abono_creditos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `ajusteinventario`
+--
+ALTER TABLE `ajusteinventario`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `ajuste_compras`
+--
+ALTER TABLE `ajuste_compras`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT de la tabla `ajuste_venta`
+--
+ALTER TABLE `ajuste_venta`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `articulos`
+--
+ALTER TABLE `articulos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `caja`
+--
+ALTER TABLE `caja`
+  MODIFY `idcaja` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `creditos`
+--
+ALTER TABLE `creditos`
+  MODIFY `idCredito` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `detalleajusteinventario`
+--
+ALTER TABLE `detalleajusteinventario`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `detalle_ingresos`
+--
+ALTER TABLE `detalle_ingresos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `egreso`
+--
+ALTER TABLE `egreso`
+  MODIFY `idegreso` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `formapago`
+--
+ALTER TABLE `formapago`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `ingresos`
+--
+ALTER TABLE `ingresos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT de la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `persona`
+--
+ALTER TABLE `persona`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `abono_creditos`
+--
+ALTER TABLE `abono_creditos`
+  ADD CONSTRAINT `abono_creditos_id_caja_foreign` FOREIGN KEY (`id_caja`) REFERENCES `caja` (`idcaja`),
+  ADD CONSTRAINT `abono_creditos_id_credito_foreign` FOREIGN KEY (`id_Credito`) REFERENCES `creditos` (`idCredito`),
+  ADD CONSTRAINT `abono_creditos_idusers_foreign` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `ajusteinventario`
+--
+ALTER TABLE `ajusteinventario`
+  ADD CONSTRAINT `ajusteinventario_id_anulo_ajuste_foreign` FOREIGN KEY (`id_anulo_ajuste`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `ajusteinventario_id_apertura_caja_usuario_foreign` FOREIGN KEY (`id_apertura_caja_usuario`) REFERENCES `caja` (`idcaja`),
+  ADD CONSTRAINT `ajusteinventario_id_usuario_foreign` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `ajuste_compras`
+--
+ALTER TABLE `ajuste_compras`
+  ADD CONSTRAINT `ajuste_compras_id_compra_foreign` FOREIGN KEY (`id_compra`) REFERENCES `ingresos` (`id`);
+
+--
+-- Filtros para la tabla `ajuste_venta`
+--
+ALTER TABLE `ajuste_venta`
+  ADD CONSTRAINT `ajuste_venta_id_caja_foreign` FOREIGN KEY (`id_caja`) REFERENCES `caja` (`idcaja`),
+  ADD CONSTRAINT `ajuste_venta_id_users_foreign` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `ajuste_venta_id_venta_foreign` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id`);
+
+--
+-- Filtros para la tabla `articulos`
+--
+ALTER TABLE `articulos`
+  ADD CONSTRAINT `articulos_idcategoria_foreign` FOREIGN KEY (`idcategoria`) REFERENCES `categorias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `caja`
+--
+ALTER TABLE `caja`
+  ADD CONSTRAINT `caja_id_vendedor_foreign` FOREIGN KEY (`id_vendedor`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `creditos`
+--
+ALTER TABLE `creditos`
+  ADD CONSTRAINT `creditos_idcliente_foreign` FOREIGN KEY (`idCliente`) REFERENCES `persona` (`id`),
+  ADD CONSTRAINT `creditos_idventa_foreign` FOREIGN KEY (`idVenta`) REFERENCES `ventas` (`id`);
+
+--
+-- Filtros para la tabla `detalleajusteinventario`
+--
+ALTER TABLE `detalleajusteinventario`
+  ADD CONSTRAINT `detalleajusteinventario_id_ajusteinventario_foreign` FOREIGN KEY (`id_ajusteinventario`) REFERENCES `ajusteinventario` (`id`),
+  ADD CONSTRAINT `detalleajusteinventario_id_articulo_foreign` FOREIGN KEY (`id_articulo`) REFERENCES `articulos` (`id`);
+
+--
+-- Filtros para la tabla `detalle_ingresos`
+--
+ALTER TABLE `detalle_ingresos`
+  ADD CONSTRAINT `detalle_ingresos_idarticulo_foreign` FOREIGN KEY (`idarticulo`) REFERENCES `articulos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `detalle_ingresos_idingreso_foreign` FOREIGN KEY (`idingreso`) REFERENCES `ingresos` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+  ADD CONSTRAINT `detalle_ventas_id_articulo_foreign` FOREIGN KEY (`id_articulo`) REFERENCES `articulos` (`id`),
+  ADD CONSTRAINT `detalle_ventas_id_venta_foreign` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `egreso`
+--
+ALTER TABLE `egreso`
+  ADD CONSTRAINT `egreso_id_caja_foreign` FOREIGN KEY (`id_caja`) REFERENCES `caja` (`idcaja`),
+  ADD CONSTRAINT `egreso_id_users_foreign` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `ingresos`
+--
+ALTER TABLE `ingresos`
+  ADD CONSTRAINT `ingresos_id_anulo_ingreso_foreign` FOREIGN KEY (`id_anulo_ingreso`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ingresos_id_apertura_caja_usuario_foreign` FOREIGN KEY (`id_apertura_caja_usuario`) REFERENCES `caja` (`idcaja`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ingresos_idproveedor_foreign` FOREIGN KEY (`idproveedor`) REFERENCES `proveedores` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ingresos_idusuario_foreign` FOREIGN KEY (`idusuario`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `perfil`
+--
+ALTER TABLE `perfil`
+  ADD CONSTRAINT `perfil_id_admin_foreign` FOREIGN KEY (`id_admin`) REFERENCES `users` (`id`);
+
+--
+-- Filtros para la tabla `proveedores`
+--
+ALTER TABLE `proveedores`
+  ADD CONSTRAINT `proveedores_id_foreign` FOREIGN KEY (`id`) REFERENCES `persona` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_id_foreign` FOREIGN KEY (`id`) REFERENCES `persona` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_idrol_foreign` FOREIGN KEY (`idrol`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD CONSTRAINT `ventas_id_anulo_venta_foreign` FOREIGN KEY (`id_anulo_venta`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ventas_id_apertura_caja_usuario_foreign` FOREIGN KEY (`id_apertura_caja_usuario`) REFERENCES `caja` (`idcaja`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ventas_id_cliente_foreign` FOREIGN KEY (`id_cliente`) REFERENCES `persona` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ventas_id_usuario_foreign` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id`) ON DELETE CASCADE;

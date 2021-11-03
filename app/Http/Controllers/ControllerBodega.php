@@ -22,8 +22,7 @@ class ControllerBodega extends Controller
     public function index(Request $request)
     {   
 
-        //  if(!$request->ajax()){return redirect('/');}
-
+        //if(!$request->ajax()){return redirect('/');}
         $buscar = $request->buscar;
         $criterio = $request->criterio;
 
@@ -50,11 +49,8 @@ class ControllerBodega extends Controller
 
     public function devolucioncaba(Request $request)
     {
-        if(!$request->ajax()){
-            return redirect('/');
-           }
+        if(!$request->ajax()){return redirect('/');}
            $mytime=Carbon::now('America/Bogota');
-
             $venta = Venta::findOrFail($request->get('id'));
             $venta->caba='no';
             $venta->fechaentregacaba=$mytime;

@@ -46,7 +46,7 @@
                                     <th>Stock</th>
                                     <th>Descripción</th>
                                     <th>Estado</th>     
-                                    <th>Avatar</th>                                
+                                 <!--   <th>Avatar</th>    -->                             
                                     <th>Opciones</th>
 
 
@@ -87,20 +87,22 @@
                                         <span class="badge badge-danger">Desactivado</span>
                                         </div>
                                     </td>
-
+<!--
                                     <td v-if="articulo.avatar=='' || articulo.avatar==null || articulo.avatar=='no-image.png' || articulo.avatar=='' ">
                                         <img style="height: 60px; width: 80px"  src="img/no-image.png" class="rounded-circle">                
                                         </td>
                                         <td v-else>
                                         <img style="height: 60px; width: 80px"  :src="'/img/productos/' + articulo.avatar" class="rounded-circle">                
                                     </td>
+                                    -->
 
 
 
                                     <td>
-                                        <button type="button" @click="abrirModal('articulo', 'editarImagen',articulo)"    class="btn btn-outline-success btn-sm" data-toggle="modal">
+                                      <!--  <button type="button" @click="abrirModal('articulo', 'editarImagen',articulo)"    class="btn btn-outline-success btn-sm" data-toggle="modal">
                                           <i class="icon-picture"></i>
                                         </button> &nbsp;
+                                      -->  
 
                                         <button type="button" @click="abrirModal('articulo', 'actualizar',articulo)" class="btn btn-outline-warning btn-sm" data-toggle="modal">
                                           <i class="icon-pencil"></i>
