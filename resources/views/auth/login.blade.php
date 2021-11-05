@@ -2,6 +2,28 @@
 
 @section('login')
 
+<style>
+  .whatsapp {
+  position:fixed;
+  width:60px;
+  height:60px;
+  bottom:40px;
+  right:40px;
+  background-color:#25d366;
+  color:#FFF;
+  border-radius:50px;
+  text-align:center;
+  font-size:30px;
+  z-index:100;
+}
+
+.whatsapp-icon {
+  margin-top:13px;
+}
+
+</style>
+
+
 <div class="row justify-content-center">
       <div class="col-md-5">
         <div class="card-group mb-0">
@@ -12,7 +34,7 @@
             <div class="card-body">
               <br>
               <div align="center">
-              <img src="img/tenderpos.png" heigt="130px" width="250px" class="col-xs-12"></p>
+              <img src="img/tenderpos1.png" heigt="130px" width="250px" class="col-xs-12"></p>
              </div>
               <br>
               <div class="input-group mb-3 @error('usuario') is-invalid @enderror">
@@ -53,6 +75,8 @@
             </div>
             </form>
           </div>
+
+
           <!-- <div class="card text-white bg-grey py-5 d-md-down-none" style="width:44%">
             <div class="card-body text-center">
               <div>
@@ -65,5 +89,17 @@
           </div> -->
         </div>
       </div>
+
+
+
+
+
+
+      <a href="https://wa.me/573008494255?text=Escribe%20alguna%20duda%20o%20sugerencia%20al%20Desarrollador" class="whatsapp" target="_blank"> <i class="fa fa-whatsapp whatsapp-icon"></i></a>
+	
+
+
+
+      
     </div>
 @endsection

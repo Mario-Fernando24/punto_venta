@@ -17,7 +17,8 @@
 
 </head>
 
-<body class="app flex-row align-items-center">
+<body class="app flex-row align-items-center"  style="background-size: cover; background-image: url(https://www.bitactual.com/wp-content/uploads/Razones-por-las-que-necesitar-un-programa-de-facturaci%C3%B3n-y-contabilidad.jpg); height: 100vh">
+
   <div class="container">
   @yield('login')
 

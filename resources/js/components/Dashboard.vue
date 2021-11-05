@@ -482,6 +482,7 @@
             },
 
 
+
             happy_birthday(){
                  let me=this;
                 var url= '/HappyBirthday';
