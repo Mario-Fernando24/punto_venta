@@ -88,10 +88,9 @@
                 <Caba></Caba>
                 </template>
 
-
-            
-
-
+                <template v-if="menu==25">
+                <Informes></Informes>
+                </template>
 
                 @elseif(Auth::user()->idrol==2)
                 

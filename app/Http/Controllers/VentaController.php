@@ -136,7 +136,6 @@ class VentaController extends Controller
     public function store(Request $request)
     {
 
-
        $mytime=Carbon::now('America/Bogota');
        
        $id_caja_users=DB::table('caja')

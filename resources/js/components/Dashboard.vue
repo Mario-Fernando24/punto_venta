@@ -106,7 +106,7 @@
                                 
                                 </div>
                                 <div class="modal-footer">
-                                    <a href="#" class="btn btn-primary">Estadisticas de compra</a>
+                                    <a href="/" class="btn btn-primary">Estadisticas de compra</a>
                                     <a href="mailto:tenderpos@tenderpos.co"><i class="fa fa-envelope" style="font-size:35px;color:#20a8d8;"></i></a>
                                 </div>
 
@@ -183,7 +183,7 @@
         methods : {
             getIngresos(){
                 let me=this;
-                var url= '/dashboard';
+                var url= '/dashboard/';
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.ingresos = respuesta.ingresos;
@@ -196,7 +196,7 @@
             },
             getVentas(){
                 let me=this;
-                var url= '/dashboard';
+                var url= '/dashboard/';
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.ventas = respuesta.ventas;
@@ -209,7 +209,7 @@
             },
             getProductosMasVendidos(){
                 let me=this;
-                var url= '/dashboard';
+                var url= '/dashboard/';
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.productosMasVendidos = respuesta.TotalProductosVendidos;
@@ -223,7 +223,7 @@
 
             getProductos(){
                 let me=this;
-                var url= '/dashboard';
+                var url= '/dashboard/';
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.productos = respuesta.totallPorProductos;

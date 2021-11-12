@@ -286,6 +286,13 @@
 
           });
 
+
+          Route::prefix('informe')->group(function() {
+            Route::get('showInformeVentas', 'Ajuste\InformesController@showInformeVentas');
+            Route::get('ventaPorCliente', 'Ajuste\InformesController@ventaPorCliente');
+            Route::get('ventasPorProducto', 'Ajuste\InformesController@ventasPorProducto');
+          });
+
         
 
         

@@ -910,7 +910,7 @@ import vSelect from "vue-select";
             serie_comprobante : '',
             num_comprobante: '',
             telefono:'',
-            impuesto: 18,
+            impuesto: 19,
             totalgananciass: 0.0,
             total: 0.0,
             totalImpuesto:0.0,

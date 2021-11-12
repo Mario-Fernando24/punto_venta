@@ -35,6 +35,7 @@
                                     <th>Direccion</th>
                                     <th>Fecha Entrega</th>
                                     <th>Vendedor</th>
+                                    <th>Observación</th>
                                     <th>Estados</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -48,6 +49,7 @@
                                         <td v-text="categoria.cliente_persona.direccion"></td>
                                         <td v-text="categoria.created_at"></td>
                                         <td v-text="categoria.usuario_hizola_venta.usuario"></td>
+                                        <td v-text="categoria.num_comprobante_pago"></td>
 
                                     <td>
                                         <div v-if="categoria.fechaentregacaba!=''">

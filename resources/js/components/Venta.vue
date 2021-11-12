@@ -12,8 +12,6 @@
                             <button type="button" @click="mostrarDetalle()" class="btn btn-secondary btn-sm" data-toggle="modal">
                             <i class="icon-plus"></i>Nuevo
                              </button>
-
-
                     </div>
 
                     <template v-if="validar_caja=='error'">
@@ -56,7 +54,7 @@
                                                 <th>Cliente</th>
                                                 <th>Tipo comprobante</th>
                                                 <th>Forma Pago</th>
-                                                <th>Num Comprobante</th>
+                                                <th>Observación</th>
                                                 <th>Fecha</th>
                                                 <th>Total</th>
                                                 <th>Impuesto</th>
@@ -192,6 +190,14 @@
                                                 <option value="si">SI</option>
 
                                             </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group"> 
+                                        <label>Observación<span  class="validaridArticulo"   v-show="num_comprobante_pago==0">*</span></label>
+                                        <input type="text" class="form-control"  v-model="num_comprobante_pago" placeholder="Observación">
                                     </div>
                                 </div>
 
@@ -433,7 +439,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group"> 
-                                        <label class="negritatitle">Num Comprobante</label>
+                                        <label class="negritatitle">Observación</label>
                                         <p v-text="num_comprobante_pago"></p>
                                     </div>
                                 </div>
@@ -777,7 +783,7 @@ import vSelect from "vue-select";
             forma_pago : 'efectivo',
             num_comprobante_pago: '',
             telefono:'',
-            impuesto: 18,
+            impuesto: 19,
             totalgananciass: 0.0,
             total: 0.0,
             totalImpuesto:0.0,
@@ -1234,7 +1240,7 @@ import vSelect from "vue-select";
                         this.forma_pago = 'efectivo';
                         this.num_comprobante_pago= '';
                         this.impuesto='';
-                        this.impuesto= 18;
+                        this.impuesto= 19;
                         this.total= 0.0;
                         this.idarticulo=0;
                         this.articulo='';

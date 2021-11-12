@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\ModelInventario\AjusteVenta;
+use App\DetalleVenta;
 
 class Venta extends Model
 {
@@ -42,7 +43,11 @@ class Venta extends Model
 
     public function formaspago(){
         return $this->belongsTo(AjusteVenta::class,'id','id_venta');
-
     }
+
+    public function DetalleVenta(){
+        return $this->hasMany(DetalleVenta::class,'id_venta','id');
+    }
+
 
 }
