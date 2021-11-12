@@ -2364,6 +2364,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listarArticulo(1, '', 'nombre');
+        Swal.fire('Articulo agregado correctamente', 'TENDERPOS', 'success');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2387,6 +2388,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listarArticulo(1, '', 'nombre');
+        Swal.fire('Articulo editado correctamente', 'TENDERPOS', 'success');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4230,6 +4232,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listaCategoria(1, '', 'nombre');
+        Swal.fire('Categoria agregada correctamente', 'TENDERPOS', 'success');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4249,6 +4252,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listaCategoria(1, '', 'nombre');
+        Swal.fire('Categoria editada correctamente', 'TENDERPOS', 'success');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4781,6 +4785,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listarPersona(1, '', 'nombre');
+        Swal.fire('Cliente agregado correctamente', 'TENDERPOS', 'success');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -4805,6 +4810,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listarPersona(1, '', 'nombre');
+        Swal.fire('Cliente editado correctamente', 'TENDERPOS', 'success');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -9808,6 +9814,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listarProveedor(1, '', 'nombre');
+        Swal.fire('Proveedor agregado correctamente', 'TENDERPOS', 'success');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -9833,6 +9840,7 @@ __webpack_require__.r(__webpack_exports__);
         me.cerrarModal(); //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
 
         me.listarProveedor(1, '', 'nombre');
+        Swal.fire('Proveedor editado correctamente', 'TENDERPOS', 'success');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -12079,7 +12087,7 @@ __webpack_require__.r(__webpack_exports__);
         });
         swalWithBootstrapButtons.fire({
           title: 'Venta realizada correctamente',
-          text: "¿ Que tipo de formato de factura desea ?",
+          text: "¿ Que tipo de formato de factura desea imprimir ?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Normal',
@@ -72148,7 +72156,23 @@ var render = function() {
                             Intl.NumberFormat().format(_vm.total) +
                             "\n " +
                             _vm.tipo_comprobante +
-                            "   \nEfectivo:\nCredito: \nTransferencia\nDatafono "
+                            "   \nEfectivo: " +
+                            Intl.NumberFormat().format(
+                              this.formapagoventa.efectivo
+                            ) +
+                            " \nCredito: " +
+                            Intl.NumberFormat().format(
+                              this.formapagoventa.credito
+                            ) +
+                            " \nTransferencia: " +
+                            Intl.NumberFormat().format(
+                              this.formapagoventa.transferencia
+                            ) +
+                            " \nDatafono: " +
+                            Intl.NumberFormat().format(
+                              this.formapagoventa.datafono
+                            ) +
+                            "  "
                         )
                       }
                     },

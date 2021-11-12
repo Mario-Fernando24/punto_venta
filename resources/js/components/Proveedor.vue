@@ -314,6 +314,12 @@
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarProveedor(1,'','nombre');
+
+                    Swal.fire(
+                            'Proveedor agregado correctamente',
+                            'TENDERPOS',
+                            'success'
+                            )
                 }) 
                 .catch(function (error) {
                     console.log(error);
@@ -344,6 +350,12 @@
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarProveedor(1,'','nombre');
+
+                    Swal.fire(
+                            'Proveedor editado correctamente',
+                            'TENDERPOS',
+                            'success'
+                            )
                 })
                 .catch(function (error) {
                     console.log(error);

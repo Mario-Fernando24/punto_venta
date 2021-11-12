@@ -391,6 +391,12 @@
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarPersona(1,'','nombre');
+
+                           Swal.fire(
+                            'Cliente agregado correctamente',
+                            'TENDERPOS',
+                            'success'
+                            )
                 }) 
                 .catch(function (error) {
                     console.log(error);
@@ -421,6 +427,14 @@
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarPersona(1,'','nombre');
+
+
+                    Swal.fire(
+                            'Cliente editado correctamente',
+                            'TENDERPOS',
+                            'success'
+                            )
+
                 })
                 .catch(function (error) {
                     console.log(error);

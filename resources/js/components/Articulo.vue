@@ -476,6 +476,14 @@ import VueBarcode from 'vue-barcode';
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarArticulo(1,'','nombre');
+
+
+                    Swal.fire(
+                            'Articulo agregado correctamente',
+                            'TENDERPOS',
+                            'success'
+                            )
+
                 }) 
                 .catch(function (error) {
                     console.log(error);
@@ -505,6 +513,12 @@ import VueBarcode from 'vue-barcode';
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarArticulo(1,'','nombre');
+
+                    Swal.fire(
+                            'Articulo editado correctamente',
+                            'TENDERPOS',
+                            'success'
+                            )
                 })
                 .catch(function (error) {
                     console.log(error);

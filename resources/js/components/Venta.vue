@@ -736,7 +736,7 @@
                                             </tbody>
                                         </table><br>
 
-                                        <p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   \nEfectivo:\nCredito: \nTransferencia\nDatafono '">
+                                        <p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   \nEfectivo: '+Intl.NumberFormat().format(this.formapagoventa.efectivo)+' \nCredito: '+Intl.NumberFormat().format(this.formapagoventa.credito)+' \nTransferencia: '+Intl.NumberFormat().format(this.formapagoventa.transferencia)+' \nDatafono: '+Intl.NumberFormat().format(this.formapagoventa.datafono)+'  '">
                                             <br>tenderpos.xyz</p>
 
                                             <p class="centrado"><b>¡Gracias por su compra Tenderpos!</b></p>
@@ -1204,7 +1204,7 @@ import vSelect from "vue-select";
 
                                     swalWithBootstrapButtons.fire({
                                     title: 'Venta realizada correctamente',
-                                    text: "¿ Que tipo de formato de factura desea ?",
+                                    text: "¿ Que tipo de formato de factura desea imprimir ?",
                                     icon: 'warning',
                                     showCancelButton: true,
                                     confirmButtonText: 'Normal',
