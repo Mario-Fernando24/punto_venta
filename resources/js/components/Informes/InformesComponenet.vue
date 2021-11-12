@@ -15,7 +15,11 @@
             arrayDetalleProductoPorCliente:[],
             cantProd:0,
             idProducto:0,
-            
+
+            InformVentaActivaa:'',
+            InformVentaAnuladaa:'',
+            arrayVentaa:[],
+                
           }
         },
 
@@ -26,19 +30,28 @@
         },
 
         methods: {
-         listaClienteCaba(page, buscar, criterio){
+
+         ventaPorClienteFechas(){
+            let me=this;
+             var url= '/informe/ventaPorCliente';
+               axios.get(url).then(function (response) {
+                 var respuesta = response.data;
+
+                 me.arrayVentaa = respuesta.arrayVenta.data;
+
+               })
+               .catch(function (error) {
+                   console.log(error);
+               });
+         },
+
+         ventaPorProducto(){
             let me=this;
              var url= '/informe/ventasPorProducto';
              axios.get(url).then(function (response) {
                var respuesta = response.data;
-               //todo lo que retorne esta funcion se almacene en este array
                me.arrayVentaProducto = respuesta.ventadetalle.data;
                me.idProducto=respuesta.idProducto;
-               console.log('=================================');
-               console.log(me.idProducto);
-               console.log('=================================');
-               
-
                me.arrayVentaProducto.map(function(x){
                   x.detalle_venta.map(function(y){
                      if(y.id_articulo==me.idProducto){
@@ -46,9 +59,7 @@
                         me.cantProd+=y.cantidad;
                      }
                   });
-              });
-
-
+                });
                })
                .catch(function (error) {
                    console.log(error);
@@ -56,8 +67,7 @@
             },
          },
         mounted() {
-
-                this.listaClienteCaba();
+                this.ventaPorProducto();
                 
                }
     }

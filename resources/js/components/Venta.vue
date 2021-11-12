@@ -715,30 +715,32 @@
                         <div class="modal-bod">
 
                                     <div class="ticket">
-                                        <img src="https://ibb.co/Xk2NsBD" alt="Logotipo">
-                                        <p class="centrado" v-text="'# '+id_ticket">  
-                                        <p v-text="'facturador  '+usuarioFacturador+ ' \ncliente  '+usuario_cliente+' \n '+currentDay+' '+ currentHour"></p>      
+                                        <img src="https://licoreselflaco.com/img/company/2021-11-03%2013:21:29licoreselflaco.jpg" alt="Logotipo">
+                                        <p v-text=" '# '+id_ticket  +'\n FACT: '+usuarioFacturador+ ' \nCLIENTE:  '+usuario_cliente+' \n '+currentDay+' '+ currentHour"></p>      
                                             
                                         <table>
                                             <thead>
                                                 <tr>
                                                     <th class="cantidad">Cant</th>
-                                                    <th class="producto">Art</th>
-                                                    <th class="precio">$</th>
+                                                    <th class="producto">Produc</th>
+                                                    <th class="precio">$$$</th>
                                                 </tr>
                                             </thead>
                                             
                                             <tbody>
                                                 <tr v-for="det in arrayDetalleVenta" :key="det.id">
                                                     <td class="cantidad" v-text="det.cantidad"></td>
-                                                    <td class="producto" v-text="det.articulo"></td>
-                                                    <td class="precio" v-text="det.precio"></td>
+                                                    <td class="producto" v-text="det.articulo.substring(0,6)"></td>
+                                                    <td class="precio" v-text="parseInt(det.precio)"></td>
                                                 </tr>
                                             </tbody>
                                         </table><br>
 
-                                        <p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   '+forma_pago+' \n ¡GRACIAS POR SU COMPRA!'">
+                                        <p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   \nEfectivo:\nCredito: \nTransferencia\nDatafono '">
                                             <br>tenderpos.xyz</p>
+
+                                            <p class="centrado"><b>¡Gracias por su compra Tenderpos!</b></p>
+
                                     </div>
                         </div>   
 
@@ -978,10 +980,13 @@ import vSelect from "vue-select";
                  },
  
                 getDatosCliente(val1){
+                    console.log('mario fernando muñoz rivera');
+                    console.log(val1);
+                    console.log('mario fernando muñoz rivera');
                     let me = this;
                         me.loading = true;
                         me.idcliente = val1.id;
-                        me.usuario_cliente=val1.email;
+                        me.usuario_cliente=val1.nombre+'  '+val1.tipo_documento+'  '+val1.num_documento;
                   },
 
 
@@ -1184,6 +1189,8 @@ import vSelect from "vue-select";
                         .then(function (response) {
 
 
+                            me.cerrarModal();
+                            me.listado=1;                            
                             console.log(response.data.usuarioss);
                              me.id_ticket=response.data.id;
                              me.usuarioFacturador=response.data.usuarioss;
@@ -1196,7 +1203,7 @@ import vSelect from "vue-select";
                                     })
 
                                     swalWithBootstrapButtons.fire({
-                                    title: 'Imprimir ?',
+                                    title: 'Venta realizada correctamente',
                                     text: "¿ Que tipo de formato de factura desea ?",
                                     icon: 'warning',
                                     showCancelButton: true,
@@ -1217,6 +1224,7 @@ import vSelect from "vue-select";
                                         /* Read more about handling dismissals below */
                                         result.dismiss === Swal.DismissReason.cancel
                                     ) {
+                                        me.cerrarModal();
                                         me.ticket=1;
                                         me.listado=1;
                                         // me.vaciarvariable();
@@ -1595,7 +1603,7 @@ th.precio {
 }
 
 .centrado {
-    text-align: center;
+    text-align: initial;
     align-content: center;
 }
 

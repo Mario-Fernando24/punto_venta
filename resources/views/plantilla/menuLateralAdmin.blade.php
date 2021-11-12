@@ -140,7 +140,7 @@
 
 
 
-                    <li @click="menu=25" class="nav-item">
+                    <li @click="menu=17" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-bag"></i> Ajuste de inventario</a>
                             </li>
 

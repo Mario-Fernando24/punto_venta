@@ -420,7 +420,7 @@
                        <div class="form-group row">
                            <div class="col-md-12">
                                <button type="button" @click="ocultarDetalle  ()" class="btn btn-secondary">CERRAR</button>
-                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">REGISTRAR COMPRAsss</button>
+                              <button type="button" class="btn btn-primary" @click="registrarIngreso()">REGISTRAR COMPRAS</button>
 
                            </div>
                         </div>

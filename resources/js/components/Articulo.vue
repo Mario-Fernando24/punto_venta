@@ -192,7 +192,7 @@
                                         <input type="text" v-model="nombre" class="form-control" placeholder="Nombre...">
                                     </div>
                                 
-                                 <div class="col-md-6">
+                               <!--  <div class="col-md-6">
                                     <label class="col-md-3 form-control-label text-negrita" for="text-input">Precio de venta</label>
                                         <input type="number" disabled v-model="precio_venta" class="form-control" placeholder="Precio...">
                                     </div>
@@ -203,6 +203,8 @@
                                     <label class="col-md-3 form-control-label text-negrita" for="text-input">Stock</label>
                                         <input disabled type="number" v-model="stock" class="form-control" placeholder="Stock...">
                                     </div>
+
+                                    -->
 
 
                                  <div class="col-md-6">

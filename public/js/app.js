@@ -2215,6 +2215,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //importamos vueBarcod
  //axios nos ayuda hacer peticiones http desde el navegador
 
@@ -7415,22 +7417,31 @@ __webpack_require__.r(__webpack_exports__);
       arrayVentaProducto: [],
       arrayDetalleProductoPorCliente: [],
       cantProd: 0,
-      idProducto: 0
+      idProducto: 0,
+      InformVentaActivaa: '',
+      InformVentaAnuladaa: '',
+      arrayVentaa: []
     };
   },
   computed: {},
   methods: {
-    listaClienteCaba: function listaClienteCaba(page, buscar, criterio) {
+    ventaPorClienteFechas: function ventaPorClienteFechas() {
+      var me = this;
+      var url = '/informe/ventaPorCliente';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayVentaa = respuesta.arrayVenta.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    ventaPorProducto: function ventaPorProducto() {
       var me = this;
       var url = '/informe/ventasPorProducto';
       axios.get(url).then(function (response) {
-        var respuesta = response.data; //todo lo que retorne esta funcion se almacene en este array
-
+        var respuesta = response.data;
         me.arrayVentaProducto = respuesta.ventadetalle.data;
         me.idProducto = respuesta.idProducto;
-        console.log('=================================');
-        console.log(me.idProducto);
-        console.log('=================================');
         me.arrayVentaProducto.map(function (x) {
           x.detalle_venta.map(function (y) {
             if (y.id_articulo == me.idProducto) {
@@ -7445,7 +7456,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.listaClienteCaba();
+    this.ventaPorProducto();
   }
 });
 
@@ -11718,6 +11729,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //importo vselect
 
 
@@ -11911,10 +11924,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getDatosCliente: function getDatosCliente(val1) {
+      console.log('mario fernando muñoz rivera');
+      console.log(val1);
+      console.log('mario fernando muñoz rivera');
       var me = this;
       me.loading = true;
       me.idcliente = val1.id;
-      me.usuario_cliente = val1.email;
+      me.usuario_cliente = val1.nombre + '  ' + val1.tipo_documento + '  ' + val1.num_documento;
     },
     listarArticulo: function listarArticulo(buscarArt, criterioArticulo) {
       var me = this;
@@ -12049,6 +12065,8 @@ __webpack_require__.r(__webpack_exports__);
         'data': this.arrayDetalleVenta,
         'formapagoajusteventa': this.formapagoventa
       }).then(function (response) {
+        me.cerrarModal();
+        me.listado = 1;
         console.log(response.data.usuarioss);
         me.id_ticket = response.data.id;
         me.usuarioFacturador = response.data.usuarioss;
@@ -12060,7 +12078,7 @@ __webpack_require__.r(__webpack_exports__);
           buttonsStyling: false
         });
         swalWithBootstrapButtons.fire({
-          title: 'Imprimir ?',
+          title: 'Venta realizada correctamente',
           text: "¿ Que tipo de formato de factura desea ?",
           icon: 'warning',
           showCancelButton: true,
@@ -12077,6 +12095,7 @@ __webpack_require__.r(__webpack_exports__);
           } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel) {
+            me.cerrarModal();
             me.ticket = 1;
             me.listado = 1; // me.vaciarvariable();
             // //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
@@ -17069,7 +17088,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-contentt{\n    width: 50% !important;\n    position: absolute!important;\n}\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 600;\n}\n.negritatitle{\n      font-weight: 500;\n}\n* {\n    font-size: 14px;\n  font-family: Arial, Helvetica, sans-serif;\n}\ntd,\nth,\ntr,\ntable {\n    border-top: 1px solid black;\n    border-collapse: collapse;\n}\ntd.producto,\nth.producto {\n    width: 75px;\n    max-width: 75px;\n}\ntd.cantidad,\nth.cantidad {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\ntd.precio,\nth.precio {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\n.centrado {\n    text-align: center;\n    align-content: center;\n}\n.ticket {\n    width: 155px;\n    max-width: 155px;\n}\nimg {\n    max-width: inherit;\n    width: inherit;\n}\n@media print {\n.oculto-impresion,\n    .oculto-impresion * {\n        display: none !important;\n}\n}\n\n\n\n", ""]);
+exports.push([module.i, "\n.modal-contentt{\n    width: 50% !important;\n    position: absolute!important;\n}\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 600;\n}\n.negritatitle{\n      font-weight: 500;\n}\n* {\n    font-size: 14px;\n  font-family: Arial, Helvetica, sans-serif;\n}\ntd,\nth,\ntr,\ntable {\n    border-top: 1px solid black;\n    border-collapse: collapse;\n}\ntd.producto,\nth.producto {\n    width: 75px;\n    max-width: 75px;\n}\ntd.cantidad,\nth.cantidad {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\ntd.precio,\nth.precio {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\n.centrado {\n    text-align: initial;\n    align-content: center;\n}\n.ticket {\n    width: 155px;\n    max-width: 155px;\n}\nimg {\n    max-width: inherit;\n    width: inherit;\n}\n@media print {\n.oculto-impresion,\n    .oculto-impresion * {\n        display: none !important;\n}\n}\n\n\n\n", ""]);
 
 // exports
 
@@ -54977,84 +54996,6 @@ var render = function() {
                           {
                             staticClass:
                               "col-md-3 form-control-label text-negrita",
-                            attrs: { for: "text-input" }
-                          },
-                          [_vm._v("Precio de venta")]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.precio_venta,
-                              expression: "precio_venta"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "number",
-                            disabled: "",
-                            placeholder: "Precio..."
-                          },
-                          domProps: { value: _vm.precio_venta },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.precio_venta = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass:
-                              "col-md-3 form-control-label text-negrita",
-                            attrs: { for: "text-input" }
-                          },
-                          [_vm._v("Stock")]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.stock,
-                              expression: "stock"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            disabled: "",
-                            type: "number",
-                            placeholder: "Stock..."
-                          },
-                          domProps: { value: _vm.stock },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.stock = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass:
-                              "col-md-3 form-control-label text-negrita",
                             attrs: { for: "email-input" }
                           },
                           [_vm._v("Descripción")]
@@ -65001,7 +64942,7 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [_vm._v("REGISTRAR COMPRAsss")]
+                                    [_vm._v("REGISTRAR COMPRAS")]
                                   )
                                 ])
                               ])
@@ -72141,19 +72082,21 @@ var render = function() {
               _c("div", { staticClass: "modal-bod" }, [
                 _c("div", { staticClass: "ticket" }, [
                   _c("img", {
-                    attrs: { src: "https://ibb.co/Xk2NsBD", alt: "Logotipo" }
+                    attrs: {
+                      src:
+                        "https://licoreselflaco.com/img/company/2021-11-03%2013:21:29licoreselflaco.jpg",
+                      alt: "Logotipo"
+                    }
                   }),
                   _vm._v(" "),
                   _c("p", {
-                    staticClass: "centrado",
-                    domProps: { textContent: _vm._s("# " + _vm.id_ticket) }
-                  }),
-                  _c("p", {
                     domProps: {
                       textContent: _vm._s(
-                        "facturador  " +
+                        "# " +
+                          _vm.id_ticket +
+                          "\n FACT: " +
                           _vm.usuarioFacturador +
-                          " \ncliente  " +
+                          " \nCLIENTE:  " +
                           _vm.usuario_cliente +
                           " \n " +
                           _vm.currentDay +
@@ -72177,12 +72120,16 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", {
                             staticClass: "producto",
-                            domProps: { textContent: _vm._s(det.articulo) }
+                            domProps: {
+                              textContent: _vm._s(det.articulo.substring(0, 6))
+                            }
                           }),
                           _vm._v(" "),
                           _c("td", {
                             staticClass: "precio",
-                            domProps: { textContent: _vm._s(det.precio) }
+                            domProps: {
+                              textContent: _vm._s(parseInt(det.precio))
+                            }
                           })
                         ])
                       }),
@@ -72201,14 +72148,14 @@ var render = function() {
                             Intl.NumberFormat().format(_vm.total) +
                             "\n " +
                             _vm.tipo_comprobante +
-                            "   " +
-                            _vm.forma_pago +
-                            " \n ¡GRACIAS POR SU COMPRA!"
+                            "   \nEfectivo:\nCredito: \nTransferencia\nDatafono "
                         )
                       }
                     },
                     [_c("br"), _vm._v("tenderpos.xyz")]
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm._m(15)
                 ])
               ]),
               _vm._v(" "),
@@ -72444,10 +72391,18 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { staticClass: "cantidad" }, [_vm._v("Cant")]),
         _vm._v(" "),
-        _c("th", { staticClass: "producto" }, [_vm._v("Art")]),
+        _c("th", { staticClass: "producto" }, [_vm._v("Produc")]),
         _vm._v(" "),
-        _c("th", { staticClass: "precio" }, [_vm._v("$")])
+        _c("th", { staticClass: "precio" }, [_vm._v("$$$")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "centrado" }, [
+      _c("b", [_vm._v("¡Gracias por su compra Tenderpos!")])
     ])
   }
 ]

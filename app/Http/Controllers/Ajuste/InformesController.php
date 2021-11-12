@@ -103,8 +103,8 @@ class InformesController extends Controller
 
     public function ventasPorProducto(Request $request)
     {
-      $idCliente=2;
-      $idProducto=2;
+        $idCliente=2;
+        $idProducto=2;
 
         $ventadetalle = Venta::with('cliente_persona','usuario_hizola_venta','formaspago','DetalleVenta')->where('estado','registrado')->where('id_cliente',$idCliente)->orderBy('id', 'DESC')->paginate(10);
         
