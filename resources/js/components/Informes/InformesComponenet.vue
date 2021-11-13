@@ -245,7 +245,7 @@
                  me.arrayVentaFecha.map(function(x){
                   x.detalle_venta.map(function(y){
                         me.arraydetallePorFecha.push(y);
-                        me.informe.InformVentaActiva+=y.precio-y.descuento;
+                        me.informe.InformVentaActiva+=((y.precio-y.descuento)*y.cantidad);
                      
                   });
                 });
@@ -290,7 +290,7 @@
                   x.detalle_venta.map(function(y){
                         me.arrayDetalleProductoPorCliente.push(y);
                         me.cantProd+=y.cantidad;
-                        me.sumProd+=y.precio-y.descuento;
+                        me.sumProd+=((y.precio-y.descuento)*y.cantidad);
                      
                   });
                 });
@@ -302,7 +302,7 @@
                      if(y.id_articulo==me.idProducto){
                         me.arrayDetalleProductoPorCliente.push(y);
                         me.cantProd+=y.cantidad;
-                        me.sumProd+=y.precio-y.descuento;
+                        me.sumProd+=((y.precio-y.descuento)*y.cantidad);
                      }
                   });
                 });
