@@ -11234,6 +11234,76 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
 /* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_1__);
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -12086,7 +12156,10 @@ __webpack_require__.r(__webpack_exports__);
       ticket: 0,
       id_ticket: 0,
       usuarioFacturador: '',
-      usuario_cliente: ''
+      usuario_cliente: '',
+      ticketcopy: 0,
+      vectorTicked: [],
+      copyfechatherma: ''
     };
   },
   components: {
@@ -12159,7 +12232,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   //aqui estaran los metodos. axios que me ayudaran hacer peticiones http e forma sencilla y convertir la respuesta en json
-  methods: {
+  methods: (_methods = {
     listaVenta: function listaVenta(page, buscar, criterio) {
       var me = this;
       var url = '/ventas/index?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -12518,56 +12591,79 @@ __webpack_require__.r(__webpack_exports__);
       this.ticket = 0;
       window.print();
     },
-    //metodo para cerrar el modal
-    cerrarModal: function cerrarModal() {
-      this.ticket = 0;
-      this.modal = 0;
-      this.tituloModal = '';
-      this.modalPago = 0;
-    },
-    //recibe tres paramatro el nombre del modelo "usuario",  accion "registrar o actualizar", el objeto "" 
-    abrirModal: function abrirModal() {
-      this.arrayArticulo = [];
-      this.modal = 1;
-      this.tituloModal = 'Seleccione uno o varios Articulos';
-    },
-    validateOpenCaja: function validateOpenCaja() {
+    //<p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   \nEfectivo: '+Intl.NumberFormat().format(this.formapagoventa.efectivo)+' \nCredito: '+Intl.NumberFormat().format(this.formapagoventa.credito)+' \nTransferencia: '+Intl.NumberFormat().format(this.formapagoventa.transferencia)+' \nDatafono: '+Intl.NumberFormat().format(this.formapagoventa.datafono)+'  '">
+    showModalCopy: function showModalCopy(venta) {
       var me = this;
-      axios.get('egreso/ValidateOpenCaja').then(function (response) {
-        var respuesta = response.data;
-        me.validar_caja = respuesta.status;
-
-        if (respuesta.status == 'error') {
-          me.ShowModalAperturaCaja();
-        }
-      })["catch"](function (error) {
-        console.log(error);
+      me.arrayDetalleVenta = [];
+      console.log(venta);
+      this.vectorTicked.push(venta);
+      this.ticketcopy = 1;
+      this.id_ticket = venta.id;
+      this.usuarioFacturador = venta.usuario_hizola_venta.usuario;
+      this.usuario_cliente = venta.cliente_persona.nombre + ' ' + venta.cliente_persona.tipo_documento + ' ' + venta.cliente_persona.num_documento + ' DIR:' + venta.cliente_persona.direccion + ' TEL: ' + venta.cliente_persona.telefono;
+      this.copyfechatherma = venta.created_at;
+      this.num_comprobante_pago = venta.num_comprobante_pago;
+      this.formapagoventa.efectivo = venta.formaspago.efectivo;
+      this.formapagoventa.credito = venta.formaspago.credito;
+      this.formapagoventa.transferencia = venta.formaspago.tranferencia;
+      this.formapagoventa.datafono = venta.formaspago.datafono;
+      venta.detalle_venta.map(function (x) {
+        me.arrayDetalleVenta.push({
+          idarticulo: x.idarticulo,
+          articulo: x.articulo__detalle__venta.nombre,
+          cantidad: x.cantidad,
+          precio: x.precio,
+          descuento: x.descuento
+        });
       });
     },
-    ShowModalAperturaCaja: function ShowModalAperturaCaja() {
-      var swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-info',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: 'apertura de caja Cerrada!',
-        text: "presione click en el modulo movimiento de caja",
-        icon: 'info',
-        showCancelButton: true,
-        // confirmButtonText: 'Open Caja',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.isConfirmed) {//pasar al otro componente
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire('Cancelado', '', 'error');
-        }
-      });
-    }
-  },
+    //metodo para cerrar el modal
+    cerrarModal: function cerrarModal() {}
+  }, _defineProperty(_methods, "cerrarModal", function cerrarModal() {
+    this.ticket = 0;
+    this.ticketcopy = 0;
+    this.modal = 0;
+    this.tituloModal = '';
+    this.modalPago = 0;
+  }), _defineProperty(_methods, "abrirModal", function abrirModal() {
+    this.arrayArticulo = [];
+    this.modal = 1;
+    this.tituloModal = 'Seleccione uno o varios Articulos';
+  }), _defineProperty(_methods, "validateOpenCaja", function validateOpenCaja() {
+    var me = this;
+    axios.get('egreso/ValidateOpenCaja').then(function (response) {
+      var respuesta = response.data;
+      me.validar_caja = respuesta.status;
+
+      if (respuesta.status == 'error') {
+        me.ShowModalAperturaCaja();
+      }
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  }), _defineProperty(_methods, "ShowModalAperturaCaja", function ShowModalAperturaCaja() {
+    var swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-info',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+      title: 'apertura de caja Cerrada!',
+      text: "presione click en el modulo movimiento de caja",
+      icon: 'info',
+      showCancelButton: true,
+      // confirmButtonText: 'Open Caja',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then(function (result) {
+      if (result.isConfirmed) {//pasar al otro componente
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire('Cancelado', '', 'error');
+      }
+    });
+  }), _methods),
   mounted: function mounted() {
     //hacemos referencia a nuestro metodo  listaVenta
     this.listaVenta(1, this.buscar, this.criterio);
@@ -17359,7 +17455,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-contentt{\n    width: 50% !important;\n    position: absolute!important;\n}\n.modal-content{\n    width: 100% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 600;\n}\n.negritatitle{\n      font-weight: 500;\n}\n* {\n    font-size: 14px;\n  font-family: Arial, Helvetica, sans-serif;\n}\ntd,\nth,\ntr,\ntable {\n    border-top: 1px solid black;\n    border-collapse: collapse;\n}\ntd.producto,\nth.producto {\n    width: 75px;\n    max-width: 75px;\n}\ntd.cantidad,\nth.cantidad {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\ntd.precio,\nth.precio {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\n.centrado {\n    text-align: initial;\n    align-content: center;\n}\n.ticket {\n    width: 155px;\n    max-width: 155px;\n}\nimg {\n    max-width: inherit;\n    width: inherit;\n}\n@media print {\n.oculto-impresion,\n    .oculto-impresion * {\n        display: none !important;\n}\n}\n\n\n\n", ""]);
+exports.push([module.i, "\n.modal-contentt{\n    width: 50% !important;\n    position: absolute!important;\n}\n.modal-content{\n    width: 60% !important;\n    position: absolute!important;\n}\n.mostrar{\n      display: list-item !important;\n      opacity: 1 !important;\n      position: absolute!important;\n      background-color: #3c29297a;\n}\n.div-error{\n     display: flex;\n     justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n.text-negrita{\n    color: black !important;\n    font-weight: bold;\n}\n.moda{\n    display: block !important; /* I added this to see the modal, you don't need this */\n}\n/* Important part */\n.modal-dialo{\n    overflow-y: initial !important\n}\n.modal-bod{\n    height: 60vh;\n    overflow-y: auto;\n    margin: 10px 30px 10px 30px\n}\n.color{\n      color:red;\n}\n@media(min-width:600px){\n.btnagregar{\n          margin-top: 2rem;\n}\n}\n.totalresultado{\n      background-color:#CEECF5;\n}\n.validaridArticulo{\n      color: red;\n      font-weight: 600;\n}\n.negritatitle{\n      font-weight: 500;\n}\n* {\n    font-size: 14px;\n  font-family: Arial, Helvetica, sans-serif;\n}\ntd,\nth,\ntr,\ntable {\n    border-top: 1px solid black;\n    border-collapse: collapse;\n}\ntd.producto,\nth.producto {\n    width: 75px;\n    max-width: 75px;\n}\ntd.cantidad,\nth.cantidad {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\ntd.precio,\nth.precio {\n    width: 40px;\n    max-width: 40px;\n    word-break: break-all;\n}\n.centrado {\n    text-align: initial;\n    align-content: center;\n}\n.ticket {\n    width: 155px;\n    max-width: 155px;\n}\nimg {\n    max-width: inherit;\n    width: inherit;\n}\n@media print {\n.oculto-impresion,\n    .oculto-impresion * {\n        display: none !important;\n}\n}\n\n\n\n", ""]);
 
 // exports
 
@@ -70890,7 +70986,19 @@ var render = function() {
                                     [_c("i", { staticClass: "icon-eye" })]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(3, true),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-dark btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.showModalCopy(venta)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "icon-doc" })]
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "button",
@@ -71602,7 +71710,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(4),
+                          _vm._m(3),
                           _vm._v(" "),
                           _vm.arrayDetalleVenta.length
                             ? _c(
@@ -71792,7 +71900,7 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(5),
+                                    _vm._m(4),
                                     _vm._v(" "),
                                     _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
@@ -71807,7 +71915,7 @@ var render = function() {
                                   ]),
                                   _vm._v(" "),
                                   _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(6),
+                                    _vm._m(5),
                                     _vm._v(" "),
                                     _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
@@ -71824,7 +71932,7 @@ var render = function() {
                                   ]),
                                   _vm._v(" "),
                                   _c("tr", { staticClass: "totalresultado" }, [
-                                    _vm._m(7),
+                                    _vm._m(6),
                                     _vm._v(" "),
                                     _c("td", { attrs: { colspan: "2" } }, [
                                       _vm._v(
@@ -71840,7 +71948,7 @@ var render = function() {
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(8)])
+                            : _c("tbody", [_vm._m(7)])
                         ]
                       )
                     ]),
@@ -72036,7 +72144,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(9),
+                          _vm._m(8),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -72089,7 +72197,7 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(10),
+                                _vm._m(9),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -72107,7 +72215,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(11),
+                                _vm._m(10),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -72124,7 +72232,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("tr", { staticClass: "totalresultado" }, [
-                                _vm._m(12),
+                                _vm._m(11),
                                 _vm._v(" "),
                                 _c("td", { attrs: { colspan: "2" } }, [
                                   _vm._v(
@@ -72325,7 +72433,7 @@ var render = function() {
                       staticClass: "table table-bordered table-striped table-sm"
                     },
                     [
-                      _vm._m(13),
+                      _vm._m(12),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -72511,7 +72619,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("table", { staticClass: "table table-bordered" }, [
-                  _vm._m(14),
+                  _vm._m(13),
                   _vm._v(" "),
                   _c("tbody", [
                     _c("tr", [
@@ -72854,6 +72962,197 @@ var render = function() {
       "div",
       {
         staticClass: "modal fade",
+        class: { mostrar: _vm.ticketcopy },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-bod" }, [
+                _c(
+                  "div",
+                  { staticClass: "ticket" },
+                  [
+                    _c("img", {
+                      attrs: {
+                        src:
+                          "https://licoreselflaco.com/img/company/2021-11-03%2013:21:29licoreselflaco.jpg",
+                        alt: "Logotipo"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("p", {
+                      domProps: {
+                        textContent: _vm._s(
+                          "# " +
+                            _vm.id_ticket +
+                            "\n FACT: " +
+                            _vm.usuarioFacturador +
+                            " \nCLIENTE:  " +
+                            _vm.usuario_cliente +
+                            " \n " +
+                            _vm.copyfechatherma
+                        )
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("table", [
+                      _vm._m(14),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.arrayDetalleVenta, function(det) {
+                          return _c("tr", { key: det.id }, [
+                            _c("td", {
+                              staticClass: "cantidad",
+                              domProps: { textContent: _vm._s(det.cantidad) }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              staticClass: "producto",
+                              domProps: {
+                                textContent: _vm._s(
+                                  det.articulo.substring(0, 6)
+                                )
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              staticClass: "precio",
+                              domProps: {
+                                textContent: _vm._s(parseInt(det.precio))
+                              }
+                            })
+                          ])
+                        }),
+                        0
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        staticClass: "centrado",
+                        domProps: {
+                          textContent: _vm._s(
+                            "Total  $  " +
+                              Intl.NumberFormat().format(_vm.total) +
+                              "\n " +
+                              _vm.tipo_comprobante +
+                              "   \nEfectivo: " +
+                              Intl.NumberFormat().format(
+                                this.formapagoventa.efectivo
+                              ) +
+                              " \nCredito: " +
+                              Intl.NumberFormat().format(
+                                this.formapagoventa.credito
+                              ) +
+                              " \nTransferencia: " +
+                              Intl.NumberFormat().format(
+                                this.formapagoventa.transferencia
+                              ) +
+                              " \nDatafono: " +
+                              Intl.NumberFormat().format(
+                                this.formapagoventa.datafono
+                              ) +
+                              "  "
+                          )
+                        }
+                      },
+                      [_c("br"), _vm._v("tenderpos.xyz")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FONT",
+                      {
+                        attrs: {
+                          FACE: "raro, courier",
+                          SIZE: "1",
+                          COLOR: "black"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                          Obs: " +
+                            _vm._s(_vm.num_comprobante_pago)
+                        )
+                      ]
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "FONT",
+                      {
+                        attrs: {
+                          FACE: "raro, courier",
+                          SIZE: "1",
+                          COLOR: "black"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                          ¡Gracias por su compra!  Tenderpos 3008494255"
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [_vm._v("Cerrar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-dark",
+                    on: {
+                      click: function($event) {
+                        return _vm.imprimir()
+                      }
+                    }
+                  },
+                  [_vm._v("Imprimir")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
         class: { mostrar: _vm.ticket },
         staticStyle: { display: "none" },
         attrs: {
@@ -72875,105 +73174,138 @@ var render = function() {
               _c("div", { staticClass: "modal-header" }),
               _vm._v(" "),
               _c("div", { staticClass: "modal-bod" }, [
-                _c("div", { staticClass: "ticket" }, [
-                  _c("img", {
-                    attrs: {
-                      src:
-                        "https://licoreselflaco.com/img/company/2021-11-03%2013:21:29licoreselflaco.jpg",
-                      alt: "Logotipo"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("p", {
-                    domProps: {
-                      textContent: _vm._s(
-                        "# " +
-                          _vm.id_ticket +
-                          "\n FACT: " +
-                          _vm.usuarioFacturador +
-                          " \nCLIENTE:  " +
-                          _vm.usuario_cliente +
-                          " \n " +
-                          _vm.currentDay +
-                          " " +
-                          _vm.currentHour
-                      )
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("table", [
-                    _vm._m(15),
+                _c(
+                  "div",
+                  { staticClass: "ticket" },
+                  [
+                    _c("img", {
+                      attrs: {
+                        src:
+                          "https://licoreselflaco.com/img/company/2021-11-03%2013:21:29licoreselflaco.jpg",
+                        alt: "Logotipo"
+                      }
+                    }),
                     _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.arrayDetalleVenta, function(det) {
-                        return _c("tr", { key: det.id }, [
-                          _c("td", {
-                            staticClass: "cantidad",
-                            domProps: { textContent: _vm._s(det.cantidad) }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            staticClass: "producto",
-                            domProps: {
-                              textContent: _vm._s(det.articulo.substring(0, 6))
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            staticClass: "precio",
-                            domProps: {
-                              textContent: _vm._s(parseInt(det.precio))
-                            }
-                          })
-                        ])
-                      }),
-                      0
-                    )
-                  ]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    {
-                      staticClass: "centrado",
+                    _c("p", {
                       domProps: {
                         textContent: _vm._s(
-                          "Total  $  " +
-                            Intl.NumberFormat().format(_vm.total) +
-                            "\n " +
-                            _vm.tipo_comprobante +
-                            "   \nEfectivo: " +
-                            Intl.NumberFormat().format(
-                              this.formapagoventa.efectivo
-                            ) +
-                            " \nCredito: " +
-                            Intl.NumberFormat().format(
-                              this.formapagoventa.credito
-                            ) +
-                            " \nTransferencia: " +
-                            Intl.NumberFormat().format(
-                              this.formapagoventa.transferencia
-                            ) +
-                            " \nDatafono: " +
-                            Intl.NumberFormat().format(
-                              this.formapagoventa.datafono
-                            ) +
-                            "  "
+                          "# " +
+                            _vm.id_ticket +
+                            "\n FACT: " +
+                            _vm.usuarioFacturador +
+                            " \nCLIENTE:  " +
+                            _vm.usuario_cliente +
+                            " \n " +
+                            _vm.currentDay +
+                            " " +
+                            _vm.currentHour
                         )
                       }
-                    },
-                    [_c("br"), _vm._v("tenderpos.xyz")]
-                  ),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "centrado" }, [
-                    _c("b", [
-                      _vm._v("Obs: " + _vm._s(_vm.num_comprobante_pago) + " ")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(16)
-                ])
+                    }),
+                    _vm._v(" "),
+                    _c("table", [
+                      _vm._m(15),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.arrayDetalleVenta, function(det) {
+                          return _c("tr", { key: det.id }, [
+                            _c("td", {
+                              staticClass: "cantidad",
+                              domProps: { textContent: _vm._s(det.cantidad) }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              staticClass: "producto",
+                              domProps: {
+                                textContent: _vm._s(
+                                  det.articulo.substring(0, 6)
+                                )
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              staticClass: "precio",
+                              domProps: {
+                                textContent: _vm._s(parseInt(det.precio))
+                              }
+                            })
+                          ])
+                        }),
+                        0
+                      )
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        staticClass: "centrado",
+                        domProps: {
+                          textContent: _vm._s(
+                            "Total  $  " +
+                              Intl.NumberFormat().format(_vm.total) +
+                              "\n " +
+                              _vm.tipo_comprobante +
+                              "   \nEfectivo: " +
+                              Intl.NumberFormat().format(
+                                this.formapagoventa.efectivo
+                              ) +
+                              " \nCredito: " +
+                              Intl.NumberFormat().format(
+                                this.formapagoventa.credito
+                              ) +
+                              " \nTransferencia: " +
+                              Intl.NumberFormat().format(
+                                this.formapagoventa.transferencia
+                              ) +
+                              " \nDatafono: " +
+                              Intl.NumberFormat().format(
+                                this.formapagoventa.datafono
+                              ) +
+                              "  "
+                          )
+                        }
+                      },
+                      [_c("br"), _vm._v("tenderpos.xyz")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FONT",
+                      {
+                        attrs: {
+                          FACE: "raro, courier",
+                          SIZE: "1",
+                          COLOR: "black"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                            Obs: " +
+                            _vm._s(_vm.num_comprobante_pago)
+                        )
+                      ]
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "FONT",
+                      {
+                        attrs: {
+                          FACE: "raro, courier",
+                          SIZE: "1",
+                          COLOR: "black"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                            ¡Gracias por su compra!  Tenderpos 3008494255"
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
@@ -72994,7 +73326,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "oculto-impresion",
+                    staticClass: "btn btn-dark",
                     on: {
                       click: function($event) {
                         return _vm.imprimir()
@@ -73065,16 +73397,6 @@ var staticRenderFns = [
         _c("th", { attrs: { colspan: "3" } }, [_vm._v("Opciones")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-dark btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "icon-doc" })]
-    )
   },
   function() {
     var _vm = this
@@ -73228,11 +73550,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "centrado" }, [
-      _c("b", [_vm._v("¡Gracias por su compra!")]),
-      _vm._v(" "),
-      _c("br"),
-      _c("b", [_vm._v("Tenderpos 3008494255")])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "cantidad" }, [_vm._v("Cant")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "producto" }, [_vm._v("Produc")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "precio" }, [_vm._v("$$$")])
+      ])
     ])
   }
 ]

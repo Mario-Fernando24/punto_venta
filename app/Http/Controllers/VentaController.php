@@ -27,10 +27,10 @@ class VentaController extends Controller
         $criterio = $request->criterio;
 
          if($buscar==''){
-            $venta = Venta::with('cliente_persona','usuario_hizola_venta','formaspago')->orderBy('id', 'DESC')->paginate(10);
+            $venta = Venta::with('cliente_persona','usuario_hizola_venta','formaspago','DetalleVenta.articulo_Detalle_Venta')->orderBy('id', 'DESC')->paginate(10);
 
          }else{ 
-            $venta = Venta::with('cliente_persona','usuario_hizola_venta','formaspago')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+            $venta = Venta::with('cliente_persona','usuario_hizola_venta','formaspago','DetalleVenta.articulo_Detalle_Venta')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
          }
 
         return [

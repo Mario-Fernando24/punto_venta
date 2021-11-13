@@ -100,7 +100,7 @@
                                                     </button>
                                                     
                                                     
-                                                    <button type="button" class="btn btn-dark btn-sm" >
+                                                    <button type="button" class="btn btn-dark btn-sm" @click="showModalCopy(venta)" >
                                                     <i class="icon-doc"></i>
                                                     </button>
 
@@ -704,6 +704,71 @@
             <!--  final modal  -->
 
 
+            
+
+
+
+            <!--copia de ticker--->
+
+            <div class="modal fade"  tabindex="-1" :class="{'mostrar':ticketcopy}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+              <div class="modal-dialog modal-primary"  role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                      </div>                
+                      <div class="modal-bod">
+
+                                  <div class="ticket">
+                                      <img  src="https://licoreselflaco.com/img/company/2021-11-03%2013:21:29licoreselflaco.jpg" alt="Logotipo">
+                                      <p v-text=" '# '+id_ticket  +'\n FACT: '+usuarioFacturador+ ' \nCLIENTE:  '+usuario_cliente+' \n '+copyfechatherma"></p>      
+
+                                      <table>
+                                          <thead>
+                                              <tr>
+                                                  <th class="cantidad">Cant</th>
+                                                  <th class="producto">Produc</th>
+                                                  <th class="precio">$$$</th>
+                                              </tr>
+                                          </thead>
+                                          
+                                          <tbody>
+                                              <tr v-for="det in arrayDetalleVenta" :key="det.id">
+                                                  <td class="cantidad" v-text="det.cantidad"></td>
+                                                  <td class="producto" v-text="det.articulo.substring(0,6)"></td>
+                                                  <td class="precio" v-text="parseInt(det.precio)"></td>
+                                              </tr>
+                                          </tbody>
+                                      </table><br>
+
+                                      <p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   \nEfectivo: '+Intl.NumberFormat().format(this.formapagoventa.efectivo)+' \nCredito: '+Intl.NumberFormat().format(this.formapagoventa.credito)+' \nTransferencia: '+Intl.NumberFormat().format(this.formapagoventa.transferencia)+' \nDatafono: '+Intl.NumberFormat().format(this.formapagoventa.datafono)+'  '">
+                                          <br>tenderpos.xyz</p>
+
+                                          <FONT FACE="raro, courier" SIZE=1 COLOR="black">
+                                          Obs: {{num_comprobante_pago}}</FONT><br>
+                                         
+                                          
+                                          <FONT FACE="raro, courier" SIZE=1 COLOR="black">
+                                          ¡Gracias por su compra!  Tenderpos 3008494255</FONT>
+                                         
+                                  </div>
+                      </div>   
+
+
+                      
+
+                      <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
+                          <button class="btn btn-dark" @click="imprimir()" >Imprimir</button>
+                      </div>
+
+                  </div>
+              </div>
+              </div>
+
+
+
+            <!---final de la copia del ticked------->
+
+
 
                     <!--inicio modal imprimir ticken-->
 
@@ -738,10 +803,14 @@
 
                                         <p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   \nEfectivo: '+Intl.NumberFormat().format(this.formapagoventa.efectivo)+' \nCredito: '+Intl.NumberFormat().format(this.formapagoventa.credito)+' \nTransferencia: '+Intl.NumberFormat().format(this.formapagoventa.transferencia)+' \nDatafono: '+Intl.NumberFormat().format(this.formapagoventa.datafono)+'  '">
                                             <br>tenderpos.xyz</p>
-                                            <p class="centrado"><b>Obs: {{num_comprobante_pago}} </b> </p>
-
-                                            <p class="centrado"><b>¡Gracias por su compra!</b> <br><b>Tenderpos 3008494255</b></p>
-
+                                         
+                                            <FONT FACE="raro, courier" SIZE=1 COLOR="black">
+                                            Obs: {{num_comprobante_pago}}</FONT><br>
+                                           
+                                            
+                                            <FONT FACE="raro, courier" SIZE=1 COLOR="black">
+                                            ¡Gracias por su compra!  Tenderpos 3008494255</FONT>
+                                           
                                     </div>
                         </div>   
 
@@ -750,7 +819,7 @@
 
                         <div class="modal-footer">
                              <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button class="oculto-impresion" @click="imprimir()" >Imprimir</button>
+                            <button class="btn btn-dark" @click="imprimir()" >Imprimir</button>
                         </div>
 
                     </div>
@@ -759,9 +828,6 @@
             </div> 
 
             <!--final modal imprimir ticken -->
-
-
-
 
         </main>
 </template>
@@ -859,6 +925,10 @@ import vSelect from "vue-select";
              id_ticket:0,
              usuarioFacturador:'',
              usuario_cliente:'',
+
+             ticketcopy:0,
+             vectorTicked:[],
+             copyfechatherma:'',
           }
         },
          components: {
@@ -1421,10 +1491,50 @@ import vSelect from "vue-select";
                     this.ticket=0;
                      window.print();
                 },
+  //<p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   \nEfectivo: '+Intl.NumberFormat().format(this.formapagoventa.efectivo)+' \nCredito: '+Intl.NumberFormat().format(this.formapagoventa.credito)+' \nTransferencia: '+Intl.NumberFormat().format(this.formapagoventa.transferencia)+' \nDatafono: '+Intl.NumberFormat().format(this.formapagoventa.datafono)+'  '">
+
+                showModalCopy(venta){
+
+                    let me=this;
+                    me.arrayDetalleVenta=[];
+
+                    console.log(venta);
+                    this.vectorTicked.push(venta);
+                    this.ticketcopy=1;
+                    this.id_ticket=venta.id;
+                    this.usuarioFacturador=venta.usuario_hizola_venta.usuario;
+                    this.usuario_cliente=venta.cliente_persona.nombre+' '+venta.cliente_persona.tipo_documento+' '+venta.cliente_persona.num_documento +' DIR:'+ venta.cliente_persona.direccion+' TEL: '+venta.cliente_persona.telefono;
+                    this.copyfechatherma=venta.created_at;
+                    this.num_comprobante_pago=venta.num_comprobante_pago;
+                    this.formapagoventa.efectivo=venta.formaspago.efectivo;
+                    this.formapagoventa.credito=venta.formaspago.credito;
+                    this.formapagoventa.transferencia=venta.formaspago.tranferencia;
+                    this.formapagoventa.datafono=venta.formaspago.datafono;
+
+                    venta.detalle_venta.map(function(x){
+                        me.arrayDetalleVenta.push({
+                            idarticulo:x.idarticulo,
+                            articulo: x.articulo__detalle__venta.nombre,
+                            cantidad : x.cantidad,
+                            precio: x.precio,
+                            descuento:x.descuento,
+                            });
+                        
+                    });
+              },
+
+
+
+              //metodo para cerrar el modal
+              cerrarModal(){
+                },
+
+
 
                 //metodo para cerrar el modal
                 cerrarModal(){
                     this.ticket=0;
+                    this.ticketcopy=0;
                     this.modal=0;
                     this.tituloModal='';
                     this.modalPago=0;
@@ -1510,7 +1620,7 @@ import vSelect from "vue-select";
 }
 
 .modal-content{
-    width: 100% !important;
+    width: 60% !important;
     position: absolute!important;
 }
   .mostrar{
