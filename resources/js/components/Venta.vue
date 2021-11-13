@@ -39,7 +39,7 @@
                                         <option value="id">Id</option>
                                         <option value="fecha_hora">Fecha-Hora</option>
                                         </select>
-                                        <input type="text" v-model="buscar" @keyup.enter="listaVenta(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
+                                        <input type="text" v-model="buscar"  @keyup.enter="listaVenta(1,buscar,criterio)"  class="form-control" placeholder="Buscar...">
                                         <button type="submit" @click="listaVenta(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                     </div>
                                 </div>
@@ -97,7 +97,12 @@
                                                     <td>
                                                     <button type="button" class="btn btn-success btn-sm" @click="verDetalleVenta(venta.id)">
                                                     <i class="icon-eye"></i>
-                                                    </button> 
+                                                    </button>
+                                                    
+                                                    
+                                                    <button type="button" class="btn btn-dark btn-sm" >
+                                                    <i class="icon-doc"></i>
+                                                    </button>
 
 
                                                     <button type="button" class="btn btn-info btn-sm" @click="descargarventa(venta.id)">
@@ -700,11 +705,6 @@
 
 
 
-
-
-
-
-
                     <!--inicio modal imprimir ticken-->
 
               <div class="modal fade"  tabindex="-1" :class="{'mostrar':ticket}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
@@ -738,8 +738,9 @@
 
                                         <p class="centrado" v-text="'Total  $  '+Intl.NumberFormat().format((total)) +'\n '+tipo_comprobante+'   \nEfectivo: '+Intl.NumberFormat().format(this.formapagoventa.efectivo)+' \nCredito: '+Intl.NumberFormat().format(this.formapagoventa.credito)+' \nTransferencia: '+Intl.NumberFormat().format(this.formapagoventa.transferencia)+' \nDatafono: '+Intl.NumberFormat().format(this.formapagoventa.datafono)+'  '">
                                             <br>tenderpos.xyz</p>
+                                            <p class="centrado"><b>Obs: {{num_comprobante_pago}} </b> </p>
 
-                                            <p class="centrado"><b>¡Gracias por su compra Tenderpos!</b></p>
+                                            <p class="centrado"><b>¡Gracias por su compra!</b> <br><b>Tenderpos 3008494255</b></p>
 
                                     </div>
                         </div>   
@@ -986,7 +987,7 @@ import vSelect from "vue-select";
                     let me = this;
                         me.loading = true;
                         me.idcliente = val1.id;
-                        me.usuario_cliente=val1.nombre+'  '+val1.tipo_documento+'  '+val1.num_documento;
+                        me.usuario_cliente=val1.nombre+'  '+val1.tipo_documento+'  '+val1.num_documento +' DIR: '+val1.direccion+' TEL: '+val1.telefono;
                   },
 
 
@@ -1081,8 +1082,6 @@ import vSelect from "vue-select";
                                 this.precio=0;
                                 this.descuento=0;
                                 this.stock=0;
-
-                             
                             }
 
 
@@ -1187,7 +1186,6 @@ import vSelect from "vue-select";
                             
                         })
                         .then(function (response) {
-
 
                             me.cerrarModal();
                             me.listado=1;                            

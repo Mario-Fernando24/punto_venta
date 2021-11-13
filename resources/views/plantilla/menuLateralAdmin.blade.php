@@ -106,7 +106,7 @@
                             </li>
 
                             <li @click="menu=25" class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-chart"></i> Informes</a>
+                                <a class="nav-link" href="#"><i class="icon-chart"></i> Informes ventas</a>
                             </li>
                             
 <!--                             

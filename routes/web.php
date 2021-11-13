@@ -288,13 +288,12 @@
 
 
           Route::prefix('informe')->group(function() {
-            Route::get('showInformeVentas', 'Ajuste\InformesController@showInformeVentas');
-            Route::get('ventaPorCliente', 'Ajuste\InformesController@ventaPorCliente');
+            Route::get('ventasPorCategoria', 'Ajuste\InformesController@ventasPorCategoria');
+            Route::get('ventaPorFecha', 'Ajuste\InformesController@ventaPorFecha');
             Route::get('ventasPorProducto', 'Ajuste\InformesController@ventasPorProducto');
+            Route::get('ListarArticuloVenta', 'Ajuste\InformesController@ListarArticuloVenta');
+
           });
-
-        
-
         
              
     });  //and middleware administrador
