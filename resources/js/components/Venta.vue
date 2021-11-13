@@ -1620,7 +1620,7 @@ import vSelect from "vue-select";
 }
 
 .modal-content{
-    width: 60% !important;
+    width: 55% !important;
     position: absolute!important;
 }
   .mostrar{

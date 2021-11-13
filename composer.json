@@ -10,10 +10,11 @@
     "require": {
         "php": "^7.2",
         "barryvdh/laravel-dompdf": "^0.8.7",
+        "biscolab/laravel-recaptcha": "^4.1",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.18.35",
-        "s-ichikawa/laravel-sendgrid-driver": "^2.1",
         "laravel/tinker": "^2.0",
+        "s-ichikawa/laravel-sendgrid-driver": "^2.1",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
