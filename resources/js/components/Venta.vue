@@ -601,9 +601,13 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-primary" @click="registrarVenta()">Guardar</button>
+                            <img v-if="isLoaded==true" src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" alt="logo" width="220" height="110">
+                            <div v-if="isLoaded==false">
 
+                            <button type="button" v-if="isLoaded==false" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
+                            <button type="button" v-if="tipoAccionButton==1 && isLoaded==false"  class="btn btn-primary" @click="registrarVenta()">Guardar</button>
+                          
+                            </div>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -872,6 +876,7 @@ import vSelect from "vue-select";
             tipoAccionButton : 0,
             errorVenta : 0,
             errorMensajearrayVenta : [],
+            isLoaded: false,
 
 
             formapagoventa:{
@@ -929,6 +934,7 @@ import vSelect from "vue-select";
              ticketcopy:0,
              vectorTicked:[],
              copyfechatherma:'',
+             contadorval:0,
           }
         },
          components: {
@@ -1241,7 +1247,31 @@ import vSelect from "vue-select";
                             return ;
                         }
 
+
+
                         let me=this;
+
+
+                        me.contadorval++;
+                        if(me.contadorval>=2){
+
+                            me.cerrarModal();
+                            me.listado=1;  
+                            Swal.fire(
+                            'Correcto!',
+                            'Venta realizada correctamente', 
+                            'success'
+                            ) 
+
+                            me.listaVenta(1,'','num_comprobante_pago');
+
+
+                            return ;
+
+                        }
+
+                        me.isLoaded = true;
+
                         axios.post('/ventas/registrar', {
                             'idcliente':  this.idcliente,
                             'tipo_comprobante': this.tipo_comprobante,
@@ -1256,6 +1286,7 @@ import vSelect from "vue-select";
                             
                         })
                         .then(function (response) {
+                            me.isLoaded = false;
 
                             me.cerrarModal();
                             me.listado=1;                            
@@ -1615,12 +1646,19 @@ import vSelect from "vue-select";
 
 
 .modal-contentt{
-    width: 50% !important;
+    width: 100% !important;
     position: absolute!important;
 }
 
 .modal-content{
-    width: 55% !important;
+    
+    width: 100% !important;
+    position: absolute!important;
+}
+
+
+.modal-contentmarop{
+    width: 100% !important;
     position: absolute!important;
 }
   .mostrar{
@@ -1653,6 +1691,8 @@ import vSelect from "vue-select";
     height: 60vh;
     overflow-y: auto;
     margin: 10px 30px 10px 30px
+
+    
 }
 
 

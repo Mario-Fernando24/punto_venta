@@ -238,8 +238,8 @@
                             <img v-if="isLoaded==true" src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" alt="logo" width="220" height="110">
                             <div v-if="isLoaded==false">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary"  @click="registrarUsuario()">Guardar</button>
-                            <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-primary" @click="actualizarUsuario()">Actualizar</button>
+                            <button type="button" v-if="tipoAccionButton==1 && isLoaded==false" class="btn btn-outline-primary"  @click="registrarUsuario()">Guardar</button>
+                            <button type="button" v-if="tipoAccionButton==2 && isLoaded==false" class="btn btn-outline-primary" @click="actualizarUsuario()">Actualizar</button>
                             </div>
 
                         </div>
@@ -387,10 +387,9 @@
                   if(this.validarUsuario()){
                       return ;
                   }
-
-                this.isLoaded = true;
-
                   let me=this;
+                  me.isLoaded = true;
+
                   axios.post('/user/registrar', {
                     'nombre':  this.nombre,
                     'tipo_documento': this.tipo_documento,
@@ -404,6 +403,8 @@
 
                 })
                 .then(function (response) {
+                    me.isLoaded = false;
+
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarUsuario(1,'','nombre');
@@ -422,6 +423,8 @@
                       return ;
                   }
                   let me=this;
+                  me.isLoaded = true;
+
                   axios.put('/user/actualizar', {
                     'nombre':  this.nombre,
                     'tipo_documento': this.tipo_documento,
@@ -435,6 +438,8 @@
                     'id' :this.usuario_id,     
                 })
                 .then(function (response) {
+                    me.isLoaded = false;
+
                     me.cerrarModal();
                     //le mandamos 3 parametro 1: la primera pagina, '':buscar vacio, nombre: criterio
                     me.listarUsuario(1,'','nombre');
