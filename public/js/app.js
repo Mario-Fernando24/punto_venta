@@ -6430,6 +6430,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //axios nos ayuda hacer peticiones http desde el navegador
 /* harmony default export */ __webpack_exports__["default"] = ({
   //dentro de la data colocamos las variables 
@@ -6504,6 +6506,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arraCredito = respuesta.credito.data;
+        console.log(me.arraCredito);
         me.pagination = respuesta.pagination;
       })["catch"](function (error) {
         console.log(error);
@@ -61608,65 +61611,89 @@ var render = function() {
                     _c(
                       "tbody",
                       _vm._l(_vm.arraCredito, function(credito) {
-                        return _c("tr", { key: credito.id }, [
-                          _c("td", {
-                            domProps: { textContent: _vm._s(credito.idVenta) }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: {
-                              textContent: _vm._s(
-                                credito.cliente_credito.nombre
-                              )
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: { textContent: _vm._s(credito.deuda) }
-                          }),
-                          _vm._v(" "),
-                          _c("td", [
-                            credito.estado == 0
-                              ? _c("div", [
-                                  _c(
-                                    "span",
-                                    { staticClass: "badge badge-danger" },
-                                    [_vm._v("Debe")]
-                                  )
-                                ])
-                              : _c("div", [
-                                  _c(
-                                    "span",
-                                    { staticClass: "badge badge-success" },
-                                    [_vm._v("Pagado")]
-                                  )
-                                ])
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-outline-success btn-sm",
-                                attrs: {
-                                  type: "button",
-                                  "data-toggle": "modal"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.abrirModal(
-                                      "credito",
-                                      "abonar",
-                                      credito
+                        return _c(
+                          "tr",
+                          { key: credito.id },
+                          [
+                            credito.venta_credito.estado == "registrado"
+                              ? [
+                                  _c("td", {
+                                    domProps: {
+                                      textContent: _vm._s(credito.idVenta)
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("td", {
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        credito.cliente_credito.nombre
+                                      )
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("td", {
+                                    domProps: {
+                                      textContent: _vm._s(credito.deuda)
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    credito.estado == 0
+                                      ? _c("div", [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "badge badge-danger"
+                                            },
+                                            [_vm._v("Debe")]
+                                          )
+                                        ])
+                                      : _c("div", [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "badge badge-success"
+                                            },
+                                            [_vm._v("Pagado")]
+                                          )
+                                        ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-outline-success btn-sm",
+                                        attrs: {
+                                          type: "button",
+                                          "data-toggle": "modal"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.abrirModal(
+                                              "credito",
+                                              "abonar",
+                                              credito
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "icon-credit-card"
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(
+                                      "  \n                                "
                                     )
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "icon-credit-card" })]
-                            ),
-                            _vm._v("  \n                                ")
-                          ])
-                        ])
+                                  ])
+                                ]
+                              : _vm._e()
+                          ],
+                          2
+                        )
                       }),
                       0
                     )

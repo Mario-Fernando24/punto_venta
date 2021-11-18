@@ -53,6 +53,8 @@
                             </thead>
                             <tbody>
                                 <tr v-for="credito in arraCredito" :key="credito.id">
+                                
+                                <template v-if="credito.venta_credito.estado=='registrado'"> 
                                     
                                         <td v-text="credito.idVenta"></td>
                                         <td v-text="credito.cliente_credito.nombre"></td>
@@ -73,7 +75,7 @@
                                           <i class="icon-credit-card"></i> 
                                         </button> &nbsp;
                                     </td>
-
+                                  </template>   
                                 </tr>
                                 </tbody>
                         </table>
@@ -333,6 +335,7 @@
                   axios.get(url).then(function (response) {
                     var respuesta = response.data;
                     me.arraCredito = respuesta.credito.data;
+                    console.log(me.arraCredito);
                     me.pagination = respuesta.pagination;
                     })
                     .catch(function (error) {

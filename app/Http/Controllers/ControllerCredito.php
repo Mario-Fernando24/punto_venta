@@ -13,6 +13,8 @@ class ControllerCredito extends Controller
     {
 
      // if(!$request->ajax()){return redirect('/');}
+     
+    
 
       $buscar = $request->buscar;
       $criterio = $request->criterio;
