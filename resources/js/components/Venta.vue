@@ -1265,9 +1265,7 @@ import vSelect from "vue-select";
 
                             me.listaVenta(1,'','num_comprobante_pago');
 
-
                             return ;
-
                         }
 
                         me.isLoaded = true;
@@ -1287,7 +1285,7 @@ import vSelect from "vue-select";
                         })
                         .then(function (response) {
                             me.isLoaded = false;
-
+                            me.contadorval=0;
                             me.cerrarModal();
                             me.listado=1;                            
                             console.log(response.data.usuarioss);
