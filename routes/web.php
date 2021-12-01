@@ -292,6 +292,9 @@
             Route::get('ventaPorFecha', 'Ajuste\InformesController@ventaPorFecha');
             Route::get('ventasPorProducto', 'Ajuste\InformesController@ventasPorProducto');
             Route::get('ListarArticuloVenta', 'Ajuste\InformesController@ListarArticuloVenta');
+            Route::get('venta_product_date', 'Ajuste\InformesController@venta_product_date');
+
+            
 
           });
         

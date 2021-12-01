@@ -225,6 +225,7 @@
             offset : 3,
             criterio : 'tipo_egreso',
             buscar  : '',
+            validarButtonnn:false,
           }
         },
 
@@ -366,6 +367,7 @@
                       return ;
                   }
                   let me=this;
+                  me.validarButtonnn=true;
                   axios.post('/egreso/registerDocumentoCaja', {
                     'tipo_egreso':  this.tipo_egreso,
                     'valor_egreso': this.valor_egreso,
@@ -375,6 +377,7 @@
 
                       var respuesta=response.data;
                         if(respuesta.status=='ok'){
+                            me.validarButtonnn=false;
                             me.listarEgreso(1,'','nombre');
                             me.cerrarModal();
                             Swal.fire(

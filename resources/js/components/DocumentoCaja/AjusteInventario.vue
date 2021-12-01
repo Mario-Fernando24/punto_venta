@@ -149,8 +149,8 @@
 
                         <div class="form-group row" v-if="ArrayDetalleAjusteProductos.length">
                            <div class="col-md-12">
-                              <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-success" @click="AjusteInventarioEntra()">Entran al inventario</button>
-                              <button type="button" v-if="tipoAccionButton==2" class="btn btn-outline-danger" @click="AjusteInventarioSale()">Salen del inventario</button>
+                              <button type="button" :disabled='validarButtonnn' v-if="tipoAccionButton==1" class="btn btn-outline-success" @click="AjusteInventarioEntra()">Entran al inventario</button>
+                              <button type="button" :disabled='validarButtonnn' v-if="tipoAccionButton==2" class="btn btn-outline-danger" @click="AjusteInventarioSale()">Salen del inventario</button>
 
                            </div>
                         </div>
@@ -534,6 +534,8 @@
             offset : 3,
             criterio : 'id',
             buscar  : '',
+            validarButtonnn:false,
+
 
 
           }
@@ -781,6 +783,8 @@
                     //  if(this.motivo){return ;}
 
                         let me=this;
+                        me.validarButtonnn=true;
+
                         axios.post('/inventario/ajusteInventarioSale', {
                             'motivo': this.motivo,
                             'impuesto': this.impuesto,
@@ -792,6 +796,8 @@
 
                          var respuesta=response.data;
                         if(respuesta.status=='ok'){
+                            me.validarButtonnn=false;
+
                             me.vaciarVariables();
 
                             Swal.fire(
@@ -816,6 +822,8 @@
                     //  if(this.motivo){return ;}
 
                         let me=this;
+                        me.validarButtonnn=true;
+
                         axios.post('/inventario/ajusteInventarioEntra', {
                             'motivo': this.motivo,
                             'impuesto': this.impuesto,
@@ -825,9 +833,11 @@
                         .then(function (response) {
 
 
-                         var respuesta=response.data;
+                        var respuesta=response.data;
+                        
                         if(respuesta.status=='ok'){
                             me.vaciarVariables();
+                            me.validarButtonnn=false;
 
                             Swal.fire(
                             'Exitoso (+)?',

@@ -88,4 +88,37 @@ class InformesController extends Controller
         'clietes' => $clietes
       ], 200);
     }
+
+
+    public function venta_product_date(Request $request){
+      //costeñita id 6
+
+      $start = $request->fromm;
+      $endd = $request->tooomar;
+      $idProd = $request->idProduct;
+
+
+
+
+      if($start=='' || $endd=='' ){
+        return 'esta vacio';
+        $venta_product_date=Venta::with('cliente_persona','usuario_hizola_venta','formaspago','DetalleVenta.articulo_Detalle_Venta')->where('estado','registrado')
+        ->get();
+
+      }else{
+        $Venta_product_date=Venta::with('cliente_persona','usuario_hizola_venta','formaspago','DetalleVenta.articulo_Detalle_Venta')
+        ->where('estado','registrado')
+        ->get();
+
+      }
+
+
+
+      return response()->json([
+        'status' => true,
+        'idProd'=>$idProd,
+        'venta_product_date' => $venta_product_date,
+      ], 200);    
+    
+    }
 }

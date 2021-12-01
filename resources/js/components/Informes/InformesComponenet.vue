@@ -18,6 +18,12 @@
             </button>
 
 
+
+            <button type="button" @click="itemm('informe','3')"   class="btn btn-dark">
+            <i class="icon-eye"></i>&nbsp;Venta x producto & fecha
+            </button>
+
+
         </div>
 
         <div class="card-body">
@@ -156,8 +162,30 @@
 
         </template>
 
+
+        
         <template v-if="itempage==3">
-        <h1>TERCERAAAAAAAAAAA</h1>
+
+        <div class="col-md-4">
+
+        <label class="col-md-12 form-control-label text-negrita" for="text-input"><i class="fa fa-align-justify"></i>&nbsp;Seleccione producto</label>
+        <select class="form-control" v-model="id_productothree" >
+        <option value="0">Seleccione producto</option>
+        <option v-for="informeee in  ListararrayArticulo" :key="informeee.id" :value="informeee.id" v-text="informeee.nombre"></option>
+        </select>
+    </div>
+    
+
+    
+        <div class="card-header">
+        <h4><b>Venta rango de fechas</b></h4>
+         <div class="card-header">
+                   <p><i class="fa fa-align-justify"></i> 
+                   Desde  <input type="date"  v-model="dateethree.start">       Hasta  <input type="date" v-model="dateethree.endd" >
+                   &nbsp;<button type="submit" @click="consultarVentaProductDate(dateethree.start,dateethree.endd,id_productothree)"      class="btn btn-primary">
+                   <i class="fa fa-search"></i> Buscar</button></p>
+         </div>
+       </div>
         </template>
 
    
@@ -204,6 +232,17 @@
            },
            arrayVentaFecha:[],
            arraydetallePorFecha:[],
+
+
+           // paginate 3
+           dateethree:{
+            start:'',
+            endd:''
+            },
+            id_productothree:0,
+            arrayproductoThree:[],
+
+            
            
 
                 
@@ -330,6 +369,9 @@
                         this.itempage=2;
                         break;
                         }  
+                        case '3':
+                          this.itempage=3;
+                        break;
                        
                             
                     } 
@@ -366,6 +408,23 @@
                 id_producto=0; 
                 id_cliente=0;
               },
+
+
+              //tercera paginate
+              consultarVentaProductDate(fromm, to, idProduct){
+                let me=this;
+                
+                var url= '/informe/venta_product_date?fromm=' + me.dateethree.start + '&tooomar=' + me.dateethree.endd+ '&idProduct=' + idProduct;
+
+                axios.get(url).then(function (response) {
+                  var respuesta = response.data;
+                  console.log(respuesta);
+
+                  })
+                  .catch(function (error) {
+                      console.log(error);
+                  });                return ;
+              }
 
 
          },

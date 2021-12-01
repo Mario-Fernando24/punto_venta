@@ -240,7 +240,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="abonarCredito()">Guardar</button>
+                            <button type="button" :disabled='validarButton'  v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="abonarCredito()">Guardar</button>
 
                         </div>
                     </div>
@@ -293,6 +293,7 @@
             offset : 3,
             criterio : 'nombre',
             buscar  : '',
+            validarButton:false,
           }
         },
 
@@ -366,6 +367,7 @@
                     else{
                        creditoPagado=0;
                     }
+                    me.validarButton=true;
                   axios.post('/credito/abonarCredito', {
                     'montoAbonar':  this.montoAbonar,
                     'observacionAbono': this.observacionAbono,
@@ -378,6 +380,7 @@
 
                       var respuesta=response.data;
                         if(respuesta.status=='ok'){
+                            me.validarButton=false;
 
                             me.cerrarModal();
                             me.listaCategoria(1,'','nombre');
