@@ -173,7 +173,6 @@
                                 <td>{{$ajuste->cantidad_quedan}}</td>
                                 <td>{{number_format(($ajuste->precio),0,',','.')}}</td>
 
-
                             </tr>
                         @endforeach 
                     </tbody>
@@ -195,6 +194,7 @@
                             <td>{{ number_format(($ObjetoDetalleAjuste->impuesto),0,',','.')}}</td>
 
                         </tr>
+                        
                         <tr>
                             <th></th>
                             <th></th>

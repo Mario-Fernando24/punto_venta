@@ -181,7 +181,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarEgreso()">Grabar</button>
+                            <button type="button" :disabled='validarButtonnn' v-if="tipoAccionButton==1" class="btn btn-outline-primary" @click="registrarEgreso()">Grabar</button>
 
                         </div>
                     </div>

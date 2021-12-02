@@ -23,11 +23,11 @@ class ArticuloContoller extends Controller
 
          if($buscar==''){
 
-          $articulos = Articulo::with('categoria')->orderBy('id', 'desc')->paginate(10);
+          $articulos = Articulo::with('categoria')->orderBy('idcategoria', 'desc')->paginate(10);
 
          }else{
 
-            $articulos = Articulo::with('categoria')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('id', 'desc')->paginate(10);
+            $articulos = Articulo::with('categoria')->where($criterio, 'like', '%'.$buscar.'%')->orderBy('idcategoria', 'desc')->paginate(10);
          }
         return [
             'pagination' => [

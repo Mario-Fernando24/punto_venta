@@ -10,11 +10,11 @@
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-size: 0.875rem;
+            font-size: 0.500rem;
             font-weight: normal;
             line-height: 1.5;
             color: #151b1e;           
-        }s
+        }
         .table {
             display: table;
             width: 100%;
@@ -37,7 +37,7 @@
             border-color: inherit;
         }
         .table th, .table td {
-            padding: 0.75rem;
+            padding: 0.05rem;
             vertical-align: top;
             border-top: 1px solid #c2cfd6;
         }
@@ -83,7 +83,7 @@
 </head>
 <body>
     <div>
-        <h3>Lista de Artículos <span class="derecha">{{now()}}</span></h3>
+        <h3>LISTA DE ARTICULOS - LICORES EL FLACO MONTERIA - CORDOBA <span class="derecha">{{now()}}</span></h3>
     </div>
     <div>
         <table class="table table-bordered table-striped table-sm">
