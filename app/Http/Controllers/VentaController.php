@@ -181,6 +181,7 @@ class VentaController extends Controller
              'tranferenciaobservacion' => $request->formapagoajusteventa['tranferenciaobservacion'],
         ]);
 
+
             //array de deatalle
             $detalles=$request->data; 
 
@@ -195,6 +196,16 @@ class VentaController extends Controller
                     'descuento' => $det['descuento'],
                 ]);
             }
+
+
+            foreach($detalles as $ep=>$det)
+            {
+              $articul = Articulo::findOrFail($det['idarticulo']);
+              $articul->stock=$articul->stock-$det['cantidad'];
+              $articul->update();
+            }
+
+
 
 
             $user = auth()->user();

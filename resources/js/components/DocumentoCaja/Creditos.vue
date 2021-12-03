@@ -368,6 +368,7 @@
                        creditoPagado=0;
                     }
                     me.validarButton=true;
+                    
                   axios.post('/credito/abonarCredito', {
                     'montoAbonar':  this.montoAbonar,
                     'observacionAbono': this.observacionAbono,

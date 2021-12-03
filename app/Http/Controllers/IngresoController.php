@@ -272,9 +272,6 @@ class IngresoController extends Controller
               $ArrayDetalleIng = DetalleIngreso::with('articulodetalle')
               ->where('idingreso',$request->get('id'))->orderBy('id', 'ASC')->get();
 
-              
-
-
               // return $ArrayDetalleIng;
       
 

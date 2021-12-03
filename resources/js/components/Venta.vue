@@ -877,6 +877,7 @@ import vSelect from "vue-select";
             errorVenta : 0,
             errorMensajearrayVenta : [],
             isLoaded: false,
+            validarButton:false,
 
 
             formapagoventa:{
@@ -888,6 +889,7 @@ import vSelect from "vue-select";
                 tranferenciaobservacion:'',
 
             },
+
           arrayFormaPagoDetalle:[],
             pagination : {
                 //numero total de registro
@@ -1554,9 +1556,6 @@ import vSelect from "vue-select";
 
 
 
-              //metodo para cerrar el modal
-              cerrarModal(){
-                },
 
 
 
