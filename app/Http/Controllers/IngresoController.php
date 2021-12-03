@@ -176,6 +176,13 @@ class IngresoController extends Controller
                 ]);
             }
 
+            foreach($detalles as $ep=>$det)
+            {
+              $articul = Articulo::findOrFail($det['idarticulo']);
+              $articul->stock=$articul->stock+$det['cantidad'];
+              $articul->update();
+            }
+
 
             foreach($detalles as $ep=>$det)
             {
