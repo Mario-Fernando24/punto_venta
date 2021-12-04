@@ -232,6 +232,14 @@ class VentaController extends Controller
           $venta->id_anulo_venta=\Auth::user()->id;
           $venta->update();
 
+          $tam=DetalleVenta::where('id_venta',$request->get('id'))->get();
+
+          foreach($tam as $ep=>$det)
+          {
+            $articul = Articulo::findOrFail($det['id_articulo']);
+            $articul->stock=$articul->stock+$det['cantidad'];
+            $articul->update();
+          }
 
           $ajusteventa = AjusteVenta::where('id_venta',$request->get('id'))->first();
           $ajusteventa->estado=0;
